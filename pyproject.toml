@@ -1,0 +1,26 @@
+[tool.poetry]
+
+name = "elections"
+version = "0.0"
+description = "Lookup registration and ballot data."
+
+authors = ["Jace Browning <jacebrowning@gmail.com>"]
+
+[tool.poetry.dependencies]
+
+python = "^3.6"
+
+apistar = "0.5.39"
+
+[tool.poetry.dev-dependencies]
+
+isort = "^4.3"
+black = "^18.3-alpha.0"
+
+pylint = "^1.9"
+mypy = "^0.610.0"
+
+pytest = "^3.6"
+pytest-cov = "^2.5"
+
+rerun = "^1.0"
