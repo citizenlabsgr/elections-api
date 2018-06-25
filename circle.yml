@@ -1,0 +1,56 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/elections
+
+    docker:
+      - image: maketested/python-node:latest
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+          DATABASE_URL: postgres://circleci:@127.0.0.1:5432/elections_test
+          REDIS_URL: redis://127.0.0.1:6379/0
+      - image: circleci/postgres:9.6-alpine-ram
+        environment:
+          - POSTGRES_USER=circleci
+          - POSTGRES_DB=elections_test
+      - image: redis
+
+    steps:
+      - checkout
+
+      - run:
+          name: Checking system dependencies
+          command: make doctor
+
+      - type: cache-restore
+        key: pipenv-{{ checksum "Pipfile.lock" }}
+
+      - run:
+          name: Installing project dependencies
+          command: make install
+
+      - type: cache-save
+        key: pipenv-{{ checksum "Pipfile.lock" }}
+        paths:
+          - .venv
+
+      - run:
+          name: Checking backend code
+          command: make check-backend
+
+      - run:
+          name: Running backend tests
+          command: make test-backend
+
+      - run:
+          name: Running frontend tests
+          command: make test-frontend
+
+      - run:
+          name: Running end-to-end tests
+          command: make build data test-system
+          environment:
+            DJANGO_SETTINGS_MODULE: config.settings.staging
+            HEROKU_APP_NAME: elections-staging
+            SECRET_KEY: staging

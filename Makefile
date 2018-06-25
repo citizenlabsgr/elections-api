@@ -3,7 +3,7 @@ all: install
 
 .PHONY: install
 install: .venv/flag
-.venv/flag: pyproject.lock requirements.txt
+.venv/flag: pyproject.lock
 	@ poetry config settings.virtualenvs.in-project true
 	poetry develop
 	@ touch $@
@@ -11,20 +11,15 @@ install: .venv/flag
 pyproject.lock: pyproject.toml
 	poetry lock
 
-requirements.txt: pyproject.lock
-	@ rm -f $@
-	@ echo "# Generated file for Heroku deployment" >> $@
-	poetry run pip freeze | grep -vwE "(pync|MacFSEvents)" >> $@
-
 ###############################################################################
 
 .PHONY: run
 run: install
-	poetry run python elections/app.py
+	poetry run python manage.py runserver
 
 ###############################################################################
 
-PACKAGES := elections tests
+PACKAGES := config elections tests
 
 .PHONY: ci
 ci: check test

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+indent() {
+  sed "s/^/       /"
+}
+
+puts-step() {
+  echo "-----> $@"
+}
+
+puts-step "Installing system dependencies..."
+pip install poetry 2>&1 | indent
+poetry config settings.virtualenvs.create false 2>&1 | indent
+
+puts-step "Installing project dependencies..."
+poetry install --no-dev 2>&1 | indent
