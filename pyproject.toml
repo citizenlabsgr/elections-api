@@ -28,11 +28,14 @@ isort = "^4.3"
 black = "^18.3-alpha.0"
 
 pylint = "^1.9"
+pylint-django = "*"
 mypy = "^0.610.0"
 
 pytest = "^3.6"
 pytest-django = "*"
 pytest-cov = "^2.5"
+
+factory_boy = "*"
 
 rerun = "^1.0"
 django-livereload-server = "*"

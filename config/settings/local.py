@@ -2,6 +2,7 @@ import dj_database_url
 
 from .base import *
 
+
 BASE_NAME = BASE_DOMAIN = "localhost"
 BASE_URL = f"http://{BASE_DOMAIN}:8000"
 

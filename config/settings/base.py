@@ -1,5 +1,6 @@
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(CONFIG_ROOT)
@@ -112,3 +113,11 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Grappelli
 
 GRAPPELLI_ADMIN_TITLE = "elections Admin"
+
+###############################################################################
+# Django Rest Framework
+
+REST_FRAMEWORK = {
+    "DEFAULT_VERSION": "v1",
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+}

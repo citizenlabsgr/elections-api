@@ -1,5 +1,6 @@
 from .production import *
 
+
 BASE_NAME = os.environ["HEROKU_APP_NAME"]
 if "-pr" in BASE_NAME:
     BASE_DOMAIN = f"{BASE_NAME}.herokuapp.com"

@@ -45,6 +45,17 @@ watch: install
 
 ###############################################################################
 
+.PHONY: migrations
+migrations: install
+	poetry run python manage.py makemigrations
+
+.PHONY: data
+data: install
+	poetry run python manage.py migrate
+	poetry run python manage.py gendata
+
+###############################################################################
+
 .PHONY: clean
 clean:
 	rm -rf .venv
