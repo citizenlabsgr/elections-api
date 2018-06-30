@@ -33,6 +33,7 @@ mypy = "^0.610.0"
 
 pytest = "^3.6"
 pytest-django = "*"
+pytest-tldr = "*"
 pytest-cov = "^2.5"
 
 factory_boy = "*"

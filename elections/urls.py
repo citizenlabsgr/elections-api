@@ -1,9 +1,20 @@
 from rest_framework import routers
 
-from . import viewsets
+from . import views
 
 
-router = routers.DefaultRouter()
-# router.register(r"users", UserViewSet)
-router.register("region-types", viewsets.RegionTypeViewSet)
+class Index(routers.APIRootView):
+    """
+    Registration and ballot information for Michigan elections.
+    """
+
+
+class IndexRouter(routers.DefaultRouter):
+    APIRootView = Index
+
+
+router = IndexRouter()
+
+router.register("region-types", views.RegionTypeViewSet)
+
 urlpatterns = router.urls

@@ -115,10 +115,20 @@ CORS_ORIGIN_ALLOW_ALL = True
 GRAPPELLI_ADMIN_TITLE = "elections Admin"
 
 ###############################################################################
-# Django Rest Framework
+# Django REST Framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_VERSION": "0",
-    "ALLOWED_VERSIONS": ["0"],
+    "DEFAULT_VERSION": "0.0",
+    "ALLOWED_VERSIONS": ["0.0"],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
+}
+
+###############################################################################
+# Django REST Swagger
+
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": None,
+    "ACCEPT_HEADER_VERSION": "0.0",
+    "DOC_EXPANSION": "list",
 }
