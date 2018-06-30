@@ -54,6 +54,11 @@ data: install
 	poetry run python manage.py migrate
 	poetry run python manage.py gendata
 
+.PHONY: reset
+reset: install
+	dropdb elections_dev; createdb elections_dev
+	make data
+
 ###############################################################################
 
 .PHONY: clean
