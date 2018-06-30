@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "memoize",
     "rest_framework",
     "rest_framework_swagger",
+    "django_filters",
     # First party
     "elections",
 ]
@@ -131,5 +132,5 @@ SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False,
     "SECURITY_DEFINITIONS": None,
     "ACCEPT_HEADER_VERSION": "0.0",
-    "DOC_EXPANSION": "list",
+    "DOC_EXPANSION": "full",  # TODO: change to 'all' after release
 }

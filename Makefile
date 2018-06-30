@@ -39,7 +39,6 @@ format: install
 
 .PHONY: check
 check: install
-	poetry run isort $(PACKAGES) --recursive --check-only --diff
 	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 	poetry run mypy $(PACKAGES) --config-file=.mypy.ini
 
