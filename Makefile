@@ -49,7 +49,7 @@ test: install
 
 .PHONY: watch
 watch: install
-	poetry run rerun "make test format check" -i .coverage -i htmlcov
+	poetry run ptw
 
 ###############################################################################
 

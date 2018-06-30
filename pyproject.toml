@@ -39,8 +39,8 @@ pytest = "^3.6"
 pytest-django = "*"
 pytest-tldr = "*"
 pytest-cov = "^2.5"
+pytest-watch = "*"
 
 factory_boy = "*"
 
-rerun = "^1.0"
 django-livereload-server = "*"

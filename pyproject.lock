@@ -9,6 +9,15 @@ version = "1.4.3"
 
 [[package]]
 category = "dev"
+description = "An unobtrusive argparse wrapper with natural syntax"
+name = "argh"
+optional = false
+platform = "UNKNOWN"
+python-versions = "*"
+version = "0.26.2"
+
+[[package]]
+category = "dev"
 description = "A abstract syntax tree for Python with inference support."
 name = "astroid"
 optional = false
@@ -98,9 +107,6 @@ optional = false
 platform = "UNKNOWN"
 python-versions = "*"
 version = "0.3.9"
-
-[package.requirements]
-platform = "win32"
 
 [[package]]
 category = "main"
@@ -230,6 +236,15 @@ optional = false
 platform = "*"
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "3.8.2"
+
+[[package]]
+category = "dev"
+description = "Pythonic argument parser, that will make you smile"
+name = "docopt"
+optional = false
+platform = "UNKNOWN"
+python-versions = "*"
+version = "0.6.2"
 
 [[package]]
 category = "dev"
@@ -379,6 +394,15 @@ coreapi = ">=2.2.0"
 
 [[package]]
 category = "dev"
+description = "File system general utilities"
+name = "pathtools"
+optional = false
+platform = "UNKNOWN"
+python-versions = "*"
+version = "0.1.2"
+
+[[package]]
+category = "dev"
 description = "plugin and hook calling mechanisms for python"
 name = "pluggy"
 optional = false
@@ -509,6 +533,21 @@ pytest = ">=3.5.0"
 
 [[package]]
 category = "dev"
+description = "Local continuous test runner with pytest and watchdog."
+name = "pytest-watch"
+optional = false
+platform = "any"
+python-versions = "*"
+version = "4.2.0"
+
+[package.dependencies]
+colorama = ">=0.3.3"
+docopt = ">=0.4.0"
+pytest = ">=2.6.4"
+watchdog = ">=0.6.0"
+
+[[package]]
+category = "dev"
 description = "Extensions to the standard Python datetime module"
 name = "python-dateutil"
 optional = false
@@ -527,6 +566,15 @@ optional = false
 platform = "Independent"
 python-versions = "*"
 version = "2018.5"
+
+[[package]]
+category = "dev"
+description = "YAML parser and emitter for Python"
+name = "pyyaml"
+optional = false
+platform = "Any"
+python-versions = "*"
+version = "3.12"
 
 [[package]]
 category = "main"
@@ -551,15 +599,6 @@ certifi = ">=2017.4.17"
 chardet = ">=3.0.2,<3.1.0"
 idna = ">=2.5,<2.8"
 urllib3 = ">=1.21.1,<1.24"
-
-[[package]]
-category = "dev"
-description = "Command-line script to re-run the given command when files change."
-name = "rerun"
-optional = false
-platform = "*"
-python-versions = "*"
-version = "1.0.28"
 
 [[package]]
 category = "main"
@@ -634,6 +673,20 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4"
 version = "1.23"
 
 [[package]]
+category = "dev"
+description = "Filesystem events monitoring"
+name = "watchdog"
+optional = false
+platform = "UNKNOWN"
+python-versions = "*"
+version = "0.8.3"
+
+[package.dependencies]
+PyYAML = ">=3.10"
+argh = ">=0.24.1"
+pathtools = ">=0.1.1"
+
+[[package]]
 category = "main"
 description = "Radically simplified static file serving for WSGI applications"
 name = "whitenoise"
@@ -652,12 +705,13 @@ python-versions = "*"
 version = "1.10.11"
 
 [metadata]
-content-hash = "b789eede137eeb0341f5811e8bc014111e1ae539d7c90c7142629f1ae5aac832"
+content-hash = "baaf8b7afeabfdd06232ba04e54b4792d5c4989b89f9647b5cb58f28a8b7c3c5"
 platform = "*"
 python-versions = "^3.6"
 
 [metadata.hashes]
 appdirs = ["9e5896d1372858f8dd3344faf4e5014d21849c756c8d5701f78f8a103b372d92", "d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e"]
+argh = ["a9b3aaa1904eeb78e32394cd46c6f37ac0fb4af6dc488daa58971bdc7d7fcaf3", "e9535b8c84dc9571a48999094fda7f33e63c3f1b74f3e5f3ac0105a58405bb65"]
 astroid = ["0ef2bf9f07c3150929b25e8e61b5198c27b0dca195e156f0e4d5bdd89185ca1a", "fc9b582dba0366e63540982c3944a9230cbc6f303641c51483fa547dcc22393a"]
 atomicwrites = ["240831ea22da9ab882b551b31d4225591e5e447a68c5e188db5b89ca1d487585", "a24da68318b08ac9c9c45029f4a10371ab5b20e4226738e150e6e7c571630ae6"]
 attrs = ["4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265", "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"]
@@ -678,6 +732,7 @@ django-memoize = ["5492d837a3b4f75486412ccb55be62e82b07d10e1556e61468ddfbd5d610b
 django-redis-cache = ["2b4e3510bbcaf3d331975717afd6f15a36fbaf7622504599d2727dc99f90c64d"]
 django-rest-swagger = ["48f6aded9937e90ae7cbe9e6c932b9744b8af80cc4e010088b3278c700e0685b", "b039b0288bab4665cd45dc5d16f94b13911bc4ad0ed55f74ad3b90aa31c87c17"]
 djangorestframework = ["b6714c3e4b0f8d524f193c91ecf5f5450092c2145439ac2769711f7eba89a9d9", "c375e4f95a3a64fccac412e36fb42ba36881e52313ec021ef410b40f67cddca4"]
+docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
 factory-boy = ["6f25cc4761ac109efd503f096e2ad99421b1159f01a29dbb917359dcd68e08ca", "d552cb872b310ae78bd7429bf318e42e1e903b1a109e899a523293dfa762ea4f"]
 faker = ["04645d946256b835c675c1cef7c03817a164b0c4e452018fd50b212ddff08c22", "fe48f35aa3443bc5655b0782d3a2f594bf4882d0e2a947b80207a60494d32907"]
 gunicorn = ["7ef2b828b335ed58e3b64ffa84caceb0a7dd7c5ca12f217241350dec36a1d5dc", "bc59005979efb6d2dd7d5ba72d99f8a8422862ad17ff3a16e900684630dd2a10"]
@@ -692,6 +747,7 @@ mccabe = ["ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42", "d
 more-itertools = ["2b6b9893337bfd9166bee6a62c2b0c9fe7735dcf85948b387ec8cba30e85d8e8", "6703844a52d3588f951883005efcf555e49566a48afd4db4e965d69b883980d3", "a18d870ef2ffca2b8463c0070ad17b5978056f403fb64e3f15fe62a52db21cc0"]
 mypy = ["1b899802a89b67bb68f30d788bba49b61b1f28779436f06b75c03495f9d6ea5c", "f472645347430282d62d1f97d12ccb8741f19f1572b7cf30b58280e4e0818739"]
 openapi-codec = ["1bce63289edf53c601ea3683120641407ff6b708803b8954c8a876fe778d2145"]
+pathtools = ["7c35c5421a39bb82e58018febd90e3b6e5db34c5443aaaf742b3f33d4655f1c0"]
 pluggy = ["7f8ae7f5bdf75671a718d2daf0a64b7885f74510bcd98b1a0bb420eb9a9d0cff", "d345c8fe681115900d6da8d048ba67c25df42973bda370783cd58826442dcd7c", "e160a7fcf25762bb60efc7e171d4497ff1d8d2d75a3d0df7a21b76821ecbf5c5"]
 psycopg2-binary = ["04afb59bbbd2eab3148e6816beddc74348078b8c02a1113ea7f7822f5be4afe3", "098b18f4d8857a8f9b206d1dc54db56c2255d5d26458917e7bcad61ebfe4338f", "0bf855d4a7083e20ead961fda4923887094eaeace0ab2d76eb4aa300f4bbf5bd", "197dda3ffd02057820be83fe4d84529ea70bf39a9a4daee1d20ffc74eb3d042e", "278ef63afb4b3d842b4609f2c05ffbfb76795cf6a184deeb8707cd5ed3c981a5", "3cbf8c4fc8f22f0817220891cf405831559f4d4c12c4f73913730a2ea6c47a47", "4305aed922c4d9d6163ab3a41d80b5a1cfab54917467da8168552c42cad84d32", "47ee296f704fb8b2a616dec691cdcfd5fa0f11943955e88faa98cbd1dc3b3e3d", "4a0e38cb30457e70580903367161173d4a7d1381eb2f2cfe4e69b7806623f484", "4d6c294c6638a71cafb82a37f182f24321f1163b08b5d5ca076e11fe838a3086", "4f3233c366500730f839f92833194fd8f9a5c4529c8cd8040aa162c3740de8e5", "5221f5a3f4ca2ddf0d58e8b8a32ca50948be9a43351fda797eb4e72d7a7aa34d", "5c6ca0b507540a11eaf9e77dee4f07c131c2ec80ca0cffa146671bf690bc1c02", "789bd89d71d704db2b3d5e67d6d518b158985d791d3b2dec5ab85457cfc9677b", "89bc65ef3301c74cf32db25334421ea6adbe8f65601ea45dcaaf095abed910bb", "97521704ac7127d7d8ba22877da3c7bf4a40366587d238ec679ff38e33177498", "a6d32c37f714c3f34158f3fa659f3a8f2658d5f53c4297d45579b9677cc4d852", "a89ee5c26f72f2d0d74b991ce49e42ddeb4ac0dc2d8c06a0f2770a1ab48f4fe0", "b4c8b0ef3608e59317bfc501df84a61e48b5445d45f24d0391a24802de5f2d84", "b5fcf07140219a1f71e18486b8dc28e2e1b76a441c19374805c617aa6d9a9d55", "b86f527f00956ecebad6ab3bb30e3a75fedf1160a8716978dd8ce7adddedd86f", "be4c4aa22ba22f70de36c98b06480e2f1697972d49eb20d525f400d204a6d272", "c2ac7aa1a144d4e0e613ac7286dae85671e99fe7a1353954d4905629c36b811c", "de26ef4787b5e778e8223913a3e50368b44e7480f83c76df1f51d23bd21cea16", "e70ebcfc5372dc7b699c0110454fc4263967f30c55454397e5769eb72c0eb0ce", "eadbd32b6bc48b67b0457fccc94c86f7ccc8178ab839f684eb285bb592dc143e", "ecbc6dfff6db06b8b72ae8a2f25ff20fbdcb83cb543811a08f7cb555042aa729"]
 py = ["3fd59af7435864e1a243790d322d763925431213b6b8529c6ca71081ace3bbf7", "e31fb2767eb657cbde86c454f02e99cb846d3cd9d61b318525140214fdc0e98e"]
@@ -702,11 +758,12 @@ pytest = ["8ea01fc4fcc8e1b1e305252b4bc80a1528019ab99fd3b88666c9dc38d754406c", "9
 pytest-cov = ["03aa752cf11db41d281ea1d807d954c4eda35cfa1b21d6971966cc041bbf6e2d", "890fe5565400902b0c78b5357004aab1c814115894f4f21370e2433256a3eeec"]
 pytest-django = ["088b66211c57972e7bd072ba73ccec1c3b6f6185f894b3b8eb966d2f3b7d46cb", "3fea4d0a84bf3af1f1e82448b9a91b3ddb22b659d802e026ae843040da0c3220"]
 pytest-tldr = ["19a65525df3f08194f2af786739d24f911f0a54e4387339f55dfc4804d2f994b", "9f43d7253ad45570405416d2633457faac53e69c43a80a9533814b8851a0935c"]
+pytest-watch = ["06136f03d5b361718b8d0d234042f7b2f203910d8568f63df2f866b547b3d4b9"]
 python-dateutil = ["1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0", "e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"]
 pytz = ["a061aa0a9e06881eb8b3b2b43f05b9439d6583c206d0a6c340ff72a7b6669053", "ffb9ef1de172603304d9d2819af6f5ece76f2e85ec10692a524dd876e72bf277"]
+pyyaml = ["0c507b7f74b3d2dd4d1322ec8a94794927305ab4cebbe89cc47fe5e81541e6e8", "16b20e970597e051997d90dc2cddc713a2876c47e3d92d59ee198700c5427736", "3262c96a1ca437e7e4763e2843746588a965426550f3797a79fca9c6199c431f", "326420cbb492172dec84b0f65c80942de6cedb5233c413dd824483989c000608", "4474f8ea030b5127225b8894d626bb66c01cda098d47a2b0d3429b6700af9fd8", "592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab", "5ac82e411044fb129bae5cfbeb3ba626acb2af31a8d17d175004b70862a741a7", "5f84523c076ad14ff5e6c037fe1c89a7f73a3e04cf0377cb4d017014976433f3", "827dc04b8fa7d07c44de11fabbc888e627fa8293b695e0f99cb544fdfa1bf0d1", "b4c423ab23291d3945ac61346feeb9a0dc4184999ede5e7c43e1ffb975130ae6", "bc6bced57f826ca7cb5125a10b23fd0f2fff3b7c4701d64c439a300ce665fff8", "c01b880ec30b5a6e6aa67b09a2fe3fb30473008c85cd6a67359a1b15ed6d83a4", "ca233c64c6e40eaa6c66ef97058cdc80e8d0157a443655baa1b2966e812807ca", "e863072cdf4c72eebf179342c94e6989c67185842d9997960b3e69290b2fa269"]
 redis = ["8a1900a9f2a0a44ecf6e8b5eb3e967a9909dfed219ad66df094f27f7d6f330fb", "a22ca993cea2962dbb588f9f30d0015ac4afcc45bee27d3978c0dbe9e97c6c0f"]
 requests = ["63b52e3c866428a224f97cab011de738c36aec0185aa91cfacd418b5d58911d1", "ec22d826a36ed72a7358ff3fe56cbd4ba69dd7a6718ffd450ff0e9df7a47ce6a"]
-rerun = ["614338c8e0882b84bd1041f5f4016cffc35b81f5f0db64a030ba31a0b3dc583d", "d54ec9d28c5ece6edcf029b4e87d0aac74aee0472fb78ee6475eee132e8b990d"]
 simplejson = ["067a7177ddfa32e1483ba5169ebea1bc2ea27f224853211ca669325648ca5642", "2b8cb601d9ba0381499db719ccc9dfbb2fbd16013f5ff096b1a68a4775576a04", "2c139daf167b96f21542248f8e0a06596c9b9a7a41c162cc5c9ee9f3833c93cd", "2fc546e6af49fb45b93bbe878dea4c48edc34083729c0abd09981fe55bdf7f91", "354fa32b02885e6dae925f1b5bbf842c333c1e11ea5453ddd67309dc31fdb40a", "37e685986cf6f8144607f90340cff72d36acf654f3653a6c47b84c5c38d00df7", "3af610ee72efbe644e19d5eaad575c73fb83026192114e5f6719f4901097fce2", "3b919fc9cf508f13b929a9b274c40786036b31ad28657819b3b9ba44ba651f50", "3dd289368bbd064974d9a5961101f080e939cbe051e6689a193c99fb6e9ac89b", "491de7acc423e871a814500eb2dcea8aa66c4a4b1b4825d18f756cdf58e370cb", "495511fe5f10ccf4e3ed4fc0c48318f533654db6c47ecbc970b4ed215c791968", "65b41a5cda006cfa7c66eabbcf96aa704a6be2a5856095b9e2fd8c293bad2b46", "6c3258ffff58712818a233b9737fe4be943d306c40cf63d14ddc82ba563f483a", "75e3f0b12c28945c08f54350d91e624f8dd580ab74fd4f1bbea54bc6b0165610", "79b129fe65fdf3765440f7a73edaffc89ae9e7885d4e2adafe6aa37913a00fbb", "b1f329139ba647a9548aa05fb95d046b4a677643070dc2afc05fa2e975d09ca5", "c206f47cbf9f32b573c9885f0ec813d2622976cf5effcf7e472344bc2e020ac1", "d8e238f20bcf70063ee8691d4a72162bcec1f4c38f83c93e6851e72ad545dabb", "ee9625fc8ee164902dfbb0ff932b26df112da9f871c32f0f9c1bcf20c350fe2a", "fb2530b53c28f0d4d84990e945c2ebb470edb469d63e389bf02ff409012fe7c5", "feadb95170e45f439455354904768608e356c5b174ca30b3d11b0e3f24b5c0df"]
 six = ["70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9", "832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb"]
 text-unidecode = ["5a1375bb2ba7968740508ae38d92e1f889a0832913cb1c447d5e2046061a396d", "801e38bd550b943563660a91de8d4b6fa5df60a542be9093f7abf819f86050cc"]
@@ -715,5 +772,6 @@ tornado = ["1b83d5c10550f2653380b4c77331d6f8850f287c4f67d7ce1e1c639d9222fbc7", "
 typed-ast = ["0948004fa228ae071054f5208840a1e88747a357ec1101c17217bfe99b299d58", "25d8feefe27eb0303b73545416b13d108c6067b846b543738a25ff304824ed9a", "29464a177d56e4e055b5f7b629935af7f49c196be47528cc94e0a7bf83fbc2b9", "2e214b72168ea0275efd6c884b114ab42e316de3ffa125b267e732ed2abda892", "3e0d5e48e3a23e9a4d1a9f698e32a542a4a288c871d33ed8df1b092a40f3a0f9", "519425deca5c2b2bdac49f77b2c5625781abbaf9a809d727d3a5596b30bb4ded", "57fe287f0cdd9ceaf69e7b71a2e94a24b5d268b35df251a88fef5cc241bf73aa", "668d0cec391d9aed1c6a388b0d5b97cd22e6073eaa5fbaa6d2946603b4871efe", "68ba70684990f59497680ff90d18e756a47bf4863c604098f10de9716b2c0bdd", "6de012d2b166fe7a4cdf505eee3aaa12192f7ba365beeefaca4ec10e31241a85", "79b91ebe5a28d349b6d0d323023350133e927b4de5b651a8aa2db69c761420c6", "8550177fa5d4c1f09b5e5f524411c44633c80ec69b24e0e98906dd761941ca46", "a8034021801bc0440f2e027c354b4eafd95891b573e12ff0418dec385c76785c", "bc978ac17468fe868ee589c795d06777f75496b1ed576d308002c8a5756fb9ea", "c05b41bc1deade9f90ddc5d988fe506208019ebba9f2578c622516fd201f5863", "c9b060bd1e5a26ab6e8267fd46fc9e02b54eb15fffb16d112d4c7b1c12987559", "edb04bdd45bfd76c8292c4d9654568efaedf76fe78eb246dde69bdb13b2dad87", "f19f2a4f547505fe9072e15f6f4ae714af51b5a681a97f187971f50c283193b6"]
 uritemplate = ["01c69f4fe8ed503b2951bef85d996a9d22434d2431584b5b107b2981ff416fbd", "1b9c467a940ce9fb9f50df819e8ddd14696f89b9a8cc87ac77952ba416e0a8fd", "c02643cebe23fc8adb5e6becffe201185bf06c40bda5c0b4028a93f1527d011d"]
 urllib3 = ["a68ac5e15e76e7e5dd2b8f94007233e01effe3e50e8daddf69acfd81cb686baf", "b5725a0bd4ba422ab0e66e89e030c806576753ea3ee08554382c14e685d117b5"]
+watchdog = ["7e65882adb7746039b6f3876ee174952f8eaaa34491ba34333ddf1fe35de4162"]
 whitenoise = ["15f43b2e701821b95c9016cf469d29e2a546cb1c7dead584ba82c36f843995cf", "9d81515f2b5b27051910996e1e860b1332e354d9e7bcf30c98f21dcb6713e0dd"]
 wrapt = ["d4d560d479f2c21e1b5443bbd15fe7ec4b37fe7e53d335d3b9b0a7b1226fe3c6"]
