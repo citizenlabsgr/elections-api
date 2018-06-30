@@ -2,12 +2,9 @@ version: 2
 
 jobs:
   build:
-    working_directory: ~/elections
-
     docker:
       - image: maketested/python-node:latest
         environment:
-          PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgres://circleci:@127.0.0.1:5432/elections_test
           REDIS_URL: redis://127.0.0.1:6379/0
       - image: circleci/postgres:9.6-alpine-ram
@@ -24,14 +21,14 @@ jobs:
           command: make doctor
 
       - type: cache-restore
-        key: pipenv-{{ checksum "Pipfile.lock" }}
+        key: poetry-{{ checksum "pyproject.lock" }}
 
       - run:
           name: Installing project dependencies
           command: make install
 
       - type: cache-save
-        key: pipenv-{{ checksum "Pipfile.lock" }}
+        key: poetry-{{ checksum "pyproject.lock" }}
         paths:
           - .venv
 
@@ -52,5 +49,5 @@ jobs:
           command: make build data test-system
           environment:
             DJANGO_SETTINGS_MODULE: config.settings.staging
-            HEROKU_APP_NAME: elections-staging
+            HEROKU_APP_NAME: michigan-elections-staging
             SECRET_KEY: staging
