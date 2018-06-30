@@ -23,8 +23,9 @@ psycopg2-binary = "*"
 
 django-redis-cache = "*"
 
-markdown = "^2.6"
 arrow = "*"
+markdown = "^2.6"
+minilog = "*"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"

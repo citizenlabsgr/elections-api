@@ -24,3 +24,13 @@ DATABASES = {
         "HOST": "127.0.0.1",
     }
 }
+
+###############################################################################
+# Caches
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": ".cache/django",
+    }
+}

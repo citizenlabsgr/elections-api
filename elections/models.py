@@ -2,6 +2,8 @@ from django.db import models
 
 import arrow
 
+from . import helpers
+
 
 class Voter(models.Model):
     """Data needed to look up Michigan voter registration status."""
@@ -22,6 +24,11 @@ class Voter(models.Model):
     @property
     def birth_year(self):
         return self.birth_date.year
+
+    def fetch_registration_status(self):
+        data = helpers.fetch_registration_status_data(self)
+        print(data)
+        return RegistrationStatus(registered=data["registered"])
 
 
 class RegistrationStatus(models.Model):
