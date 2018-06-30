@@ -37,21 +37,9 @@ jobs:
           - .venv
 
       - run:
-          name: Checking backend code
-          command: make check-backend
+          name: Running linters
+          command: make check
 
       - run:
-          name: Running backend tests
-          command: make test-backend
-
-      - run:
-          name: Running frontend tests
-          command: make test-frontend
-
-      - run:
-          name: Running end-to-end tests
-          command: make build data test-system
-          environment:
-            DJANGO_SETTINGS_MODULE: config.settings.staging
-            HEROKU_APP_NAME: michigan-elections-staging
-            SECRET_KEY: staging
+          name: Running tests
+          command: make test
