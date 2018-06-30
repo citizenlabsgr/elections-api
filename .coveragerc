@@ -1,5 +1,13 @@
 [run]
 
-branch = True
+branch = true
+
+omit =
+    .venv/*
+    */migrations/*
+    */management/*
+    */tests/*
+    */admin.py
+    */wsgi.py
 
 data_file = .cache/coverage
