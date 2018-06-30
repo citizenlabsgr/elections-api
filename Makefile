@@ -1,6 +1,14 @@
 .PHONY: all
 all: install
 
+###############################################################################
+
+.PHONY: doctor
+doctor:
+	@ pip install --user verchew && verchew --exit
+
+###############################################################################
+
 .PHONY: install
 install: .venv/flag
 .venv/flag: pyproject.lock
