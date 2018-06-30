@@ -17,6 +17,10 @@ jobs:
       - checkout
 
       - run:
+          name: Installing system dependencies
+          command: sudo pip install poetry==0.11.1
+
+      - run:
           name: Checking system dependencies
           command: make doctor
 

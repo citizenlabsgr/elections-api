@@ -5,7 +5,7 @@ all: install
 
 .PHONY: doctor
 doctor:
-	bin/verchew
+	bin/verchew --exit-code
 
 ###############################################################################
 
