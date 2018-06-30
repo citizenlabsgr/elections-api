@@ -259,6 +259,15 @@ text-unidecode = "1.2"
 
 [[package]]
 category = "main"
+description = "WSGI HTTP Server for UNIX"
+name = "gunicorn"
+optional = false
+platform = "*"
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "19.8.1"
+
+[[package]]
+category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
 name = "idna"
 optional = false
@@ -625,7 +634,7 @@ python-versions = "*"
 version = "1.10.11"
 
 [metadata]
-content-hash = "d2496605950416b4abb1ab3f5cdf54682e93652af3f80e752dc2043c0204ad78"
+content-hash = "cacdcec6ae37ca24ee3cf25e50a5d320c912b4333c49013d48b3e5f569b55539"
 platform = "*"
 python-versions = "^3.6"
 
@@ -653,6 +662,7 @@ django-rest-swagger = ["48f6aded9937e90ae7cbe9e6c932b9744b8af80cc4e010088b3278c7
 djangorestframework = ["b6714c3e4b0f8d524f193c91ecf5f5450092c2145439ac2769711f7eba89a9d9", "c375e4f95a3a64fccac412e36fb42ba36881e52313ec021ef410b40f67cddca4"]
 factory-boy = ["6f25cc4761ac109efd503f096e2ad99421b1159f01a29dbb917359dcd68e08ca", "d552cb872b310ae78bd7429bf318e42e1e903b1a109e899a523293dfa762ea4f"]
 faker = ["04645d946256b835c675c1cef7c03817a164b0c4e452018fd50b212ddff08c22", "fe48f35aa3443bc5655b0782d3a2f594bf4882d0e2a947b80207a60494d32907"]
+gunicorn = ["7ef2b828b335ed58e3b64ffa84caceb0a7dd7c5ca12f217241350dec36a1d5dc", "bc59005979efb6d2dd7d5ba72d99f8a8422862ad17ff3a16e900684630dd2a10"]
 idna = ["156a6814fb5ac1fc6850fb002e0852d56c0c8d2531923a51032d1b70760e186e", "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"]
 isort = ["1153601da39a25b14ddc54955dbbacbb6b2d19135386699e2ad58517953b34af", "b9c40e9750f3d77e6e4d441d8b0266cf555e7cdabdcff33c4fd06366ca761ef8", "ec9ef8f4a9bc6f71eec99e1806bfa2de401650d996c59330782b89a5555c1497"]
 itypes = ["c6e77bb9fd68a4bfeb9d958fea421802282451a25bac4913ec94db82a899c073"]

@@ -22,6 +22,8 @@ psycopg2-binary = "*"
 
 django-redis-cache = "*"
 
+gunicorn = "^19.8"
+
 [tool.poetry.dev-dependencies]
 
 isort = "^4.3"
