@@ -23,6 +23,7 @@ psycopg2-binary = "*"
 django-redis-cache = "*"
 
 gunicorn = "^19.8"
+whitenoise = "^3.3"
 
 [tool.poetry.dev-dependencies]
 

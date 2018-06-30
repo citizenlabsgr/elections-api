@@ -5,7 +5,7 @@ all: install
 
 .PHONY: doctor
 doctor:
-	@ pip install --user verchew && verchew --exit
+	bin/verchew --exit-code
 
 ###############################################################################
 
