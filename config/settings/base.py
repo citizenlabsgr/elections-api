@@ -118,6 +118,7 @@ GRAPPELLI_ADMIN_TITLE = "elections Admin"
 # Django Rest Framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_VERSION": "v1",
-    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+    "DEFAULT_VERSION": "0",
+    "ALLOWED_VERSIONS": ["0"],
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
 }
