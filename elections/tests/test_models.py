@@ -13,7 +13,14 @@ def describe_voter_identity():
             first_name="Jane",
             last_name="Doe",
             birth_date=arrow.get("1985-06-19"),
+            zip_code=12345,
         )
+
+    def describe_repr():
+        def includes_all_info(expect, voter):
+            expect(
+                repr(voter)
+            ) == "<voter: Jane Doe, birth=1985-06-19, zip=12345>"
 
     def describe_str():
         def includes_full_name(expect, voter):

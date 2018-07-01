@@ -13,6 +13,10 @@ class Voter(models.Model):
     birth_date = models.DateField()
     zip_code = models.CharField(max_length=10)
 
+    def __repr__(self) -> str:
+        birth = arrow.get(self.birth_date).format("YYYY-MM-DD")
+        return f"<voter: {self}, birth={birth}, zip={self.zip_code}>"
+
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
