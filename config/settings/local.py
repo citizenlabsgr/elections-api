@@ -14,9 +14,10 @@ SECRET_KEY = "dev"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".ngrok.io"]
 
-INSTALLED_APPS += ["livereload"]
+INSTALLED_APPS += ["livereload", "debug_toolbar"]
 
 MIDDLEWARE += ["livereload.middleware.LiveReloadScript"]
+MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ###############################################################################
 # Databases
@@ -29,3 +30,10 @@ DATABASES = {
     },
     "remote": dj_database_url.config(),
 }
+
+###############################################################################
+# Django Debug Toolbar
+
+INTERNAL_IPS = ["127.0.0.1"]
+
+DEBUG_TOOLBAR_CONFIG = {"SHOW_COLLAPSED": True}

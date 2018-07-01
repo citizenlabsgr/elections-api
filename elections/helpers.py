@@ -2,13 +2,11 @@ import re
 
 import log
 import requests
-from memoize import memoize
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 
 
-@memoize(timeout=60)
 def fetch_registration_status_data(voter):
     response = requests.get(MI_SOS_URL)
     log.debug(response.text)

@@ -43,10 +43,12 @@ pytest = "^3.6"
 pytest-django = "*"
 pytest-describe = "*"
 pytest-expecter = "*"
-pytest-cov = "^2.5"
+pytest-vcr = "*"
+pytest-cov = "*"
 pytest-tldr = "*"
 pytest-watch = "*"
 
 factory_boy = "*"
 
+django-debug-toolbar = "*"
 django-livereload-server = "*"

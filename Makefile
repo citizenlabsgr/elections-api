@@ -18,6 +18,7 @@ install: .venv/flag
 
 pyproject.lock: pyproject.toml
 	poetry lock
+	@ touch $@
 
 ###############################################################################
 
