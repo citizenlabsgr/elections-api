@@ -15,7 +15,15 @@ class RegistrationStatusSerializer(serializers.ModelSerializer):
         fields = ["registered"]
 
 
-class RegionTypeSerializer(serializers.ModelSerializer):
+class RegionKindSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.RegionType
+        model = models.RegionKind
         fields = ["name"]
+
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Region
+        fields = ["kind", "name"]
+
+    kind = serializers.CharField()

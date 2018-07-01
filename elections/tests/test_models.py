@@ -38,7 +38,7 @@ def describe_voter_identity():
 def describe_region_type():
     @pytest.fixture
     def region_type():
-        return models.RegionType(name="County")
+        return models.RegionKind(name="County")
 
     def describe_str():
         def users_the_Name(expect, region_type):

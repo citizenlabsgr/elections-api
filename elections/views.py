@@ -27,9 +27,15 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         return Response([output_serializer.data])
 
 
-class RegionTypeViewSet(viewsets.ModelViewSet, generics.ListAPIView):
+class RegionKindViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     """Types of regions that bound ballot items."""
 
-    http_method_names = ["get"]
-    queryset = models.RegionType.objects.all()
-    serializer_class = serializers.RegionTypeSerializer
+    queryset = models.RegionKind.objects.all()
+    serializer_class = serializers.RegionKindSerializer
+
+
+class RegionViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
+    """Regions bound to ballot items."""
+
+    queryset = models.Region.objects.all()
+    serializer_class = serializers.RegionSerializer

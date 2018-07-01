@@ -18,6 +18,7 @@ router = IndexRouter()
 router.register(
     "registrations", views.RegistrationViewSet, base_name="registrations"
 )
-router.register("region-types", views.RegionTypeViewSet)
+router.register("region-kinds", views.RegionKindViewSet)
+router.register("regions", views.RegionViewSet)
 
 urlpatterns = router.urls

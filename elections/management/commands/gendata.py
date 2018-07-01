@@ -6,15 +6,24 @@ from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
 import factory
+from factory import fuzzy
 
 from elections import models
 
 
-class RegionTypeFactory(factory.django.DjangoModelFactory):
+class RegionKindFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.RegionType
+        model = models.RegionKind
 
     name = factory.Sequence(lambda n: f"Type {n}")
+
+
+class RegionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Region
+
+    kind = fuzzy.FuzzyChoice(models.RegionKind.objects.all())
+    name = factory.Sequence(lambda n: f"Region {n}")
 
 
 class Command(BaseCommand):
@@ -40,8 +49,12 @@ class Command(BaseCommand):
 
     def generate_review_data(self):
         with suppress(IntegrityError):
-            for obj in RegionTypeFactory.create_batch(5):
+            for obj in RegionKindFactory.create_batch(5):
                 self.stdout.write(f"Generated region type: {obj}")
+
+        with suppress(IntegrityError):
+            for obj in RegionFactory.create_batch(20):
+                self.stdout.write(f"Generated region: {obj}")
 
     # @staticmethod
     # def fake_election():

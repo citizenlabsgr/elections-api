@@ -42,10 +42,20 @@ class RegistrationStatus(models.Model):
     # regions = models.ManyToManyField(Region)
 
 
-class RegionType(models.Model):
-    """Types of regions that ballot items are tied to."""
+class RegionKind(models.Model):
+    """Types of regions bound to ballot items."""
 
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self) -> str:
         return self.name
+
+
+class Region(models.Model):
+    """Regions bound to ballot items."""
+
+    kind = models.ForeignKey(RegionKind, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ["kind", "name"]
