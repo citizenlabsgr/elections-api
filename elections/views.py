@@ -17,12 +17,13 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             data=request.query_params
         )
         input_serializer.is_valid(raise_exception=True)
+        voter = models.Voter(**input_serializer.validated_data)
 
-        # TODO: Look up registration
-        print(input_serializer.validated_data)
-        status = models.RegistrationStatus(registered=True)
+        registration_status = voter.fetch_registration_status()
 
-        output_serializer = serializers.RegistrationStatusSerializer(status)
+        output_serializer = serializers.RegistrationStatusSerializer(
+            registration_status
+        )
         return Response([output_serializer.data])
 
 
