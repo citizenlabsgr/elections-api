@@ -12,8 +12,6 @@ TEST = True
 DEBUG = True
 SECRET_KEY = "test"
 
-LOGGING["loggers"]["elections"]["level"] = "DEBUG"
-
 ###############################################################################
 # Databases
 

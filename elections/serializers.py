@@ -15,15 +15,15 @@ class RegistrationStatusSerializer(serializers.ModelSerializer):
         fields = ["registered"]
 
 
-class RegionKindSerializer(serializers.ModelSerializer):
+class DistrictCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.RegionKind
+        model = models.DistrictCategory
         fields = ["name"]
 
 
-class RegionSerializer(serializers.ModelSerializer):
+class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Region
+        model = models.District
         fields = ["kind", "name"]
 
     kind = serializers.CharField()

@@ -1,35 +1,37 @@
 from django.db import models
 
 import arrow
-from memoize import memoize
 
 from . import helpers
 
 
-class RegionKind(models.Model):
+class DistrictCategory(models.Model):
     """Types of regions bound to ballot items."""
 
     name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        verbose_name_plural = "District Categories"
 
     def __str__(self) -> str:
         return self.name
 
 
-class Region(models.Model):
-    """Regions bound to ballot items."""
+class District(models.Model):
+    """Districts bound to ballot items."""
 
-    kind = models.ForeignKey(RegionKind, on_delete=models.CASCADE)
+    category = models.ForeignKey(DistrictCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = ["kind", "name"]
+        unique_together = ["category", "name"]
 
 
 class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
-    regions = models.ManyToManyField(Region)
+    districts = models.ManyToManyField(District)
 
 
 class Voter(models.Model):
@@ -56,8 +58,6 @@ class Voter(models.Model):
     def birth_year(self) -> int:
         return self.birth_date.year
 
-    @memoize(timeout=60)
     def fetch_registration_status(self) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
-        print(data)
         return RegistrationStatus(registered=data["registered"])

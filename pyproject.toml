@@ -45,7 +45,6 @@ pytest-describe = "*"
 pytest-expecter = "*"
 pytest-vcr = "*"
 pytest-cov = "*"
-pytest-tldr = "*"
 pytest-watch = "*"
 
 factory_boy = "*"

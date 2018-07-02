@@ -1,18 +1,24 @@
 import re
+from pprint import pformat
 
 import log
 import requests
+from memoize import memoize
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 
 
+@memoize(timeout=60)
 def fetch_registration_status_data(voter):
+
+    # GET form tokens
     response = requests.get(MI_SOS_URL)
-    log.debug(response.text)
+    log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
 
-    form_data = {
+    # Build form data
+    form = {
         "__EVENTVALIDATION": find_or_abort(
             'id="__EVENTVALIDATION" value="(.*?)"', response.text
         ),
@@ -31,31 +37,27 @@ def fetch_registration_status_data(voter):
         "ctl00$ContentPlaceHolder1$vsZip": voter.zip_code,
         "ctl00$ContentPlaceHolder1$btnSearchByName": "Search",
     }
-    log.debug(form_data)
+    log.debug(f"Submitting data to MI SOS:\n{pformat(form)}")
 
+    # POST form data
     response = requests.post(
         MI_SOS_URL,
         headers={"Content-Type": "application/x-www-form-urlencoded"},
-        data=form_data,
+        data=form,
     )
-    log.debug(response.text)
+    log.debug(f"Response from MI SOS:\n{response.text}")
     response.raise_for_status()
 
+    # Parse response
     registered = bool(re.search("Yes, You Are Registered", response.text))
+    regions = {}
+    for match in re.findall(
+        r'districtCell">[\s\S]*?<b>(.*?): <\/b>[\s\S]*?districtCell">[\s\S]*?">(.*?)<\/span>',
+        response.text,
+    ):
+        regions[match[0]] = match[1]
 
-    # const registered = !!body.match(/Yes\, You Are Registered/);
-    #     if (!registered) return { registered: false };
-    #     const ret = { registered: !!body.match(/Yes\, You Are Registered/) };
-    #     const rex = /districtCell">[\s\S]*?<b>(.*?): <\/b>[\s\S]*?districtCell">[\s\S]*?">(.*?)<\/span>/g
-    #     do {
-    #         var m = rex.exec(body);
-    #         if (m) {
-    #             ret[m[1].toLowerCase().replace(/\s/g, '_')] = m[2];
-    #         }
-    #     } while (m);
-    #     return ret;
-
-    return {"registered": registered}
+    return {"registered": registered, "districts": regions}
 
 
 def find_or_abort(pattern, text):

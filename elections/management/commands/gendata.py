@@ -11,19 +11,19 @@ from factory import fuzzy
 from elections import models
 
 
-class RegionKindFactory(factory.django.DjangoModelFactory):
+class DistrictCategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.RegionKind
+        model = models.DistrictCategory
 
-    name = factory.Sequence(lambda n: f"Type {n}")
+    name = factory.Sequence(lambda n: f"District Category {n}")
 
 
-class RegionFactory(factory.django.DjangoModelFactory):
+class DistrictFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Region
+        model = models.District
 
-    kind = fuzzy.FuzzyChoice(models.RegionKind.objects.all())
-    name = factory.Sequence(lambda n: f"Region {n}")
+    category = fuzzy.FuzzyChoice(models.DistrictCategory.objects.all())
+    name = factory.Sequence(lambda n: f"District {n}")
 
 
 class Command(BaseCommand):
@@ -49,11 +49,11 @@ class Command(BaseCommand):
 
     def generate_review_data(self):
         with suppress(IntegrityError):
-            for obj in RegionKindFactory.create_batch(5):
+            for obj in DistrictCategoryFactory.create_batch(5):
                 self.stdout.write(f"Generated region type: {obj}")
 
         with suppress(IntegrityError):
-            for obj in RegionFactory.create_batch(20):
+            for obj in DistrictFactory.create_batch(20):
                 self.stdout.write(f"Generated region: {obj}")
 
     # @staticmethod
