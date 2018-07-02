@@ -55,12 +55,16 @@ def fetch_registration_status_data(voter):
         r'districtCell">[\s\S]*?<b>(.*?): <\/b>[\s\S]*?districtCell">[\s\S]*?">(.*?)<\/span>',
         response.text,
     ):
-        regions[match[0]] = match[1]
+        regions[match[0]] = clean_district_name(match[1])
 
     return {"registered": registered, "districts": regions}
 
 
-def find_or_abort(pattern, text):
+def find_or_abort(pattern: str, text: str):
     match = re.search(pattern, text)
     assert match, f"Unable for match {pattern!r} to {text!r}"
     return match[1]
+
+
+def clean_district_name(text: str):
+    return text.replace("District District", "District")
