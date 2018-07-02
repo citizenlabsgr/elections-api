@@ -24,7 +24,7 @@ urlpatterns = [
     path("api/", include("elections.urls")),
     path("admin/", admin.site.urls),
     path("grappelli/", include("grappelli.urls")),
-    path("docs/", get_swagger_view(title="Elections API")),
+    path("docs/", get_swagger_view(title="Michigan Elections API")),
     path("", readme),
 ]
 
