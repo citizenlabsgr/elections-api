@@ -8,7 +8,7 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ["name"]
 
-    list_display = ["id", "name"]
+    list_display = ["id", "name", "created", "modified"]
 
 
 @admin.register(models.District)
@@ -18,4 +18,4 @@ class DistrictAdmin(admin.ModelAdmin):
 
     list_filter = ["category"]
 
-    list_display = ["id", "name", "category"]
+    list_display = ["id", "name", "category", "created", "modified"]

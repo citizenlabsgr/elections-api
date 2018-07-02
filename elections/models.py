@@ -1,11 +1,15 @@
+from typing import List
+
 from django.db import models
 
 import arrow
+import log
+from model_utils.models import TimeStampedModel
 
 from . import helpers
 
 
-class DistrictCategory(models.Model):
+class DistrictCategory(TimeStampedModel):
     """Types of regions bound to ballot items."""
 
     name = models.CharField(max_length=50, unique=True)
@@ -17,7 +21,7 @@ class DistrictCategory(models.Model):
         return self.name
 
 
-class District(models.Model):
+class District(TimeStampedModel):
     """Districts bound to ballot items."""
 
     category = models.ForeignKey(DistrictCategory, on_delete=models.CASCADE)
@@ -26,12 +30,18 @@ class District(models.Model):
     class Meta:
         unique_together = ["category", "name"]
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
-    districts = models.ManyToManyField(District)
+    districts: List[District] = []
+
+    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+        raise NotImplementedError
 
 
 class Voter(models.Model):
@@ -60,4 +70,27 @@ class Voter(models.Model):
 
     def fetch_registration_status(self) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
-        return RegistrationStatus(registered=data["registered"])
+
+        districts: List[District] = []
+        for category_name, district_name in sorted(data["districts"].items()):
+            if not (category_name and district_name):
+                continue
+            category, created = DistrictCategory.objects.get_or_create(
+                name=category_name
+            )
+            if created:
+                log.info(f"New category: {category}")
+            district, created = District.objects.get_or_create(
+                category=category, name=district_name
+            )
+            if created:
+                log.info(f"New district: {district}")
+            districts.append(district)
+
+        status = RegistrationStatus(registered=data["registered"])
+        status.districts = districts
+
+        return status
+
+    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+        raise NotImplementedError

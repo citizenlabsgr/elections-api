@@ -35,11 +35,21 @@ def describe_voter_identity():
             expect(voter.birth_year) == 1985
 
 
-def describe_district_type():
+def describe_district_category():
     @pytest.fixture
-    def district_type():
+    def district_category():
         return models.DistrictCategory(name="County")
 
     def describe_str():
-        def users_the_Name(expect, district_type):
-            expect(str(district_type)) == "County"
+        def users_the_Name(expect, district_category):
+            expect(str(district_category)) == "County"
+
+
+def describe_district():
+    @pytest.fixture
+    def district():
+        return models.District(name="Kent County")
+
+    def describe_str():
+        def users_the_Name(expect, district):
+            expect(str(district)) == "Kent County"

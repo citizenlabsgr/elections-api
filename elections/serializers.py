@@ -9,12 +9,6 @@ class VoterSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class RegistrationStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.RegistrationStatus
-        fields = ["registered"]
-
-
 class DistrictCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DistrictCategory
@@ -24,6 +18,14 @@ class DistrictCategorySerializer(serializers.ModelSerializer):
 class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.District
-        fields = ["kind", "name"]
+        fields = ["category", "name"]
 
-    kind = serializers.CharField()
+    category = serializers.CharField()
+
+
+class RegistrationStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.RegistrationStatus
+        fields = ["registered", "districts"]
+
+    districts = DistrictSerializer(many=True)

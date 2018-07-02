@@ -237,6 +237,18 @@ django = "*"
 
 [[package]]
 category = "main"
+description = "Django model mixins and utilities"
+name = "django-model-utils"
+optional = false
+platform = "*"
+python-versions = "*"
+version = "3.1.2"
+
+[package.dependencies]
+Django = ">=1.8"
+
+[[package]]
+category = "main"
 description = "Redis Cache Backend for Django"
 name = "django-redis-cache"
 optional = false
@@ -825,7 +837,7 @@ multidict = ">=4.0"
 python = ">=3.4"
 
 [metadata]
-content-hash = "08ec6ea963a1ee2bd8a56578f3ed7aafe42cfb9b70308c1d764debd36d928f90"
+content-hash = "0003c51e5c44b696389e0e2ad6d68b743139d0f4f074e495207c7c7ff9311937"
 platform = "*"
 python-versions = "^3.6"
 
@@ -852,6 +864,7 @@ django-filter = ["ea204242ea83790e1512c9d0d8255002a652a6f4986e93cee664f28955ba0c
 django-grappelli = ["a0ac5a5f1eef64a0147c3dade02f55667a01aa7e84b93c2e8f6195117b980516", "e867d4b5df0e2ecebf50feba5723284f6441a9a76541c6840378020540b9570a"]
 django-livereload-server = ["6c8da1cb356d9a7fd044d0a50342574aad168522d5d8d25bbdc4ddd9fd196eab"]
 django-memoize = ["5492d837a3b4f75486412ccb55be62e82b07d10e1556e61468ddfbd5d610b47a"]
+django-model-utils = ["2c057f3bf0859aba27f04389f0cedd2d48f8c9b3848acb86fd9970794e58f477", "8cd377744aa45f9f131d652ec460c57d1aaa88d3e9b586c8e27eb709341b9084"]
 django-redis-cache = ["2b4e3510bbcaf3d331975717afd6f15a36fbaf7622504599d2727dc99f90c64d"]
 django-rest-swagger = ["48f6aded9937e90ae7cbe9e6c932b9744b8af80cc4e010088b3278c700e0685b", "b039b0288bab4665cd45dc5d16f94b13911bc4ad0ed55f74ad3b90aa31c87c17"]
 djangorestframework = ["b6714c3e4b0f8d524f193c91ecf5f5450092c2145439ac2769711f7eba89a9d9", "c375e4f95a3a64fccac412e36fb42ba36881e52313ec021ef410b40f67cddca4"]
