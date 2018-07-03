@@ -24,6 +24,7 @@ class DistrictFactory(factory.django.DjangoModelFactory):
 
     category = fuzzy.FuzzyChoice(models.DistrictCategory.objects.all())
     name = factory.Sequence(lambda n: f"District {n}")
+    population = fuzzy.FuzzyInteger(low=1_000, high=100_000)
 
 
 class Command(BaseCommand):

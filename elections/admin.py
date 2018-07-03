@@ -18,4 +18,11 @@ class DistrictAdmin(admin.ModelAdmin):
 
     list_filter = ["category"]
 
-    list_display = ["id", "name", "category", "created", "modified"]
+    list_display = [
+        "id",
+        "name",
+        "category",
+        "population",
+        "created",
+        "modified",
+    ]

@@ -6,6 +6,16 @@ import pytest
 from .. import models
 
 
+@pytest.fixture
+def district_category():
+    return models.DistrictCategory(name="County")
+
+
+@pytest.fixture
+def district(district_category):
+    return models.District(name="Kent", category=district_category)
+
+
 def describe_voter_identity():
     @pytest.fixture
     def voter():
@@ -36,20 +46,12 @@ def describe_voter_identity():
 
 
 def describe_district_category():
-    @pytest.fixture
-    def district_category():
-        return models.DistrictCategory(name="County")
-
     def describe_str():
         def users_the_Name(expect, district_category):
             expect(str(district_category)) == "County"
 
 
 def describe_district():
-    @pytest.fixture
-    def district():
-        return models.District(name="Kent County")
-
     def describe_str():
         def users_the_Name(expect, district):
             expect(str(district)) == "Kent County"
