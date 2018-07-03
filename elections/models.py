@@ -26,12 +26,13 @@ class District(TimeStampedModel):
 
     category = models.ForeignKey(DistrictCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    population = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         unique_together = ["category", "name"]
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} {self.category}"
 
 
 class RegistrationStatus(models.Model):
