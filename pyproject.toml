@@ -50,5 +50,8 @@ pytest-watch = "*"
 
 factory_boy = "*"
 
+django-extensions = "*"
+pygraphviz = "*"
+
 django-debug-toolbar = "*"
 django-livereload-server = "*"

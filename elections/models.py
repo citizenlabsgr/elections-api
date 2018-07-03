@@ -94,3 +94,73 @@ class Voter(models.Model):
 
     def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
         raise NotImplementedError
+
+
+class Election(TimeStampedModel):
+    """Point in time where voters can cast opinions on ballot items."""
+
+    date = models.DateField()
+    name = models.CharField(max_length=100)
+    reference_url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ["date", "name"]
+
+
+class Ballot(TimeStampedModel):
+    """Full ballot bound to a particular precinct."""
+
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+
+    county = models.ForeignKey(
+        District, related_name="counties", on_delete=models.CASCADE
+    )
+    jurisdiction = models.ForeignKey(
+        District, related_name="jurisdictions", on_delete=models.CASCADE
+    )
+    ward = models.PositiveIntegerField()
+    precinct = models.PositiveIntegerField()
+
+    mi_sos_url = models.URLField()
+
+
+class BallotItem(TimeStampedModel):
+
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    reference_url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+        unique_together = ["election", "district", "name"]
+
+
+class Proposal(BallotItem):
+    """Ballot item with a boolean outcome."""
+
+
+class Party(TimeStampedModel):
+    """Affiliation for a particular candidate."""
+
+    name = models.CharField(max_length=50)
+
+
+class Candidate(TimeStampedModel):
+    """Individual running for a particular position."""
+
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    reference_url = models.URLField(blank=True, null=True)
+    party = models.ForeignKey(
+        Party, blank=True, null=True, on_delete=models.SET_NULL
+    )
+
+
+class Position(BallotItem):
+    """Ballot item choosing one ore more candidates."""
+
+    candidates = models.ManyToManyField(Candidate)
+    seats = models.PositiveIntegerField(default=1)

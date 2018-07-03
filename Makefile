@@ -67,6 +67,10 @@ reset: install
 	dropdb elections_dev; createdb elections_dev
 	make data
 
+.PHONY: uml
+uml: install
+	poetry run python manage.py graph_models --all-applications --group-models --output=docs/ERD.png
+
 ###############################################################################
 
 .PHONY: clean
