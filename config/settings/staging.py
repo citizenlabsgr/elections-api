@@ -1,3 +1,5 @@
+import os
+
 from .production import *
 
 
@@ -12,7 +14,4 @@ BASE_URL = f"https://{BASE_DOMAIN}"
 ###############################################################################
 # Core
 
-ALLOWED_HOSTS += [
-    ".herokuapp.com",
-    # TODO: Add your custom domain
-]
+ALLOWED_HOSTS += [".herokuapp.com", ".michiganelections.io"]
