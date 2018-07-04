@@ -10,7 +10,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
     queryset = models.Voter.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ["first_name", "last_name", "zip_code", "birth_date"]
+    filter_fields = ['first_name', 'last_name', 'zip_code', 'birth_date']
 
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(
@@ -22,19 +22,24 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         registration_status = voter.fetch_registration_status()
 
         output_serializer = serializers.RegistrationStatusSerializer(
-            registration_status
+            registration_status, context={'request': request}
         )
         return Response([output_serializer.data])
 
 
-class DistrictCategoryViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
+class DistrictCategoryViewSet(
+    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
+):
     """Types of regions that bound ballot items."""
 
+    # http_method_names = ["get"]
     queryset = models.DistrictCategory.objects.all()
     serializer_class = serializers.DistrictCategorySerializer
 
 
-class DistrictViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
+class DistrictViewSet(
+    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
+):
     """Districts bound to ballot items."""
 
     queryset = models.District.objects.all()

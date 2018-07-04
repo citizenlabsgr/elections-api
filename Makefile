@@ -36,7 +36,7 @@ ci: check test
 .PHONY: format
 format: install
 	poetry run isort $(PACKAGES) --recursive --apply
-	poetry run black $(PACKAGES) --line-length=79 --py36
+	poetry run black $(PACKAGES) --line-length=79 --py36 --skip-string-normalization
 
 .PHONY: check
 check: install

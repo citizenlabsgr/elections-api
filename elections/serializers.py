@@ -6,26 +6,26 @@ from . import models
 class VoterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Voter
-        fields = "__all__"
+        fields = '__all__'
 
 
-class DistrictCategorySerializer(serializers.ModelSerializer):
+class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.DistrictCategory
-        fields = ["name"]
+        fields = ['url', 'id', 'name']
 
 
-class DistrictSerializer(serializers.ModelSerializer):
+class DistrictSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.District
-        fields = ["category", "name"]
+        fields = ['url', 'id', 'category', 'name']
 
     category = serializers.CharField()
 
 
-class RegistrationStatusSerializer(serializers.ModelSerializer):
+class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RegistrationStatus
-        fields = ["registered", "districts"]
+        fields = ['registered', 'districts']
 
     districts = DistrictSerializer(many=True)

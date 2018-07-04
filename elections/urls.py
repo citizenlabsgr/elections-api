@@ -16,9 +16,9 @@ class IndexRouter(routers.DefaultRouter):
 router = IndexRouter()
 
 router.register(
-    "registrations", views.RegistrationViewSet, base_name="registrations"
+    'registrations', views.RegistrationViewSet, base_name='registrations'
 )
-router.register("district-categories", views.DistrictCategoryViewSet)
-router.register("districts", views.DistrictViewSet)
+router.register('district-categories', views.DistrictCategoryViewSet)
+router.register('districts', views.DistrictViewSet)
 
 urlpatterns = router.urls

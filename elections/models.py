@@ -29,7 +29,7 @@ class District(TimeStampedModel):
     population = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = ["category", "name"]
+        unique_together = ['category', 'name']
 
     def __str__(self) -> str:
         return f"{self.name} {self.category}"
@@ -62,7 +62,7 @@ class Voter(models.Model):
 
     @property
     def birth_month(self) -> str:
-        locale = arrow.locales.get_locale("en")
+        locale = arrow.locales.get_locale('en')
         return locale.month_name(self.birth_date.month)
 
     @property
@@ -105,7 +105,7 @@ class Election(TimeStampedModel):
     reference_url = models.URLField(blank=True, null=True)
 
     class Meta:
-        unique_together = ["date", "name"]
+        unique_together = ['date', 'name']
 
 
 class Ballot(TimeStampedModel):
@@ -136,7 +136,7 @@ class BallotItem(TimeStampedModel):
 
     class Meta:
         abstract = True
-        unique_together = ["election", "district", "name"]
+        unique_together = ['election', 'district', 'name']
 
 
 class Proposal(BallotItem):

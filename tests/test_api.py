@@ -14,50 +14,98 @@ def describe_registrations():
         expect(response.status_code) == 200
         expect(response.data) == [
             {
-                "registered": True,
-                "districts": [
-                    {"category": "Circuit Court", "name": "17th Circuit"},
+                'registered': True,
+                'districts': [
                     {
-                        "category": "Community College District",
-                        "name": "Grand Rapids Community College",
-                    },
-                    {"category": "County", "name": "Kent County"},
-                    {
-                        "category": "County Commissioner District",
-                        "name": "15th District",
-                    },
-                    {"category": "Court of Appeals", "name": "3rd District"},
-                    {"category": "District Court", "name": "61st District"},
-                    {
-                        "category": "Intermediate School District",
-                        "name": "Kent ISD",
+                        'url': 'http://testserver/api/districts/1/',
+                        'id': 1,
+                        'category': 'Circuit Court',
+                        'name': '17th Circuit',
                     },
                     {
-                        "category": "Jurisdiction",
-                        "name": "City of Grand Rapids",
-                    },
-                    {"category": "Precinct", "name": "9"},
-                    {
-                        "category": "Probate Court",
-                        "name": "Kent County Probate Court",
+                        'url': 'http://testserver/api/districts/2/',
+                        'id': 2,
+                        'category': 'Community College District',
+                        'name': 'Grand Rapids Community College',
                     },
                     {
-                        "category": "School District",
-                        "name": "Grand Rapids Public Schools",
+                        'url': 'http://testserver/api/districts/3/',
+                        'id': 3,
+                        'category': 'County',
+                        'name': 'Kent County',
                     },
                     {
-                        "category": "State House District",
-                        "name": "75th District",
+                        'url': 'http://testserver/api/districts/4/',
+                        'id': 4,
+                        'category': 'County Commissioner District',
+                        'name': '15th District',
                     },
                     {
-                        "category": "State Senate District",
-                        "name": "29th District",
+                        'url': 'http://testserver/api/districts/5/',
+                        'id': 5,
+                        'category': 'Court of Appeals',
+                        'name': '3rd District',
                     },
                     {
-                        "category": "US Congress District",
-                        "name": "3rd District",
+                        'url': 'http://testserver/api/districts/6/',
+                        'id': 6,
+                        'category': 'District Court',
+                        'name': '61st District',
                     },
-                    {"category": "Ward", "name": "1"},
+                    {
+                        'url': 'http://testserver/api/districts/7/',
+                        'id': 7,
+                        'category': 'Intermediate School District',
+                        'name': 'Kent ISD',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/8/',
+                        'id': 8,
+                        'category': 'Jurisdiction',
+                        'name': 'City of Grand Rapids',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/9/',
+                        'id': 9,
+                        'category': 'Precinct',
+                        'name': '9',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/10/',
+                        'id': 10,
+                        'category': 'Probate Court',
+                        'name': 'Kent County Probate Court',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/11/',
+                        'id': 11,
+                        'category': 'School District',
+                        'name': 'Grand Rapids Public Schools',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/12/',
+                        'id': 12,
+                        'category': 'State House District',
+                        'name': '75th District',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/13/',
+                        'id': 13,
+                        'category': 'State Senate District',
+                        'name': '29th District',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/14/',
+                        'id': 14,
+                        'category': 'US Congress District',
+                        'name': '3rd District',
+                    },
+                    {
+                        'url': 'http://testserver/api/districts/15/',
+                        'id': 15,
+                        'category': 'Ward',
+                        'name': '1',
+                    },
                 ],
             }
         ]
