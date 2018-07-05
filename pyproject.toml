@@ -25,9 +25,9 @@ psycopg2-binary = "*"
 django-redis-cache = "*"
 
 minilog = "*"
-markdown = "^2.6"
 factory_boy = "*"
 pendulum = "*"
+grip = "^4.5"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"

@@ -11,7 +11,7 @@ APIs to check voter registration status and view upcoming ballots in Michigan.
 
 ## Documentation
 
-Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found [here](/docs).
+Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found [here](https://michiganelections.io/docs).
 
 ## History
 
