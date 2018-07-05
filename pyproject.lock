@@ -305,7 +305,7 @@ python-versions = "*"
 version = "0.6.2"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
 name = "factory-boy"
 optional = false
@@ -317,7 +317,7 @@ version = "2.11.1"
 Faker = ">=0.7.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Faker is a Python package that generates fake data for you."
 name = "faker"
 optional = false
@@ -738,7 +738,7 @@ python-versions = "*"
 version = "0.2.4"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "The most basic Text::Unidecode port"
 name = "text-unidecode"
 optional = false
@@ -858,7 +858,7 @@ multidict = ">=4.0"
 python = ">=3.4"
 
 [metadata]
-content-hash = "ac1ac70844f47a4bbc8309e2be4ff0c3b6ad552e8ad6c5b25eb2265ca0c3dd6e"
+content-hash = "3b0e5d0fc3ba6af7ac4a4b35f9ea8cc71ee56ae3f1bc3338a0496bc3b195ab28"
 platform = "*"
 python-versions = "^3.6"
 

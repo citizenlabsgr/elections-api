@@ -25,6 +25,7 @@ psycopg2-binary = "*"
 django-redis-cache = "*"
 
 arrow = "*"
+factory_boy = "*"
 markdown = "^2.6"
 minilog = "*"
 
@@ -47,8 +48,6 @@ pytest-expecter = "*"
 pytest-vcr = "*"
 pytest-cov = "*"
 pytest-watch = "*"
-
-factory_boy = "*"
 
 django-extensions = "*"
 pygraphviz = "*"
