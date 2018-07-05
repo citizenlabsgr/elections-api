@@ -33,7 +33,7 @@ class ElectionAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 
-    list_display = ['id', 'name', 'mi_sos_id', 'created', 'modified']
+    list_display = ['id', 'name', 'date', 'mi_sos_id', 'created', 'modified']
 
 
 @admin.register(models.Precinct)

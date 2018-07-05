@@ -1,15 +1,15 @@
-from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
-from . import models, serializers
+from . import filters, models, serializers
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     """Status of a particular voter's registration."""
 
     queryset = models.Voter.objects.all()
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend]
     filter_fields = ['first_name', 'last_name', 'zip_code', 'birth_date']
 
     def list(self, request):  # pylint: disable=arguments-differ
@@ -25,6 +25,13 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             registration_status, context={'request': request}
         )
         return Response([output_serializer.data])
+
+
+class ElectionViewSet(viewsets.ModelViewSet):
+
+    http_method_names = ['get']
+    queryset = models.Election.objects.all()
+    serializers_class = serializers.ElectionSerializer
 
 
 class DistrictCategoryViewSet(
@@ -44,3 +51,25 @@ class DistrictViewSet(
 
     queryset = models.District.objects.all()
     serializer_class = serializers.DistrictSerializer
+
+
+class PrecinctViewSet(
+    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
+):
+    """Regions that share the same ballot."""
+
+    queryset = models.Precinct.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = filters.PrecinctFilter
+    serializer_class = serializers.PrecinctSerializer
+
+
+class BallotViewSet(
+    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
+):
+    """Ballots bound to individual precincts."""
+
+    queryset = models.Ballot.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = filters.BallotFilter
+    serializer_class = serializers.BallotSerializer

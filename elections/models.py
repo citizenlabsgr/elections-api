@@ -33,6 +33,8 @@ class District(TimeStampedModel):
         unique_together = ['category', 'name']
 
     def __str__(self) -> str:
+        if self.category.name in ["Jurisdiction"]:
+            return self.name
         return f"{self.name} {self.category}"
 
 
@@ -101,8 +103,8 @@ class Voter(models.Model):
 class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
-    date = models.DateField()
     name = models.CharField(max_length=100)
+    date = models.DateField()
 
     reference_url = models.URLField(blank=True, null=True)
 
@@ -112,7 +114,11 @@ class Election(TimeStampedModel):
         unique_together = ['date', 'name']
 
     def __str__(self) -> str:
-        return f"{self.name} ({self.date})"
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return [self.name, arrow.get(self.date).format("dddd, MMMM D, YYYY")]
 
 
 class Precinct(TimeStampedModel):
@@ -129,8 +135,23 @@ class Precinct(TimeStampedModel):
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
+    class Meta:
+        unique_together = [
+            'county',
+            'jurisdiction',
+            'ward_number',
+            'precinct_number',
+        ]
+
     def __str__(self) -> str:
-        return f"{self.county}, {self.jurisdiction}, Ward {self.ward_number}, Precinct {self.precinct_number}"
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return [
+            f"{self.county}, Michigan",
+            f"{self.jurisdiction}, Ward {self.ward_number} Precinct {self.precinct_number}",
+        ]
 
 
 class Ballot(TimeStampedModel):
@@ -142,13 +163,17 @@ class Ballot(TimeStampedModel):
     mi_sos_html = models.TextField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.election} @ {self.precinct}"
+        return ' | '.join(self.mi_sos_name)
 
     @property
     def mi_sos_url(self) -> str:
         base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
         params = f"d={self.precinct.mi_sos_id}&ed={self.election.mi_sos_id}"
         return f"{base}?{params}"
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return self.election.mi_sos_name + self.precinct.mi_sos_name
 
     def update_mi_sos_html(self) -> bool:
         url = self.mi_sos_url
@@ -157,7 +182,8 @@ class Ballot(TimeStampedModel):
         response = requests.get(url)
 
         html = response.text
-        assert self.election.name in html, f"Unexpected HTML:\n\n{html}"
+        for text in self.mi_sos_name:
+            assert text in html, f"Expected {text!r}: {url}"
 
         updated = self.mi_sos_html != html
         self.mi_sos_html = html
