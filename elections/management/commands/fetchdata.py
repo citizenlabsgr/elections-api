@@ -19,14 +19,14 @@ class Command(BaseCommand):
                 log.warn(f"No MI SOS ID for election: {election}")
                 continue
 
-            for precinct in models.Precinct.objects.all():
+            for poll in models.Poll.objects.all():
 
-                if not precinct.mi_sos_id:
-                    log.warn(f"No MI SOS ID for precinct: {precinct}")
+                if not poll.mi_sos_id:
+                    log.warn(f"No MI SOS ID for poll: {poll}")
                     continue
 
                 ballot, created = models.Ballot.objects.get_or_create(
-                    election=election, precinct=precinct
+                    election=election, poll=poll
                 )
                 if created:
                     self.stdout.write(f"Create ballot: {ballot}")

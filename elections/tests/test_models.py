@@ -36,13 +36,13 @@ def election():
 
 
 @pytest.fixture
-def precinct(district):
+def poll(district):
     county = district
     jurisdiction = models.District(
         name="City of Grand Rapids",
         category=models.DistrictCategory(name="Jurisdiction"),
     )
-    return models.Precinct(
+    return models.Poll(
         county=county,
         jurisdiction=jurisdiction,
         ward_number=1,
@@ -52,8 +52,8 @@ def precinct(district):
 
 
 @pytest.fixture
-def ballot(election, precinct):
-    return models.Ballot(election=election, precinct=precinct)
+def ballot(election, poll):
+    return models.Ballot(election=election, poll=poll)
 
 
 def describe_voter_identity():

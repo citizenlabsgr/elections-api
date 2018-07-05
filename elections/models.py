@@ -123,7 +123,7 @@ class Election(TimeStampedModel):
         ]
 
 
-class Precinct(TimeStampedModel):
+class Poll(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
     county = models.ForeignKey(
@@ -157,10 +157,10 @@ class Precinct(TimeStampedModel):
 
 
 class Ballot(TimeStampedModel):
-    """Full ballot bound to a particular precinct."""
+    """Full ballot bound to a particular polling location."""
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
     mi_sos_html = models.TextField(blank=True, null=True)
 
@@ -170,12 +170,12 @@ class Ballot(TimeStampedModel):
     @property
     def mi_sos_url(self) -> str:
         base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
-        params = f"d={self.precinct.mi_sos_id}&ed={self.election.mi_sos_id}"
+        params = f"d={self.poll.mi_sos_id}&ed={self.election.mi_sos_id}"
         return f"{base}?{params}"
 
     @property
     def mi_sos_name(self) -> List[str]:
-        return self.election.mi_sos_name + self.precinct.mi_sos_name
+        return self.election.mi_sos_name + self.poll.mi_sos_name
 
     def update_mi_sos_html(self) -> bool:
         url = self.mi_sos_url
@@ -196,8 +196,13 @@ class Ballot(TimeStampedModel):
 class BallotItem(TimeStampedModel):
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    poll = models.ForeignKey(
+        Poll, on_delete=models.CASCADE, null=True
+    )  # TODO: remove null
+    district = models.ForeignKey(
+        District, on_delete=models.CASCADE
+    )  # TODO: Delete this
 
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True)
@@ -229,7 +234,7 @@ class Candidate(TimeStampedModel):
 
 
 class Position(BallotItem):
-    """Ballot item choosing one ore more candidates."""
+    """Ballot item selecting one ore more candidates."""
 
     candidates = models.ManyToManyField(Candidate)
     seats = models.PositiveIntegerField(default=1)
