@@ -61,6 +61,7 @@ migrations: install
 data: install
 	poetry run python manage.py migrate
 	poetry run python manage.py gendata
+	poetry run python manage.py fetchdata
 
 .PHONY: reset
 reset: install

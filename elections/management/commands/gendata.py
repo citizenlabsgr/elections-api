@@ -7,8 +7,8 @@ from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
 import factory
-from factory import fuzzy
 import pendulum
+from factory import fuzzy
 
 from elections import models
 
@@ -94,14 +94,14 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added district: {grand_rapids}")
 
-        precinct, _ = models.Precinct.objects.get_or_create(
+        poll, _ = models.Poll.objects.get_or_create(
             county=kent,
             jurisdiction=grand_rapids,
             ward_number=1,
             precinct_number=9,
             mi_sos_id=1828,
         )
-        self.stdout.write(f"Added precinct: {precinct}")
+        self.stdout.write(f"Added poll: {poll}")
 
     def generate_random_data(self):
         with suppress(IntegrityError):

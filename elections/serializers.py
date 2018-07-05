@@ -37,9 +37,9 @@ class ElectionSerializer(serializers.ModelSerializer):
         fields = ['url', 'id', 'name', 'date', 'reference_url']
 
 
-class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
+class PollSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Precinct
+        model = models.Poll
         fields = [
             'url',
             'id',
@@ -56,7 +56,7 @@ class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Ballot
-        fields = ['url', 'id', 'election', 'precinct', 'mi_sos_url']
+        fields = ['url', 'id', 'election', 'poll', 'mi_sos_url']
 
     election = ElectionSerializer()
-    precinct = PrecinctSerializer()
+    poll = PollSerializer()

@@ -36,8 +36,8 @@ class ElectionAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'date', 'mi_sos_id', 'created', 'modified']
 
 
-@admin.register(models.Precinct)
-class PrecinctAdmin(admin.ModelAdmin):
+@admin.register(models.Poll)
+class PollAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 

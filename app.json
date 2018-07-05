@@ -20,6 +20,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "make data"
+    "postdeploy": "python manage.py gendata"
   }
 }
