@@ -2,8 +2,8 @@ from typing import List
 
 from django.db import models
 
-import arrow
 import log
+import pendulum
 import requests
 from model_utils.models import TimeStampedModel
 
@@ -57,7 +57,7 @@ class Voter(models.Model):
     zip_code = models.CharField(max_length=10)
 
     def __repr__(self) -> str:
-        birth = arrow.get(self.birth_date).format("YYYY-MM-DD")
+        birth = pendulum.parse(str(self.birth_date)).format("YYYY-MM-DD")
         return f"<voter: {self}, birth={birth}, zip={self.zip_code}>"
 
     def __str__(self) -> str:
@@ -65,8 +65,7 @@ class Voter(models.Model):
 
     @property
     def birth_month(self) -> str:
-        locale = arrow.locales.get_locale('en')
-        return locale.month_name(self.birth_date.month)
+        return pendulum.parse(str(self.birth_date)).format("MMMM")
 
     @property
     def birth_year(self) -> int:
@@ -118,7 +117,10 @@ class Election(TimeStampedModel):
 
     @property
     def mi_sos_name(self) -> List[str]:
-        return [self.name, arrow.get(self.date).format("dddd, MMMM D, YYYY")]
+        return [
+            self.name,
+            pendulum.parse(self.date.isoformat()).format("dddd, MMMM D, YYYY"),
+        ]
 
 
 class Precinct(TimeStampedModel):

@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
-import arrow
 import factory
 from factory import fuzzy
+import pendulum
 
 from elections import models
 
@@ -38,8 +38,8 @@ class ElectionFactory(factory.DjangoModelFactory):
         model = models.Election
 
     date = fuzzy.FuzzyDate(
-        start_date=arrow.utcnow().shift(years=+1),
-        end_date=arrow.utcnow().shift(years=+4),
+        start_date=pendulum.now().add(years=1),
+        end_date=pendulum.now().add(years=4),
     )
     name = fuzzy.FuzzyChoice(["General", "Midterm", "Special"])
 
@@ -69,7 +69,7 @@ class Command(BaseCommand):
     def add_known_data(self):
         election, _ = models.Election.objects.get_or_create(
             name="State Primary",
-            date=arrow.get("2018-08-07").datetime,
+            date=pendulum.parse("2018-08-07", tz='America/Detroit'),
             defaults=dict(mi_sos_id=675),
         )
         self.stdout.write(f"Added election: {election}")

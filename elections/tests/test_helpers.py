@@ -2,7 +2,7 @@
 
 import os
 
-import arrow
+import pendulum
 import pytest
 
 from .. import helpers, models
@@ -13,7 +13,7 @@ def voter():
     return models.Voter(
         first_name="Jace",
         last_name="Browning",
-        birth_date=arrow.get("1987-06-02"),
+        birth_date=pendulum.parse("1987-06-02", tz='America/Detroit'),
         zip_code="49503",
     )
 

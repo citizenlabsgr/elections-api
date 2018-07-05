@@ -1,6 +1,6 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
 
-import arrow
+import pendulum
 import pytest
 
 from .. import models
@@ -11,7 +11,7 @@ def voter():
     return models.Voter(
         first_name="Jane",
         last_name="Doe",
-        birth_date=arrow.get("1985-06-19"),
+        birth_date=pendulum.parse("1985-06-19", tz='America/Detroit'),
         zip_code=12345,
     )
 
@@ -29,7 +29,9 @@ def district(district_category):
 @pytest.fixture
 def election():
     return models.Election(
-        name="State Primary", date=arrow.get("2018-08-07"), mi_sos_id=675
+        name="State Primary",
+        date=pendulum.parse("2018-08-07", tz='America/Detroit'),
+        mi_sos_id=675,
     )
 
 

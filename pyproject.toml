@@ -24,10 +24,10 @@ psycopg2-binary = "*"
 
 django-redis-cache = "*"
 
-arrow = "*"
-factory_boy = "*"
-markdown = "^2.6"
 minilog = "*"
+markdown = "^2.6"
+factory_boy = "*"
+pendulum = "*"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
