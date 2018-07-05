@@ -31,7 +31,7 @@ class ElectionViewSet(viewsets.ModelViewSet):
 
     http_method_names = ['get']
     queryset = models.Election.objects.all()
-    serializers_class = serializers.ElectionSerializer
+    serializer_class = serializers.ElectionSerializer
 
 
 class DistrictCategoryViewSet(
