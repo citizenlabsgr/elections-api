@@ -34,41 +34,36 @@ class ElectionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ElectionSerializer
 
 
-class DistrictCategoryViewSet(
-    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
-):
+class DistrictCategoryViewSet(viewsets.ModelViewSet):
     """Types of regions that bound ballot items."""
 
-    # http_method_names = ["get"]
+    http_method_names = ['get']
     queryset = models.DistrictCategory.objects.all()
     serializer_class = serializers.DistrictCategorySerializer
 
 
-class DistrictViewSet(
-    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
-):
+class DistrictViewSet(viewsets.ModelViewSet):
     """Districts bound to ballot items."""
 
+    http_method_names = ['get']
     queryset = models.District.objects.all()
     serializer_class = serializers.DistrictSerializer
 
 
-class PollViewSet(
-    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
-):
+class PollViewSet(viewsets.ModelViewSet):
     """Regions that share the same ballot."""
 
+    http_method_names = ['get']
     queryset = models.Poll.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.PollFilter
     serializer_class = serializers.PollSerializer
 
 
-class BallotViewSet(
-    viewsets.ViewSetMixin, generics.RetrieveAPIView, generics.ListAPIView
-):
+class BallotViewSet(viewsets.ModelViewSet):
     """Ballots bound to individual precincts."""
 
+    http_method_names = ['get']
     queryset = models.Ballot.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.BallotFilter
