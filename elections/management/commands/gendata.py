@@ -32,7 +32,8 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         self.get_or_create_superuser()
-        self.generate_review_data()
+        self.add_known_data()
+        self.generate_random_data()
 
     def get_or_create_superuser(self, username="admin", password="password"):
         try:
@@ -48,7 +49,42 @@ class Command(BaseCommand):
 
         return user
 
-    def generate_review_data(self):
+    def add_known_data(self):
+        election, _ = models.Election.objects.get_or_create(
+            name="State Primary", mi_sos_id=675
+        )
+        self.stdout.write(f"Added election: {election}")
+
+        county, _ = models.DistrictCategory.objects.get_or_create(
+            name="County"
+        )
+        self.stdout.write(f"Added category: {county}")
+
+        jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
+            name="Jurisdiction"
+        )
+        self.stdout.write(f"Added category: {jurisdiction}")
+
+        kent, _ = models.District.objects.get_or_create(
+            category=county, name="Kent"
+        )
+        self.stdout.write(f"Added district: {kent}")
+
+        grand_rapids, _ = models.District.objects.get_or_create(
+            category=jurisdiction, name="City of Grand Rapids"
+        )
+        self.stdout.write(f"Added district: {grand_rapids}")
+
+        precinct, _ = models.Precinct.objects.get_or_create(
+            county=kent,
+            jurisdiction=grand_rapids,
+            ward_number=1,
+            precinct_number=9,
+            mi_sos_id=1828,
+        )
+        self.stdout.write(f"Added precinct: {precinct}")
+
+    def generate_random_data(self):
         with suppress(IntegrityError):
             for obj in DistrictCategoryFactory.create_batch(5):
                 self.stdout.write(f"Generated region type: {obj}")

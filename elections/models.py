@@ -4,6 +4,7 @@ from django.db import models
 
 import arrow
 import log
+import requests
 from model_utils.models import TimeStampedModel
 
 from . import helpers
@@ -88,7 +89,7 @@ class Voter(models.Model):
                 log.info(f"New district: {district}")
             districts.append(district)
 
-        status = RegistrationStatus(registered=data["registered"])
+        status = RegistrationStatus(registered=data['registered'])
         status.districts = districts
 
         return status
@@ -102,27 +103,66 @@ class Election(TimeStampedModel):
 
     date = models.DateField()
     name = models.CharField(max_length=100)
+
     reference_url = models.URLField(blank=True, null=True)
+
+    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         unique_together = ['date', 'name']
+
+    def __str__(self) -> str:
+        return f"{self.name} ({self.date})"
+
+
+class Precinct(TimeStampedModel):
+    """Specific region where all voters share a ballot."""
+
+    county = models.ForeignKey(
+        District, related_name='counties', on_delete=models.CASCADE
+    )
+    jurisdiction = models.ForeignKey(
+        District, related_name='jurisdictions', on_delete=models.CASCADE
+    )
+    ward_number = models.PositiveIntegerField()
+    precinct_number = models.PositiveIntegerField()
+
+    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return f"{self.county}, {self.jurisdiction}, Ward {self.ward_number}, Precinct {self.precinct_number}"
 
 
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular precinct."""
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
-    county = models.ForeignKey(
-        District, related_name="counties", on_delete=models.CASCADE
-    )
-    jurisdiction = models.ForeignKey(
-        District, related_name="jurisdictions", on_delete=models.CASCADE
-    )
-    ward = models.PositiveIntegerField()
-    precinct = models.PositiveIntegerField()
+    mi_sos_html = models.TextField(blank=True, null=True)
 
-    mi_sos_url = models.URLField()
+    def __str__(self) -> str:
+        return f"{self.election} @ {self.precinct}"
+
+    @property
+    def mi_sos_url(self) -> str:
+        base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
+        params = f"d={self.precinct.mi_sos_id}&ed={self.election.mi_sos_id}"
+        return f"{base}?{params}"
+
+    def update_mi_sos_html(self) -> bool:
+        url = self.mi_sos_url
+
+        log.info(f"Fetching {url}")
+        response = requests.get(url)
+
+        html = response.text
+        assert self.election.name in html, f"Unexpected HTML:\n\n{html}"
+
+        updated = self.mi_sos_html != html
+        self.mi_sos_html = html
+
+        return updated
 
 
 class BallotItem(TimeStampedModel):
