@@ -1,3 +1,4 @@
+import string
 from contextlib import suppress
 
 from django.conf import settings
@@ -5,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
+import arrow
 import factory
 from factory import fuzzy
 
@@ -15,7 +17,9 @@ class DistrictCategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.DistrictCategory
 
-    name = factory.Sequence(lambda n: f"District Category {n}")
+    name = fuzzy.FuzzyText(
+        length=1, prefix="District Category ", chars=string.ascii_uppercase
+    )
 
 
 class DistrictFactory(factory.django.DjangoModelFactory):
@@ -23,8 +27,21 @@ class DistrictFactory(factory.django.DjangoModelFactory):
         model = models.District
 
     category = fuzzy.FuzzyChoice(models.DistrictCategory.objects.all())
-    name = factory.Sequence(lambda n: f"District {n}")
+    name = fuzzy.FuzzyText(
+        length=1, prefix="District ", chars=string.ascii_uppercase
+    )
     population = fuzzy.FuzzyInteger(low=1_000, high=100_000)
+
+
+class ElectionFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.Election
+
+    date = fuzzy.FuzzyDate(
+        start_date=arrow.utcnow().shift(years=+1),
+        end_date=arrow.utcnow().shift(years=+4),
+    )
+    name = fuzzy.FuzzyChoice(["General", "Midterm", "Special"])
 
 
 class Command(BaseCommand):
@@ -32,7 +49,8 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         self.get_or_create_superuser()
-        self.generate_review_data()
+        self.add_known_data()
+        self.generate_random_data()
 
     def get_or_create_superuser(self, username="admin", password="password"):
         try:
@@ -48,17 +66,52 @@ class Command(BaseCommand):
 
         return user
 
-    def generate_review_data(self):
+    def add_known_data(self):
+        election, _ = models.Election.objects.get_or_create(
+            name="State Primary",
+            date=arrow.get("2018-08-07").datetime,
+            defaults=dict(mi_sos_id=675),
+        )
+        self.stdout.write(f"Added election: {election}")
+
+        county, _ = models.DistrictCategory.objects.get_or_create(
+            name="County"
+        )
+        self.stdout.write(f"Added category: {county}")
+
+        jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
+            name="Jurisdiction"
+        )
+        self.stdout.write(f"Added category: {jurisdiction}")
+
+        kent, _ = models.District.objects.get_or_create(
+            category=county, name="Kent"
+        )
+        self.stdout.write(f"Added district: {kent}")
+
+        grand_rapids, _ = models.District.objects.get_or_create(
+            category=jurisdiction, name="City of Grand Rapids"
+        )
+        self.stdout.write(f"Added district: {grand_rapids}")
+
+        precinct, _ = models.Precinct.objects.get_or_create(
+            county=kent,
+            jurisdiction=grand_rapids,
+            ward_number=1,
+            precinct_number=9,
+            mi_sos_id=1828,
+        )
+        self.stdout.write(f"Added precinct: {precinct}")
+
+    def generate_random_data(self):
         with suppress(IntegrityError):
             for obj in DistrictCategoryFactory.create_batch(5):
-                self.stdout.write(f"Generated region type: {obj}")
+                self.stdout.write(f"Generated category: {obj}")
 
         with suppress(IntegrityError):
             for obj in DistrictFactory.create_batch(20):
-                self.stdout.write(f"Generated region: {obj}")
+                self.stdout.write(f"Generated district: {obj}")
 
-    # @staticmethod
-    # def fake_election():
-    #     date = fake.future_date(end_date="+2y")
-    #     kind = random.choice(["General", "Midterm", "Special"])
-    #     return f"{date.year} {kind} Election", date
+        with suppress(IntegrityError):
+            for obj in ElectionFactory.create_batch(3):
+                self.stdout.write(f"Generated election: {obj}")

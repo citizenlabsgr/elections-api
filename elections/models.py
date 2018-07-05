@@ -4,6 +4,7 @@ from django.db import models
 
 import arrow
 import log
+import requests
 from model_utils.models import TimeStampedModel
 
 from . import helpers
@@ -32,6 +33,8 @@ class District(TimeStampedModel):
         unique_together = ['category', 'name']
 
     def __str__(self) -> str:
+        if self.category.name in ["Jurisdiction"]:
+            return self.name
         return f"{self.name} {self.category}"
 
 
@@ -88,7 +91,7 @@ class Voter(models.Model):
                 log.info(f"New district: {district}")
             districts.append(district)
 
-        status = RegistrationStatus(registered=data["registered"])
+        status = RegistrationStatus(registered=data['registered'])
         status.districts = districts
 
         return status
@@ -100,29 +103,92 @@ class Voter(models.Model):
 class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
-    date = models.DateField()
     name = models.CharField(max_length=100)
+    date = models.DateField()
+
     reference_url = models.URLField(blank=True, null=True)
+
+    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         unique_together = ['date', 'name']
+
+    def __str__(self) -> str:
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return [self.name, arrow.get(self.date).format("dddd, MMMM D, YYYY")]
+
+
+class Precinct(TimeStampedModel):
+    """Specific region where all voters share a ballot."""
+
+    county = models.ForeignKey(
+        District, related_name='counties', on_delete=models.CASCADE
+    )
+    jurisdiction = models.ForeignKey(
+        District, related_name='jurisdictions', on_delete=models.CASCADE
+    )
+    ward_number = models.PositiveIntegerField()
+    precinct_number = models.PositiveIntegerField()
+
+    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta:
+        unique_together = [
+            'county',
+            'jurisdiction',
+            'ward_number',
+            'precinct_number',
+        ]
+
+    def __str__(self) -> str:
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return [
+            f"{self.county}, Michigan",
+            f"{self.jurisdiction}, Ward {self.ward_number} Precinct {self.precinct_number}",
+        ]
 
 
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular precinct."""
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
-    county = models.ForeignKey(
-        District, related_name="counties", on_delete=models.CASCADE
-    )
-    jurisdiction = models.ForeignKey(
-        District, related_name="jurisdictions", on_delete=models.CASCADE
-    )
-    ward = models.PositiveIntegerField()
-    precinct = models.PositiveIntegerField()
+    mi_sos_html = models.TextField(blank=True, null=True)
 
-    mi_sos_url = models.URLField()
+    def __str__(self) -> str:
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_url(self) -> str:
+        base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
+        params = f"d={self.precinct.mi_sos_id}&ed={self.election.mi_sos_id}"
+        return f"{base}?{params}"
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return self.election.mi_sos_name + self.precinct.mi_sos_name
+
+    def update_mi_sos_html(self) -> bool:
+        url = self.mi_sos_url
+
+        log.info(f"Fetching {url}")
+        response = requests.get(url)
+
+        html = response.text
+        for text in self.mi_sos_name:
+            assert text in html, f"Expected {text!r}: {url}"
+
+        updated = self.mi_sos_html != html
+        self.mi_sos_html = html
+
+        return updated
 
 
 class BallotItem(TimeStampedModel):
