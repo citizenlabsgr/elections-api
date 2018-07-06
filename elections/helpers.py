@@ -1,5 +1,6 @@
 import re
 from pprint import pformat
+from typing import Optional
 
 import log
 import requests
@@ -48,16 +49,24 @@ def fetch_registration_status_data(voter):
     log.debug(f"Response from MI SOS:\n{response.text}")
     response.raise_for_status()
 
-    # Parse response
-    registered = bool(re.search("Yes, You Are Registered", response.text))
-    regions = {}
+    # Parse registration
+    registered: Optional[bool] = bool(
+        re.search("Yes, You Are Registered", response.text)
+    )
+    if not registered and bool(
+        re.search("not available at this time", response.text)
+    ):
+        registered = None
+
+    # Parse districts
+    districs = {}
     for match in re.findall(
         r'districtCell">[\s\S]*?<b>(.*?): <\/b>[\s\S]*?districtCell">[\s\S]*?">(.*?)<\/span>',
         response.text,
     ):
-        regions[match[0]] = clean_district_name(match[1])
+        districs[match[0]] = clean_district_name(match[1])
 
-    return {"registered": registered, "districts": regions}
+    return {"registered": registered, "districts": districs}
 
 
 def find_or_abort(pattern: str, text: str):

@@ -51,3 +51,9 @@ class PollAdmin(admin.ModelAdmin):
         'created',
         'modified',
     ]
+
+
+@admin.register(models.Ballot)
+class BallotAdmin(admin.ModelAdmin):
+
+    list_display = ['id', 'election', 'poll', 'mi_sos_url']

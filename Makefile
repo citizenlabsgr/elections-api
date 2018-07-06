@@ -70,7 +70,7 @@ reset: install
 
 .PHONY: readme
 readme: install elections/templates/index.html
-elections/templates/index.html: README.md
+elections/templates/index.html: README.md scripts/render_readme.py
 	poetry run readme $< $@
 
 .PHONY: uml

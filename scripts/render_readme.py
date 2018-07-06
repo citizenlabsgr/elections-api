@@ -11,13 +11,20 @@ def run(input_markdown_path, output_html_path):
 
     with Path(input_markdown_path).open('r') as f:
         for line in f:
-            if '-- skip --' in line:
+
+            # Remove developer badges
+            if 'circleci.com' in line:
                 continue
+            if 'waffle.io' in line:
+                continue
+
+            # Convert to relative links for review and staging
             line = line.replace('https://michiganelections.io', '')
+
             markdown += line
 
     html = grip.render_page(
-        text=markdown, title="Michigan Elections API", render_inline=True
+        text=markdown, title="README.md", render_inline=True
     )
 
     with Path(output_html_path).open('w') as f:
