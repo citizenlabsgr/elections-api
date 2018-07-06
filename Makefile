@@ -69,8 +69,8 @@ reset: install
 	make data
 
 .PHONY: readme
-readme: install elections/static/README.html
-elections/static/README.html: README.md
+readme: install elections/templates/index.html
+elections/templates/index.html: README.md
 	poetry run readme $< $@
 
 .PHONY: uml
