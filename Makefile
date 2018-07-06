@@ -28,7 +28,7 @@ run: install
 
 ###############################################################################
 
-PACKAGES := config elections tests
+PACKAGES := config elections scripts tests
 
 .PHONY: ci
 ci: check test
@@ -67,6 +67,11 @@ data: install
 reset: install
 	dropdb elections_dev; createdb elections_dev
 	make data
+
+.PHONY: readme
+readme: install elections/static/README.html
+elections/static/README.html: README.md
+	poetry run readme $< $@
 
 .PHONY: uml
 uml: install

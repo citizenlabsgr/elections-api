@@ -27,7 +27,6 @@ django-redis-cache = "*"
 minilog = "*"
 factory_boy = "*"
 pendulum = "*"
-grip = "^4.5"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
@@ -51,6 +50,11 @@ pytest-watch = "*"
 
 django-extensions = "*"
 pygraphviz = "*"
+grip = "^4.5"
 
 django-debug-toolbar = "*"
 django-livereload-server = "*"
+
+[tool.poetry.scripts]
+
+readme = 'scripts.render_readme:main'
