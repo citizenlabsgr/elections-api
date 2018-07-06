@@ -6,16 +6,16 @@ import dj_database_url
 from .base import *
 
 
-BASE_NAME = os.environ["HEROKU_APP_NAME"]
-BASE_DOMAIN = f"{BASE_NAME}.com"
+BASE_NAME = os.environ['HEROKU_APP_NAME']
+BASE_DOMAIN = f"{BASE_NAME}.io"
 BASE_URL = f"https://{BASE_DOMAIN}"
 
 ###############################################################################
 # Core
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ["localhost", ".michiganelections.io"]
+ALLOWED_HOSTS = ['localhost', '.michiganelections.io']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -23,17 +23,17 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Databases
 
 DATABASES = {}
-DATABASES["default"] = dj_database_url.config()
+DATABASES['default'] = dj_database_url.config()
 
 ###############################################################################
 # Caches
 
-_redis = urllib.parse.urlparse(os.environ["REDIS_URL"])
+_redis = urllib.parse.urlparse(os.environ['REDIS_URL'])
 CACHES = {
-    "default": {
-        "BACKEND": "redis_cache.RedisCache",
-        "LOCATION": f"{_redis.hostname}:{_redis.port}",
-        "OPTIONS": {"PASSWORD": _redis.password, "DB": 0},
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': f'{_redis.hostname}:{_redis.port}',
+        'OPTIONS': {'PASSWORD': _redis.password, 'DB': 0},
     }
 }
 
@@ -42,18 +42,18 @@ CACHES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'
     },
 ]
 
 ###############################################################################
 # Static files
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
