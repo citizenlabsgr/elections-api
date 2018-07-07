@@ -89,18 +89,18 @@ class Command(BaseCommand):
                 category=county_cateogry, name=county_name
             )
             if created:
-                self.stdout.write(f"Added district: {county}")
+                self.stdout.write(f"Added county: {county}")
             else:
-                self.stdout.write(f"Matched district: {county}")
+                self.stdout.write(f"Matched county: {county}")
 
             # Update jurisdiction
             jurisdiction, created = models.District.objects.get_or_create(
                 category=jurisdiction_category, name=jurisdiction_name
             )
             if created:
-                self.stdout.write(f"Added district: {jurisdiction}")
+                self.stdout.write(f"Added jurisdiction: {jurisdiction}")
             else:
-                self.stdout.write(f"Matched: district: {jurisdiction}")
+                self.stdout.write(f"Matched: jurisdiction: {jurisdiction}")
 
             # Update poll
             poll, created = models.Poll.objects.update_or_create(
