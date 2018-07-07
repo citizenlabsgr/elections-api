@@ -13,7 +13,7 @@ class Command(BaseCommand):
         self.fetch_ballots_html()
 
     def fetch_ballots_html(self):
-        for election in models.Election.objects.all():
+        for election in models.Election.objects.filter(active=True):
 
             if not election.mi_sos_id:
                 log.warn(f"No MI SOS ID for election: {election}")

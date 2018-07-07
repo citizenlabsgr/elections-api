@@ -50,7 +50,7 @@ check: install
 .PHONY: test
 test: install
 	poetry run pytest elections --disable-warnings
-	poetry run pytest tests --disable-warnings --cov-append
+	poetry run pytest tests --disable-warnings
 
 .PHONY: watch
 watch: install

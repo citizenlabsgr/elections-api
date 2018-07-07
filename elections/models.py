@@ -46,7 +46,7 @@ class RegistrationStatus(models.Model):
     registered = models.BooleanField()
     districts: List[District] = []
 
-    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs):
         raise NotImplementedError
 
 
@@ -97,7 +97,7 @@ class Voter(models.Model):
 
         return status
 
-    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs):
         raise NotImplementedError
 
 
@@ -107,6 +107,7 @@ class Election(TimeStampedModel):
     name = models.CharField(max_length=100)
     date = models.DateField()
 
+    active = models.BooleanField(default=False)
     reference_url = models.URLField(blank=True, null=True)
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)

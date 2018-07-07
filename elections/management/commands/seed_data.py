@@ -70,7 +70,7 @@ class Command(BaseCommand):
         election, _ = models.Election.objects.get_or_create(
             name="State Primary",
             date=pendulum.parse("2018-08-07", tz='America/Detroit'),
-            defaults=dict(mi_sos_id=675),
+            defaults=dict(active=True, mi_sos_id=675),
         )
         self.stdout.write(f"Added election: {election}")
 

@@ -11,3 +11,9 @@ omit =
     */wsgi.py
 
 data_file = .cache/coverage
+
+[report]
+
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
