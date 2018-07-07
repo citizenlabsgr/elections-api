@@ -40,12 +40,7 @@ CACHES = {
     }
 }
 
-connection = redis.from_url(os.environ['REDIS_URL'])
-requests_cache.install_cache(
-    backend='redis',
-    backend_options=dict(connection=connection),
-    expire_after=timedelta(hours=24),
-)
+EXPIRE_AFTER = timedelta(hours=24)
 
 ###############################################################################
 # Authentication

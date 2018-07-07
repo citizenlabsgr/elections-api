@@ -38,12 +38,7 @@ DATABASES = {
 ###############################################################################
 # Caches
 
-connection = redis.from_url(os.environ['REDIS_URL'])
-requests_cache.install_cache(
-    backend='redis',
-    backend_options=dict(connection=connection),
-    expire_after=timedelta(minutes=5),
-)
+EXPIRE_AFTER = timedelta(minutes=5)
 
 ###############################################################################
 # Django Debug Toolbar
