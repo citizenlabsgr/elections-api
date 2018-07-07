@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         log.init(reset=True)
-        requests_cache.install_cache()
+        requests_cache.core.remove_expired_responses()
         self.discover_polls()
 
     def discover_polls(self):

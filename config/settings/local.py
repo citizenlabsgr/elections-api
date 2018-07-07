@@ -1,4 +1,8 @@
+from datetime import timedelta
+
 import dj_database_url
+import redis
+import requests_cache
 
 from .base import *
 
@@ -30,6 +34,16 @@ DATABASES = {
     },
     'remote': dj_database_url.config(),
 }
+
+###############################################################################
+# Caches
+
+connection = redis.from_url(os.environ['REDIS_URL'])
+requests_cache.install_cache(
+    backend='redis',
+    backend_options=dict(connection=connection),
+    expire_after=timedelta(minutes=5),
+)
 
 ###############################################################################
 # Django Debug Toolbar

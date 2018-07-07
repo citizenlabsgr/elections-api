@@ -7,6 +7,10 @@ all: install
 doctor:
 	bin/verchew --exit-code
 
+.PHONY: .envrc
+.envrc:
+	echo "export REDIS_URL=redis://localhost:6379" >> $@
+
 ###############################################################################
 
 .PHONY: install

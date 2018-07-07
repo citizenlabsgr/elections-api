@@ -4,6 +4,7 @@ from typing import Optional
 
 import log
 import requests
+import requests_cache
 from memoize import memoize
 
 
@@ -14,7 +15,8 @@ MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 def fetch_registration_status_data(voter):
 
     # GET form tokens
-    response = requests.get(MI_SOS_URL)
+    with requests_cache.disabled():
+        response = requests.get(MI_SOS_URL)
     log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
 
