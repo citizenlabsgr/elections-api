@@ -19,7 +19,7 @@ def run(input_markdown_path, output_html_path):
                 continue
 
             # Convert to relative links for review and staging
-            line = line.replace('https://michiganelections.io', '')
+            line = line.replace('(https://michiganelections.io', '(')
 
             markdown += line
 
