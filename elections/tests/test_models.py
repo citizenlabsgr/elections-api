@@ -94,6 +94,20 @@ def describe_election():
             expect(str(election)) == "State Primary | Tuesday, August 7, 2018"
 
 
+def describe_poll():
+    def describe_str():
+        def when_ward_and_precinct(expect, poll):
+            expect(
+                str(poll)
+            ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
+
+        def when_precinct_only(expect, poll):
+            poll.ward_number = None
+            expect(
+                str(poll)
+            ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"
+
+
 def describe_ballot():
     def describe_str():
         def it_includes_the_election_and_precinct(expect, ballot):

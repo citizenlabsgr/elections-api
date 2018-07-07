@@ -49,7 +49,8 @@ check: install
 
 .PHONY: test
 test: install
-	poetry run pytest --disable-warnings
+	poetry run pytest elections --disable-warnings
+	poetry run pytest tests --disable-warnings --cov-append
 
 .PHONY: watch
 watch: install
