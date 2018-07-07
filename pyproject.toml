@@ -27,6 +27,7 @@ django-redis-cache = "*"
 minilog = "*"
 factory_boy = "*"
 pendulum = "*"
+requests_cache = "*"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"

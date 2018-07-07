@@ -1,7 +1,10 @@
 import os
 import urllib
+from datetime import timedelta
 
 import dj_database_url
+import redis
+import requests_cache
 
 from .base import *
 
@@ -36,6 +39,8 @@ CACHES = {
         'OPTIONS': {'PASSWORD': _redis.password, 'DB': 0},
     }
 }
+
+REQUESTS_CACHE_EXPIRE_AFTER = timedelta(hours=24)
 
 ###############################################################################
 # Authentication

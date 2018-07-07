@@ -134,3 +134,9 @@ SWAGGER_SETTINGS = {
     'ACCEPT_HEADER_VERSION': '0.0',
     'DOC_EXPANSION': 'list',
 }
+
+
+###############################################################################
+# Requests cache
+
+REQUESTS_CACHE_EXPIRE_AFTER = None

@@ -1,20 +1,31 @@
+import os
 import re
 from pprint import pformat
 from typing import Optional
 
 import log
+import redis
 import requests
+import requests_cache
 from memoize import memoize
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 
 
+def enable_requests_cache(expire_after):
+    connection = redis.from_url(os.environ['REDIS_URL'])
+    requests_cache.install_cache(
+        backend='redis', connection=connection, expire_after=expire_after
+    )
+
+
 @memoize(timeout=60)
 def fetch_registration_status_data(voter):
 
     # GET form tokens
-    response = requests.get(MI_SOS_URL)
+    with requests_cache.disabled():
+        response = requests.get(MI_SOS_URL)
     log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
 

@@ -1,4 +1,8 @@
+from datetime import timedelta
+
 import dj_database_url
+import redis
+import requests_cache
 
 from .base import *
 
@@ -30,6 +34,11 @@ DATABASES = {
     },
     'remote': dj_database_url.config(),
 }
+
+###############################################################################
+# Caches
+
+REQUESTS_CACHE_EXPIRE_AFTER = timedelta(minutes=5)
 
 ###############################################################################
 # Django Debug Toolbar

@@ -20,6 +20,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "python manage.py gendata"
+    "postdeploy": "python manage.py seed_data"
   }
 }

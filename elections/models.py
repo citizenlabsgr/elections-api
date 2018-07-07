@@ -16,6 +16,7 @@ class DistrictCategory(TimeStampedModel):
     name = models.CharField(max_length=50, unique=True)
 
     class Meta:
+        ordering = ['name']
         verbose_name_plural = "District Categories"
 
     def __str__(self) -> str:
@@ -31,6 +32,7 @@ class District(TimeStampedModel):
 
     class Meta:
         unique_together = ['category', 'name']
+        ordering = ['-population']
 
     def __str__(self) -> str:
         if self.category.name in ["Jurisdiction"]:
@@ -111,6 +113,7 @@ class Election(TimeStampedModel):
 
     class Meta:
         unique_together = ['date', 'name']
+        ordering = ['-date']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
@@ -169,13 +172,21 @@ class Ballot(TimeStampedModel):
 
     @property
     def mi_sos_url(self) -> str:
-        base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
-        params = f"d={self.poll.mi_sos_id}&ed={self.election.mi_sos_id}"
-        return f"{base}?{params}"
+        return self.build_mi_sos_url(
+            election_id=self.election.mi_sos_id, poll_id=self.poll.mi_sos_id
+        )
 
     @property
     def mi_sos_name(self) -> List[str]:
         return self.election.mi_sos_name + self.poll.mi_sos_name
+
+    @staticmethod
+    def build_mi_sos_url(election_id: int, poll_id: int) -> str:
+        assert election_id, "MI SOS election ID is missing"
+        assert poll_id, "MI SOS poll ID is missing"
+        base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
+        params = f"d={poll_id}&ed={election_id}"
+        return f"{base}?{params}"
 
     def update_mi_sos_html(self) -> bool:
         url = self.mi_sos_url

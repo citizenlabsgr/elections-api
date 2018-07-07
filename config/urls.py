@@ -1,9 +1,12 @@
+
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 
 from rest_framework_swagger.views import get_swagger_view
+
+from elections import helpers
 
 
 urlpatterns = [
@@ -21,3 +24,7 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls))
     ] + urlpatterns
+
+
+if settings.REQUESTS_CACHE_EXPIRE_AFTER:
+    helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
