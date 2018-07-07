@@ -16,9 +16,7 @@ MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 def enable_requests_cache(expire_after):
     connection = redis.from_url(os.environ['REDIS_URL'])
     requests_cache.install_cache(
-        backend='redis',
-        backend_options=dict(connection=connection),
-        expire_after=expire_after,
+        backend='redis', connection=connection, expire_after=expire_after
     )
 
 
