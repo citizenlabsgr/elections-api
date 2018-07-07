@@ -114,3 +114,14 @@ class Command(BaseCommand):
                 self.stdout.write(f"Added poll: {poll}")
             else:
                 self.stdout.write(f"Matched: poll: {poll}")
+
+            # Update ballot
+            ballot, created = models.Ballot.objects.get_or_create(
+                election=election, poll=poll
+            )
+            if created:
+                self.stdout.write(f"Added ballot: {ballot}")
+            else:
+                self.stdout.write(f"Matched ballot: {ballot}")
+            ballot.mi_sos_html = html
+            ballot.save()

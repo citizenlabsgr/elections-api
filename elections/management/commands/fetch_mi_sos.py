@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 import log
 
@@ -19,7 +22,9 @@ class Command(BaseCommand):
                 log.warn(f"No MI SOS ID for election: {election}")
                 continue
 
-            for poll in models.Poll.objects.all():
+            for poll in models.Poll.objects.filter(
+                modified__lt=timezone.now() - timedelta(hours=24)
+            ):
 
                 if not poll.mi_sos_id:
                     log.warn(f"No MI SOS ID for poll: {poll}")
