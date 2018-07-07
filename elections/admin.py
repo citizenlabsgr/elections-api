@@ -31,7 +31,9 @@ class DistrictAdmin(admin.ModelAdmin):
 @admin.register(models.Election)
 class ElectionAdmin(admin.ModelAdmin):
 
-    search_fields = ['name']
+    search_fields = ['name', 'mi_sos_id']
+
+    list_filter = ['active']
 
     list_display = [
         'id',
@@ -48,7 +50,13 @@ class ElectionAdmin(admin.ModelAdmin):
 @admin.register(models.Poll)
 class PollAdmin(admin.ModelAdmin):
 
-    search_fields = ['name']
+    search_fields = [
+        'county__name',
+        'jurisdiction__name',
+        'ward_number',
+        'precinct_number',
+        'mi_sos_id',
+    ]
 
     list_display = [
         'id',
