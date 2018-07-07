@@ -1,4 +1,5 @@
 import re
+from contextlib import suppress
 from typing import Optional
 
 from django.conf import settings
@@ -39,11 +40,16 @@ class Command(BaseCommand):
         misses = 0
         while misses < 3:
             poll_id += 1
+
+            with suppress(models.Poll.DoesNotExist):
+                poll = models.Poll.objects.get(mi_sos_id=poll_id)
+                log.debug(f"Poll already added: {poll}")
+                continue
+
+            # Fetch ballot
             url = models.Ballot.build_mi_sos_url(
                 election_id=election.mi_sos_id, poll_id=poll_id
             )
-
-            # Fetch ballot
             self.stdout.write(f"Fetching: {url}")
             response = requests.get(url)
             response.raise_for_status()
