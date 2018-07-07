@@ -35,9 +35,7 @@ class District(TimeStampedModel):
         ordering = ['-population']
 
     def __str__(self) -> str:
-        if self.category.name in ["Jurisdiction"]:
-            return self.name
-        return f"{self.name} {self.category}"
+        return self.name
 
 
 class RegistrationStatus(models.Model):
@@ -161,7 +159,7 @@ class Poll(TimeStampedModel):
         else:
             ward_precinct = f" Precinct {self.precinct_number}"
         return [
-            f"{self.county}, Michigan",
+            f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
         ]
 

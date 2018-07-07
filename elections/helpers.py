@@ -13,7 +13,7 @@ from memoize import memoize
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
 
 
-def enable_requests_cache(expire_after):
+def enable_requests_cache(expire_after):  # pragma: no cover
     connection = redis.from_url(os.environ['REDIS_URL'])
     requests_cache.install_cache(
         backend='redis', connection=connection, expire_after=expire_after

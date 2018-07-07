@@ -84,8 +84,8 @@ def describe_district_category():
 
 def describe_district():
     def describe_str():
-        def it_includes_the_name_and_category(expect, district):
-            expect(str(district)) == "Kent County"
+        def it_includes_the_name(expect, district):
+            expect(str(district)) == "Kent"
 
 
 def describe_election():
