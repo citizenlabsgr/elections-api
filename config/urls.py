@@ -1,13 +1,12 @@
-import os
 
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 
-import redis
-import requests_cache
 from rest_framework_swagger.views import get_swagger_view
+
+from elections import helpers
 
 
 urlpatterns = [
@@ -26,10 +25,6 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls))
     ] + urlpatterns
 
-if settings.EXPIRE_AFTER:
-    connection = redis.from_url(os.environ['REDIS_URL'])
-    requests_cache.install_cache(
-        backend='redis',
-        backend_options=dict(connection=connection),
-        expire_after=settings.EXPIRE_AFTER,
-    )
+
+if settings.REQUESTS_CACHE_EXPIRE_AFTER:
+    helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)

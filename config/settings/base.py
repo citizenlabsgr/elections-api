@@ -139,4 +139,4 @@ SWAGGER_SETTINGS = {
 ###############################################################################
 # Requests cache
 
-EXPIRE_AFTER = None
+REQUESTS_CACHE_EXPIRE_AFTER = None

@@ -1,12 +1,12 @@
 import re
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 import log
 import requests
-import requests_cache
 
-from elections import models
+from elections import helpers, models
 
 
 class Command(BaseCommand):
@@ -14,7 +14,8 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         log.init(reset=True)
-        requests_cache.core.remove_expired_responses()
+        helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
+        helpers.requests_cache.core.remove_expired_responses()
         self.discover_polls()
 
     def discover_polls(self):

@@ -1,14 +1,25 @@
+import os
 import re
 from pprint import pformat
 from typing import Optional
 
 import log
+import redis
 import requests
 import requests_cache
 from memoize import memoize
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
+
+
+def enable_requests_cache(expire_after):
+    connection = redis.from_url(os.environ['REDIS_URL'])
+    requests_cache.install_cache(
+        backend='redis',
+        backend_options=dict(connection=connection),
+        expire_after=expire_after,
+    )
 
 
 @memoize(timeout=60)

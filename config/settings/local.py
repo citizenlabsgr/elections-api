@@ -38,7 +38,7 @@ DATABASES = {
 ###############################################################################
 # Caches
 
-EXPIRE_AFTER = timedelta(minutes=5)
+REQUESTS_CACHE_EXPIRE_AFTER = timedelta(minutes=5)
 
 ###############################################################################
 # Django Debug Toolbar
