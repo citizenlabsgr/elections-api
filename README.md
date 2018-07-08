@@ -40,6 +40,6 @@ Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/s
 
 ## History
 
-**Version 0.0**
+**Version 0**
 
 - Coming soon...
