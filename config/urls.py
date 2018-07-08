@@ -15,7 +15,8 @@ schema_view = get_schema_view(
         title="Michigan Elections API",
         default_version='0',
         description="Voter registration status and ballots for Michigan.",
-    )
+    ),
+    url=settings.BASE_URL,
 )
 
 
