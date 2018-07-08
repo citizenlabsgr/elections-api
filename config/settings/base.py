@@ -129,7 +129,11 @@ REST_FRAMEWORK = {
 ###############################################################################
 # Swagger
 
-SWAGGER_SETTINGS = {'USE_SESSION_AUTH': False, 'SECURITY_DEFINITIONS': {}}
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {},
+    'DEFAULT_MODEL_RENDERING': 'example',
+}
 
 ###############################################################################
 # Requests cache
