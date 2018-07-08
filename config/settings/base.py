@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     # Third party
     'memoize',
     'rest_framework',
-    'rest_framework_swagger',
+    'drf_yasg',
     'django_filters',
     # First party
     'elections',
@@ -120,21 +120,15 @@ GRAPPELLI_ADMIN_TITLE = "Michigan Elections Admin"
 # Django REST Framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_VERSION': '0.0',
-    'ALLOWED_VERSIONS': ['0.0'],
+    'DEFAULT_VERSION': '0',
+    'ALLOWED_VERSIONS': ['0'],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
 }
 
 ###############################################################################
-# Django REST Swagger
+# Swagger
 
-SWAGGER_SETTINGS = {
-    'USE_SESSION_AUTH': False,
-    'SECURITY_DEFINITIONS': None,
-    'ACCEPT_HEADER_VERSION': '0.0',
-    'DOC_EXPANSION': 'list',
-}
-
+SWAGGER_SETTINGS = {'USE_SESSION_AUTH': False, 'SECURITY_DEFINITIONS': {}}
 
 ###############################################################################
 # Requests cache
