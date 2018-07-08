@@ -134,7 +134,7 @@ class Poll(TimeStampedModel):
     jurisdiction = models.ForeignKey(
         District, related_name='jurisdictions', on_delete=models.CASCADE
     )
-    ward_number = models.PositiveIntegerField(null=True)
+    ward_number = models.PositiveIntegerField()
     precinct_number = models.PositiveIntegerField()
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
@@ -162,10 +162,6 @@ class Poll(TimeStampedModel):
             f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
         ]
-
-    def save(self, *args, **kwargs):
-        self.ward_number = self.ward_number or None  # Convert 0 to NULL
-        super().save(*args, **kwargs)
 
 
 class Ballot(TimeStampedModel):
