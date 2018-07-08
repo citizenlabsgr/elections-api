@@ -1,3 +1,5 @@
+import bugsnag
+
 from .base import *
 
 
@@ -34,3 +36,8 @@ CACHES = {
         'LOCATION': '.cache/django',
     }
 }
+
+###############################################################################
+# Bugsnag
+
+bugsnag.configure(release_stage='test')

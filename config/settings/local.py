@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+import bugsnag
 import dj_database_url
 import redis
 import requests_cache
@@ -47,3 +48,8 @@ REQUESTS_CACHE_EXPIRE_AFTER = timedelta(minutes=5)
 INTERNAL_IPS = ['127.0.0.1']
 
 DEBUG_TOOLBAR_CONFIG = {'SHOW_COLLAPSED': True}
+
+###############################################################################
+# Bugsnag
+
+bugsnag.configure(release_stage='local')

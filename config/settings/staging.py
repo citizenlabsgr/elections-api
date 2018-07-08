@@ -1,5 +1,7 @@
 import os
 
+import bugsnag
+
 from .production import *
 
 
@@ -15,3 +17,8 @@ BASE_URL = f"https://{BASE_DOMAIN}"
 # Core
 
 ALLOWED_HOSTS += ['.herokuapp.com', '.michiganelections.io']
+
+###############################################################################
+# Bugsnag
+
+bugsnag.configure(release_stage='staging')

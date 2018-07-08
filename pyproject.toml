@@ -31,6 +31,7 @@ requests_cache = "*"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
+bugsnag = "^3.4"
 
 [tool.poetry.dev-dependencies]
 

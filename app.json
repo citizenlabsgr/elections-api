@@ -9,6 +9,9 @@
     }
   ],
   "env": {
+    "BUGSNAG_API_KEY": {
+      "required": true
+    },
     "DJANGO_SETTINGS_MODULE": {
       "required": true
     },
