@@ -1,6 +1,5 @@
 import re
 from contextlib import suppress
-from typing import Optional
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -67,7 +66,6 @@ class Command(BaseCommand):
             county_name = match.group('county_name')
 
             # Find jurisdiction, ward, and precinct
-            ward_number: Optional[int] = None
             match = re.search(
                 r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) Precinct (?P<precinct_number>\d+)',
                 html,
@@ -75,6 +73,7 @@ class Command(BaseCommand):
             if match:
                 ward_number = int(match.group('ward_number'))
             else:
+                ward_number = 0
                 match = re.search(
                     r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)',
                     html,
