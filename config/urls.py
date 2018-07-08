@@ -1,13 +1,21 @@
 
 from django.conf import settings
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import include, path
-from django.views.generic.base import TemplateView
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from elections import helpers
+
+
+def index(request):
+    return render(
+        request,
+        'index.html',
+        {'BASE_URL': settings.BASE_URL, 'BASE_DOMAIN': settings.BASE_DOMAIN},
+    )
 
 
 schema_view = get_schema_view(
@@ -25,7 +33,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('grappelli/', include('grappelli.urls')),
     path('docs/', schema_view.with_ui('swagger')),
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('', index),
 ]
 
 

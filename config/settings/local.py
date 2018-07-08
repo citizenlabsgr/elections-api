@@ -7,8 +7,9 @@ import requests_cache
 from .base import *
 
 
-BASE_NAME = BASE_DOMAIN = 'localhost'
-BASE_URL = f"http://{BASE_DOMAIN}:8000"
+BASE_NAME = 'localhost'
+BASE_DOMAIN = f"{BASE_NAME}:8000"
+BASE_URL = f"http://{BASE_DOMAIN}"
 
 ###############################################################################
 # Core

@@ -19,9 +19,9 @@ These examples use [HTTPie](https://httpie.org/) for brevity, but the interactiv
 Check your registration status and fetch the districts you vote in:
 
 ```
-$ http GET https://michiganelections.io/api/registrations/ \
-  "Accept: application/json; version=0" \
-  first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
+http GET https://michiganelections.io/api/registrations/ \
+"Accept: application/json; version=0" \
+first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
 ```
 
 ### Sample Ballot
@@ -29,14 +29,14 @@ $ http GET https://michiganelections.io/api/registrations/ \
 Get a link to your sample ballot:
 
 ```
-$ http GET https://michiganelections.io/api/ballots/ \
-  "Accept: application/json; version=0" \
-  county==Kent jurisdiction=="City of Grand Rapids" ward==1 precinct==9
+http GET https://michiganelections.io/api/ballots/ \
+"Accept: application/json; version=0" \
+county==Kent jurisdiction=="City of Grand Rapids" ward==1 precinct==9
 ```
 
 ## Documentation
 
-Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found [here](https://michiganelections.io/docs).
+Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be views at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
 
 ## History
 
