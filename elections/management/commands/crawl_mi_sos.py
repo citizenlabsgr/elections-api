@@ -117,7 +117,7 @@ class Command(BaseCommand):
         match = None
         for pattern in [
             r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) Precinct (?P<precinct_number>\d+)<',
-            r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)<',
+            r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)W?<',
             r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) <',
         ]:
             match = re.search(pattern, html)
