@@ -38,8 +38,10 @@ county==Kent jurisdiction=="City of Grand Rapids" ward==1 precinct==9
 
 Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be views at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
 
+Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
+
 ## History
 
-**Version 0**
+**Version 0.0.0**
 
 - Coming soon...
