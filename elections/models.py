@@ -152,11 +152,18 @@ class Poll(TimeStampedModel):
 
     @property
     def mi_sos_name(self) -> List[str]:
-        if self.ward_number:
+        if self.ward_number and self.precinct_number:
             ward_precinct = (
                 f"Ward {self.ward_number} Precinct {self.precinct_number}"
             )
+        elif self.ward_number:
+            # Extra space is intentional to match the MI SOS website format
+            ward_precinct = f"Ward {self.ward_number} "
         else:
+            assert (
+                self.precinct_number
+            ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"
+            # Extra space is intentional to match the MI SOS website format
             ward_precinct = f" Precinct {self.precinct_number}"
         return [
             f"{self.county} County, Michigan",

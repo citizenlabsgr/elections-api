@@ -101,8 +101,14 @@ def describe_poll():
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
 
+        def when_ward_only(expect, poll):
+            poll.precinct_number = 0
+            expect(
+                str(poll)
+            ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 "
+
         def when_precinct_only(expect, poll):
-            poll.ward_number = None
+            poll.ward_number = 0
             expect(
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"

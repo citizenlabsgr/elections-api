@@ -66,22 +66,9 @@ class Command(BaseCommand):
             county_name = match.group('county_name')
 
             # Find jurisdiction, ward, and precinct
-            match = re.search(
-                r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) Precinct (?P<precinct_number>\d+)',
-                html,
+            jurisdiction_name, ward_number, precinct_number = self.parse_jurisdiction(
+                html, url
             )
-            if match:
-                ward_number = int(match.group('ward_number'))
-            else:
-                ward_number = 0
-                match = re.search(
-                    r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)',
-                    html,
-                )
-                assert match, f"Unable to find precinct information: {url}"
-
-            jurisdiction_name = match.group('jurisdiction_name')
-            precinct_number = int(match.group('precinct_number'))
 
             # Update county
             county, created = models.District.objects.get_or_create(
@@ -124,3 +111,30 @@ class Command(BaseCommand):
                 self.stdout.write(f"Matched ballot: {ballot}")
             ballot.mi_sos_html = html
             ballot.save()
+
+    @staticmethod
+    def parse_jurisdiction(html, url):
+        match = None
+        for pattern in [
+            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) Precinct (?P<precinct_number>\d+)<',
+            r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)<',
+            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) <',
+        ]:
+            match = re.search(pattern, html)
+            if match:
+                break
+        assert match, f"Unable to find precinct information: {url}"
+
+        jurisdiction_name = match.group('jurisdiction_name')
+
+        try:
+            ward_number = int(match.group('ward_number'))
+        except IndexError:
+            ward_number = 0
+
+        try:
+            precinct_number = int(match.group('precinct_number'))
+        except IndexError:
+            precinct_number = 0
+
+        return jurisdiction_name, ward_number, precinct_number
