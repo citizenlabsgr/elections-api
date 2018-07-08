@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . import models
+from . import fields, models
 
 
 class VoterSerializer(serializers.ModelSerializer):
@@ -51,6 +51,7 @@ class PollSerializer(serializers.HyperlinkedModelSerializer):
 
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
+    ward_number = fields.NullIntegerField()
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):

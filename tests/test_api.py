@@ -1,5 +1,7 @@
 # pylint: disable=unused-argument,unused-variable
 
+from . import factories
+
 
 def describe_registrations():
     def with_valid_identity(expect, client, db):
@@ -109,3 +111,27 @@ def describe_registrations():
                 ],
             }
         ]
+
+
+def describe_polls():
+    def when_no_ward(expect, client, db):
+        poll = factories.PollFactory.create()
+        poll.county.name = "Marquette"
+        poll.county.save()
+        poll.jurisdiction.name = "Forsyth Township"
+        poll.jurisdiction.save()
+        poll.ward_number = 0
+        poll.precinct_number = 3
+        poll.save()
+
+        response = client.get(f"/api/polls/{poll.id}/")
+
+        expect(response.status_code) == 200
+        expect(response.data) == {
+            'url': 'http://testserver/api/polls/1/',
+            'id': 1,
+            'county': 'Marquette',
+            'jurisdiction': 'Forsyth Township',
+            'ward_number': None,
+            'precinct_number': 3,
+        }
