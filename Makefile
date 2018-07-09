@@ -67,7 +67,8 @@ migrations: install
 data: install
 	poetry run python manage.py migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py fetch_mi_sos
+	poetry run python manage.py crawl_mi_sos --start=1828 --limit=1
+	poetry run python manage.py fetch_mi_sos --limit=1
 
 .PHONY: reset
 reset: install
