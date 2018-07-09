@@ -25,6 +25,8 @@ INSTALLED_APPS += ['django_extensions', 'livereload', 'debug_toolbar']
 MIDDLEWARE += ['livereload.middleware.LiveReloadScript']
 MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
+LOGGING['loggers']['elections']['level'] = 'DEBUG'
+
 ###############################################################################
 # Databases
 

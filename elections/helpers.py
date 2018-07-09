@@ -20,7 +20,7 @@ def enable_requests_cache(expire_after):  # pragma: no cover
     )
 
 
-@memoize(timeout=60)
+@memoize(timeout=60 * 15)
 def fetch_registration_status_data(voter):
 
     # GET form tokens

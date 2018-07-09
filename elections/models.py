@@ -75,19 +75,25 @@ class Voter(models.Model):
         data = helpers.fetch_registration_status_data(self)
 
         districts: List[District] = []
-        for category_name, district_name in sorted(data["districts"].items()):
+        for category_name, district_name in sorted(data['districts'].items()):
             if not (category_name and district_name):
+                log.warn("Skipped blank MI SOS district")
                 continue
+
             category, created = DistrictCategory.objects.get_or_create(
                 name=category_name
             )
             if created:
                 log.info(f"New category: {category}")
+
+            if category.name == "County":
+                district_name = district_name.replace(" County", "")
             district, created = District.objects.get_or_create(
                 category=category, name=district_name
             )
             if created:
                 log.info(f"New district: {district}")
+
             districts.append(district)
 
         status = RegistrationStatus(registered=data['registered'])

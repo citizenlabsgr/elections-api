@@ -34,7 +34,7 @@ def describe_registrations():
                         'url': 'http://testserver/api/districts/3/',
                         'id': 3,
                         'category': 'County',
-                        'name': 'Kent County',
+                        'name': 'Kent',
                     },
                     {
                         'url': 'http://testserver/api/districts/4/',
