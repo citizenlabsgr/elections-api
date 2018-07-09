@@ -134,4 +134,5 @@ def describe_polls():
             'jurisdiction': 'Forsyth Township',
             'ward_number': None,
             'precinct_number': 3,
+            'precinct_letter': None,
         }

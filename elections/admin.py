@@ -55,6 +55,7 @@ class PollAdmin(admin.ModelAdmin):
         'jurisdiction__name',
         'ward_number',
         'precinct_number',
+        'precinct_letter',
         'mi_sos_id',
     ]
 
@@ -64,6 +65,7 @@ class PollAdmin(admin.ModelAdmin):
         'jurisdiction',
         'ward_number',
         'precinct_number',
+        'precinct_letter',
         'mi_sos_id',
         'created',
         'modified',

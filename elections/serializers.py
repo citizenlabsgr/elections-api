@@ -47,12 +47,14 @@ class PollSerializer(serializers.HyperlinkedModelSerializer):
             'jurisdiction',
             'ward_number',
             'precinct_number',
+            'precinct_letter',
         ]
 
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
     ward_number = fields.NullIntegerField()
     precinct_number = fields.NullIntegerField()
+    precinct_letter = fields.NullCharField()
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):

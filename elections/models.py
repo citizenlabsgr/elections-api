@@ -136,6 +136,7 @@ class Poll(TimeStampedModel):
     )
     ward_number = models.PositiveIntegerField()
     precinct_number = models.PositiveIntegerField()
+    precinct_letter = models.CharField(max_length=1, blank=True)
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
@@ -145,6 +146,7 @@ class Poll(TimeStampedModel):
             'jurisdiction',
             'ward_number',
             'precinct_number',
+            'precinct_letter',
         ]
 
     def __str__(self) -> str:
@@ -164,7 +166,9 @@ class Poll(TimeStampedModel):
                 self.precinct_number
             ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"
             # Extra space is intentional to match the MI SOS website format
-            ward_precinct = f" Precinct {self.precinct_number}"
+            ward_precinct = (
+                f" Precinct {self.precinct_number}{self.precinct_letter}"
+            )
         return [
             f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
