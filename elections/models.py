@@ -38,73 +38,6 @@ class District(TimeStampedModel):
         return self.name
 
 
-class RegistrationStatus(models.Model):
-    """Status of a particular voter's registration."""
-
-    registered = models.BooleanField()
-    districts: List[District] = []
-
-    def save(self, *args, **kwargs):
-        raise NotImplementedError
-
-
-class Voter(models.Model):
-    """Data needed to look up Michigan voter registration status."""
-
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    birth_date = models.DateField()
-    zip_code = models.CharField(max_length=10)
-
-    def __repr__(self) -> str:
-        birth = pendulum.parse(str(self.birth_date)).format("YYYY-MM-DD")
-        return f"<voter: {self}, birth={birth}, zip={self.zip_code}>"
-
-    def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"
-
-    @property
-    def birth_month(self) -> str:
-        return pendulum.parse(str(self.birth_date)).format("MMMM")
-
-    @property
-    def birth_year(self) -> int:
-        return self.birth_date.year
-
-    def fetch_registration_status(self) -> RegistrationStatus:
-        data = helpers.fetch_registration_status_data(self)
-
-        districts: List[District] = []
-        for category_name, district_name in sorted(data['districts'].items()):
-            if not (category_name and district_name):
-                log.warn("Skipped blank MI SOS district")
-                continue
-
-            category, created = DistrictCategory.objects.get_or_create(
-                name=category_name
-            )
-            if created:
-                log.info(f"New category: {category}")
-
-            if category.name == "County":
-                district_name = district_name.replace(" County", "")
-            district, created = District.objects.get_or_create(
-                category=category, name=district_name
-            )
-            if created:
-                log.info(f"New district: {district}")
-
-            districts.append(district)
-
-        status = RegistrationStatus(registered=data['registered'])
-        status.districts = districts
-
-        return status
-
-    def save(self, *args, **kwargs):
-        raise NotImplementedError
-
-
 class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
@@ -179,6 +112,105 @@ class Poll(TimeStampedModel):
             f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
         ]
+
+
+class RegistrationStatus(models.Model):
+    """Status of a particular voter's registration."""
+
+    registered = models.BooleanField()
+    poll = models.ForeignKey(Poll, null=True, on_delete=models.SET_NULL)
+    districts: List[
+        District
+    ]  # Act like 'ManytoManyField', but this model is never saved
+
+    def save(self, *args, **kwargs):
+        raise NotImplementedError
+
+
+class Voter(models.Model):
+    """Data needed to look up Michigan voter registration status."""
+
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    birth_date = models.DateField()
+    zip_code = models.CharField(max_length=10)
+
+    def __repr__(self) -> str:
+        birth = pendulum.parse(str(self.birth_date)).format("YYYY-MM-DD")
+        return f"<voter: {self}, birth={birth}, zip={self.zip_code}>"
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def birth_month(self) -> str:
+        return pendulum.parse(str(self.birth_date)).format("MMMM")
+
+    @property
+    def birth_year(self) -> int:
+        return self.birth_date.year
+
+    def fetch_registration_status(self) -> RegistrationStatus:
+        data = helpers.fetch_registration_status_data(self)
+
+        districts: List[District] = []
+        county = jurisdiction = None
+
+        for category_name, district_name in sorted(data['districts'].items()):
+            if not (category_name and district_name):
+                log.warn("Skipped blank MI SOS district")
+                continue
+
+            if category_name in ["Ward", "Precinct"]:
+                log.debug(f"Skipped category: {category_name}")
+                continue
+
+            category, created = DistrictCategory.objects.get_or_create(
+                name=category_name
+            )
+            if created:
+                log.info(f"New category: {category}")
+
+            if category.name == "County":
+                district_name = district_name.replace(" County", "")
+            district, created = District.objects.get_or_create(
+                category=category, name=district_name
+            )
+            if created:
+                log.info(f"New district: {district}")
+
+            districts.append(district)
+
+            if district.category.name == "County":
+                county = district
+            if district.category.name == "Jurisdiction":
+                jurisdiction = district
+
+        assert all(
+            [
+                county,
+                jurisdiction,
+                data['districts']['Ward'],
+                data['districts']['Precinct'],
+            ]
+        ), f"Missing poll information: {data}"
+        poll, created = Poll.objects.get_or_create(
+            county=county,
+            jurisdiction=jurisdiction,
+            ward_number=int(data['districts']['Ward']),
+            precinct_number=int(data['districts']['Precinct'][0]),
+            precinct_letter=data['districts']['Precinct'][1:],
+        )
+        if created:
+            log.info(f"New poll: {poll}")
+
+        status = RegistrationStatus(registered=data['registered'], poll=poll)
+        status.districts = districts
+
+        return status
+
+    def save(self, *args, **kwargs):
+        raise NotImplementedError
 
 
 class Ballot(TimeStampedModel):

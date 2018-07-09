@@ -13,13 +13,30 @@ from elections import helpers, models
 class Command(BaseCommand):
     help = "Crawl the Michigan SOS website to discover polls"
 
-    def handle(self, *_args, **_kwargs):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--start',
+            metavar='ID',
+            type=int,
+            dest='starting_poll_id',
+            default=1,
+            help='Initial MI SOS poll ID to start the crawl.',
+        )
+        parser.add_argument(
+            '--limit',
+            metavar='COUNT',
+            type=int,
+            dest='max_polls_count',
+            help='Number of polls to crawl before stopping. ',
+        )
+
+    def handle(self, starting_poll_id, max_polls_count, *_args, **_kwargs):
         log.init(reset=True)
         helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
         helpers.requests_cache.core.remove_expired_responses()
-        self.discover_polls()
+        self.discover_polls(starting_poll_id, max_polls_count)
 
-    def discover_polls(self):
+    def discover_polls(self, starting_poll_id, max_polls_count):
         election = models.Election.objects.exclude(mi_sos_id=None).first()
         self.stdout.write(f"Crawling polls for election: {election}")
 
@@ -35,10 +52,15 @@ class Command(BaseCommand):
         if created:
             log.warn(f"Created category: {jurisdiction_category}")
 
-        poll_id = 0
+        poll_id = starting_poll_id - 1
         misses = 0
         while misses < 3:
             poll_id += 1
+
+            count = models.Poll.objects.count()
+            if max_polls_count and count >= max_polls_count:
+                self.stdout.write(f"Stopping at {count} poll(s)")
+                return
 
             with suppress(models.Poll.DoesNotExist):
                 poll = models.Poll.objects.get(mi_sos_id=poll_id)

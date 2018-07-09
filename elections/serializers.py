@@ -23,14 +23,6 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.CharField()
 
 
-class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.RegistrationStatus
-        fields = ['registered', 'districts']
-
-    districts = DistrictSerializer(many=True)
-
-
 class ElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
@@ -64,3 +56,12 @@ class BallotSerializer(serializers.HyperlinkedModelSerializer):
 
     election = ElectionSerializer()
     poll = PollSerializer()
+
+
+class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.RegistrationStatus
+        fields = ['registered', 'poll', 'districts']
+
+    poll = PollSerializer()
+    districts = DistrictSerializer(many=True)

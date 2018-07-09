@@ -17,6 +17,15 @@ def describe_registrations():
         expect(response.data) == [
             {
                 'registered': True,
+                'poll': {
+                    'url': 'http://testserver/api/polls/1/',
+                    'id': 1,
+                    'county': 'Kent',
+                    'jurisdiction': 'City of Grand Rapids',
+                    'ward_number': 1,
+                    'precinct_number': 9,
+                    'precinct_letter': None,
+                },
                 'districts': [
                     {
                         'url': 'http://testserver/api/districts/1/',
@@ -69,44 +78,32 @@ def describe_registrations():
                     {
                         'url': 'http://testserver/api/districts/9/',
                         'id': 9,
-                        'category': 'Precinct',
-                        'name': '9',
-                    },
-                    {
-                        'url': 'http://testserver/api/districts/10/',
-                        'id': 10,
                         'category': 'Probate Court',
                         'name': 'Kent County Probate Court',
                     },
                     {
-                        'url': 'http://testserver/api/districts/11/',
-                        'id': 11,
+                        'url': 'http://testserver/api/districts/10/',
+                        'id': 10,
                         'category': 'School District',
                         'name': 'Grand Rapids Public Schools',
                     },
                     {
-                        'url': 'http://testserver/api/districts/12/',
-                        'id': 12,
+                        'url': 'http://testserver/api/districts/11/',
+                        'id': 11,
                         'category': 'State House District',
                         'name': '75th District',
                     },
                     {
-                        'url': 'http://testserver/api/districts/13/',
-                        'id': 13,
+                        'url': 'http://testserver/api/districts/12/',
+                        'id': 12,
                         'category': 'State Senate District',
                         'name': '29th District',
                     },
                     {
-                        'url': 'http://testserver/api/districts/14/',
-                        'id': 14,
+                        'url': 'http://testserver/api/districts/13/',
+                        'id': 13,
                         'category': 'US Congress District',
                         'name': '3rd District',
-                    },
-                    {
-                        'url': 'http://testserver/api/districts/15/',
-                        'id': 15,
-                        'category': 'Ward',
-                        'name': '1',
                     },
                 ],
             }
@@ -128,8 +125,8 @@ def describe_polls():
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            'url': 'http://testserver/api/polls/1/',
-            'id': 1,
+            'url': 'http://testserver/api/polls/2/',
+            'id': 2,
             'county': 'Marquette',
             'jurisdiction': 'Forsyth Township',
             'ward_number': None,
