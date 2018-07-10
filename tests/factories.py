@@ -34,11 +34,6 @@ class PollFactory(factory.django.DjangoModelFactory):
 
     mi_sos_id = 1111
 
-    # TODO: Remove
-    ward_number = 999
-    precinct_number = 999
-    precinct_letter = '__'
-
 
 class ElectionFactory(factory.django.DjangoModelFactory):
     class Meta:

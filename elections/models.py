@@ -76,22 +76,10 @@ class Poll(TimeStampedModel):
     ward = models.CharField(max_length=2, blank=True)
     precinct = models.CharField(max_length=3, blank=True)
 
-    # TODO: Delete
-    ward_number = models.PositiveIntegerField(null=True)
-    precinct_number = models.PositiveIntegerField(null=True)
-    precinct_letter = models.CharField(null=True, max_length=2)
-
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = [
-            'county',
-            'jurisdiction',
-            'ward',
-            # TODO: Combine these
-            'precinct_number',
-            'precinct_letter',
-        ]
+        unique_together = ['county', 'jurisdiction', 'ward', 'precinct']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)

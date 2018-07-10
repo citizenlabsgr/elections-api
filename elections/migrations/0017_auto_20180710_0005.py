@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('elections', '0016_auto_20180709_2338'),
-    ]
+    dependencies = [('elections', '0016_auto_20180709_2338')]
 
     operations = [
         migrations.AlterField(
@@ -27,6 +25,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='poll',
-            unique_together={('county', 'jurisdiction', 'ward', 'precinct_number', 'precinct_letter')},
+            unique_together={
+                (
+                    'county',
+                    'jurisdiction',
+                    'ward',
+                    'precinct_number',
+                    'precinct_letter',
+                )
+            },
         ),
     ]

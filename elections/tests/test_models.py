@@ -113,13 +113,6 @@ def describe_poll():
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"
 
-        def when_precinct_letter(expect, poll):
-            poll.ward = 0
-            poll.precinct = '9A'
-            expect(
-                str(poll)
-            ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9A"
-
 
 def describe_ballot():
     def describe_str():
