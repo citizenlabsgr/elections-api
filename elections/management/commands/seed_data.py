@@ -97,8 +97,8 @@ class Command(BaseCommand):
         poll, _ = models.Poll.objects.get_or_create(
             county=kent,
             jurisdiction=grand_rapids,
-            ward_number=1,
-            precinct_number=9,
+            ward=1,
+            precinct='9',
             mi_sos_id=1828,
         )
         self.stdout.write(f"Added poll: {poll}")

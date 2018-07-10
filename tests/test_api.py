@@ -1,16 +1,18 @@
 # pylint: disable=unused-argument,unused-variable
 
+import pytest
+
 from . import factories
 
 
 def describe_registrations():
     def with_valid_identity(expect, client, db):
         response = client.get(
-            "/api/registrations/"
-            "?first_name=Jace"
-            "&last_name=Browning"
-            "&birth_date=1987-06-02"
-            "&zip_code=49503"
+            '/api/registrations/'
+            '?first_name=Jace'
+            '&last_name=Browning'
+            '&birth_date=1987-06-02'
+            '&zip_code=49503'
         )
 
         expect(response.status_code) == 200
@@ -22,9 +24,8 @@ def describe_registrations():
                     'id': 1,
                     'county': 'Kent',
                     'jurisdiction': 'City of Grand Rapids',
-                    'ward_number': 1,
-                    'precinct_number': 9,
-                    'precinct_letter': None,
+                    'ward': '1',
+                    'precinct': '9',
                 },
                 'districts': [
                     {
@@ -111,25 +112,73 @@ def describe_registrations():
 
 
 def describe_polls():
-    def when_no_ward(expect, client, db):
-        poll = factories.PollFactory.create()
-        poll.county.name = "Marquette"
-        poll.county.save()
-        poll.jurisdiction.name = "Forsyth Township"
-        poll.jurisdiction.save()
-        poll.ward_number = 0
-        poll.precinct_number = 3
-        poll.save()
+    @pytest.fixture
+    def url():
+        return '/api/polls/'
 
-        response = client.get(f"/api/polls/{poll.id}/")
+    def describe_detail():
+        @pytest.fixture
+        def poll(db):
+            poll = factories.PollFactory.create()
+            poll.county.name = "Marquette"
+            poll.county.save()
+            poll.jurisdiction.name = "Forsyth Township"
+            poll.jurisdiction.save()
+            poll.ward = ''
+            poll.precinct = '3'
+            poll.save()
+            return poll
 
-        expect(response.status_code) == 200
-        expect(response.data) == {
-            'url': 'http://testserver/api/polls/2/',
-            'id': 2,
-            'county': 'Marquette',
-            'jurisdiction': 'Forsyth Township',
-            'ward_number': None,
-            'precinct_number': 3,
-            'precinct_letter': None,
-        }
+        def when_no_ward(expect, client, url, poll):
+            response = client.get(f'{url}{poll.id}/')
+
+            expect(response.status_code) == 200
+            expect(response.data) == {
+                'url': 'http://testserver/api/polls/2/',
+                'id': 2,
+                'county': 'Marquette',
+                'jurisdiction': 'Forsyth Township',
+                'ward': None,
+                'precinct': '3',
+            }
+
+
+def describe_ballots():
+    @pytest.fixture
+    def url():
+        return '/api/ballots/'
+
+    def describe_list():
+        @pytest.fixture
+        def ballot(db):
+            ballot = factories.BallotFactory.create()
+            ballot.poll.precinct = '1A'
+            ballot.poll.save()
+            return ballot
+
+        def filter_by_precinct_with_letter(expect, client, url, ballot):
+            response = client.get(url + '?precinct=1A')
+
+            expect(response.status_code) == 200
+            expect(response.data) == [
+                {
+                    'url': 'http://testserver/api/ballots/1/',
+                    'id': 1,
+                    'election': {
+                        'url': 'http://testserver/api/elections/1/',
+                        'id': 1,
+                        'name': '',
+                        'date': '2018-08-07',
+                        'reference_url': None,
+                    },
+                    'poll': {
+                        'url': 'http://testserver/api/polls/3/',
+                        'id': 3,
+                        'county': '',
+                        'jurisdiction': '',
+                        'ward': '2',
+                        'precinct': '1A',
+                    },
+                    'mi_sos_url': 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1111&ed=2222',
+                }
+            ]

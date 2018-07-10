@@ -53,9 +53,8 @@ class PollAdmin(admin.ModelAdmin):
     search_fields = [
         'county__name',
         'jurisdiction__name',
-        'ward_number',
-        'precinct_number',
-        'precinct_letter',
+        'ward',
+        'precinct',
         'mi_sos_id',
     ]
 
@@ -63,9 +62,8 @@ class PollAdmin(admin.ModelAdmin):
         'id',
         'county',
         'jurisdiction',
-        'ward_number',
-        'precinct_number',
-        'precinct_letter',
+        'ward',
+        'precinct',
         'mi_sos_id',
         'created',
         'modified',

@@ -14,9 +14,9 @@ class PollFilter(filters.FilterSet):
 
     # Value lookup
     county = filters.CharFilter(name='county__name')
-    jurisdiction = filters.CharFilter(name='urisdiction__name')
-    ward = filters.CharFilter(name='ward_number')
-    precinct = filters.CharFilter(name='precinct_number')
+    jurisdiction = filters.CharFilter(name='jurisdiction__name')
+    ward = filters.CharFilter(name='ward')
+    precinct = filters.CharFilter(name='precinct')
 
     class Meta:
         model = models.Poll
@@ -40,8 +40,8 @@ class BallotFilter(filters.FilterSet):
     # Value lookup
     county = filters.CharFilter(name='poll__county__name')
     jurisdiction = filters.CharFilter(name='poll__jurisdiction__name')
-    ward = filters.CharFilter(name='poll__ward_number')
-    precinct = filters.CharFilter(name='poll__precinct_number')
+    ward = filters.CharFilter(name='poll__ward')
+    precinct = filters.CharFilter(name='poll__precinct')
 
     class Meta:
         model = models.Ballot

@@ -88,7 +88,7 @@ class Command(BaseCommand):
             county_name = match.group('county_name')
 
             # Find jurisdiction, ward, and precinct
-            jurisdiction_name, ward_number, precinct_number, precinct_letter = self.parse_jurisdiction(
+            jurisdiction_name, ward, precinct = self.parse_jurisdiction(
                 html, url
             )
 
@@ -114,9 +114,8 @@ class Command(BaseCommand):
             poll, created = models.Poll.objects.update_or_create(
                 county=county,
                 jurisdiction=jurisdiction,
-                ward_number=ward_number,
-                precinct_number=precinct_number,
-                precinct_letter=precinct_letter,
+                ward=ward,
+                precinct=precinct,
                 defaults=dict(mi_sos_id=poll_id),
             )
             if created:
@@ -139,9 +138,9 @@ class Command(BaseCommand):
     def parse_jurisdiction(html, url):
         match = None
         for pattern in [
-            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) Precinct (?P<precinct_number>\d+)<',
-            r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct_number>\d+)(?P<precinct_letter>[A-Z]?)<',
-            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward_number>\d+) <',
+            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward>\d+) Precinct (?P<precinct>\d+)<',
+            r'(?P<jurisdiction_name>[^>]+),  Precinct (?P<precinct>\d+[A-Z]?)<',
+            r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward>\d+) <',
         ]:
             match = re.search(pattern, html)
             if match:
@@ -151,23 +150,13 @@ class Command(BaseCommand):
         jurisdiction_name = match.group('jurisdiction_name')
 
         try:
-            ward_number = int(match.group('ward_number'))
+            ward = int(match.group('ward'))
         except IndexError:
-            ward_number = 0
+            ward = 0
 
         try:
-            precinct_number = int(match.group('precinct_number'))
+            precinct = match.group('precinct')
         except IndexError:
-            precinct_number = 0
+            precinct = ''
 
-        try:
-            precinct_letter = match.group('precinct_letter')
-        except IndexError:
-            precinct_letter = ''
-
-        return (
-            jurisdiction_name,
-            ward_number,
-            precinct_number,
-            precinct_letter,
-        )
+        return (jurisdiction_name, ward, precinct)
