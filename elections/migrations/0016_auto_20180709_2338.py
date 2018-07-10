@@ -38,31 +38,4 @@ class Migration(migrations.Migration):
             field=models.CharField(blank=True, max_length=2),
         ),
         migrations.RunPython(combine_precinct_number_and_letter),
-        migrations.AlterField(
-            model_name='poll',
-            name='precinct_letter',
-            field=models.CharField(max_length=2, null=True),
-        ),
-        migrations.AlterField(
-            model_name='poll',
-            name='precinct_number',
-            field=models.PositiveIntegerField(null=True),
-        ),
-        migrations.AlterField(
-            model_name='poll',
-            name='ward_number',
-            field=models.PositiveIntegerField(null=True),
-        ),
-        migrations.AlterUniqueTogether(
-            name='poll',
-            unique_together={
-                (
-                    'county',
-                    'jurisdiction',
-                    'ward',
-                    'precinct_number',
-                    'precinct_letter',
-                )
-            },
-        ),
     ]
