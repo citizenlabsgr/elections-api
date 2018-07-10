@@ -5,13 +5,11 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('elections', '0001_initial'),
-    ]
+    dependencies = [('elections', '0001_initial')]
 
     operations = [
         migrations.AlterUniqueTogether(
             name='poll',
             unique_together={('county', 'jurisdiction', 'ward', 'precinct')},
-        ),
+        )
     ]

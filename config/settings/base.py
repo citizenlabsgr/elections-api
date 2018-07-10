@@ -126,6 +126,8 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSION': '0',
     'ALLOWED_VERSIONS': ['0'],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
 }
 
 ###############################################################################
