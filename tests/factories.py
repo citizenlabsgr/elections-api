@@ -1,4 +1,5 @@
 import factory
+import pendulum
 
 from elections import models
 
@@ -28,5 +29,29 @@ class PollFactory(factory.django.DjangoModelFactory):
 
     county = factory.SubFactory(CountyFactory)
     jurisdiction = factory.SubFactory(JurisdictionFactory)
-    ward_number = factory.Sequence(lambda n: n + 1)
-    precinct_number = factory.Sequence(lambda n: n + 1)
+    ward = factory.Sequence(lambda n: str(n + 1))
+    precinct = factory.Sequence(lambda n: str(n + 1))
+
+    mi_sos_id = 1111
+
+    # TODO: Remove
+    ward_number = 999
+    precinct_number = 999
+    precinct_letter = '__'
+
+
+class ElectionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Election
+
+    date = pendulum.parse('2018-08-07', tz='America/Detroit')
+
+    mi_sos_id = 2222
+
+
+class BallotFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Ballot
+
+    election = factory.SubFactory(ElectionFactory)
+    poll = factory.SubFactory(PollFactory)

@@ -73,9 +73,13 @@ class Poll(TimeStampedModel):
     jurisdiction = models.ForeignKey(
         District, related_name='jurisdictions', on_delete=models.CASCADE
     )
-    ward_number = models.PositiveIntegerField()
-    precinct_number = models.PositiveIntegerField()
-    precinct_letter = models.CharField(max_length=1, blank=True)
+    ward = models.CharField(max_length=2, blank=True)
+    precinct = models.CharField(max_length=3, blank=True)
+
+    # TODO: Delete
+    ward_number = models.PositiveIntegerField(null=True)
+    precinct_number = models.PositiveIntegerField(null=True)
+    precinct_letter = models.CharField(null=True, max_length=2)
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
@@ -83,7 +87,8 @@ class Poll(TimeStampedModel):
         unique_together = [
             'county',
             'jurisdiction',
-            'ward_number',
+            'ward',
+            # TODO: Combine these
             'precinct_number',
             'precinct_letter',
         ]
@@ -93,21 +98,17 @@ class Poll(TimeStampedModel):
 
     @property
     def mi_sos_name(self) -> List[str]:
-        if self.ward_number and self.precinct_number:
-            ward_precinct = (
-                f"Ward {self.ward_number} Precinct {self.precinct_number}"
-            )
-        elif self.ward_number:
+        if self.ward and self.precinct:
+            ward_precinct = f"Ward {self.ward} Precinct {self.precinct}"
+        elif self.ward:
             # Extra space is intentional to match the MI SOS website format
-            ward_precinct = f"Ward {self.ward_number} "
+            ward_precinct = f"Ward {self.ward} "
         else:
             assert (
-                self.precinct_number
+                self.precinct
             ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"
             # Extra space is intentional to match the MI SOS website format
-            ward_precinct = (
-                f" Precinct {self.precinct_number}{self.precinct_letter}"
-            )
+            ward_precinct = f" Precinct {self.precinct}"
         return [
             f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
@@ -197,9 +198,8 @@ class Voter(models.Model):
         poll, created = Poll.objects.get_or_create(
             county=county,
             jurisdiction=jurisdiction,
-            ward_number=int(data['districts']['Ward']),
-            precinct_number=int(data['districts']['Precinct'][0]),
-            precinct_letter=data['districts']['Precinct'][1:],
+            ward=int(data['districts']['Ward']),
+            precinct=data['districts']['Precinct'],
         )
         if created:
             log.info(f"New poll: {poll}")

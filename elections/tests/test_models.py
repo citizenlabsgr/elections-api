@@ -45,8 +45,8 @@ def poll(district):
     return models.Poll(
         county=county,
         jurisdiction=jurisdiction,
-        ward_number=1,
-        precinct_number=9,
+        ward=1,
+        precinct='9',
         mi_sos_id=1828,
     )
 
@@ -102,20 +102,20 @@ def describe_poll():
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
 
         def when_ward_only(expect, poll):
-            poll.precinct_number = 0
+            poll.precinct = ''
             expect(
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 "
 
         def when_precinct_only(expect, poll):
-            poll.ward_number = 0
+            poll.ward = 0
             expect(
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"
 
         def when_precinct_letter(expect, poll):
-            poll.ward_number = 0
-            poll.precinct_letter = 'A'
+            poll.ward = 0
+            poll.precinct = '9A'
             expect(
                 str(poll)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9A"
