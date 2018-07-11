@@ -10,6 +10,7 @@ from model_utils.models import TimeStampedModel
 from . import helpers
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html
 class DistrictCategory(TimeStampedModel):
     """Types of regions bound to ballot items."""
 
@@ -23,6 +24,7 @@ class DistrictCategory(TimeStampedModel):
         return self.name
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html
 class District(TimeStampedModel):
     """Districts bound to ballot items."""
 
@@ -38,6 +40,7 @@ class District(TimeStampedModel):
         return self.name
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html
 class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
@@ -64,6 +67,12 @@ class Election(TimeStampedModel):
         ]
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/polling_location.html
+# TODO: PollingLocation(TimestampedModel): ...
+
+
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html
+# TODO: Precinct(TimeStampedModel):
 class Poll(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
@@ -203,6 +212,7 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular polling location."""
 
@@ -267,16 +277,21 @@ class BallotItem(TimeStampedModel):
         unique_together = ['election', 'district', 'name']
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_selection.html
+# TODO: Considering adding selection options
 class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
 class Party(TimeStampedModel):
     """Affiliation for a particular candidate."""
 
     name = models.CharField(max_length=50)
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
 class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
 
@@ -288,6 +303,9 @@ class Candidate(TimeStampedModel):
     )
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
+# TODO: Consider splitting this up to match VIP
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
 
