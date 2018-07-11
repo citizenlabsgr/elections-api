@@ -7,8 +7,9 @@ import grip
 
 
 def run(input_markdown_path, output_html_path):
-    markdown = ""
 
+    # Clean up Markdown before conversion
+    markdown = ""
     with Path(input_markdown_path).open('r') as f:
         for line in f:
 
@@ -24,12 +25,24 @@ def run(input_markdown_path, output_html_path):
 
             markdown += line
 
-    html = grip.render_page(
+    # Convert Markdown to HTML
+    html = ""
+    for line in grip.render_page(
         text=markdown, title="README.md", render_inline=True
-    )
+    ).splitlines():
+
+        if 'octicons.css' in line:
+            continue
+        if '.css.map' in line:
+            continue
+
+        html += line + '\n'
+
+    # Restore template syntax
     html = html.replace('%7B%7B', '{{')
     html = html.replace('%7D%7D', '}}')
 
+    # Save the generated HTML
     with Path(output_html_path).open('w') as f:
         f.write(html)
 
