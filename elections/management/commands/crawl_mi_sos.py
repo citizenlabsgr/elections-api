@@ -54,7 +54,7 @@ class Command(BaseCommand):
 
         poll_id = starting_poll_id - 1
         misses = 0
-        while misses < 3:
+        while misses < 10:
             poll_id += 1
 
             count = models.Poll.objects.count()
