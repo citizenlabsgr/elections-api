@@ -37,9 +37,11 @@ class Command(BaseCommand):
         self.discover_polls(starting_poll_id, max_polls_count)
 
     def discover_polls(self, starting_poll_id, max_polls_count):
-        election = models.Election.objects.exclude(
-            active=False, mi_sos_id=None
-        ).first()
+        election = (
+            models.Election.objects.filter(active=True)
+            .exclude(mi_sos_id=None)
+            .first()
+        )
         self.stdout.write(f"Crawling polls for election: {election}")
 
         county_cateogry, created = models.DistrictCategory.objects.get_or_create(
