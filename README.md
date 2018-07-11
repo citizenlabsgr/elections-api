@@ -16,7 +16,7 @@ These examples use [HTTPie](https://httpie.org/) for brevity, but the interactiv
 
 ### Registration Status
 
-Check your registration status and fetch the districts you vote in:
+Check your registration status and fetch your voting precinct:
 
 ```
 http GET https://michiganelections.io/api/registrations/ \
@@ -24,9 +24,9 @@ http GET https://michiganelections.io/api/registrations/ \
 first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
 ```
 
-### Sample Ballot
+### Sample Ballots
 
-Get a link to your sample ballot:
+Get a link to your sample ballot for upcoming elections:
 
 ```
 http GET https://michiganelections.io/api/ballots/ \

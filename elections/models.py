@@ -54,7 +54,7 @@ class Election(TimeStampedModel):
 
     class Meta:
         unique_together = ['date', 'name']
-        ordering = ['-date']
+        ordering = ['date']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
@@ -220,6 +220,9 @@ class Ballot(TimeStampedModel):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
     mi_sos_html = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['election__date']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)

@@ -26,7 +26,6 @@ class Command(BaseCommand):
 
     def fetch_ballots_html(self, max_ballots_count):
         for election in models.Election.objects.filter(active=True):
-            print(election)
 
             if not election.mi_sos_id:
                 log.warn(f"No MI SOS ID for election: {election}")

@@ -173,7 +173,7 @@ def describe_ballots():
             return ballot
 
         def filter_by_precinct_with_letter(expect, client, url, ballot):
-            response = client.get(url + '?precinct=1A')
+            response = client.get(url + f'?precinct={ballot.poll.precinct}')
 
             expect(response.status_code) == 200
             expect(response.data['results']) == [
@@ -198,3 +198,14 @@ def describe_ballots():
                     'mi_sos_url': 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1111&ed=2222',
                 }
             ]
+
+        def filter_by_election(expect, client, url, ballot):
+            response = client.get(url + '?election_id=999')
+
+            expect(response.status_code) == 200
+            expect(response.data['count']) == 0
+
+            response = client.get(url + f'?election_id={ballot.election.id}')
+
+            expect(response.status_code) == 200
+            expect(response.data['count']) == 1

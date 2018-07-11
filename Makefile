@@ -27,7 +27,7 @@ pyproject.lock: pyproject.toml
 ###############################################################################
 
 .PHONY: run
-run: install
+run: install migrate
 	poetry run python manage.py runserver
 
 ###############################################################################
@@ -63,12 +63,15 @@ watch: install
 migrations: install
 	poetry run python manage.py makemigrations
 
-.PHONY: data
-data: install
+.PHONY: migrate
+migrate: install
 	poetry run python manage.py migrate
+
+.PHONY: data
+data: install migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py crawl_mi_sos --start=1828 --limit=1
-	poetry run python manage.py fetch_mi_sos --limit=1
+	poetry run python manage.py crawl_mi_sos --start=1828 --limit=2
+	poetry run python manage.py fetch_mi_sos --limit=4
 
 .PHONY: reset
 reset: install

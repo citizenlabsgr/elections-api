@@ -1,56 +1,19 @@
-import string
-from contextlib import suppress
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
-import factory
 import pendulum
-from factory import fuzzy
 
 from elections import models
 
 
-class DistrictCategoryFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.DistrictCategory
-
-    name = fuzzy.FuzzyText(
-        length=1, prefix="District Category ", chars=string.ascii_uppercase
-    )
-
-
-class DistrictFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.District
-
-    category = fuzzy.FuzzyChoice(models.DistrictCategory.objects.all())
-    name = fuzzy.FuzzyText(
-        length=1, prefix="District ", chars=string.ascii_uppercase
-    )
-    population = fuzzy.FuzzyInteger(low=1_000, high=100_000)
-
-
-class ElectionFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.Election
-
-    date = fuzzy.FuzzyDate(
-        start_date=pendulum.now().add(years=1),
-        end_date=pendulum.now().add(years=4),
-    )
-    name = fuzzy.FuzzyChoice(["General", "Midterm", "Special"])
-
-
 class Command(BaseCommand):
-    help = "Generate data for automated testing and manual review"
+    help = "Generate data for local development and review"
 
     def handle(self, *_args, **_kwargs):
         self.get_or_create_superuser()
         self.add_known_data()
-        self.generate_random_data()
 
     def get_or_create_superuser(self, username="admin", password="password"):
         try:
@@ -71,6 +34,13 @@ class Command(BaseCommand):
             name="State Primary",
             date=pendulum.parse("2018-08-07", tz='America/Detroit'),
             defaults=dict(active=True, mi_sos_id=675),
+        )
+        self.stdout.write(f"Added election: {election}")
+
+        election, _ = models.Election.objects.get_or_create(
+            name="State General",
+            date=pendulum.parse("2018-11-06", tz='America/Detroit'),
+            defaults=dict(active=True, mi_sos_id=676),
         )
         self.stdout.write(f"Added election: {election}")
 
@@ -102,16 +72,3 @@ class Command(BaseCommand):
             mi_sos_id=1828,
         )
         self.stdout.write(f"Added poll: {poll}")
-
-    def generate_random_data(self):
-        with suppress(IntegrityError):
-            for obj in DistrictCategoryFactory.create_batch(5):
-                self.stdout.write(f"Generated category: {obj}")
-
-        with suppress(IntegrityError):
-            for obj in DistrictFactory.create_batch(20):
-                self.stdout.write(f"Generated district: {obj}")
-
-        with suppress(IntegrityError):
-            for obj in ElectionFactory.create_batch(3):
-                self.stdout.write(f"Generated election: {obj}")

@@ -34,10 +34,13 @@ class PollFilter(filters.FilterSet):
 
 class BallotFilter(filters.FilterSet):
 
-    # ID lookup
+    # Election ID lookup
+    election_id = filters.NumberFilter(name='election')
+
+    # Poll ID lookup
     poll_id = filters.NumberFilter(name='poll')
 
-    # Value lookup
+    # Poll value lookup
     county = filters.CharFilter(name='poll__county__name')
     jurisdiction = filters.CharFilter(name='poll__jurisdiction__name')
     ward = filters.CharFilter(name='poll__ward')
@@ -46,9 +49,11 @@ class BallotFilter(filters.FilterSet):
     class Meta:
         model = models.Ballot
         fields = [
-            # ID lookup
+            # Election ID lookup
+            'election_id',
+            # Poll ID lookup
             'poll_id',
-            # Value lookup
+            # Poll Value lookup
             'county',
             'jurisdiction',
             'ward',
