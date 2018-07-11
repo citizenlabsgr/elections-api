@@ -108,9 +108,8 @@ class RegistrationStatus(models.Model):
 
     registered = models.BooleanField()
     poll = models.ForeignKey(Poll, null=True, on_delete=models.SET_NULL)
-    districts: List[
-        District
-    ]  # Act like 'ManytoManyField', but this model is never saved
+    # We can't use 'ManytoManyField' because this model is never saved
+    districts: List[District] = []
 
     def save(self, *args, **kwargs):
         raise NotImplementedError
@@ -141,6 +140,9 @@ class Voter(models.Model):
 
     def fetch_registration_status(self) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
+
+        if not data['registered']:
+            return RegistrationStatus(registered=False)
 
         districts: List[District] = []
         county = jurisdiction = None

@@ -11,6 +11,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     queryset = models.Voter.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_fields = ['first_name', 'last_name', 'zip_code', 'birth_date']
+    pagination_class = None
 
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(
@@ -24,7 +25,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         output_serializer = serializers.RegistrationStatusSerializer(
             registration_status, context={'request': request}
         )
-        return Response([output_serializer.data])
+        return Response(output_serializer.data)
 
 
 class ElectionViewSet(viewsets.ModelViewSet):
