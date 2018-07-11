@@ -112,20 +112,30 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(f"Added jurisdiction: {jurisdiction}")
             else:
-                self.stdout.write(f"Matched: jurisdiction: {jurisdiction}")
+                self.stdout.write(f"Matched jurisdiction: {jurisdiction}")
 
             # Update poll
-            poll, created = models.Poll.objects.update_or_create(
+            kw = dict(
                 county=county,
                 jurisdiction=jurisdiction,
                 ward=ward,
                 precinct=precinct,
-                defaults=dict(mi_sos_id=poll_id),
             )
-            if created:
-                self.stdout.write(f"Added poll: {poll}")
+            poll = models.Poll.objects.filter(mi_sos_id=poll_id, **kw).first()
+            if poll:
+                self.stdout.write(f"Matched poll: {poll}")
             else:
-                self.stdout.write(f"Matched: poll: {poll}")
+                for poll in models.Poll.objects.filter(**kw):
+                    if poll.mi_sos_id:
+                        log.warn(f"Duplicate IDs: {poll.mi_sos_id}, {poll_id}")
+                    else:
+                        poll.mi_sos_id = poll_id
+                        poll.save()
+                        self.stdout.write(f"Updated poll: {poll}")
+                        break
+                else:
+                    poll = models.Poll.objects.create(mi_sos_id=poll_id, **kw)
+                    self.stdout.write(f"Added poll: {poll}")
 
             # Update ballot
             ballot, created = models.Ballot.objects.get_or_create(

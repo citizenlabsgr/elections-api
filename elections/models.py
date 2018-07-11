@@ -88,7 +88,14 @@ class Poll(TimeStampedModel):
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = ['county', 'jurisdiction', 'ward', 'precinct']
+        unique_together = [
+            'county',
+            'jurisdiction',
+            'ward',
+            'precinct',
+            'mi_sos_id',
+        ]
+        ordering = ['mi_sos_id']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
