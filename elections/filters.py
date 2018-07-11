@@ -6,6 +6,28 @@ from . import models
 DjangoFilterBackend = filters.DjangoFilterBackend
 
 
+class InitialilzedFilterSet(filters.FilterSet):
+    def __init__(self, data, *args, **kwargs):
+        # pylint: disable=no-member
+        if data is not None:
+            data = data.copy()
+            for name, f in self.base_filters.items():
+                initial = f.extra.get('initial')
+                if not data.get(name) and initial:
+                    data[name] = initial
+
+        super().__init__(data, *args, **kwargs)
+
+
+class ElectionFilter(InitialilzedFilterSet):
+
+    active = filters.BooleanFilter(name='active', initial=True)
+
+    class Meta:
+        model = models.Election
+        fields = ['active']
+
+
 class PollFilter(filters.FilterSet):
 
     # ID lookup
@@ -32,10 +54,15 @@ class PollFilter(filters.FilterSet):
         ]
 
 
-class BallotFilter(filters.FilterSet):
+class BallotFilter(InitialilzedFilterSet):
 
     # Election ID lookup
     election_id = filters.NumberFilter(name='election')
+
+    # Election value lookup
+    active_election = filters.BooleanFilter(
+        name='election__active', initial=True
+    )
 
     # Poll ID lookup
     poll_id = filters.NumberFilter(name='poll')
@@ -51,9 +78,11 @@ class BallotFilter(filters.FilterSet):
         fields = [
             # Election ID lookup
             'election_id',
+            # Election value lookup
+            'active_election',
             # Poll ID lookup
             'poll_id',
-            # Poll Value lookup
+            # Poll value lookup
             'county',
             'jurisdiction',
             'ward',

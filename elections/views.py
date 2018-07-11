@@ -32,6 +32,8 @@ class ElectionViewSet(viewsets.ModelViewSet):
 
     http_method_names = ['get']
     queryset = models.Election.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = filters.ElectionFilter
     serializer_class = serializers.ElectionSerializer
 
 

@@ -26,7 +26,7 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 class ElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
-        fields = ['url', 'id', 'name', 'date', 'reference_url']
+        fields = ['url', 'id', 'name', 'date', 'active', 'reference_url']
 
 
 class PollSerializer(serializers.HyperlinkedModelSerializer):
