@@ -60,6 +60,18 @@ def fetch_registration_status_data(voter):
     log.debug(f"Response from MI SOS:\n{response.text}")
     response.raise_for_status()
 
+    # Handle recently moved voters
+    if "you have recently moved" in response.text:
+        log.warn(f"Handling recently moved voter: {voter}")
+        page = find_or_abort(
+            r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",
+            response.text,
+        )
+        with requests_cache.disabled():
+            response = requests.get(MI_SOS_URL + page)
+        log.debug(f"Response from MI SOS:\n{response.text}")
+        response.raise_for_status()
+
     # Parse registration
     registered: Optional[bool] = bool(
         re.search("Yes, You Are Registered", response.text)
