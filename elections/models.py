@@ -186,18 +186,10 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        assert all(
-            [
-                county,
-                jurisdiction,
-                data['districts']['Ward'],
-                data['districts']['Precinct'],
-            ]
-        ), f"Missing poll information: {data}"
         poll, created = Poll.objects.get_or_create(
             county=county,
             jurisdiction=jurisdiction,
-            ward=int(data['districts']['Ward']),
+            ward=data['districts']['Ward'],
             precinct=data['districts']['Precinct'],
         )
         if created:
