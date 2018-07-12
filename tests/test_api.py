@@ -22,8 +22,8 @@ def describe_registrations():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
-            'poll': {
-                'url': 'http://testserver/api/polls/1/',
+            'precinct': {
+                'url': 'http://testserver/api/precincts/1/',
                 'id': 1,
                 'county': 'Kent',
                 'jurisdiction': 'City of Grand Rapids',
@@ -123,35 +123,35 @@ def describe_registrations():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': False,
-            'poll': None,
+            'precinct': None,
             'districts': [],
         }
 
 
-def describe_polls():
+def describe_precincts():
     @pytest.fixture
     def url():
-        return '/api/polls/'
+        return '/api/precincts/'
 
     def describe_detail():
         @pytest.fixture
-        def poll(db):
-            poll = factories.PollFactory.create()
-            poll.county.name = "Marquette"
-            poll.county.save()
-            poll.jurisdiction.name = "Forsyth Township"
-            poll.jurisdiction.save()
-            poll.ward = ''
-            poll.precinct = '3'
-            poll.save()
-            return poll
+        def precinct(db):
+            precinct = factories.PrecinctFactory.create()
+            precinct.county.name = "Marquette"
+            precinct.county.save()
+            precinct.jurisdiction.name = "Forsyth Township"
+            precinct.jurisdiction.save()
+            precinct.ward = ''
+            precinct.precinct = '3'
+            precinct.save()
+            return precinct
 
-        def when_no_ward(expect, client, url, poll):
-            response = client.get(f'{url}{poll.id}/')
+        def when_no_ward(expect, client, url, precinct):
+            response = client.get(f'{url}{precinct.id}/')
 
             expect(response.status_code) == 200
             expect(response.data) == {
-                'url': 'http://testserver/api/polls/2/',
+                'url': 'http://testserver/api/precincts/2/',
                 'id': 2,
                 'county': 'Marquette',
                 'jurisdiction': 'Forsyth Township',
@@ -196,12 +196,14 @@ def describe_ballots():
         @pytest.fixture
         def ballot(db):
             ballot = factories.BallotFactory.create()
-            ballot.poll.precinct = '1A'
-            ballot.poll.save()
+            ballot.precinct.precinct = '1A'
+            ballot.precinct.save()
             return ballot
 
         def filter_by_precinct_with_letter(expect, client, url, ballot):
-            response = client.get(url + f'?precinct={ballot.poll.precinct}')
+            response = client.get(
+                url + f'?precinct={ballot.precinct.precinct}'
+            )
 
             expect(response.status_code) == 200
             expect(response.data['results']) == [
@@ -216,8 +218,8 @@ def describe_ballots():
                         'active': True,
                         'reference_url': None,
                     },
-                    'poll': {
-                        'url': 'http://testserver/api/polls/3/',
+                    'precinct': {
+                        'url': 'http://testserver/api/precincts/3/',
                         'id': 3,
                         'county': '',
                         'jurisdiction': '',

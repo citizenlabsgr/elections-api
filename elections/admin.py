@@ -47,8 +47,8 @@ class ElectionAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(models.Poll)
-class PollAdmin(admin.ModelAdmin):
+@admin.register(models.Precinct)
+class PrecinctAdmin(admin.ModelAdmin):
 
     search_fields = [
         'county__name',
@@ -70,7 +70,25 @@ class PollAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(models.BallotWebpage)
+class BallotWebpageAdmin(admin.ModelAdmin):
+
+    search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
+
+    list_filter = ['valid']
+
+    list_display = [
+        'id',
+        'mi_sos_election_id',
+        'mi_sos_precinct_id',
+        'mi_sos_url',
+        'valid',
+        'created',
+        'modified',
+    ]
+
+
 @admin.register(models.Ballot)
 class BallotAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'election', 'poll', 'mi_sos_url']
+    list_display = ['id', 'election', 'precinct', 'mi_sos_url']

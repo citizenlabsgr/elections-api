@@ -32,9 +32,9 @@ class Command(BaseCommand):
                 continue
 
             if max_ballots_count:
-                query = models.Poll.objects.all()
+                query = models.Precinct.objects.all()
             else:
-                query = models.Poll.objects.filter(
+                query = models.Precinct.objects.filter(
                     modified__lt=timezone.now() - timedelta(hours=24)
                 )
             for poll in query:

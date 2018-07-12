@@ -53,14 +53,14 @@ class DistrictViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DistrictSerializer
 
 
-class PollViewSet(viewsets.ModelViewSet):
+class PrecinctViewSet(viewsets.ModelViewSet):
     """Regions that share the same ballot."""
 
     http_method_names = ['get']
-    queryset = models.Poll.objects.all()
+    queryset = models.Precinct.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.PollFilter
-    serializer_class = serializers.PollSerializer
+    filter_class = filters.PrecinctFilter
+    serializer_class = serializers.PrecinctSerializer
 
 
 class BallotViewSet(viewsets.ModelViewSet):

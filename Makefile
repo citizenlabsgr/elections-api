@@ -66,6 +66,7 @@ migrations: install
 .PHONY: migrate
 migrate: install
 	poetry run python manage.py migrate
+	poetry run python manage.py migrate_data
 
 .PHONY: data
 data: install migrate
