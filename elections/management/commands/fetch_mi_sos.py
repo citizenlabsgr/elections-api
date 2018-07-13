@@ -43,6 +43,7 @@ class Command(BaseCommand):
                     log.warn(f"No MI SOS ID for precinct: {precinct}")
                     continue
 
+                # Update ballot
                 ballot, created = models.Ballot.objects.get_or_create(
                     election=election, precinct=precinct
                 )
@@ -51,12 +52,22 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write(f"Matched ballot: {ballot}")
 
-                if ballot.website:
-                    if ballot.website.stale and ballot.website.fetch():
-                        self.stdout.write(f"Updated html: {ballot.website}")
-                        ballot.website.save()
-                else:
-                    log.warn(f"Ballot is missing website: {ballot}")
+                # Update website
+                if not ballot.website:
+                    website, created = models.BallotWebsite.objects.get_or_create(
+                        mi_sos_election_id=ballot.election.id,
+                        mi_sos_precinct_id=ballot.precinct.id,
+                    )
+                    if created:
+                        self.stdout.write(f"Created website: {website}")
+                        website.fetch()
+                        website.save()
+                    ballot.website = website
+                    ballot.save()
+
+                if ballot.website.stale and ballot.website.fetch():
+                    self.stdout.write(f"Updated website: {ballot.website}")
+                    ballot.website.save()
 
                 count = models.Ballot.objects.count()
                 if max_ballots_count and count >= max_ballots_count:

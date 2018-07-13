@@ -302,7 +302,7 @@ class Ballot(TimeStampedModel):
         return self.election.mi_sos_name + self.precinct.mi_sos_name
 
     @property
-    def mi_sos_url(self):
+    def mi_sos_url(self) -> str:
         return BallotWebsite.build_mi_sos_url(
             election_id=self.election.mi_sos_id,
             precinct_id=self.precinct.mi_sos_id,
