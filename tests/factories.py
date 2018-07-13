@@ -30,7 +30,7 @@ class PrecinctFactory(factory.django.DjangoModelFactory):
     county = factory.SubFactory(CountyFactory)
     jurisdiction = factory.SubFactory(JurisdictionFactory)
     ward = factory.Sequence(lambda n: str(n + 1))
-    precinct = factory.Sequence(lambda n: str(n + 1))
+    number = factory.Sequence(lambda n: str(n + 1))
 
     mi_sos_id = 1111
 

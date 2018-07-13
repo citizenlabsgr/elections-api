@@ -67,8 +67,8 @@ class Command(BaseCommand):
         precinct, _ = models.Precinct.objects.get_or_create(
             county=kent,
             jurisdiction=grand_rapids,
-            ward=1,
-            precinct='9',
+            ward='1',
+            number='9',
             mi_sos_id=1828,
         )
         self.stdout.write(f"Added precinct: {precinct}")

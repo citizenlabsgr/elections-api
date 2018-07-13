@@ -104,8 +104,8 @@ class Command(BaseCommand):
             assert match, f'Could not find county name: {website.mi_sos_url}'
             county_name = match.group('county_name')
 
-            # Parse jurisdiction, ward, and precinct
-            jurisdiction_name, ward, precinct = self.parse_jurisdiction(
+            # Parse jurisdiction, ward, and number
+            jurisdiction_name, ward, number = self.parse_jurisdiction(
                 website.mi_sos_html, website.mi_sos_url
             )
 
@@ -132,7 +132,7 @@ class Command(BaseCommand):
                 county=county,
                 jurisdiction=jurisdiction,
                 ward=ward,
-                precinct=precinct,
+                number=number,
                 defaults=dict(mi_sos_id=mi_sos_precinct_id),
             )
             if created:

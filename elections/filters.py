@@ -38,7 +38,7 @@ class PrecinctFilter(filters.FilterSet):
     county = filters.CharFilter(name='county__name')
     jurisdiction = filters.CharFilter(name='jurisdiction__name')
     ward = filters.CharFilter(name='ward')
-    precinct = filters.CharFilter(name='precinct')
+    number = filters.CharFilter(name='number')
 
     class Meta:
         model = models.Precinct
@@ -50,7 +50,7 @@ class PrecinctFilter(filters.FilterSet):
             'county',
             'jurisdiction',
             'ward',
-            'precinct',
+            'number',
         ]
 
 
@@ -71,7 +71,7 @@ class BallotFilter(InitialilzedFilterSet):
     county = filters.CharFilter(name='precinct__county__name')
     jurisdiction = filters.CharFilter(name='precinct__jurisdiction__name')
     ward = filters.CharFilter(name='precinct__ward')
-    precinct = filters.CharFilter(name='precinct__precinct')
+    number = filters.CharFilter(name='precinct__number')
 
     class Meta:
         model = models.Ballot
@@ -86,5 +86,5 @@ class BallotFilter(InitialilzedFilterSet):
             'county',
             'jurisdiction',
             'ward',
-            'precinct',
+            'number',
         ]

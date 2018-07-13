@@ -54,7 +54,7 @@ class PrecinctAdmin(admin.ModelAdmin):
         'county__name',
         'jurisdiction__name',
         'ward',
-        'precinct',
+        'number',
         'mi_sos_id',
     ]
 
@@ -63,7 +63,7 @@ class PrecinctAdmin(admin.ModelAdmin):
         'county',
         'jurisdiction',
         'ward',
-        'precinct',
+        'number',
         'mi_sos_id',
         'created',
         'modified',

@@ -28,7 +28,7 @@ def describe_registrations():
                 'county': 'Kent',
                 'jurisdiction': 'City of Grand Rapids',
                 'ward': '1',
-                'precinct': '9',
+                'number': '9',
             },
             'districts': [
                 {
@@ -142,7 +142,7 @@ def describe_precincts():
             precinct.jurisdiction.name = "Forsyth Township"
             precinct.jurisdiction.save()
             precinct.ward = ''
-            precinct.precinct = '3'
+            precinct.number = '3'
             precinct.save()
             return precinct
 
@@ -156,7 +156,7 @@ def describe_precincts():
                 'county': 'Marquette',
                 'jurisdiction': 'Forsyth Township',
                 'ward': None,
-                'precinct': '3',
+                'number': '3',
             }
 
 
@@ -196,14 +196,12 @@ def describe_ballots():
         @pytest.fixture
         def ballot(db):
             ballot = factories.BallotFactory.create()
-            ballot.precinct.precinct = '1A'
+            ballot.precinct.number = '1A'
             ballot.precinct.save()
             return ballot
 
         def filter_by_precinct_with_letter(expect, client, url, ballot):
-            response = client.get(
-                url + f'?precinct={ballot.precinct.precinct}'
-            )
+            response = client.get(url + f'?precinct={ballot.precinct.number}')
 
             expect(response.status_code) == 200
             expect(response.data['results']) == [
@@ -224,7 +222,7 @@ def describe_ballots():
                         'county': '',
                         'jurisdiction': '',
                         'ward': '2',
-                        'precinct': '1A',
+                        'number': '1A',
                     },
                     'mi_sos_url': 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1111&ed=2222',
                 }

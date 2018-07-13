@@ -85,13 +85,12 @@ class Precinct(TimeStampedModel):
         District, related_name='jurisdictions', on_delete=models.CASCADE
     )
     ward = models.CharField(max_length=2, blank=True)
-    # TODO: Consider renaming this to 'number' to match VIP
-    precinct = models.CharField(max_length=3, blank=True)
+    number = models.CharField(max_length=3, blank=True)
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = ['county', 'jurisdiction', 'ward', 'precinct']
+        unique_together = ['county', 'jurisdiction', 'ward', 'number']
         ordering = ['mi_sos_id']
 
     def __str__(self) -> str:
@@ -99,17 +98,17 @@ class Precinct(TimeStampedModel):
 
     @property
     def mi_sos_name(self) -> List[str]:
-        if self.ward and self.precinct:
-            ward_precinct = f"Ward {self.ward} Precinct {self.precinct}"
+        if self.ward and self.number:
+            ward_precinct = f"Ward {self.ward} Precinct {self.number}"
         elif self.ward:
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f"Ward {self.ward} "
         else:
             assert (
-                self.precinct
+                self.number
             ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"
             # Extra space is intentional to match the MI SOS website format
-            ward_precinct = f" Precinct {self.precinct}"
+            ward_precinct = f" Precinct {self.number}"
         return [
             f"{self.county} County, Michigan",
             f"{self.jurisdiction}, {ward_precinct}",
@@ -196,7 +195,7 @@ class Voter(models.Model):
             county=county,
             jurisdiction=jurisdiction,
             ward=data['districts']['Ward'],
-            precinct=data['districts']['Precinct'],
+            number=data['districts']['Precinct'],
         )
         if created:
             log.info(f"New precinct: {precinct}")

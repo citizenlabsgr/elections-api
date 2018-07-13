@@ -32,12 +32,12 @@ class ElectionSerializer(serializers.ModelSerializer):
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Precinct
-        fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'precinct']
+        fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'number']
 
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
     ward = fields.NullCharField()
-    precinct = fields.NullCharField()
+    number = fields.NullCharField()
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):

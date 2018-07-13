@@ -53,7 +53,7 @@ def precinct(district):
         county=county,
         jurisdiction=jurisdiction,
         ward=1,
-        precinct='9',
+        number='9',
         mi_sos_id=1828,
     )
 
@@ -109,13 +109,13 @@ def describe_precinct():
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
 
         def when_ward_only(expect, precinct):
-            precinct.precinct = ''
+            precinct.number = ''
             expect(
                 str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 "
 
         def when_precinct_only(expect, precinct):
-            precinct.ward = 0
+            precinct.ward = ''
             expect(
                 str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"

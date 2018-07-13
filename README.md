@@ -31,7 +31,7 @@ Get a link to your sample ballot for upcoming elections:
 ```
 http GET https://michiganelections.io/api/ballots/ \
 "Accept: application/json; version=0" \
-county==Kent jurisdiction=="City of Grand Rapids" ward==1 precinct==9
+county==Kent jurisdiction=="City of Grand Rapids" ward==1 number==9
 ```
 
 ## Documentation
