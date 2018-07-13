@@ -13,8 +13,4 @@ class Migration(migrations.Migration):
             name='fetched',
             field=models.DateTimeField(null=True),
         ),
-        migrations.AlterUniqueTogether(
-            name='precinct',
-            unique_together={('county', 'jurisdiction', 'ward', 'precinct')},
-        ),
     ]

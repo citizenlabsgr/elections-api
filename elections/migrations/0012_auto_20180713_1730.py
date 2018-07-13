@@ -10,5 +10,5 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name='precinct', old_name='precinct', new_name='number'
-        ),
+        )
     ]
