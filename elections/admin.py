@@ -82,6 +82,7 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
         'mi_sos_election_id',
         'mi_sos_precinct_id',
         'mi_sos_url',
+        'fetched',
         'valid',
         'source',
         'created',

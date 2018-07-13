@@ -1,5 +1,4 @@
 import re
-from contextlib import suppress
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -17,7 +16,7 @@ class Command(BaseCommand):
             '--start',
             metavar='ID',
             type=int,
-            dest='starting_precinct_id',
+            dest='starting_mi_sos_precinct_precinct_id',
             default=1,
             help='Initial MI SOS precinct ID to start the crawl.',
         )
@@ -30,14 +29,22 @@ class Command(BaseCommand):
         )
 
     def handle(
-        self, starting_precinct_id, max_precincts_count, *_args, **_kwargs
+        self,
+        starting_mi_sos_precinct_precinct_id,
+        max_precincts_count,
+        *_args,
+        **_kwargs,
     ):
         log.init(reset=True)
         helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
         helpers.requests_cache.core.remove_expired_responses()
-        self.discover_precincts(starting_precinct_id, max_precincts_count)
+        self.discover_precincts(
+            starting_mi_sos_precinct_precinct_id, max_precincts_count
+        )
 
-    def discover_precincts(self, starting_precinct_id, max_precincts_count):
+    def discover_precincts(
+        self, starting_mi_sos_precinct_precinct_id, max_precincts_count
+    ):
         election = (
             models.Election.objects.filter(active=True)
             .exclude(mi_sos_id=None)
@@ -57,99 +64,100 @@ class Command(BaseCommand):
         if created:
             log.warn(f"Created category: {jurisdiction_category}")
 
-        precinct_id = starting_precinct_id - 1
+        mi_sos_precinct_id = starting_mi_sos_precinct_precinct_id - 1
         misses = 0
         while misses < 10:
-            precinct_id += 1
+            mi_sos_precinct_id += 1
 
+            # Stop early if requested
             count = models.Precinct.objects.count()
             if max_precincts_count and count >= max_precincts_count:
                 self.stdout.write(f"Stopping at {count} precinct(s)")
                 return
 
-            with suppress(models.BallotWebsite.DoesNotExist):
-                website = models.BallotWebsite.objects.get(
-                    mi_sos_election_id=election.mi_sos_id,
-                    mi_sos_precinct_id=precinct_id,
-                )
-                misses = 0
-                if not website.stale:
-                    log.debug(f'Ballot already scraped: {website}')
-                    continue
-
-            # Fetch ballot
-            website = models.BallotWebsite.objects.create(
+            # Fetch ballot website
+            website, created = models.BallotWebsite.objects.get_or_create(
                 mi_sos_election_id=election.mi_sos_id,
-                mi_sos_precinct_id=precinct_id,
+                mi_sos_precinct_id=mi_sos_precinct_id,
             )
-            if website.fetch():
-                website.save()
+            if created:
+                self.stdout.write(f'Added website: {website}')
+            elif not website.stale:
+                log.debug(f'Ballot already scraped: {website}')
+                misses = 0
+                continue
+
+            # Validate ballot website
+            website.fetch()
+            website.save()
             if website.valid:
                 misses = 0
             else:
-                log.warn(f"Invalid ballot website: {website}")
+                log.warn(f'Invalid ballot website: {website}')
                 misses += 1
                 continue
 
-            # Find county
+            # Parse county
             match = re.search(
                 r'(?P<county_name>[^>]+) County, Michigan', website.mi_sos_html
             )
-            assert match, f"Could not find county name: {website.mi_sos_url}"
+            assert match, f'Could not find county name: {website.mi_sos_url}'
             county_name = match.group('county_name')
 
-            # Find jurisdiction, ward, and precinct
+            # Parse jurisdiction, ward, and precinct
             jurisdiction_name, ward, precinct = self.parse_jurisdiction(
                 website.mi_sos_html, website.mi_sos_url
             )
 
-            # Update county
+            # Add county
             county, created = models.District.objects.get_or_create(
                 category=county_cateogry, name=county_name
             )
             if created:
-                self.stdout.write(f"Added county: {county}")
+                self.stdout.write(f'Added county: {county}')
             else:
-                self.stdout.write(f"Matched county: {county}")
+                self.stdout.write(f'Matched county: {county}')
 
-            # Update jurisdiction
+            # Add jurisdiction
             jurisdiction, created = models.District.objects.get_or_create(
                 category=jurisdiction_category, name=jurisdiction_name
             )
             if created:
-                self.stdout.write(f"Added jurisdiction: {jurisdiction}")
+                self.stdout.write(f'Added jurisdiction: {jurisdiction}')
             else:
-                self.stdout.write(f"Matched jurisdiction: {jurisdiction}")
+                self.stdout.write(f'Matched jurisdiction: {jurisdiction}')
 
-            # Update precinct
+            # Add precinct
             precinct, created = models.Precinct.objects.get_or_create(
                 county=county,
                 jurisdiction=jurisdiction,
                 ward=ward,
                 precinct=precinct,
+                defaults=dict(mi_sos_id=mi_sos_precinct_id),
             )
             if created:
-                self.stdout.write(f"Added precinct: {precinct}")
-                precinct.mi_sos_id = precinct_id
-                precinct.save()
+                self.stdout.write(f'Added precinct: {precinct}')
+                website.source = True
+                website.save()
+            elif precinct.mi_sos_id == mi_sos_precinct_id:
+                self.stdout.write(f'Matched precinct: {precinct}')
             else:
-                self.stdout.write(f"Matched precinct: {precinct}")
-                if precinct.mi_sos_id != precinct_id:
-                    log.warn(f"Duplicate html: {website}")
-                    website.source = False
-                    website.save()
-                    continue
+                log.warn(f'Duplicate precinct: {website}')
+                precinct.delete()
+                website.source = False
+                website.save()
+                continue
 
-            # Update ballot
+            # Add ballot
             ballot, created = models.Ballot.objects.update_or_create(
                 election=election,
                 precinct=precinct,
                 defaults=dict(website=website),
             )
             if created:
-                self.stdout.write(f"Added ballot: {ballot}")
+                self.stdout.write(f'Added ballot: {ballot}')
             else:
-                self.stdout.write(f"Updated ballot: {ballot}")
+                self.stdout.write(f'Updated ballot: {ballot}')
 
     @staticmethod
     def parse_jurisdiction(html, url):
@@ -162,7 +170,7 @@ class Command(BaseCommand):
             match = re.search(pattern, html)
             if match:
                 break
-        assert match, f"Unable to find precinct information: {url}"
+        assert match, f'Unable to find precinct information: {url}'
 
         jurisdiction_name = match.group('jurisdiction_name')
 

@@ -91,13 +91,7 @@ class Precinct(TimeStampedModel):
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = [
-            'county',
-            'jurisdiction',
-            'ward',
-            'precinct',
-            'mi_sos_id',
-        ]
+        unique_together = ['county', 'jurisdiction', 'ward', 'precinct']
         ordering = ['mi_sos_id']
 
     def __str__(self) -> str:
@@ -225,9 +219,10 @@ class BallotWebsite(TimeStampedModel):
     mi_sos_precinct_id = models.PositiveIntegerField()
 
     mi_sos_html = models.TextField(blank=True)
+    fetched = models.DateTimeField(null=True)
 
-    valid = models.BooleanField(default=True)
-    source = models.BooleanField(default=True)
+    valid = models.NullBooleanField()
+    source = models.NullBooleanField()
 
     class Meta:
         unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
@@ -244,7 +239,10 @@ class BallotWebsite(TimeStampedModel):
 
     @property
     def stale(self) -> bool:
-        age = timezone.now() - self.modified
+        if not self.fetched:
+            log.debug(f'Age of fetch: <infinity>')
+            return True
+        age = timezone.now() - self.fetched
         log.debug(f'Age of fetch: {age}')
         if self.valid:
             stale_age = timedelta(days=1, hours=random.randint(2, 22))
@@ -258,6 +256,8 @@ class BallotWebsite(TimeStampedModel):
         log.info(f'Fetching {url}')
         response = requests.get(url)
         response.raise_for_status()
+
+        self.fetched = timezone.now()
 
         html = response.text
         if "not available at this time" in html:
