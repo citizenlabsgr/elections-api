@@ -14,7 +14,7 @@ class Command(BaseCommand):
         for ballot in models.Ballot.objects.all():
             webpage, created = models.BallotWebpage.objects.update_or_create(
                 mi_sos_election_id=ballot.election.mi_sos_id,
-                mi_sos_precinct_id=ballot.poll.mi_sos_id,
+                mi_sos_precinct_id=ballot.precinct.mi_sos_id,
                 defaults=dict(mi_sos_html=ballot.mi_sos_html, valid=True),
             )
             if created:
