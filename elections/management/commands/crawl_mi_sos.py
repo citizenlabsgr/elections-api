@@ -135,7 +135,7 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f"Matched precinct: {precinct}")
                 if precinct.mi_sos_id != precinct_id:
-                    self.stdout.write(f"Duplicate html: {website}")
+                    log.warn(f"Duplicate html: {website}")
                     website.valid = False
                     website.save()
                     continue
