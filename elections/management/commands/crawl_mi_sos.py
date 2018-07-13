@@ -11,38 +11,40 @@ from elections import helpers, models
 
 
 class Command(BaseCommand):
-    help = "Crawl the Michigan SOS website to discover polls"
+    help = "Crawl the Michigan SOS website to discover precincts"
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--start',
             metavar='ID',
             type=int,
-            dest='starting_poll_id',
+            dest='starting_precinct_id',
             default=1,
-            help='Initial MI SOS poll ID to start the crawl.',
+            help='Initial MI SOS precinct ID to start the crawl.',
         )
         parser.add_argument(
             '--limit',
             metavar='COUNT',
             type=int,
-            dest='max_polls_count',
-            help='Number of polls to crawl before stopping. ',
+            dest='max_precincts_count',
+            help='Number of precincts to crawl before stopping. ',
         )
 
-    def handle(self, starting_poll_id, max_polls_count, *_args, **_kwargs):
+    def handle(
+        self, starting_precinct_id, max_precincts_count, *_args, **_kwargs
+    ):
         log.init(reset=True)
         helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
         helpers.requests_cache.core.remove_expired_responses()
-        self.discover_polls(starting_poll_id, max_polls_count)
+        self.discover_precincts(starting_precinct_id, max_precincts_count)
 
-    def discover_polls(self, starting_poll_id, max_polls_count):
+    def discover_precincts(self, starting_precinct_id, max_precincts_count):
         election = (
             models.Election.objects.filter(active=True)
             .exclude(mi_sos_id=None)
             .first()
         )
-        self.stdout.write(f"Crawling polls for election: {election}")
+        self.stdout.write(f"Crawling precincts for election: {election}")
 
         county_cateogry, created = models.DistrictCategory.objects.get_or_create(
             name="County"
@@ -56,24 +58,29 @@ class Command(BaseCommand):
         if created:
             log.warn(f"Created category: {jurisdiction_category}")
 
-        poll_id = starting_poll_id - 1
+        precinct_id = starting_precinct_id - 1
         misses = 0
         while misses < 10:
-            poll_id += 1
+            precinct_id += 1
 
-            count = models.Poll.objects.count()
-            if max_polls_count and count >= max_polls_count:
-                self.stdout.write(f"Stopping at {count} poll(s)")
+            count = models.Precinct.objects.count()
+            if max_precincts_count and count >= max_precincts_count:
+                self.stdout.write(f"Stopping at {count} precinct(s)")
                 return
 
-            with suppress(models.Poll.DoesNotExist):
-                poll = models.Poll.objects.get(mi_sos_id=poll_id)
-                log.debug(f"Poll already added: {poll}")
-                continue
+            with suppress(models.Precinct.DoesNotExist):
+                precinct = models.Precinct.objects.get(mi_sos_id=precinct_id)
+                log.debug(f'Precinct already added: {precinct}')
+
+            # with suppress(models.BallotWebpage.DoesNotExist):
+            #     website = models.BallotWebpage.objects.get(mi_sos_election_id=election.mi_sos_id, mi_sos_precinct_id=precinct_id)
+            #     log.debug(f'Ballot already scraped: {website}')
+            #     misses = 0
+            #     continue
 
             # Fetch ballot
-            url = models.Ballot.build_mi_sos_url(
-                election_id=election.mi_sos_id, poll_id=poll_id
+            url = models.BallotWebpage.build_mi_sos_url(
+                election_id=election.mi_sos_id, precinct_id=precinct_id
             )
             self.stdout.write(f"Fetching: {url}")
             response = requests.get(url)
@@ -114,32 +121,38 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(f"Matched jurisdiction: {jurisdiction}")
 
-            # Update poll
+            # Update precinct
             kw = dict(
                 county=county,
                 jurisdiction=jurisdiction,
                 ward=ward,
                 precinct=precinct,
             )
-            poll = models.Poll.objects.filter(mi_sos_id=poll_id, **kw).first()
-            if poll:
-                self.stdout.write(f"Matched poll: {poll}")
+            precinct = models.Precinct.objects.filter(
+                mi_sos_id=precinct_id, **kw
+            ).first()
+            if precinct:
+                self.stdout.write(f"Matched precinct: {precinct}")
             else:
-                for poll in models.Poll.objects.filter(**kw):
-                    if poll.mi_sos_id:
-                        log.warn(f"Duplicate IDs: {poll.mi_sos_id}, {poll_id}")
+                for precinct in models.Precinct.objects.filter(**kw):
+                    if precinct.mi_sos_id:
+                        log.warn(
+                            f"Duplicate IDs: {precinct.mi_sos_id}, {precinct_id}"
+                        )
                     else:
-                        poll.mi_sos_id = poll_id
-                        poll.save()
-                        self.stdout.write(f"Updated poll: {poll}")
+                        precinct.mi_sos_id = precinct_id
+                        precinct.save()
+                        self.stdout.write(f"Updated precinct: {precinct}")
                         break
                 else:
-                    poll = models.Poll.objects.create(mi_sos_id=poll_id, **kw)
-                    self.stdout.write(f"Added poll: {poll}")
+                    precinct = models.Precinct.objects.create(
+                        mi_sos_id=precinct_id, **kw
+                    )
+                    self.stdout.write(f"Added precinct: {precinct}")
 
             # Update ballot
             ballot, created = models.Ballot.objects.get_or_create(
-                election=election, poll=poll
+                election=election, precinct=precinct
             )
             if created:
                 self.stdout.write(f"Added ballot: {ballot}")

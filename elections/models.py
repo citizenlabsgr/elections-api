@@ -1,6 +1,8 @@
+from datetime import timedelta
 from typing import List
 
 from django.db import models
+from django.utils import timezone
 
 import log
 import pendulum
@@ -72,8 +74,7 @@ class Election(TimeStampedModel):
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html
-# TODO: Precinct(TimeStampedModel):
-class Poll(TimeStampedModel):
+class Precinct(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
     county = models.ForeignKey(
@@ -83,6 +84,7 @@ class Poll(TimeStampedModel):
         District, related_name='jurisdictions', on_delete=models.CASCADE
     )
     ward = models.CharField(max_length=2, blank=True)
+    # TODO: Consider renaming this to 'number' to match VIP
     precinct = models.CharField(max_length=3, blank=True)
 
     mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
@@ -123,7 +125,9 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
-    poll = models.ForeignKey(Poll, null=True, on_delete=models.SET_NULL)
+    precinct = models.ForeignKey(
+        Precinct, null=True, on_delete=models.SET_NULL
+    )
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
 
@@ -193,16 +197,18 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        poll, created = Poll.objects.get_or_create(
+        precinct, created = Precinct.objects.get_or_create(
             county=county,
             jurisdiction=jurisdiction,
             ward=data['districts']['Ward'],
             precinct=data['districts']['Precinct'],
         )
         if created:
-            log.info(f"New poll: {poll}")
+            log.info(f"New precinct: {precinct}")
 
-        status = RegistrationStatus(registered=data['registered'], poll=poll)
+        status = RegistrationStatus(
+            registered=data['registered'], precinct=precinct
+        )
         status.districts = districts
 
         return status
@@ -211,12 +217,72 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
+class BallotWebpage(TimeStampedModel):
+    """Raw HTML of potential ballot from the MI SOS website."""
+
+    mi_sos_election_id = models.PositiveIntegerField()
+    mi_sos_precinct_id = models.PositiveIntegerField()
+
+    mi_sos_html = models.TextField(blank=True)
+
+    valid = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
+
+    def __str__(self) -> str:
+        return self.mi_sos_url
+
+    @property
+    def mi_sos_url(self) -> str:
+        return self.build_mi_sos_url(
+            election_id=self.mi_sos_election_id,
+            precinct_id=self.mi_sos_precinct_id,
+        )
+
+    @property
+    def stale(self) -> bool:
+        age = timezone.now() - self.modified
+        log.debug(f'Age of fetch: {age}')
+        if self.valid:
+            stale_age = timedelta(days=1)
+        else:
+            stale_age = timedelta(weeks=1)
+        return age > stale_age
+
+    def fetch(self) -> bool:
+        url = self.mi_sos_url
+
+        log.info(f'Fetching {url}')
+        response = requests.get(url)
+
+        html = response.text
+        if "not available at this time" in html:
+            self.valid = False
+        elif "General Information" in html:
+            self.valid = True
+        log.debug(f"Valid ballot HTML: {self.valid}")
+
+        updated = self.mi_sos_html != html
+        self.mi_sos_html = html
+
+        return updated
+
+    @staticmethod
+    def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
+        assert election_id, "MI SOS election ID is missing"
+        assert precinct_id, "MI SOS precinct ID is missing"
+        base = 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx'
+        params = f'd={precinct_id}&ed={election_id}'
+        return f'{base}?{params}'
+
+
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular polling location."""
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
     mi_sos_html = models.TextField(blank=True, null=True)
 
@@ -228,21 +294,14 @@ class Ballot(TimeStampedModel):
 
     @property
     def mi_sos_url(self) -> str:
-        return self.build_mi_sos_url(
-            election_id=self.election.mi_sos_id, poll_id=self.poll.mi_sos_id
+        return BallotWebpage.build_mi_sos_url(
+            election_id=self.election.mi_sos_id,
+            precinct_id=self.precinct.mi_sos_id,
         )
 
     @property
     def mi_sos_name(self) -> List[str]:
-        return self.election.mi_sos_name + self.poll.mi_sos_name
-
-    @staticmethod
-    def build_mi_sos_url(election_id: int, poll_id: int) -> str:
-        assert election_id, "MI SOS election ID is missing"
-        assert poll_id, "MI SOS poll ID is missing"
-        base = "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx"
-        params = f"d={poll_id}&ed={election_id}"
-        return f"{base}?{params}"
+        return self.election.mi_sos_name + self.precinct.mi_sos_name
 
     def update_mi_sos_html(self) -> bool:
         url = self.mi_sos_url
@@ -263,12 +322,11 @@ class Ballot(TimeStampedModel):
 class BallotItem(TimeStampedModel):
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    poll = models.ForeignKey(
-        Poll, on_delete=models.CASCADE, null=True
+    precinct = models.ForeignKey(
+        Precinct, on_delete=models.CASCADE, null=True
     )  # TODO: remove null
-    district = models.ForeignKey(
-        District, on_delete=models.CASCADE
-    )  # TODO: Delete this
+    # TODO: Delete this
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)

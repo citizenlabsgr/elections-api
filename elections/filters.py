@@ -28,7 +28,7 @@ class ElectionFilter(InitialilzedFilterSet):
         fields = ['active']
 
 
-class PollFilter(filters.FilterSet):
+class PrecinctFilter(filters.FilterSet):
 
     # ID lookup
     county_id = filters.NumberFilter(name='county')
@@ -41,7 +41,7 @@ class PollFilter(filters.FilterSet):
     precinct = filters.CharFilter(name='precinct')
 
     class Meta:
-        model = models.Poll
+        model = models.Precinct
         fields = [
             # ID lookup
             'county_id',
@@ -64,14 +64,14 @@ class BallotFilter(InitialilzedFilterSet):
         name='election__active', initial=True
     )
 
-    # Poll ID lookup
-    poll_id = filters.NumberFilter(name='poll')
+    # Precinct ID lookup
+    precinct_id = filters.NumberFilter(name='precinct')
 
-    # Poll value lookup
-    county = filters.CharFilter(name='poll__county__name')
-    jurisdiction = filters.CharFilter(name='poll__jurisdiction__name')
-    ward = filters.CharFilter(name='poll__ward')
-    precinct = filters.CharFilter(name='poll__precinct')
+    # Precinct value lookup
+    county = filters.CharFilter(name='precinct__county__name')
+    jurisdiction = filters.CharFilter(name='precinct__jurisdiction__name')
+    ward = filters.CharFilter(name='precinct__ward')
+    precinct = filters.CharFilter(name='precinct__precinct')
 
     class Meta:
         model = models.Ballot
@@ -80,9 +80,9 @@ class BallotFilter(InitialilzedFilterSet):
             'election_id',
             # Election value lookup
             'active_election',
-            # Poll ID lookup
-            'poll_id',
-            # Poll value lookup
+            # Precinct ID lookup
+            'precinct_id',
+            # Precinct value lookup
             'county',
             'jurisdiction',
             'ward',

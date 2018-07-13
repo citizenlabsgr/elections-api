@@ -36,13 +36,13 @@ def election():
 
 
 @pytest.fixture
-def poll(district):
+def precinct(district):
     county = district
     jurisdiction = models.District(
         name="City of Grand Rapids",
         category=models.DistrictCategory(name="Jurisdiction"),
     )
-    return models.Poll(
+    return models.Precinct(
         county=county,
         jurisdiction=jurisdiction,
         ward=1,
@@ -52,8 +52,8 @@ def poll(district):
 
 
 @pytest.fixture
-def ballot(election, poll):
-    return models.Ballot(election=election, poll=poll)
+def ballot(election, precinct):
+    return models.Ballot(election=election, precinct=precinct)
 
 
 def describe_voter_identity():
@@ -96,21 +96,21 @@ def describe_election():
 
 def describe_poll():
     def describe_str():
-        def when_ward_and_precinct(expect, poll):
+        def when_ward_and_precinct(expect, precinct):
             expect(
-                str(poll)
+                str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
 
-        def when_ward_only(expect, poll):
-            poll.precinct = ''
+        def when_ward_only(expect, precinct):
+            precinct.precinct = ''
             expect(
-                str(poll)
+                str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 "
 
-        def when_precinct_only(expect, poll):
-            poll.ward = 0
+        def when_precinct_only(expect, precinct):
+            precinct.ward = 0
             expect(
-                str(poll)
+                str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"
 
 

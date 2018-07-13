@@ -23,9 +23,9 @@ class JurisdictionFactory(factory.django.DjangoModelFactory):
     category = factory.SubFactory(DistrictCategoryFactory, name="Jurisdiction")
 
 
-class PollFactory(factory.django.DjangoModelFactory):
+class PrecinctFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Poll
+        model = models.Precinct
 
     county = factory.SubFactory(CountyFactory)
     jurisdiction = factory.SubFactory(JurisdictionFactory)
@@ -49,4 +49,4 @@ class BallotFactory(factory.django.DjangoModelFactory):
         model = models.Ballot
 
     election = factory.SubFactory(ElectionFactory)
-    poll = factory.SubFactory(PollFactory)
+    precinct = factory.SubFactory(PrecinctFactory)

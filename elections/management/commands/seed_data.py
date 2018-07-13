@@ -64,11 +64,11 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added district: {grand_rapids}")
 
-        poll, _ = models.Poll.objects.get_or_create(
+        precinct, _ = models.Precinct.objects.get_or_create(
             county=kent,
             jurisdiction=grand_rapids,
             ward=1,
             precinct='9',
             mi_sos_id=1828,
         )
-        self.stdout.write(f"Added poll: {poll}")
+        self.stdout.write(f"Added precinct: {precinct}")
