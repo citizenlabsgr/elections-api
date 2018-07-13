@@ -1,3 +1,4 @@
+import random
 from datetime import timedelta
 from typing import List
 
@@ -245,9 +246,9 @@ class BallotWebsite(TimeStampedModel):
         age = timezone.now() - self.modified
         log.debug(f'Age of fetch: {age}')
         if self.valid:
-            stale_age = timedelta(days=1)
+            stale_age = timedelta(days=1, hours=random.randint(2, 22))
         else:
-            stale_age = timedelta(weeks=1)
+            stale_age = timedelta(weeks=1, hours=random.randint(2, 22))
         return age > stale_age
 
     def fetch(self) -> bool:
