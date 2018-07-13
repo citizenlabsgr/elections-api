@@ -37,21 +37,26 @@ class Command(BaseCommand):
                 query = models.Precinct.objects.filter(
                     modified__lt=timezone.now() - timedelta(hours=24)
                 )
-            for poll in query:
+            for precinct in query:
 
-                if not poll.mi_sos_id:
-                    log.warn(f"No MI SOS ID for poll: {poll}")
+                if not precinct.mi_sos_id:
+                    log.warn(f"No MI SOS ID for precinct: {precinct}")
                     continue
 
                 ballot, created = models.Ballot.objects.get_or_create(
-                    election=election, poll=poll
+                    election=election, precinct=precinct
                 )
                 if created:
-                    self.stdout.write(f"Create ballot: {ballot}")
+                    self.stdout.write(f"Created ballot: {ballot}")
+                else:
+                    self.stdout.write(f"Matched ballot: {ballot}")
 
-                if ballot.update_mi_sos_html():
-                    self.stdout.write(f"Updated ballot: {ballot}")
-                    ballot.save()
+                if ballot.website:
+                    if ballot.website.stale and ballot.website.fetch():
+                        self.stdout.write(f"Updated html: {ballot.website}")
+                        ballot.website.save()
+                else:
+                    log.warn(f"Ballot is missing website: {ballot}")
 
                 count = models.Ballot.objects.count()
                 if max_ballots_count and count >= max_ballots_count:

@@ -36,6 +36,13 @@ def election():
 
 
 @pytest.fixture
+def website():
+    return models.BallotWebsite(
+        mi_sos_election_id=675, mi_sos_precinct_id=1828
+    )
+
+
+@pytest.fixture
 def precinct(district):
     county = district
     jurisdiction = models.District(
@@ -94,7 +101,7 @@ def describe_election():
             expect(str(election)) == "State Primary | Tuesday, August 7, 2018"
 
 
-def describe_poll():
+def describe_precinct():
     def describe_str():
         def when_ward_and_precinct(expect, precinct):
             expect(
@@ -114,15 +121,17 @@ def describe_poll():
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"
 
 
+def describe_ballot_website():
+    def describe_mi_sos_url():
+        def it_includes_ids_from_election_and_precinct(expect, website):
+            expect(
+                website.mi_sos_url
+            ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=675"
+
+
 def describe_ballot():
     def describe_str():
         def it_includes_the_election_and_precinct(expect, ballot):
             expect(
                 str(ballot)
             ) == "State Primary | Tuesday, August 7, 2018 | Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
-
-    def describe_mi_sos_url():
-        def it_includes_ids_from_election_and_precinct(expect, ballot):
-            expect(
-                ballot.mi_sos_url
-            ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=675"

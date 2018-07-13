@@ -70,8 +70,8 @@ class PrecinctAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(models.BallotWebpage)
-class BallotWebpageAdmin(admin.ModelAdmin):
+@admin.register(models.BallotWebsite)
+class BallotWebsiteAdmin(admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
 
@@ -91,4 +91,11 @@ class BallotWebpageAdmin(admin.ModelAdmin):
 @admin.register(models.Ballot)
 class BallotAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'election', 'precinct', 'mi_sos_url']
+    list_display = [
+        'id',
+        'election',
+        'precinct',
+        'website',
+        'created',
+        'modified',
+    ]

@@ -217,7 +217,7 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
-class BallotWebpage(TimeStampedModel):
+class BallotWebsite(TimeStampedModel):
     """Raw HTML of potential ballot from the MI SOS website."""
 
     mi_sos_election_id = models.PositiveIntegerField()
@@ -255,6 +255,7 @@ class BallotWebpage(TimeStampedModel):
 
         log.info(f'Fetching {url}')
         response = requests.get(url)
+        response.raise_for_status()
 
         html = response.text
         if "not available at this time" in html:
@@ -284,39 +285,27 @@ class Ballot(TimeStampedModel):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
-    mi_sos_html = models.TextField(blank=True, null=True)
+    website = models.ForeignKey(
+        BallotWebsite, null=True, on_delete=models.SET_NULL
+    )
 
     class Meta:
+        unique_together = ['election', 'precinct']
         ordering = ['election__date']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
 
     @property
-    def mi_sos_url(self) -> str:
-        return BallotWebpage.build_mi_sos_url(
-            election_id=self.election.mi_sos_id,
-            precinct_id=self.precinct.mi_sos_id,
-        )
-
-    @property
     def mi_sos_name(self) -> List[str]:
         return self.election.mi_sos_name + self.precinct.mi_sos_name
 
-    def update_mi_sos_html(self) -> bool:
-        url = self.mi_sos_url
-
-        log.info(f"Fetching {url}")
-        response = requests.get(url)
-
-        html = response.text
-        for text in self.mi_sos_name:
-            assert text in html, f"Expected {text!r}: {url}"
-
-        updated = self.mi_sos_html != html
-        self.mi_sos_html = html
-
-        return updated
+    @property
+    def mi_sos_url(self):
+        return BallotWebsite.build_mi_sos_url(
+            election_id=self.election.mi_sos_id,
+            precinct_id=self.precinct.mi_sos_id,
+        )
 
 
 class BallotItem(TimeStampedModel):

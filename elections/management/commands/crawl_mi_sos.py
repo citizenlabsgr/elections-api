@@ -5,7 +5,6 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 import log
-import requests
 
 from elections import helpers, models
 
@@ -68,39 +67,40 @@ class Command(BaseCommand):
                 self.stdout.write(f"Stopping at {count} precinct(s)")
                 return
 
-            with suppress(models.Precinct.DoesNotExist):
-                precinct = models.Precinct.objects.get(mi_sos_id=precinct_id)
-                log.debug(f'Precinct already added: {precinct}')
-
-            # with suppress(models.BallotWebpage.DoesNotExist):
-            #     website = models.BallotWebpage.objects.get(mi_sos_election_id=election.mi_sos_id, mi_sos_precinct_id=precinct_id)
-            #     log.debug(f'Ballot already scraped: {website}')
-            #     misses = 0
-            #     continue
+            with suppress(models.BallotWebsite.DoesNotExist):
+                website = models.BallotWebsite.objects.get(
+                    mi_sos_election_id=election.mi_sos_id,
+                    mi_sos_precinct_id=precinct_id,
+                )
+                misses = 0
+                if not website.stale:
+                    log.debug(f'Ballot already scraped: {website}')
+                    continue
 
             # Fetch ballot
-            url = models.BallotWebpage.build_mi_sos_url(
-                election_id=election.mi_sos_id, precinct_id=precinct_id
+            website = models.BallotWebsite.objects.create(
+                mi_sos_election_id=election.mi_sos_id,
+                mi_sos_precinct_id=precinct_id,
             )
-            self.stdout.write(f"Fetching: {url}")
-            response = requests.get(url)
-            response.raise_for_status()
-            html = response.text
-
-            # Find county
-            match = re.search(r'(?P<county_name>[^>]+) County, Michigan', html)
-            if match:
+            if website.fetch():
+                website.save()
+            if website.valid:
                 misses = 0
             else:
+                log.warn(f"Invalid ballot website: {website}")
                 misses += 1
-                self.stdout.write(f"No ballot detected (misses={misses})")
-                assert "not available at this time" in html
                 continue
+
+            # Find county
+            match = re.search(
+                r'(?P<county_name>[^>]+) County, Michigan', website.mi_sos_html
+            )
+            assert match, f"Could not find county name: {website.mi_sos_url}"
             county_name = match.group('county_name')
 
             # Find jurisdiction, ward, and precinct
             jurisdiction_name, ward, precinct = self.parse_jurisdiction(
-                html, url
+                website.mi_sos_html, website.mi_sos_url
             )
 
             # Update county
@@ -122,44 +122,34 @@ class Command(BaseCommand):
                 self.stdout.write(f"Matched jurisdiction: {jurisdiction}")
 
             # Update precinct
-            kw = dict(
+            precinct, created = models.Precinct.objects.get_or_create(
                 county=county,
                 jurisdiction=jurisdiction,
                 ward=ward,
                 precinct=precinct,
             )
-            precinct = models.Precinct.objects.filter(
-                mi_sos_id=precinct_id, **kw
-            ).first()
-            if precinct:
-                self.stdout.write(f"Matched precinct: {precinct}")
+            if created:
+                self.stdout.write(f"Added precinct: {precinct}")
+                precinct.mi_sos_id = precinct_id
+                precinct.save()
             else:
-                for precinct in models.Precinct.objects.filter(**kw):
-                    if precinct.mi_sos_id:
-                        log.warn(
-                            f"Duplicate IDs: {precinct.mi_sos_id}, {precinct_id}"
-                        )
-                    else:
-                        precinct.mi_sos_id = precinct_id
-                        precinct.save()
-                        self.stdout.write(f"Updated precinct: {precinct}")
-                        break
-                else:
-                    precinct = models.Precinct.objects.create(
-                        mi_sos_id=precinct_id, **kw
-                    )
-                    self.stdout.write(f"Added precinct: {precinct}")
+                self.stdout.write(f"Matched precinct: {precinct}")
+                if precinct.mi_sos_id != precinct_id:
+                    self.stdout.write(f"Duplicate html: {website}")
+                    website.valid = False
+                    website.save()
+                    continue
 
             # Update ballot
-            ballot, created = models.Ballot.objects.get_or_create(
-                election=election, precinct=precinct
+            ballot, created = models.Ballot.objects.update_or_create(
+                election=election,
+                precinct=precinct,
+                defaults=dict(website=website),
             )
             if created:
                 self.stdout.write(f"Added ballot: {ballot}")
             else:
-                self.stdout.write(f"Matched ballot: {ballot}")
-            ballot.mi_sos_html = html
-            ballot.save()
+                self.stdout.write(f"Updated ballot: {ballot}")
 
     @staticmethod
     def parse_jurisdiction(html, url):
