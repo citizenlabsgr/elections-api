@@ -11,8 +11,4 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='precinct', old_name='precinct', new_name='number'
         ),
-        migrations.AlterUniqueTogether(
-            name='precinct',
-            unique_together={('county', 'jurisdiction', 'ward', 'number')},
-        ),
     ]
