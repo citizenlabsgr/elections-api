@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 
 import log
 
@@ -12,7 +13,13 @@ class Command(BaseCommand):
         log.init(reset=True)
         for precinct in models.Precinct.objects.filter(ward='0'):
             precinct.ward = ''
-            precinct.save()
+            try:
+                precinct.save()
+            except IntegrityError:
+                precinct.delete()
         for precinct in models.Precinct.objects.filter(number='0'):
             precinct.number = ''
-            precinct.save()
+            try:
+                precinct.save()
+            except IntegrityError:
+                precinct.delete()
