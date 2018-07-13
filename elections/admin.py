@@ -75,7 +75,7 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
 
-    list_filter = ['valid']
+    list_filter = ['valid', 'source']
 
     list_display = [
         'id',
@@ -83,6 +83,7 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
         'mi_sos_precinct_id',
         'mi_sos_url',
         'valid',
+        'source',
         'created',
         'modified',
     ]

@@ -227,6 +227,7 @@ class BallotWebsite(TimeStampedModel):
     mi_sos_html = models.TextField(blank=True)
 
     valid = models.BooleanField(default=True)
+    source = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
