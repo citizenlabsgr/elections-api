@@ -12,5 +12,5 @@ class Migration(migrations.Migration):
             model_name='ballotwebsite',
             name='fetched',
             field=models.DateTimeField(null=True),
-        ),
+        )
     ]
