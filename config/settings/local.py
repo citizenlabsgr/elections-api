@@ -55,3 +55,8 @@ DEBUG_TOOLBAR_CONFIG = {'SHOW_COLLAPSED': True}
 # Bugsnag
 
 bugsnag.configure(release_stage='local')
+
+###############################################################################
+# Swagger
+
+SWAGGER_SETTINGS['DOC_EXPANSION'] = 'full'

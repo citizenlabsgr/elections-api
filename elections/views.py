@@ -13,7 +13,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
     queryset = models.Voter.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_fields = ['first_name', 'last_name', 'zip_code', 'birth_date']
+    filter_class = filters.VoterFilter
     pagination_class = None
 
     def list(self, request):  # pylint: disable=arguments-differ
