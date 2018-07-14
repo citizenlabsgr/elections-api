@@ -6,7 +6,10 @@ from . import filters, models, serializers
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
-    """Status of a particular voter's registration."""
+    """
+    list:
+    Return the status of a particular voter's registration.
+    """
 
     queryset = models.Voter.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
@@ -29,6 +32,15 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
 
 class ElectionViewSet(viewsets.ModelViewSet):
+    """
+    [VIP 5.1.2: Election](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html)
+
+    list:
+    Return all upcoming elections.
+
+    retrieve:
+    Return a specific upcoming election.
+    """
 
     http_method_names = ['get']
     queryset = models.Election.objects.all()
@@ -38,7 +50,15 @@ class ElectionViewSet(viewsets.ModelViewSet):
 
 
 class DistrictCategoryViewSet(viewsets.ModelViewSet):
-    """Types of regions that bound ballot items."""
+    """
+    [VIP 5.1.2: DistrictType](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html)
+
+    list:
+    Return the types of districts, which can filter ballot items.
+
+    retrieve:
+    Return a specific type of district, which can filter ballot items.
+    """
 
     http_method_names = ['get']
     queryset = models.DistrictCategory.objects.all()
@@ -46,7 +66,15 @@ class DistrictCategoryViewSet(viewsets.ModelViewSet):
 
 
 class DistrictViewSet(viewsets.ModelViewSet):
-    """Districts bound to ballot items."""
+    """
+    [VIP 5.1.2: Locality](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html)
+
+    list:
+    Return all districts, which can filter ballot items.
+
+    retrieve:
+    Return a specific district, which can filter ballot items.
+    """
 
     http_method_names = ['get']
     queryset = models.District.objects.all()
@@ -54,7 +82,15 @@ class DistrictViewSet(viewsets.ModelViewSet):
 
 
 class PrecinctViewSet(viewsets.ModelViewSet):
-    """Regions that share the same ballot."""
+    """
+    [VIP 5.1.2: Precinct](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html)
+
+    list:
+    Return all regions which share the same ballot.
+
+    retrieve:
+    Return a specific region which shares the same ballot.
+    """
 
     http_method_names = ['get']
     queryset = models.Precinct.objects.all()
@@ -64,7 +100,15 @@ class PrecinctViewSet(viewsets.ModelViewSet):
 
 
 class BallotViewSet(viewsets.ModelViewSet):
-    """Ballots bound to individual precincts."""
+    """
+    [VIP 5.1.2: BallotStyle](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html)
+
+    list:
+    Return all ballots for upcoming elections.
+
+    retrieve:
+    Return a specific ballot for an upcoming election.
+    """
 
     http_method_names = ['get']
     queryset = models.Ballot.objects.all()

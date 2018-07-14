@@ -13,7 +13,6 @@ from model_utils.models import TimeStampedModel
 from . import helpers
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html
 class DistrictCategory(TimeStampedModel):
     """Types of regions bound to ballot items."""
 
@@ -27,7 +26,6 @@ class DistrictCategory(TimeStampedModel):
         return self.name
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html
 class District(TimeStampedModel):
     """Districts bound to ballot items."""
 
@@ -43,7 +41,6 @@ class District(TimeStampedModel):
         return self.name
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html
 class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
@@ -74,7 +71,6 @@ class Election(TimeStampedModel):
 # TODO: PollingLocation(TimestampedModel): ...
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html
 class Precinct(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
@@ -281,7 +277,6 @@ class BallotWebsite(TimeStampedModel):
         return f'{base}?{params}'
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular polling location."""
 
