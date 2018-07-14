@@ -19,8 +19,7 @@ These examples use [HTTPie](https://httpie.org/) for brevity, but the interactiv
 Check your registration status and fetch your voting precinct:
 
 ```
-http GET https://michiganelections.io/api/registrations/ \
-"Accept: application/json; version=0" \
+http GET https://michiganelections.io/api/registrations/ "Accept: application/json; version=0" \
 first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
 ```
 
@@ -29,9 +28,8 @@ first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
 Get a link to your sample ballot for upcoming elections:
 
 ```
-http GET https://michiganelections.io/api/ballots/ \
-"Accept: application/json; version=0" \
-county==Kent jurisdiction=="City of Grand Rapids" ward==1 number==9
+http GET https://michiganelections.io/api/ballots/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 ```
 
 ## Documentation

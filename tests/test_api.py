@@ -201,7 +201,9 @@ def describe_ballots():
             return ballot
 
         def filter_by_precinct_with_letter(expect, client, url, ballot):
-            response = client.get(url + f'?precinct={ballot.precinct.number}')
+            response = client.get(
+                url + f'?precinct_number={ballot.precinct.number}'
+            )
 
             expect(response.status_code) == 200
             expect(response.data['results']) == [

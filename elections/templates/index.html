@@ -86,16 +86,14 @@
 <h3>
 <a id="user-content-registration-status" class="anchor" href="#registration-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Registration Status</h3>
 <p>Check your registration status and fetch your voting precinct:</p>
-<pre><code>http GET {{BASE_URL}}/api/registrations/ \
-"Accept: application/json; version=0" \
+<pre><code>http GET {{BASE_URL}}/api/registrations/ "Accept: application/json; version=0" \
 first_name==Jace last_name==Browning birth_date==1987-06-02 zip_code==49503
 </code></pre>
 <h3>
 <a id="user-content-sample-ballots" class="anchor" href="#sample-ballots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sample Ballots</h3>
 <p>Get a link to your sample ballot for upcoming elections:</p>
-<pre><code>http GET {{BASE_URL}}/api/ballots/ \
-"Accept: application/json; version=0" \
-county==Kent jurisdiction=="City of Grand Rapids" ward==1 number==9
+<pre><code>http GET {{BASE_URL}}/api/ballots/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 </code></pre>
 <h2>
 <a id="user-content-documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
