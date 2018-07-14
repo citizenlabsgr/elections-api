@@ -146,13 +146,13 @@ def describe_precincts():
             precinct.save()
             return precinct
 
-        def when_no_ward(expect, client, url, precinct):
+        def when_no_ward(expect, client, url, precinct, anything):
             response = client.get(f'{url}{precinct.id}/')
 
             expect(response.status_code) == 200
             expect(response.data) == {
-                'url': 'http://testserver/api/precincts/2/',
-                'id': 2,
+                'url': anything,
+                'id': anything,
                 'county': 'Marquette',
                 'jurisdiction': 'Forsyth Township',
                 'ward': None,
@@ -200,7 +200,9 @@ def describe_ballots():
             ballot.precinct.save()
             return ballot
 
-        def filter_by_precinct_with_letter(expect, client, url, ballot):
+        def filter_by_precinct_with_letter(
+            expect, client, url, ballot, anything
+        ):
             response = client.get(
                 url + f'?precinct_number={ballot.precinct.number}'
             )
@@ -219,8 +221,8 @@ def describe_ballots():
                         'reference_url': None,
                     },
                     'precinct': {
-                        'url': 'http://testserver/api/precincts/3/',
-                        'id': 3,
+                        'url': anything,
+                        'id': anything,
                         'county': '',
                         'jurisdiction': '',
                         'ward': '2',

@@ -1,8 +1,17 @@
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
 from . import filters, models, serializers
+
+
+class CacheMixin:
+    @method_decorator(cache_page(60 * 60))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)  # type: ignore
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -30,6 +39,10 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         )
         return Response(output_serializer.data)
 
+    @method_decorator(cache_page(60 * 15))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class ElectionViewSet(viewsets.ModelViewSet):
     """
@@ -49,7 +62,7 @@ class ElectionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ElectionSerializer
 
 
-class DistrictCategoryViewSet(viewsets.ModelViewSet):
+class DistrictCategoryViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: DistrictType](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html)
 
@@ -65,7 +78,7 @@ class DistrictCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DistrictCategorySerializer
 
 
-class DistrictViewSet(viewsets.ModelViewSet):
+class DistrictViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Locality](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html)
 
@@ -77,11 +90,11 @@ class DistrictViewSet(viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.District.objects.all()
+    queryset = models.District.objects.all().prefetch_related('category')
     serializer_class = serializers.DistrictSerializer
 
 
-class PrecinctViewSet(viewsets.ModelViewSet):
+class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Precinct](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html)
 
@@ -93,13 +106,15 @@ class PrecinctViewSet(viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.Precinct.objects.all()
+    queryset = models.Precinct.objects.select_related(
+        'county', 'jurisdiction'
+    ).all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.PrecinctFilter
     serializer_class = serializers.PrecinctSerializer
 
 
-class BallotViewSet(viewsets.ModelViewSet):
+class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: BallotStyle](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html)
 
@@ -111,7 +126,9 @@ class BallotViewSet(viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.Ballot.objects.all()
+    queryset = models.Ballot.objects.select_related(
+        'election', 'precinct', 'precinct__county', 'precinct__jurisdiction'
+    ).all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.BallotFilter
     serializer_class = serializers.BallotSerializer

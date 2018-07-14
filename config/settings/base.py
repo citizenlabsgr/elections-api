@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     # Third party
-    'memoize',
     'rest_framework',
     'drf_yasg',
     'django_filters',

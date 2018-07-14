@@ -29,7 +29,7 @@ def moved_voter():
 
 
 def describe_fetch_registration_status_data():
-    @pytest.mark.vcr(record_mode="none" if os.getenv("CI") else "once")
+    @pytest.mark.vcr(record_mode='none' if os.getenv('CI') else 'once')
     def with_known_voter(expect, voter):
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
@@ -58,7 +58,7 @@ def describe_fetch_registration_status_data():
             },
         }
 
-    @pytest.mark.vcr(record_mode="none" if os.getenv("CI") else "once")
+    @pytest.mark.vcr(record_mode='none' if os.getenv('CI') else 'once')
     def with_moved_voter(expect, moved_voter):
         data = helpers.fetch_registration_status_data(moved_voter)
         expect(data['registered']) == True
