@@ -7,7 +7,6 @@ import log
 import redis
 import requests
 import requests_cache
-from memoize import memoize
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
@@ -20,7 +19,6 @@ def enable_requests_cache(expire_after):  # pragma: no cover
     )
 
 
-@memoize(timeout=60 * 15)
 def fetch_registration_status_data(voter):
 
     # GET form tokens
