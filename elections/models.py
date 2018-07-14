@@ -259,11 +259,13 @@ class BallotWebsite(TimeStampedModel):
         self.fetched = timezone.now()
 
         html = response.text
+        log.debug(f"Ballot HTML: {self.valid}")
         if "not available at this time" in html:
+            log.warn(f'Invalid ballot URL: {url}')
             self.valid = False
         elif "General Information" in html:
+            log.info(f'Valid ballot URL: {url}')
             self.valid = True
-        log.debug(f"Valid ballot HTML: {self.valid}")
 
         updated = self.mi_sos_html != html
         self.mi_sos_html = html
