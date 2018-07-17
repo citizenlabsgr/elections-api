@@ -40,7 +40,7 @@ CACHES = {
     }
 }
 
-REQUESTS_CACHE_EXPIRE_AFTER = timedelta(hours=24)
+REQUESTS_CACHE_EXPIRE_AFTER = timedelta(hours=4)
 
 ###############################################################################
 # Authentication
