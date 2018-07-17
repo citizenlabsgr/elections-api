@@ -237,12 +237,15 @@ class BallotWebsite(TimeStampedModel):
         if not self.fetched:
             log.debug(f'Age of fetch: <infinity>')
             return True
+
         age = timezone.now() - self.fetched
         log.debug(f'Age of fetch: {age}')
+
         if self.valid:
             stale_age = timedelta(days=1, hours=random.randint(2, 22))
         else:
             stale_age = timedelta(weeks=1, hours=random.randint(2, 22))
+
         return age > stale_age
 
     def fetch(self) -> bool:

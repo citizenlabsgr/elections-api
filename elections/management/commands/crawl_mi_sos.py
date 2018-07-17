@@ -82,12 +82,13 @@ class Command(BaseCommand):
             )
             if created:
                 self.stdout.write(f'Added website: {website}')
-            elif not website.stale:
+            elif website.valid:
                 log.debug(f'Ballot already scraped: {website}')
-                if website.valid:
-                    misses = 0
-                else:
-                    misses += 1
+                misses = 0
+                continue
+            elif not website.stale:
+                log.debug(f'Invalid ballot already scraped: {website}')
+                misses += 1
                 continue
 
             # Validate ballot website
