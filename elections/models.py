@@ -5,6 +5,8 @@ from typing import List
 from django.db import models
 from django.utils import timezone
 
+from bs4 import BeautifulSoup
+
 import log
 import pendulum
 import requests
@@ -270,6 +272,15 @@ class BallotWebsite(TimeStampedModel):
         self.mi_sos_html = html
 
         return updated
+
+    def parse(self):
+        soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
+
+        # soup.find(id='tblProposalSection')
+        for item in soup.find_all('table'):
+            print()
+            print(item)
+            print()
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:

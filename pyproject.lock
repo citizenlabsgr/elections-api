@@ -49,7 +49,7 @@ python-versions = "*"
 version = "18.1.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Screen-scraping library"
 name = "beautifulsoup4"
 optional = false
@@ -198,7 +198,7 @@ name = "django-extensions"
 optional = false
 platform = "any"
 python-versions = "*"
-version = "2.0.7"
+version = "2.1.0"
 
 [package.dependencies]
 six = ">=1.2"
@@ -640,7 +640,7 @@ name = "pylint-plugin-utils"
 optional = false
 platform = "*"
 python-versions = "*"
-version = "0.3"
+version = "0.4"
 
 [package.dependencies]
 pylint = "*"
@@ -982,7 +982,7 @@ multidict = ">=4.0"
 python = ">=3.4"
 
 [metadata]
-content-hash = "a902fc52cc048b072284d033a2bd6db7fe2d0a8e85f0e823026e04988a97bf4d"
+content-hash = "6dfe75d3b57120dbcf45a1ab1db1b4146fab8e06c8bae173ee7d25c379e11d84"
 platform = "*"
 python-versions = "^3.6"
 
@@ -1005,7 +1005,7 @@ coverage = ["03481e81d558d30d230bc12999e3edffe392d244349a90f4ef9b88425fac74ba", 
 dj-database-url = ["4aeaeb1f573c74835b0686a2b46b85990571159ffc21aa57ecd4d1e1cb334163", "851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"]
 django = ["97886b8a13bbc33bfeba2ff133035d3eca014e2309dff2b6da0bdfc0b8656613", "e900b73beee8977c7b887d90c6c57d68af10066b9dac898e1eaf0f82313de334"]
 django-debug-toolbar = ["4af2a4e1e932dadbda197b18585962d4fc20172b4e5a479490bc659fe998864d", "d9ea75659f76d8f1e3eb8f390b47fc5bad0908d949c34a8a3c4c87978eb40a0f"]
-django-extensions = ["3be3debf53c77ca795bdf713726c923aa3c3f895e1a42e2e31a68c1a562346a4", "94bfac99eb262c5ac27e53eda96925e2e53fe0b331af7dde37012d07639a649c"]
+django-extensions = ["c3c8524056ab1174c6fc769b0599e60f7e7797ce34f38db2effc48885a0a982c", "e279344c6d825adb27694755aa924702d3cc401f8fad5ad9ef2d577948778a5f"]
 django-filter = ["ea204242ea83790e1512c9d0d8255002a652a6f4986e93cee664f28955ba0c22", "ec0ef1ba23ef95b1620f5d481334413700fb33f45cd76d56a63f4b0b1d76976a"]
 django-grappelli = ["a0ac5a5f1eef64a0147c3dade02f55667a01aa7e84b93c2e8f6195117b980516", "e867d4b5df0e2ecebf50feba5723284f6441a9a76541c6840378020540b9570a"]
 django-livereload-server = ["6c8da1cb356d9a7fd044d0a50342574aad168522d5d8d25bbdc4ddd9fd196eab"]
@@ -1045,7 +1045,7 @@ pygments = ["78f3f434bcc5d6ee09020f92ba487f95ba50f1e3ef83ae96b9d5ffa1bab25c5d", 
 pygraphviz = ["1aabe3efabe3691e889aec6d10ae28e7e10f3c153fa1235a4cd58b0724481fca", "7c294cbc9d88946be671cc0d8602aac176d8c56695c0a7d871eadea75a958408"]
 pylint = ["a48070545c12430cfc4e865bf62f5ad367784765681b3db442d8230f0960aa3c", "fff220bcb996b4f7e2b0f6812fd81507b72ca4d8c4d05daf2655c333800cb9b3"]
 pylint-django = ["70a723115a9649d6082f6ef09209ff299ce5b90c19005e351f7eb62889888694", "ff10fbf6e0ab207fbb8ec26f5b6a3f4fa604233b38182ccda038a08ba1b8ba80"]
-pylint-plugin-utils = ["083d134b4f2fefae741ed47ab9229a08d572d4154b1f08eecc8a62666dfa84e9", "b3a93908d15d265c4c2d7c7822b4b0f247b2de658bd7ececa160a04910d5d4d3"]
+pylint-plugin-utils = ["8ad25a82bcce390d1d6b7c006c123e0cb18051839c9df7b8bdb7823c53fe676e"]
 pytest = ["0453c8676c2bee6feb0434748b068d5510273a916295fd61d306c4f22fbfd752", "4b208614ae6d98195430ad6bde03641c78553acee7c83cec2e85d613c0cd383d"]
 pytest-cov = ["03aa752cf11db41d281ea1d807d954c4eda35cfa1b21d6971966cc041bbf6e2d", "890fe5565400902b0c78b5357004aab1c814115894f4f21370e2433256a3eeec"]
 pytest-describe = ["bd6be131452b7822c872735ffe53ce3931b3b80cbbad1647c2b482cc9ef3d00e"]

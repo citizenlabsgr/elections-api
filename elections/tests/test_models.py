@@ -1,4 +1,5 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
+import os
 
 import pendulum
 import pytest
@@ -127,6 +128,13 @@ def describe_ballot_website():
             expect(
                 website.mi_sos_url
             ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=675"
+
+    def describe_parse():
+        @pytest.mark.vcr(record_mode='none' if os.getenv('CI') else 'once')
+        def with_single_proposal(expect):
+            website = models.BallotWebsite(mi_sos_election_id=675, mi_sos_precinct_id=2000)
+            website.fetch()
+            expect(website.parse()) == 1
 
 
 def describe_ballot():

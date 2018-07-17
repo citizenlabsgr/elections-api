@@ -27,6 +27,7 @@ minilog = "*"
 factory_boy = "*"
 pendulum = "*"
 requests_cache = "*"
+beautifulsoup4 = "^4.6"
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
