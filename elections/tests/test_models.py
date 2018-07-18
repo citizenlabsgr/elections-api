@@ -132,7 +132,9 @@ def describe_ballot_website():
     def describe_parse():
         @pytest.mark.vcr(record_mode='none' if os.getenv('CI') else 'once')
         def with_single_proposal(expect):
-            website = models.BallotWebsite(mi_sos_election_id=675, mi_sos_precinct_id=2000)
+            website = models.BallotWebsite(
+                mi_sos_election_id=675, mi_sos_precinct_id=2000
+            )
             website.fetch()
             expect(website.parse()) == 1
 

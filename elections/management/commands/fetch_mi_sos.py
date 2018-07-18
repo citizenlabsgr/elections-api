@@ -65,7 +65,7 @@ class Command(BaseCommand):
                     ballot.website = website
                     ballot.save()
 
-                if ballot.website.stale and ballot.website.fetch():
+                if ballot.website.stale(fuzz=0.5) and ballot.website.fetch():
                     self.stdout.write(f"Updated website: {ballot.website}")
                     ballot.website.save()
 

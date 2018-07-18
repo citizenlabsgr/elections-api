@@ -5,11 +5,10 @@ from typing import List
 from django.db import models
 from django.utils import timezone
 
-from bs4 import BeautifulSoup
-
 import log
 import pendulum
 import requests
+from bs4 import BeautifulSoup
 from model_utils.models import TimeStampedModel
 
 from . import helpers
@@ -234,8 +233,7 @@ class BallotWebsite(TimeStampedModel):
             precinct_id=self.mi_sos_precinct_id,
         )
 
-    @property
-    def stale(self) -> bool:
+    def stale(self, fuzz=0.0):
         if not self.fetched:
             log.debug(f'Age of fetch: <infinity>')
             return True
@@ -244,9 +242,14 @@ class BallotWebsite(TimeStampedModel):
         log.debug(f'Age of fetch: {age}')
 
         if self.valid:
-            stale_age = timedelta(days=1, hours=random.randint(2, 22))
+            days = 1.0
+            days += days * random.uniform(-fuzz, +fuzz)
+            stale_age = timedelta(days=days)
         else:
-            stale_age = timedelta(weeks=1, hours=random.randint(2, 22))
+            weeks = 1.0
+            weeks += weeks * random.uniform(-fuzz, +fuzz)
+            stale_age = timedelta(weeks=weeks)
+        log.debug(f'Fetch becomes stale: {stale_age}')
 
         return age > stale_age
 
