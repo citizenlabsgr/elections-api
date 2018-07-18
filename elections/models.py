@@ -279,11 +279,46 @@ class BallotWebsite(TimeStampedModel):
     def parse(self):
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
-        # soup.find(id='tblProposalSection')
-        for item in soup.find_all('table'):
-            print()
-            print(item)
-            print()
+        section = None
+        category = None
+
+        for index, table in enumerate(soup.find_all('table')):
+            print(f'{index} ' + '=' * 100)
+
+            td = table.find('td', class_='primarySection')
+            if td:
+                heading = td.text.strip()
+                print(dict(heading=heading))
+                continue
+
+            if table.get('class') == ['primaryTable']:
+                td = table.find('td', class_='partyHeading')
+                section = td.text.strip()
+                print(dict(section=section))
+                continue
+
+            if table.get('class') == ['tblOffice']:
+                category = 'POSITION'
+                print(dict(category=category))
+                # TODO: parse position
+                continue
+
+            if table.get('class') == None:
+                td = table.find('td', class_='section')
+                if td:
+                    section = td.text.strip()
+                    print(dict(section=section))
+                    continue
+
+            if table.get('class') == ['proposal']:
+                # TODO: parse proposal
+                category = 'PROPOSAL'
+                print(dict(category=category))
+                continue
+
+            print(table.prettify())
+
+        print(self.mi_sos_url)
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
