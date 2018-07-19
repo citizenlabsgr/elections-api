@@ -1,6 +1,6 @@
 import random
 from datetime import timedelta
-from typing import List
+from typing import List, Optional
 
 from django.db import models
 from django.utils import timezone
@@ -8,7 +8,7 @@ from django.utils import timezone
 import log
 import pendulum
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, element
 from model_utils.models import TimeStampedModel
 
 from . import helpers
@@ -208,6 +208,16 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
+class Party(TimeStampedModel):
+    """Affiliation for a particular candidate."""
+
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class BallotWebsite(TimeStampedModel):
     """Raw HTML of potential ballot from the MI SOS website."""
 
@@ -282,43 +292,82 @@ class BallotWebsite(TimeStampedModel):
         section = None
         category = None
 
-        for index, table in enumerate(soup.find_all('table')):
-            print(f'{index} ' + '=' * 100)
+        results = []
 
-            td = table.find('td', class_='primarySection')
-            if td:
-                heading = td.text.strip()
-                print(dict(heading=heading))
+        for index, table in enumerate(soup.find_all('table')):
+            result = self._handle(table)
+
+            if isinstance(result, Party):
+                results.append(result)
+
+            if result:
                 continue
 
-            if table.get('class') == ['primaryTable']:
-                td = table.find('td', class_='partyHeading')
+            html = table.prettify()
+            msg = f'Unexpected table:{index} on {self.mi_sos_url}:\n\n{html}'
+            raise ValueError(msg)
+
+        return results
+
+    def _handle(self, table: element.Tag) -> bool:
+        for handle in [
+            self._handle_primary_header,
+            self._handle_party_section,
+            self._handle_position,
+            self._handle_proposal_header,
+            self._handle_proposal,
+        ]:
+            result = handle(table)
+            if result:
+                return result
+        return None
+
+    @staticmethod
+    def _handle_primary_header(table: element.Tag) -> bool:
+        td = table.find('td', class_='primarySection')
+        if td:
+            header = td.text.strip()
+            log.debug(f'Found header: {header}')
+            if "partisan section" in header.lower():
+                return True
+        return False
+
+    @staticmethod
+    def _handle_party_section(table: element.Tag) -> Optional[Party]:
+        if table.get('class') == ['primaryTable']:
+            td = table.find('td', class_='partyHeading')
+            section = td.text.strip()
+            log.debug(f'Found section: {section}')
+            name = section.split(' ')[0].title()
+            return Party(name=name)
+        return None
+
+    @staticmethod
+    def _handle_position(table: element.Tag) -> bool:
+        if table.get('class') == ['tblOffice']:
+            category = 'POSITION'
+            print(dict(category=category))
+            # TODO: parse position
+            return True
+        return False
+
+    @staticmethod
+    def _handle_proposal_header(table: element.Tag) -> bool:
+        if table.get('class') == None:
+            td = table.find('td', class_='section')
+            if td:
                 section = td.text.strip()
                 print(dict(section=section))
-                continue
+                return True
+        return False
 
-            if table.get('class') == ['tblOffice']:
-                category = 'POSITION'
-                print(dict(category=category))
-                # TODO: parse position
-                continue
-
-            if table.get('class') == None:
-                td = table.find('td', class_='section')
-                if td:
-                    section = td.text.strip()
-                    print(dict(section=section))
-                    continue
-
-            if table.get('class') == ['proposal']:
-                # TODO: parse proposal
-                category = 'PROPOSAL'
-                print(dict(category=category))
-                continue
-
-            print(table.prettify())
-
-        print(self.mi_sos_url)
+    @staticmethod
+    def _handle_proposal(table: element.Tag) -> bool:
+        if table.get('class') == ['proposal']:
+            # TODO: parse proposal
+            category = 'PROPOSAL'
+            print(dict(category=category))
+            return category
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -381,13 +430,6 @@ class BallotItem(TimeStampedModel):
 # TODO: Considering adding selection options
 class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
-
-
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
-class Party(TimeStampedModel):
-    """Affiliation for a particular candidate."""
-
-    name = models.CharField(max_length=50)
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
