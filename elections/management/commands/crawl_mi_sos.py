@@ -85,13 +85,13 @@ class Command(BaseCommand):
             elif website.valid:
                 log.debug(f'Ballot already scraped: {website}')
                 if misses:
-                    self.stdout.write(f'Misses: 0')
+                    self.stdout.write(f'ID={mi_sos_precinct_id}, Misses=0')
                 misses = 0
                 continue
             elif not website.stale:
                 log.debug(f'Invalid ballot already scraped: {website}')
                 misses += 1
-                self.stdout.write(f'Misses: {misses}')
+                self.stdout.write(f'ID={mi_sos_precinct_id}, Misses={misses}')
                 continue
 
             # Validate ballot website
@@ -99,12 +99,12 @@ class Command(BaseCommand):
             website.save()
             if website.valid:
                 if misses:
-                    self.stdout.write(f'Misses: 0')
+                    self.stdout.write(f'ID={mi_sos_precinct_id}, Misses: 0')
                 misses = 0
             else:
                 log.warn(f'Invalid ballot website: {website}')
                 misses += 1
-                self.stdout.write(f'Misses: {misses}')
+                self.stdout.write(f'ID={mi_sos_precinct_id}, Misses: {misses}')
                 continue
 
             # Parse county
