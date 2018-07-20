@@ -297,7 +297,7 @@ class BallotWebsite(TimeStampedModel):
         for index, table in enumerate(soup.find_all('table')):
             result = self._handle(table)
 
-            if isinstance(result, Party):
+            if isinstance(result, models.Model):
                 results.append(result)
 
             if result:
@@ -356,18 +356,31 @@ class BallotWebsite(TimeStampedModel):
         if table.get('class') == None:
             td = table.find('td', class_='section')
             if td:
-                section = td.text.strip()
-                print(dict(section=section))
+                header = td.text.strip()
+                log.debug(f'Found header: {header}')
                 return True
         return False
 
     @staticmethod
     def _handle_proposal(table: element.Tag) -> bool:
         if table.get('class') == ['proposal']:
-            # TODO: parse proposal
-            category = 'PROPOSAL'
-            print(dict(category=category))
-            return category
+            category = DistrictCategory(
+                name=table.find(class_='division')
+                .text.split("PROPOSALS")[0]
+                .strip()
+            )
+            district = District(
+                category=category,
+                name=table.find(class_='proposalTitle')
+                .text.split(category.name)[0]
+                .strip(),
+            )
+            proposal = Proposal(
+                name=table.find(class_='proposalTitle').text.strip(),
+                description=table.find(class_='proposalText').text.strip(),
+                district=district,
+            )
+            return proposal
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -423,6 +436,9 @@ class BallotItem(TimeStampedModel):
     class Meta:
         abstract = True
         unique_together = ['election', 'district', 'name']
+
+    def __str__(self):
+        return self.name
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html
