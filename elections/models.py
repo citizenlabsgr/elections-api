@@ -1,6 +1,6 @@
 import random
 from datetime import timedelta
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from django.db import models
 from django.utils import timezone
@@ -289,16 +289,16 @@ class BallotWebsite(TimeStampedModel):
     def parse(self):
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
-        section = None
-        category = None
-
+        election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
+        party = None
         results = []
-
         for index, table in enumerate(soup.find_all('table')):
-            result = self._handle(table)
+            result = self._handle(table, election, party)
 
-            if isinstance(result, models.Model):
+            if isinstance(result, (Party, Position, Proposal)):
                 results.append(result)
+            if isinstance(result, Party):
+                party = result
 
             if result:
                 continue
@@ -309,21 +309,30 @@ class BallotWebsite(TimeStampedModel):
 
         return results
 
-    def _handle(self, table: element.Tag) -> bool:
-        for handle in [
+    def _handle(
+        self, table: element.Tag, election: Election, party: Optional[Party]
+    ) -> Union[None, 'Party', 'Position', 'Proposal']:
+        for handler in [
             self._handle_primary_header,
             self._handle_party_section,
             self._handle_position,
             self._handle_proposal_header,
             self._handle_proposal,
         ]:
-            result = handle(table)
+            try:
+                result = handler( # type: ignore
+                    table, election=election, party=party
+                )
+            except:
+                print(table.prettify())
+                raise
+
             if result:
                 return result
         return None
 
     @staticmethod
-    def _handle_primary_header(table: element.Tag) -> bool:
+    def _handle_primary_header(table: element.Tag, **_) -> bool:
         td = table.find('td', class_='primarySection')
         if td:
             header = td.text.strip()
@@ -333,26 +342,63 @@ class BallotWebsite(TimeStampedModel):
         return False
 
     @staticmethod
-    def _handle_party_section(table: element.Tag) -> Optional[Party]:
-        if table.get('class') == ['primaryTable']:
-            td = table.find('td', class_='partyHeading')
-            section = td.text.strip()
-            log.debug(f'Found section: {section}')
-            name = section.split(' ')[0].title()
-            return Party(name=name)
-        return None
+    def _handle_party_section(table: element.Tag, **_) -> Optional[Party]:
+        if table.get('class') != ['primaryTable']:
+            return None
+
+        td = table.find('td', class_='partyHeading')
+        section = td.text.strip()
+        log.debug(f'Found section: {section}')
+        name = section.split(' ')[0].title()
+        return Party.objects.get(name=name)
 
     @staticmethod
-    def _handle_position(table: element.Tag) -> bool:
-        if table.get('class') == ['tblOffice']:
-            category = 'POSITION'
-            print(dict(category=category))
-            # TODO: parse position
-            return True
-        return False
+    def _handle_position(
+        table: element.Tag, election: Election, party: Optional[Party]
+    ) -> Optional['Position']:
+        assert party, 'Party must be parsed before positions'
+        if table.get('class') != ['tblOffice']:
+            return None
+
+        category_name = (
+            (table.find(class_='division') or table.find(class_='mobileOnly'))
+            .text.strip()
+            .title()
+        )
+        if category_name == "Congressional":
+            category_name = "State"
+        category = DistrictCategory.objects.get(name=category_name)
+        log.debug(f'Parsed category: {category}')
+
+        if category.name == "State":
+            district_name = "Michigan"
+        else:
+            district_name = table.find(class_='term').text.strip()
+        district = District.objects.get(category=category, name=district_name)
+        log.debug(f'Parsed district: {district}')
+
+        position, _ = Position.objects.get_or_create(
+            election=election,
+            district=district,
+            name=table.find(class_='office').text.strip(),
+            seats=int(
+                table.find_all(class_='term')[-1].text.strip().split()[-1]
+            ),
+        )
+
+        for td in table.find_all(class_='candidate'):
+
+            if td.text.strip() == "No candidates on ballot":
+                log.debug(f'No {party} candidates for {position}')
+                return None
+            Candidate.objects.get_or_create(
+                name=td.text.strip(), party=party, position=position
+            )
+
+        return position
 
     @staticmethod
-    def _handle_proposal_header(table: element.Tag) -> bool:
+    def _handle_proposal_header(table: element.Tag, **_) -> bool:
         if table.get('class') == None:
             td = table.find('td', class_='section')
             if td:
@@ -362,25 +408,30 @@ class BallotWebsite(TimeStampedModel):
         return False
 
     @staticmethod
-    def _handle_proposal(table: element.Tag) -> bool:
-        if table.get('class') == ['proposal']:
-            category = DistrictCategory(
-                name=table.find(class_='division')
-                .text.split("PROPOSALS")[0]
-                .strip()
-            )
-            district = District(
-                category=category,
-                name=table.find(class_='proposalTitle')
-                .text.split(category.name)[0]
-                .strip(),
-            )
-            proposal = Proposal(
-                name=table.find(class_='proposalTitle').text.strip(),
-                description=table.find(class_='proposalText').text.strip(),
-                district=district,
-            )
-            return proposal
+    def _handle_proposal(
+        table: element.Tag, election: Election, **_
+    ) -> Optional['Proposal']:
+        if table.get('class') != ['proposal']:
+            return None
+
+        category = DistrictCategory.objects.get(
+            name=table.find(class_='division')
+            .text.split("PROPOSALS")[0]
+            .strip()
+        )
+        district = District.objects.get(
+            category=category,
+            name=table.find(class_='proposalTitle')
+            .text.split(category.name)[0]
+            .strip(),
+        )
+        proposal, _ = Proposal.objects.get_or_create(
+            election=election,
+            district=district,
+            name=table.find(class_='proposalTitle').text.strip(),
+            description=table.find(class_='proposalText').text.strip(),
+        )
+        return proposal
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -448,9 +499,20 @@ class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
+# TODO: Consider splitting this up to match VIP
+class Position(BallotItem):
+    """Ballot item selecting one ore more candidates."""
+
+    seats = models.PositiveIntegerField(default=1)
+
+
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
 class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
+
+    position = models.ForeignKey(Position, null=True, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -459,12 +521,5 @@ class Candidate(TimeStampedModel):
         Party, blank=True, null=True, on_delete=models.SET_NULL
     )
 
-
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
-# TODO: Consider splitting this up to match VIP
-class Position(BallotItem):
-    """Ballot item selecting one ore more candidates."""
-
-    candidates = models.ManyToManyField(Candidate)
-    seats = models.PositiveIntegerField(default=1)
+    class Meta:
+        unique_together = ['position', 'name']

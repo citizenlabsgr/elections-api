@@ -1,4 +1,5 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
+
 import os
 
 import pendulum
@@ -131,12 +132,35 @@ def describe_ballot_website():
 
     def describe_parse():
         @pytest.mark.vcr(record_mode='none' if os.getenv('CI') else 'once')
-        def with_single_proposal(expect):
+        def with_single_proposal(expect, db):
+            models.Election.objects.get_or_create(
+                name="State Primary",
+                date=pendulum.parse("2018-08-07", tz='America/Detroit'),
+                mi_sos_id=675,
+            )
+            models.Party.objects.get_or_create(name="Republican")
+            models.Party.objects.get_or_create(name="Democratic")
+            models.Party.objects.get_or_create(name="Libertarian")
+            state, _ = models.DistrictCategory.objects.get_or_create(
+                name="State"
+            )
+            models.District.objects.get_or_create(
+                category=state, name="Michigan"
+            )
+
             website = models.BallotWebsite(
                 mi_sos_election_id=675, mi_sos_precinct_id=2000
             )
             website.fetch()
-            expect(website.parse()) == 1
+
+            expect(website.parse()) == [
+                models.Party(name="Republican"),
+                models.Party(name="Democratic"),
+                models.Party(name="Libertarian"),
+                models.Proposal(
+                    name="Macomb County Public Transportation Millage"
+                ),
+            ]
 
 
 def describe_ballot():
