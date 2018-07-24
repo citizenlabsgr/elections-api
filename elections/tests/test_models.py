@@ -138,14 +138,35 @@ def describe_ballot_website():
                 date=pendulum.parse("2018-08-07", tz='America/Detroit'),
                 mi_sos_id=675,
             )
+
             models.Party.objects.get_or_create(name="Republican")
             models.Party.objects.get_or_create(name="Democratic")
             models.Party.objects.get_or_create(name="Libertarian")
+
             state, _ = models.DistrictCategory.objects.get_or_create(
                 name="State"
             )
+            us_congress_district, _ = models.DistrictCategory.objects.get_or_create(
+                name="US Congress District"
+            )
+            state_senate_district, _ = models.DistrictCategory.objects.get_or_create(
+                name="State Senate District"
+            )
+            state_house_district, _ = models.DistrictCategory.objects.get_or_create(
+                name="State House District"
+            )
+
             models.District.objects.get_or_create(
                 category=state, name="Michigan"
+            )
+            models.District.objects.get_or_create(
+                category=us_congress_district, name="9th District"
+            )
+            models.District.objects.get_or_create(
+                category=state_senate_district, name="10th District"
+            )
+            models.District.objects.get_or_create(
+                category=state_house_district, name="25th District"
             )
 
             website = models.BallotWebsite(

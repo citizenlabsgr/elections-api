@@ -1,4 +1,5 @@
 import random
+import string
 from datetime import timedelta
 from typing import List, Optional, Union
 
@@ -320,7 +321,7 @@ class BallotWebsite(TimeStampedModel):
             self._handle_proposal,
         ]:
             try:
-                result = handler( # type: ignore
+                result = handler(  # type: ignore
                     table, election=election, party=party
                 )
             except:
@@ -360,27 +361,65 @@ class BallotWebsite(TimeStampedModel):
         if table.get('class') != ['tblOffice']:
             return None
 
-        category_name = (
-            (table.find(class_='division') or table.find(class_='mobileOnly'))
-            .text.strip()
-            .title()
-        )
-        if category_name == "Congressional":
-            category_name = "State"
-        category = DistrictCategory.objects.get(name=category_name)
-        log.debug(f'Parsed category: {category}')
+        td = table.find(class_='office')
+        if td:
+            base = string.capwords(td.text)
 
-        if category.name == "State":
-            district_name = "Michigan"
-        else:
-            district_name = table.find(class_='term').text.strip()
-        district = District.objects.get(category=category, name=district_name)
-        log.debug(f'Parsed district: {district}')
+            if base == "Governor":
+                category = DistrictCategory.objects.get(name="State")
+                log.debug(f'Parsed category: {category}')
+                district = District.objects.get(
+                    category=category, name="Michigan"
+                )
+                log.debug(f'Parsed district: {district}')
+
+            elif base == "United States Senator":
+                category = DistrictCategory.objects.get(name="State")
+                log.debug(f'Parsed category: {category}')
+                district = District.objects.get(
+                    category=category, name="Michigan"
+                )
+                log.debug(f'Parsed district: {district}')
+
+            elif base == "Representative In Congress":
+                category = DistrictCategory.objects.get(
+                    name="US Congress District"
+                )
+                log.debug(f'Parsed category: {category}')
+                district_name = string.capwords(table.find(class_='term').text)
+                district = District.objects.get(
+                    category=category, name=district_name
+                )
+                log.debug(f'Parsed district: {district}')
+
+            elif base == "Representative In State Legislature":
+                category = DistrictCategory.objects.get(
+                    name="State House District"
+                )
+                log.debug(f'Parsed category: {category}')
+                district_name = string.capwords(table.find(class_='term').text)
+                district = District.objects.get(
+                    category=category, name=district_name
+                )
+                log.debug(f'Parsed district: {district}')
+
+            else:
+                if base == "State Senator":
+                    category_name = "State Senate District"
+                else:
+                    category_name = base + " District"
+                category = DistrictCategory.objects.get(name=category_name)
+                log.debug(f'Parsed category: {category}')
+                district_name = string.capwords(table.find(class_='term').text)
+                district = District.objects.get(
+                    category=category, name=district_name
+                )
+                log.debug(f'Parsed district: {district}')
 
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
-            name=table.find(class_='office').text.strip(),
+            name=string.capwords(table.find(class_='office').text),
             seats=int(
                 table.find_all(class_='term')[-1].text.strip().split()[-1]
             ),
