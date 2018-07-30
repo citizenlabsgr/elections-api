@@ -7,18 +7,19 @@ import log
 import redis
 import requests
 import requests_cache
-
 from rest_framework.exceptions import APIException
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
+USER_AGENT = (
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Geck o/20100101 Firefox/40.1'
+)
 
 
 class ServiceUnavailable(APIException):
     status_code = 503
     default_detail = "Service temporarily unavailable, try again later."
     default_code = 'service_unavailable'
-
 
 
 def enable_requests_cache(expire_after):  # pragma: no cover
@@ -33,9 +34,10 @@ def fetch_registration_status_data(voter):
     # GET form tokens
     with requests_cache.disabled():
         try:
-            response = requests.get(MI_SOS_URL)
+            url = MI_SOS_URL
+            response = requests.get(url, headers={'User-Agent': USER_AGENT})
         except OSError as exc:
-            log.error(exc)
+            log.error(f'Unable to GET {url}: {exc}')
             raise ServiceUnavailable()
     log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
@@ -65,7 +67,10 @@ def fetch_registration_status_data(voter):
     # POST form data
     response = requests.post(
         MI_SOS_URL,
-        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        headers={
+            'Content-Type': "application/x-www-form-urlencoded",
+            'User-Agent': USER_AGENT,
+        },
         data=form,
     )
     log.debug(f"Response from MI SOS:\n{response.text}")
@@ -79,7 +84,9 @@ def fetch_registration_status_data(voter):
             response.text,
         )
         with requests_cache.disabled():
-            response = requests.get(MI_SOS_URL + page)
+            response = requests.get(
+                MI_SOS_URL + page, headers={'User-Agent': USER_AGENT}
+            )
         log.debug(f"Response from MI SOS:\n{response.text}")
         response.raise_for_status()
 
