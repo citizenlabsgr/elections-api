@@ -39,6 +39,9 @@ class District(TimeStampedModel):
         unique_together = ['category', 'name']
         ordering = ['-population']
 
+    def __repr__(self) -> str:
+        return f'<District: {self.name} ({self.category})>'
+
     def __str__(self) -> str:
         return self.name
 
@@ -290,11 +293,12 @@ class BallotWebsite(TimeStampedModel):
     def parse(self):
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
+        county = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id).county
         election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
         party = None
         results = []
         for index, table in enumerate(soup.find_all('table')):
-            result = self._handle(table, election, party)
+            result = self._handle(table, county, election, party)
 
             if isinstance(result, (Party, Position, Proposal)):
                 results.append(result)
@@ -311,7 +315,11 @@ class BallotWebsite(TimeStampedModel):
         return results
 
     def _handle(
-        self, table: element.Tag, election: Election, party: Optional[Party]
+        self,
+        table: element.Tag,
+        county: District,
+        election: Election,
+        party: Optional[Party],
     ) -> Union[None, 'Party', 'Position', 'Proposal']:
         for handler in [
             self._handle_primary_header,
@@ -322,7 +330,7 @@ class BallotWebsite(TimeStampedModel):
         ]:
             try:
                 result = handler(  # type: ignore
-                    table, election=election, party=party
+                    table, county=county, election=election, party=party
                 )
             except:
                 print(table.prettify())
@@ -355,84 +363,128 @@ class BallotWebsite(TimeStampedModel):
 
     @staticmethod
     def _handle_position(
-        table: element.Tag, election: Election, party: Optional[Party]
+        table: element.Tag,
+        county: District,
+        election: Election,
+        party: Optional[Party],
     ) -> Optional['Position']:
         assert party, 'Party must be parsed before positions'
         if table.get('class') != ['tblOffice']:
             return None
 
+        # Parse category
+
+        category = None
+        td = table.find(class_='division')
+        if td:
+            category_name = string.capwords(td.text)
+            if category_name not in {
+                "Congressional",
+                "Legislative",
+                "Delegate",
+            }:
+                log.debug(f'Parsing category from division: {td.text!r}')
+                category = DistrictCategory.objects.get(name=category_name)
+
+        if not category:
+            td = table.find(class_='office')
+            if td:
+                office = string.capwords(td.text)
+
+                if office == "United States Senator":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(name="State")
+
+                elif office == "Representative In Congress":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="US Congress District"
+                    )
+                elif office == "State Senator":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="State Senate District"
+                    )
+                elif office == "Representative In State Legislature":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="State House District"
+                    )
+
+                elif office == "Delegate To County Convention":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(name="County")
+
+        if not category:
+            class_ = 'mobileOnly'
+            td = table.find(class_=class_)
+            if td:
+                category_name = string.capwords(td.text)
+                log.debug(f'Parsing category from {class_!r}: {td.text!r}')
+                category = DistrictCategory.objects.get(name=category_name)
+
+        log.info(f'Parsed: {category!r}')
+        assert category
+
+        # Parse district
+
+        district = None
         td = table.find(class_='office')
         if td:
-            base = string.capwords(td.text)
+            office = string.capwords(td.text)
 
-            if base == "Governor":
-                category = DistrictCategory.objects.get(name="State")
-                log.debug(f'Parsed category: {category}')
+            if office == "Governor":
+                log.debug(f'Parsing district from office: {td.text!r}')
                 district = District.objects.get(
                     category=category, name="Michigan"
                 )
-                log.debug(f'Parsed district: {district}')
-
-            elif base == "United States Senator":
-                category = DistrictCategory.objects.get(name="State")
-                log.debug(f'Parsed category: {category}')
+            elif office == "United States Senator":
+                log.debug(f'Parsing district from office: {td.text!r}')
                 district = District.objects.get(
                     category=category, name="Michigan"
                 )
-                log.debug(f'Parsed district: {district}')
 
-            elif base == "Representative In Congress":
-                category = DistrictCategory.objects.get(
-                    name="US Congress District"
-                )
-                log.debug(f'Parsed category: {category}')
-                district_name = string.capwords(table.find(class_='term').text)
-                district = District.objects.get(
-                    category=category, name=district_name
-                )
-                log.debug(f'Parsed district: {district}')
-
-            elif base == "Representative In State Legislature":
-                category = DistrictCategory.objects.get(
-                    name="State House District"
-                )
-                log.debug(f'Parsed category: {category}')
-                district_name = string.capwords(table.find(class_='term').text)
-                district = District.objects.get(
-                    category=category, name=district_name
-                )
-                log.debug(f'Parsed district: {district}')
+            elif category.name == "County":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = county
 
             else:
-                if base == "State Senator":
-                    category_name = "State Senate District"
-                else:
-                    category_name = base + " District"
-                category = DistrictCategory.objects.get(name=category_name)
-                log.debug(f'Parsed category: {category}')
-                district_name = string.capwords(table.find(class_='term').text)
+                td = table.find(class_='term')
+                log.debug(f'Parsing district from term: {td.text!r}')
+                district_name = string.capwords(td.text)
                 district = District.objects.get(
                     category=category, name=district_name
                 )
-                log.debug(f'Parsed district: {district}')
 
+        log.info(f'Parsed: {district!r}')
+        assert district
+
+        # Parse position
+
+        office = table.find(class_='office').text
+        seats = table.find_all(class_='term')[-1].text
+        log.debug(f'Parsing position from: {office!r} when {seats!r}')
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
-            name=string.capwords(table.find(class_='office').text),
-            seats=int(
-                table.find_all(class_='term')[-1].text.strip().split()[-1]
-            ),
+            name=string.capwords(office),
+            seats=int(seats.strip().split()[-1]),
         )
 
-        for td in table.find_all(class_='candidate'):
+        # Parse candidates
 
-            if td.text.strip() == "No candidates on ballot":
-                log.debug(f'No {party} candidates for {position}')
+        for td in table.find_all(class_='candidate'):
+            log.debug(f'Parsing candidate: {td.text!r}')
+            candidate_name = td.text.strip()
+
+            if candidate_name == "No candidates on ballot":
+                log.warn(f'No {party} candidates for {position}')
                 return None
-            Candidate.objects.get_or_create(
-                name=td.text.strip(), party=party, position=position
+
+            candidate, _ = Candidate.objects.get_or_create(
+                name=candidate_name, party=party, position=position
             )
+            log.info(f'Parsed: {candidate}')
 
         return position
 
