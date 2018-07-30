@@ -8,8 +8,17 @@ import redis
 import requests
 import requests_cache
 
+from rest_framework.exceptions import APIException
+
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
+
+
+class ServiceUnavailable(APIException):
+    status_code = 503
+    default_detail = "Service temporarily unavailable, try again later."
+    default_code = 'service_unavailable'
+
 
 
 def enable_requests_cache(expire_after):  # pragma: no cover
@@ -23,7 +32,11 @@ def fetch_registration_status_data(voter):
 
     # GET form tokens
     with requests_cache.disabled():
-        response = requests.get(MI_SOS_URL)
+        try:
+            response = requests.get(MI_SOS_URL)
+        except OSError as exc:
+            log.error(exc)
+            raise ServiceUnavailable()
     log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
 
