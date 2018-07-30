@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: Installing system dependencies
-          command: sudo pip install poetry==0.11.1
+          command: sudo pip install poetry==0.11.4
 
       - run:
           name: Checking system dependencies
