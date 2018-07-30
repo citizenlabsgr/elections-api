@@ -32,13 +32,14 @@ beautifulsoup4 = "^4.6"
 gunicorn = "^19.8"
 whitenoise = "^3.3"
 bugsnag = "^3.4"
+requests = {version = "^2.19", extras = ["security"]}
 
 [tool.poetry.dev-dependencies]
 
 isort = "^4.3"
 black = "^18.3-alpha.0"
 
-pylint = "^1.9"
+pylint = "^2.0"
 pylint-django = "*"
 mypy = "^0.610.0"
 

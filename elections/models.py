@@ -104,7 +104,7 @@ class Precinct(TimeStampedModel):
         else:
             assert (
                 self.number
-            ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"
+            ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"  # pylint: disable=no-member
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f" Precinct {self.number}"
         return [
