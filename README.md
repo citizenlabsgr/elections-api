@@ -34,7 +34,7 @@ precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_war
 
 ## Documentation
 
-Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be views at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
+Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be viewed at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
 
 Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
 
