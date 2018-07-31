@@ -464,12 +464,16 @@ class BallotWebsite(TimeStampedModel):
         office = table.find(class_='office').text
         seats = table.find_all(class_='term')[-1].text
         log.debug(f'Parsing position from: {office!r} when {seats!r}')
+        position_name = string.capwords(office)
+        if 'DELEGATE' in office:
+            position_name += f'{position_name} ({party})'
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
-            name=string.capwords(office),
+            name=position_name,
             seats=int(seats.strip().split()[-1]),
         )
+        log.info(f'Parsed: {position}')
 
         # Parse candidates
 
