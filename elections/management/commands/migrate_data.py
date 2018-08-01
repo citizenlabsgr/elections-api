@@ -13,7 +13,3 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         log.init(reset=True)
-
-        for precinct in models.Precinct.objects.filter(ward='0'):
-            log.warn('Precinct has ward=0: {precinct}')
-            precinct.delete()

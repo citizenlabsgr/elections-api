@@ -62,8 +62,8 @@ class Command(BaseCommand):
                 # Update website
                 if not ballot.website:
                     website, created = models.BallotWebsite.objects.get_or_create(
-                        mi_sos_election_id=ballot.election.id,
-                        mi_sos_precinct_id=ballot.precinct.id,
+                        mi_sos_election_id=ballot.election.mi_sos_id,
+                        mi_sos_precinct_id=ballot.precinct.mi_sos_id,
                     )
                     if created:
                         self.stdout.write(f"Created website: {website}")
