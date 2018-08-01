@@ -192,9 +192,9 @@ class Command(BaseCommand):
         jurisdiction_name = match.group('jurisdiction_name')
 
         try:
-            ward = int(match.group('ward'))
+            ward = match.group('ward')
         except IndexError:
-            ward = 0
+            ward = ''
 
         try:
             precinct = match.group('precinct')

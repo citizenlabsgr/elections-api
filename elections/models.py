@@ -116,6 +116,11 @@ class Precinct(TimeStampedModel):
             f"{self.jurisdiction}, {ward_precinct}",
         ]
 
+    def save(self, *args, **kwargs):
+        self.ward = self.ward if self.ward.strip('0') else ''
+        self.number = self.number if self.number.strip('0') else ''
+        super().save(*args, **kwargs)
+
 
 class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
