@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -14,6 +16,7 @@ class Command(BaseCommand):
     def handle(self, *_args, **_kwargs):
         self.get_or_create_superuser()
         self.add_known_data()
+        self.fetch_districts()
 
     def get_or_create_superuser(self, username="admin", password="password"):
         try:
@@ -44,6 +47,9 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added election: {election}")
 
+        state, _ = models.DistrictCategory.objects.get_or_create(name="State")
+        self.stdout.write(f'Added category: {state}')
+
         county, _ = models.DistrictCategory.objects.get_or_create(
             name="County"
         )
@@ -53,6 +59,11 @@ class Command(BaseCommand):
             name="Jurisdiction"
         )
         self.stdout.write(f"Added category: {jurisdiction}")
+
+        michigan, _ = models.District.objects.get_or_create(
+            category=state, name="Michigan"
+        )
+        self.stdout.write(f'Added district: {michigan}')
 
         kent, _ = models.District.objects.get_or_create(
             category=county, name="Kent"
@@ -72,3 +83,16 @@ class Command(BaseCommand):
             mi_sos_id=1828,
         )
         self.stdout.write(f"Added precinct: {precinct}")
+
+        for party_name in ['Democratic', 'Green', 'Libertarian', 'Republican']:
+            party, _ = models.Party.objects.get_or_create(name=party_name)
+            self.stdout.write(f'Added party: {party}')
+
+    def fetch_districts(self):
+        voter = models.Voter(
+            first_name="Jace",
+            last_name="Browning",
+            birth_date=pendulum.parse("1987-06-02"),
+            zip_code="49503",
+        )
+        voter.fetch_registration_status()

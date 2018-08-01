@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 import re
 
 from django.conf import settings

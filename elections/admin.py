@@ -101,3 +101,41 @@ class BallotAdmin(admin.ModelAdmin):
         'created',
         'modified',
     ]
+
+
+@admin.register(models.Party)
+class PartyAdmin(admin.ModelAdmin):
+
+    search_filter = ['name']
+
+    list_display = ['id', 'name']
+
+
+@admin.register(models.Proposal)
+class ProposalAdmin(admin.ModelAdmin):
+
+    search_filter = ['name', 'description', 'reference_url']
+
+    list_filter = ['election']
+
+    list_display = ['id', 'name', 'description', 'reference_url']
+
+
+@admin.register(models.Position)
+class PositionAdmin(admin.ModelAdmin):
+
+    search_filter = ['name', 'description', 'reference_url']
+
+    list_filter = ['election']
+
+    list_display = ['id', 'name', 'description', 'seats', 'reference_url']
+
+
+@admin.register(models.Candidate)
+class CandidateAdmin(admin.ModelAdmin):
+
+    search_filter = ['name', 'description', 'reference_url']
+
+    list_filter = ['party']
+
+    list_display = ['id', 'name', 'description', 'reference_url', 'party']

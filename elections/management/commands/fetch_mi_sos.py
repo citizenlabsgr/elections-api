@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
@@ -73,6 +75,8 @@ class Command(BaseCommand):
                 if ballot.website.stale(fuzz=0.5) and ballot.website.fetch():
                     self.stdout.write(f"Updated website: {ballot.website}")
                     ballot.website.save()
+
+                ballot.website.parse()
 
                 count = models.Ballot.objects.count()
                 if max_ballots_count and count >= max_ballots_count:

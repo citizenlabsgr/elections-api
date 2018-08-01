@@ -220,6 +220,9 @@ class Party(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True)
 
+    class Meta:
+        verbose_name_plural = "Parties"
+
     def __str__(self):
         return self.name
 
@@ -300,8 +303,12 @@ class BallotWebsite(TimeStampedModel):
     def parse(self):
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
+        log.debug(f'Getting county for precinct ID: {self.mi_sos_precinct_id}')
         county = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id).county
+
+        log.debug(f'Getting election by ID: {self.mi_sos_election_id}')
         election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
+
         party = None
         results = []
         for index, table in enumerate(soup.find_all('table')):
