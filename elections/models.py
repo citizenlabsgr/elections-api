@@ -477,9 +477,11 @@ class BallotWebsite(TimeStampedModel):
                 td = table.find(class_='term')
                 log.debug(f'Parsing district from term: {td.text!r}')
                 district_name = helpers.titleize(td.text)
-                district = District.objects.get(
+                district, created = District.objects.get_or_create(
                     category=category, name=district_name
                 )
+                if created:
+                    log.warn(f'Added missing district: {district}')
 
         log.info(f'Parsed {district!r}')
         assert district

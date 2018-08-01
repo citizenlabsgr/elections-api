@@ -54,17 +54,6 @@ def describe_ballot_website():
             return constants
 
         def with_single_proposal(expect, constants):
-
-            models.District.objects.get_or_create(
-                category=constants.us_congress_district, name="9th District"
-            )
-            models.District.objects.get_or_create(
-                category=constants.state_senate_district, name="10th District"
-            )
-            models.District.objects.get_or_create(
-                category=constants.state_house_district, name="25th District"
-            )
-
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
                     category=constants.county, name="Macomb"
@@ -85,19 +74,6 @@ def describe_ballot_website():
             expect(len(website.parse())) == 31
 
         def with_nonpartisan_section(expect, constants):
-            models.District.objects.get_or_create(
-                category=constants.us_congress_district, name="3rd District"
-            )
-            models.District.objects.get_or_create(
-                category=constants.state_senate_district, name="29th District"
-            )
-            models.District.objects.get_or_create(
-                category=constants.state_house_district, name="75th District"
-            )
-            models.District.objects.get_or_create(
-                category=constants.circuit_court, name="17th Circuit Court"
-            )
-
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
                     category=constants.county, name="Kent"
