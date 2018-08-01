@@ -35,7 +35,7 @@ class Command(BaseCommand):
         for election in models.Election.objects.filter(active=True):
 
             if not election.mi_sos_id:
-                log.warn(f"No MI SOS ID for election: {election}")
+                log.warn(f'No MI SOS ID for election: {election}')
                 continue
 
             if max_ballots_count:
@@ -47,7 +47,7 @@ class Command(BaseCommand):
             for precinct in query:
 
                 if not precinct.mi_sos_id:
-                    log.warn(f"No MI SOS ID for precinct: {precinct}")
+                    log.warn(f'No MI SOS ID for precinct: {precinct}')
                     continue
 
                 # Update ballot
@@ -55,9 +55,9 @@ class Command(BaseCommand):
                     election=election, precinct=precinct
                 )
                 if created:
-                    self.stdout.write(f"Created ballot: {ballot}")
+                    self.stdout.write(f'Created ballot: {ballot}')
                 else:
-                    self.stdout.write(f"Matched ballot: {ballot}")
+                    self.stdout.write(f'Matched ballot: {ballot}')
 
                 # Update website
                 if not ballot.website:
@@ -66,19 +66,19 @@ class Command(BaseCommand):
                         mi_sos_precinct_id=ballot.precinct.mi_sos_id,
                     )
                     if created:
-                        self.stdout.write(f"Created website: {website}")
+                        self.stdout.write(f'Created website: {website}')
                         website.fetch()
                         website.save()
                     ballot.website = website
                     ballot.save()
 
                 if ballot.website.stale(fuzz=0.5) and ballot.website.fetch():
-                    self.stdout.write(f"Updated website: {ballot.website}")
+                    self.stdout.write(f'Updated website: {ballot.website}')
                     ballot.website.save()
 
                 ballot.website.parse()
 
                 count = models.Ballot.objects.count()
                 if max_ballots_count and count >= max_ballots_count:
-                    self.stdout.write(f"Stopping at {count} ballot(s)")
+                    self.stdout.write(f'Stopping at {count} ballot(s)')
                     return

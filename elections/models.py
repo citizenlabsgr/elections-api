@@ -305,6 +305,7 @@ class BallotWebsite(TimeStampedModel):
         return updated
 
     def parse(self):
+        log.info(f'Parsing HTML for ballot: {self}')
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
         log.debug(f'Getting county for precinct ID: {self.mi_sos_precinct_id}')
