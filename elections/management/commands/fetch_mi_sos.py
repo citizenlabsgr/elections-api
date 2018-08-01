@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
+import bugsnag
 import log
 
 from elections import models
@@ -22,7 +23,11 @@ class Command(BaseCommand):
 
     def handle(self, max_ballots_count, *_args, **_kwargs):
         log.init(reset=True)
-        self.fetch_ballots_html(max_ballots_count)
+        try:
+            self.fetch_ballots_html(max_ballots_count)
+        except Exception as e:
+            bugsnag.notify(e)
+            raise e
 
     def fetch_ballots_html(self, max_ballots_count):
         for election in models.Election.objects.filter(active=True):

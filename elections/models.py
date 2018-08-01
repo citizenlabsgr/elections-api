@@ -271,7 +271,12 @@ class BallotWebsite(TimeStampedModel):
         url = self.mi_sos_url
 
         log.info(f'Fetching {url}')
-        response = requests.get(url)
+        response = requests.get(
+            url,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Geck o/20100101 Firefox/40.1'
+            },
+        )
         response.raise_for_status()
 
         self.fetched = timezone.now()

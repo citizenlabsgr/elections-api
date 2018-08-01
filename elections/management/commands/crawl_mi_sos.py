@@ -3,6 +3,7 @@ import re
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
+import bugsnag
 import log
 
 from elections import helpers, models
@@ -38,9 +39,13 @@ class Command(BaseCommand):
         log.init(reset=True)
         helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
         helpers.requests_cache.core.remove_expired_responses()
-        self.discover_precincts(
-            starting_mi_sos_precinct_precinct_id, max_precincts_count
-        )
+        try:
+            self.discover_precincts(
+                starting_mi_sos_precinct_precinct_id, max_precincts_count
+            )
+        except Exception as e:
+            bugsnag.notify(e)
+            raise e
 
     def discover_precincts(
         self, starting_mi_sos_precinct_precinct_id, max_precincts_count
