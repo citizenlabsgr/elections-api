@@ -136,6 +136,13 @@ class CandidateAdmin(admin.ModelAdmin):
 
     search_filter = ['name', 'description', 'reference_url']
 
-    list_filter = ['party']
+    list_filter = ['position', 'party']
 
-    list_display = ['id', 'name', 'description', 'reference_url', 'party']
+    list_display = [
+        'id',
+        'name',
+        'position',
+        'party',
+        'description',
+        'reference_url',
+    ]

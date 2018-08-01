@@ -84,7 +84,13 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added precinct: {precinct}")
 
-        for party_name in ['Democratic', 'Green', 'Libertarian', 'Republican']:
+        for party_name in [
+            'Democratic',
+            'Green',
+            'Libertarian',
+            'Republican',
+            'Nonpartisan',
+        ]:
             party, _ = models.Party.objects.get_or_create(name=party_name)
             self.stdout.write(f'Added party: {party}')
 

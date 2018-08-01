@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-import string
 from datetime import timedelta
 from typing import List, Optional, Union
 
@@ -338,9 +337,12 @@ class BallotWebsite(TimeStampedModel):
         for handler in [
             self._handle_primary_header,
             self._handle_party_section,
-            self._handle_position,
-            self._handle_proposal_header,
-            self._handle_proposal,
+            self._handle_partisan_positions,
+            self._handle_general_header,
+            self._handle_nonpartisan_section,
+            self._handle_nonpartisan_positions,
+            self._handle_proposals_header,
+            self._handle_proposals,
         ]:
             try:
                 result = handler(  # type: ignore
@@ -377,13 +379,15 @@ class BallotWebsite(TimeStampedModel):
         return Party.objects.get(name=name)
 
     @staticmethod
-    def _handle_position(
+    def _handle_partisan_positions(
         table: element.Tag,
         county: District,
         election: Election,
         party: Optional[Party],
-    ) -> Optional['Position']:
+    ) -> Optional[Position]:
         assert party, 'Party must be parsed before positions'
+        if party.name == "Nonpartisan":
+            return None
         if table.get('class') != ['tblOffice']:
             return None
 
@@ -392,7 +396,7 @@ class BallotWebsite(TimeStampedModel):
         category = None
         td = table.find(class_='division')
         if td:
-            category_name = string.capwords(td.text)
+            category_name = helpers.titleize(td.text)
             if category_name not in {
                 "Congressional",
                 "Legislative",
@@ -404,7 +408,7 @@ class BallotWebsite(TimeStampedModel):
         if not category:
             td = table.find(class_='office')
             if td:
-                office = string.capwords(td.text)
+                office = helpers.titleize(td.text)
 
                 if office == "United States Senator":
                     log.debug(f'Parsing category from office: {td.text!r}')
@@ -434,7 +438,7 @@ class BallotWebsite(TimeStampedModel):
             class_ = 'mobileOnly'
             td = table.find(class_=class_)
             if td:
-                category_name = string.capwords(td.text)
+                category_name = helpers.titleize(td.text)
                 log.debug(f'Parsing category from {class_!r}: {td.text!r}')
                 category = DistrictCategory.objects.get(name=category_name)
 
@@ -446,7 +450,7 @@ class BallotWebsite(TimeStampedModel):
         district = None
         td = table.find(class_='office')
         if td:
-            office = string.capwords(td.text)
+            office = helpers.titleize(td.text)
 
             if office == "Governor":
                 log.debug(f'Parsing district from office: {td.text!r}')
@@ -466,7 +470,7 @@ class BallotWebsite(TimeStampedModel):
             else:
                 td = table.find(class_='term')
                 log.debug(f'Parsing district from term: {td.text!r}')
-                district_name = string.capwords(td.text)
+                district_name = helpers.titleize(td.text)
                 district = District.objects.get(
                     category=category, name=district_name
                 )
@@ -479,7 +483,7 @@ class BallotWebsite(TimeStampedModel):
         office = table.find(class_='office').text
         seats = table.find_all(class_='term')[-1].text
         log.debug(f'Parsing position from: {office!r} when {seats!r}')
-        position_name = string.capwords(office)
+        position_name = helpers.titleize(office)
         if 'DELEGATE' in office:
             position_name = f'{position_name} ({party})'
         position, _ = Position.objects.get_or_create(
@@ -508,7 +512,99 @@ class BallotWebsite(TimeStampedModel):
         return position
 
     @staticmethod
-    def _handle_proposal_header(table: element.Tag, **_) -> bool:
+    def _handle_general_header(table: element.Tag, **_) -> bool:
+        if table.get('class') == ['mainTable']:
+            td = table.find('td', class_='section')
+            log.debug(f'Found header: {td.text!r}')
+            if "nonpartisan section" in td.text.lower():
+                return True
+        return False
+
+    @staticmethod
+    def _handle_nonpartisan_section(
+        table: element.Tag, **_
+    ) -> Optional[Party]:
+        if table.get('class') != ['generalTable']:
+            return None
+
+        td = table.find(class_='section')
+        log.debug(f'Parsing party from section: {td.text!r}')
+        assert helpers.titleize(td.text) == "Nonpartisan Section"
+        party = Party.objects.get(name="Nonpartisan")
+        log.info(f'Parsed {party!r}')
+        return party
+
+    @staticmethod
+    def _handle_nonpartisan_positions(
+        table: element.Tag, election: Election, party: Party, **_
+    ) -> Optional[Proposal]:
+        assert party, 'Party must be parsed before positions'
+        if party.name != "Nonpartisan":
+            return None
+        if table.get('class') != ['tblOffice']:
+            return None
+
+        # Parse category
+
+        category = None
+        td = table.find(class_='office')
+        if td:
+            office = helpers.titleize(td.text)
+            log.debug(f'Parsing category from office: {td.text!r}')
+            if office == "Judge of Circuit Court":
+                category = DistrictCategory.objects.get(name="Circuit Court")
+
+        log.info(f'Parsed {category!r}')
+        assert category
+
+        # Parse district
+
+        district = None
+        td = table.find(class_='term')
+        if td:
+            log.debug(f'Parsing district from term: {td.text!r}')
+            district, created = District.objects.get_or_create(
+                category=category, name=helpers.titleize(td.text)
+            )
+            # We expect all districts to exist in the system through crawling,
+            # but circuit court districts are only created when checking status
+            if created:
+                log.warn(f'Added missing district: {district}')
+        log.info(f'Parsed {district!r}')
+        assert district
+
+        # Parse position
+
+        office = table.find(class_='office').text
+        seats = table.find_all(class_='term')[-1].text
+        log.debug(f'Parsing position from: {office!r} when {seats!r}')
+        position, _ = Position.objects.get_or_create(
+            election=election,
+            district=district,
+            name=helpers.titleize(office),
+            seats=int(seats.strip().split()[-1]),
+        )
+        log.info(f'Parsed {position!r}')
+
+        # Parse candidates
+
+        for td in table.find_all(class_='candidate'):
+            log.debug(f'Parsing candidate: {td.text!r}')
+            candidate_name = td.text.strip()
+
+            if candidate_name == "No candidates on ballot":
+                log.warn(f'No {party} candidates for {position}')
+                break
+
+            candidate, _ = Candidate.objects.get_or_create(
+                name=candidate_name, party=party, position=position
+            )
+            log.info(f'Parsed {candidate!r}')
+
+        return position
+
+    @staticmethod
+    def _handle_proposals_header(table: element.Tag, **_) -> bool:
         if table.get('class') == None:
             td = table.find('td', class_='section')
             if td:
@@ -518,16 +614,16 @@ class BallotWebsite(TimeStampedModel):
         return False
 
     @staticmethod
-    def _handle_proposal(
+    def _handle_proposals(
         table: element.Tag, election: Election, **_
-    ) -> Optional['Proposal']:
+    ) -> Optional[Proposal]:
         if table.get('class') != ['proposal']:
             return None
 
         td = table.find(class_='division')
         log.debug(f'Parsing category from division: {td.text!r}')
         category = DistrictCategory.objects.get(
-            name=string.capwords(td.text.split("PROPOSALS")[0])
+            name=helpers.titleize(td.text.split("PROPOSALS")[0])
         )
         log.info(f'Parsed {category!r}')
 
@@ -535,7 +631,7 @@ class BallotWebsite(TimeStampedModel):
         log.debug(f'Parsing district from title: {td.text!r}')
         district = District.objects.get(
             category=category,
-            name=string.capwords(td.text).split(category.name)[0].strip(),
+            name=helpers.titleize(td.text).split(category.name)[0].strip(),
         )
         log.info(f'Parsed {district}')
 
@@ -544,7 +640,7 @@ class BallotWebsite(TimeStampedModel):
         proposal, _ = Proposal.objects.get_or_create(
             election=election,
             district=district,
-            name=string.capwords(td.text),
+            name=helpers.titleize(td.text),
             description=td2.text.strip(),
         )
         log.info(f'Parsed {proposal!r}')

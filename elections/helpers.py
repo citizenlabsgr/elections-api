@@ -1,5 +1,6 @@
 import os
 import re
+import string
 from pprint import pformat
 from typing import Optional
 
@@ -118,3 +119,7 @@ def find_or_abort(pattern: str, text: str):
 
 def clean_district_name(text: str):
     return text.replace("District District", "District")
+
+
+def titleize(text: str) -> str:
+    return string.capwords(text).replace("Of", "of")
