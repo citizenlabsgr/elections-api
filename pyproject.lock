@@ -62,7 +62,7 @@ python-versions = "*"
 version = "18.1.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Screen-scraping library"
 name = "beautifulsoup4"
 optional = false
@@ -1045,7 +1045,7 @@ multidict = ">=4.0"
 python = ">=3.4"
 
 [metadata]
-content-hash = "48a8f36f38fc3e59782bccdb99b7b342bd817a65548d6284c881ff26707d26c8"
+content-hash = "b4111dfd552485c12e8974cb9619ebdfd5de5d623e831b1cb70925164acf6658"
 platform = "*"
 python-versions = "^3.6"
 

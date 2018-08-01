@@ -1,0 +1,507 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.19.1]
+    method: GET
+    uri: https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=2000&ed=675
+  response:
+    body: {string: "\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head><title>\r\n\tMichigan
+        Voter Information Center\r\n</title>\r\n\r\n    <script type=\"text/javascript\">\r\n
+        \       function NewWindow(url) {\r\n            var screenWidth = window.screen.width;\r\n
+        \           var screenHeight = window.screen.height;\r\n            var placementx
+        = (screenWidth / 2) - ((600) / 2);\r\n            var placementy = (screenHeight
+        / 2) - ((200) / 2);\r\n            var popUpUrl = url;\r\n            var
+        winPop = window.open(popUpUrl, \"\", \"width=1024,height=768,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,left=\"
+        + placementx + \",top=\" + placementy + \",screenX=\" + placementx + \",screenY=\"
+        + placementy + \",\");\r\n        }\r\n    </script>\r\n    <script src=\"Scripts/jquery-3.1.1.min.js\"></script>\r\n
+        \   <script src=\"Scripts/bootstrap.min.js\"></script>\r\n\r\n    <link href=\"masterpage/CommonStyleSheet.css\"
+        rel=\"stylesheet\" type=\"text/css\" media=\"screen\" /><link href=\"Content/bootstrap.min.css\"
+        rel=\"stylesheet\" /><link href=\"masterpage/agency.css\" rel=\"stylesheet\"
+        media=\"screen\" /><link href=\"masterpage/Print.css\" rel=\"stylesheet\"
+        type=\"text/css\" media=\"print\" /><link rel=\"shortcut icon\" href=\"masterpage/images/favicon.ico?v=1\"
+        type=\"image/x-icon\" />\r\n    <link href=\"Styles/DisplayBallot.css\" rel=\"stylesheet\"
+        type=\"text/css\" media=\"screen\" />\r\n    <link href=\"Styles/PrintBallot.css\"
+        rel=\"stylesheet\" type=\"text/css\" media=\"print\" />\r\n</head>\r\n<body>\r\n
+        \   <div id=\"main-wrapper\" class=\"mainWrap container\">\r\n        <div
+        role=\"navigation\" aria-label=\"Secondary\">\r\n            <div class=\"navbar
+        som-brandbar\">\r\n                <a class=\"sr-only\"\r\n                    href=\"#mainArea\">Skip
+        Navigation\r\n                </a>\r\n                <div class=\"container\">\r\n
+        \                   <div class=\"navbar-header\">\r\n                        <a
+        href=\"#\"\r\n                            class=\"navbar-toggle collapsed\"\r\n
+        \                           data-toggle=\"collapse\"\r\n                            data-target=\".navbar-collapse\">\r\n
+        \                           <span class=\"icon-bar\"></span>\r\n                            <span
+        class=\"icon-bar\"></span>\r\n                            <span class=\"icon-bar\"></span>\r\n
+        \                           <div class=\"menuNav\">MENU</div>\r\n                        </a>\r\n
+        \                       <div class=\"collapse navbar-collapse global-links\">\r\n
+        \                           <ul class=\"nav navbar-nav text-uppercase\"\r\n
+        \                               data-nav-type=\"global-nav\">\r\n                                <li>\r\n
+        \                                   <a href=\"http://michigan.gov/sos\">SOS
+        Home</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-13162-25634--,00.html\"
+        target=\"_blank  rel=\"noopener noreferrer\">Contact SOS</a>\r\n                                </li>\r\n
+        \                           </ul>\r\n                        </div>\r\n                        <ul
+        class=\"nav navbar-nav navbar-right\">\r\n                            <li>\r\n
+        \                               <a class=\"miGovHome\"\r\n                                    href=\"http://www.michigan.gov\"\r\n
+        \                                   title=\"Michigan's Official Web Site\">MI.GOV\r\n
+        \                               </a>\r\n                            </li>\r\n
+        \                       </ul>\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n        </div>\r\n\r\n        <header class=\"header\"
+        role=\"banner\">\r\n            <div>\r\n                <a href=\"http://michigan.gov/sos\">\r\n
+        \                   <img src=\"masterpage/images/banner_seal_medium.png\"
+        id=\"ctl00_logo\" class=\"logo\" title=\"michigan.gov/sos\" alt=\"Secretary
+        of State Seal\" />\r\n                    <div class=\"pull-left\">\r\n                        <h1
+        class=\"siteTitle\" data-som-header=\"appTitle\">Michigan Voter Information
+        Center</h1>\r\n                        <span class=\"tagline\" data-som-header=\"agencyTagLine\">Ruth
+        Johnson, Secretary of State</span>\r\n                    </div>\r\n                </a>\r\n
+        \           </div>\r\n        </header>\r\n\r\n        <main>\r\n            <div
+        id=\"mainArea\" class=\"midSection container container-fluid\">\r\n\r\n                <div
+        class=\"wideContentArea\">\r\n\r\n                    <div id=\"trPrinterFriendly\"
+        class=\"dontPrint\">\r\n                        <div style=\"text-align: right;
+        padding-right: 25px\">\r\n                            <a id=\"hlPrint\" href=\"javascript:window.print();\"><img
+        src=\"masterpage/images/print.gif\" alt=\"Printer Icon\" border=\"0\" /></a>\r\n
+        \                       </div>\r\n                    </div>\r\n                    \r\n
+        \   <div class=\"panel\">\r\n        <div class=\"panel-heading\">\r\n            <span>Sample
+        Ballot</span>\r\n            <span class=\"pull-right\">\r\n                <img
+        id=\"btnClose\" src=\"images/SOS_modal_button_Close.png\" alt=\"Close the
+        Sample Ballot Page\" onclick=\" window.opener = self; window.close();\" class=\"dontPrint\"
+        role=\"button\" />\r\n            </span>\r\n        </div>\r\n        <div
+        class=\"panel-body\">\r\n            <div id=\"ctl00_ContentPlaceHolder1_pnlBallotHeading\"
+        class=\"ballotHeading\">\r\n                <span id=\"ctl00_ContentPlaceHolder1_lblBallotHeading\"
+        class=\"elecheading\">State Primary</span><br />\r\n                <span
+        id=\"ctl00_ContentPlaceHolder1_lblElectionDate\" class=\"elecheading\">Tuesday,
+        August 7, 2018</span><br />\r\n                <span id=\"ctl00_ContentPlaceHolder1_lblCounty\"
+        class=\"elecheading\">Macomb County, Michigan</span><br />\r\n                <span
+        id=\"ctl00_ContentPlaceHolder1_lblJurisdiction\" class=\"elecheading\">City
+        of Sterling Heights,  Precinct 26</span>\r\n                \r\n            </div>\r\n\r\n
+        \           \r\n\r\n            <div id=\"ctl00_ContentPlaceHolder1_samplearea\">\r\n
+        \               <div class=\"flex-container row\">\r\n                    <div
+        class=\"col-md-6 panel\">\r\n                        <div class=\"panel-heading\">General
+        Information</div>\r\n                        <div class=\"panel-body\">\r\n
+        \                           <ul>\r\n                                <li>Please
+        visit this site frequently to see updated information.</li>\r\n                                <li>Information
+        for some local candidates and proposals may not be available. </li>\r\n                                <li>Your
+        ballot will contain the following information. The official ballot you will\r\n
+        \                                           receive on election day may have
+        a slightly different format than what is displayed\r\n                                            below.</li>\r\n
+        \                               <li>Please note that this is not an official
+        ballot. You will be provided with your\r\n                                            official
+        ballot at your polling location. </li>\r\n                                <li>View
+        the  \r\n                                            <a onclick=\"javascript:NewWindow('http://www.michigan.gov/documents/sos/Mandated_Ballot_517304_7.pdf');return
+        false;\"\r\n                                                href=\"http://www.michigan.gov/documents/sos/Mandated_Ballot_517304_7.pdf\"\r\n
+        \                                               target=\"blank\"\r\n                                                rel=\"noopener\"\r\n
+        \                                               role=\"link\"\r\n                                                title=\"This
+        link opens a PDF document\">Official Ballot Marking Instructions</a>\r\n                                    &nbsp;for
+        more information.\r\n                                </li>\r\n                            </ul>\r\n
+        \                       </div>\r\n                    </div>\r\n                    <div
+        id=\"linkInformation\" class=\"col-md-6 panel dontPrint\">\r\n                        <div
+        class=\"panel-heading\">Website Link Information</div>\r\n                        <div
+        class=\"panel-body\">\r\n                            <ul>\r\n                                <li>Click
+        on the candidate name hyperlink to review candidate Web sites where available.</li>\r\n
+        \                               <li>Click on the <span style=\"color: #0000ff;\">$</span>
+        symbol hyperlink for campaign finance information.<br />\r\n                                </li>\r\n
+        \                               <li>For information provided by independent
+        sources regarding statewide ballot proposals,\r\n                                            click
+        on the Ballot Proposal Analysis hyperlinks. </li>\r\n                            </ul>\r\n
+        \                       </div>\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n\r\n            \r\n\r\n            <div id=\"ctl00_ContentPlaceHolder1_pnlPrimary1\">\r\n\t\r\n
+        \               <table id=\"tblPrimary1\" style=\"padding: 2px; width: 100%;\">\r\n
+        \                   <tr>\r\n                        <td class=\"primarySection\"
+        colspan=\"6\">\r\n                            <span style=\"font-size: 12px;\">PARTISAN
+        SECTION</span><br />\r\n                            <span style=\"font-size:
+        10px\">VOTE ONLY 1 PARTY SECTION</span>\r\n                        </td>\r\n
+        \                   </tr>\r\n                    <tr>\r\n                        <td
+        style=\"vertical-align: top; width: 33%;\" colspan=\"2\">\r\n                            <table
+        id=\"ctl00_ContentPlaceHolder1_tblRepublican1\" class=\"primaryTable\" cellspacing=\"0\"
+        cellpadding=\"0\" role=\"presentation\" border=\"0\" width=\"100%\">\r\n\t\t<tr>\r\n\t\t\t<td
+        class=\"partyHeading\">\r\n                                            REPUBLICAN
+        PARTY SECTION\r\n                                    </td>\r\n\t\t</tr><tr>\r\n\t\t\t<td
+        colspan=\"2\"><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='division' valign='top'>STATE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>GOVERNOR</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://BRIANCALLEY.COM'>Brian
+        Calley</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518354'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://COLBECKFORGOVERNOR.COM'>Patrick
+        Colbeck</a></td><td  class='financeLink' width='3%' bgcolor = #efefef><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518147'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.HINES4MICHIGAN.COM'>Jim
+        Hines</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/517508'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://WWW.BILLSCHUETTE.COM'>Bill
+        Schuette</a></td><td  class='financeLink' width='3%' bgcolor = #efefef><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518265'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>UNITED STATES SENATOR</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://JOHNJAMESFORSENATE.COM'>John
+        James</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://WWW.PENSLERFORSENATE.COM'>Sandy
+        Pensler</a></td><td  class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='mobileOnly' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN CONGRESS</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>9th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.CANDIUSFORCONGRESS.COM'>Candius
+        Stearns</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>LEGISLATIVE</td></tr><tr ><td
+        \ colspan='3' class='office' valign='top'>STATE SENATOR</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>10th DISTRICT</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.JOSEPHBOGDAN.COM'>Joseph
+        Bogdan</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/517964'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://MIKEMACDONALDFORSENATE.COM'>Michael
+        MacDonald</a></td><td  class='financeLink' width='3%' bgcolor = #efefef><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518703'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.MICHAELSHALLAL.COM'>Michael
+        Shallal</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518121'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='mobileOnly' valign='top'>LEGISLATIVE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN STATE LEGISLATURE</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>25th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff>Jazmine M. Early</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank' href='https://cfrsearch.nictusa.com/committees/518918'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>COUNTY</td></tr><tr ><td  colspan='3'
+        class='office' valign='top'>COUNTY EXECUTIVE</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Norbert Golembiewski</td><td  class='financeLink'
+        width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #efefef>Joseph M. Hunt</td><td  class='financeLink'
+        width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #efefef>Republican</td></tr></table><table cellpadding
+        = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr ><td  colspan='3'
+        class='mobileOnly' valign='top'>COUNTY</td></tr><tr ><td  colspan='3' class='office'
+        valign='top'>CLERK & REGISTER OF DEEDS</td></tr><tr ><td  colspan='3' class='term'
+        valign='top'>Partial Term Ending 12/31/2020</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Nicholyn Brandenburg</td><td  class='financeLink'
+        width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #efefef>Jaxon Goodman</td><td  class='financeLink' width='3%'
+        bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #efefef>Republican</td></tr><tr ><td  class='candidate' width='55%'
+        bgcolor = #ffffff>Sylvia Grot</td><td  class='financeLink' width='3%' bgcolor
+        = #ffffff>&nbsp;</td><td  class='party' valign='middle' width='42%' bgcolor
+        = #ffffff>Republican</td></tr><tr ><td  class='candidate' width='55%' bgcolor
+        = #efefef>Ralph Lambert</td><td  class='financeLink' width='3%' bgcolor =
+        #efefef>&nbsp;</td><td  class='party' valign='middle' width='42%' bgcolor
+        = #efefef>Republican</td></tr><tr ><td  class='candidate' width='55%' bgcolor
+        = #ffffff>James Perna</td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef>Trese Servitto-Smith</td><td
+        \ class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #ffffff>Randell J. Shafer</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef>Alan Shepperd</td><td  class='financeLink'
+        width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Lisa Sinclair</td><td  class='financeLink' width='3%'
+        bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #ffffff>Republican</td></tr><tr ><td  class='candidate' width='55%'
+        bgcolor = #efefef>Paula Verticchio</td><td  class='financeLink' width='3%'
+        bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #efefef>Republican</td></tr><tr ><td  class='candidate' width='55%'
+        bgcolor = #ffffff>Julie Williams</td><td  class='financeLink' width='3%' bgcolor
+        = #ffffff>&nbsp;</td><td  class='party' valign='middle' width='42%' bgcolor
+        = #ffffff>Republican</td></tr></table><table cellpadding = '0' cellspacing
+        = '0' class='tblOffice' role='presentation'><tr ><td  colspan='3' class='mobileOnly'
+        valign='top'>COUNTY</td></tr><tr ><td  colspan='3' class='office' valign='top'>COUNTY
+        COMMISSIONER</td></tr><tr ><td  colspan='3' class='term' valign='top'>5th
+        DISTRICT</td></tr><tr ><td  colspan='3' class='term' valign='top'>Vote for
+        not more than 1</td></tr><tr ><td  class='candidate' width='55%' bgcolor =
+        #ffffff>Talil Abrhiem</td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>DELEGATE</td></tr><tr ><td
+        \ colspan='3' class='office' valign='top'>DELEGATE TO COUNTY CONVENTION</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 4</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff>Mariusz Arszylo</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef>Horace Thomas Johns</td><td
+        \ class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #ffffff>Sandra C. Johns</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef>Cynthia Mary Kozlowski</td><td
+        \ class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #ffffff>George Kurzatkowski</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Republican</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef>Walter Maziarz</td><td  class='financeLink'
+        width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #efefef>Republican</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Mark Tor</td><td  class='financeLink' width='3%'
+        bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #ffffff>Republican</td></tr></table></td>\r\n\t\t</tr>\r\n\t</table>\r\n
+        \                       </td>\r\n                        <td style=\"vertical-align:
+        top; width: 33%;\" colspan=\"2\">\r\n                            <table id=\"ctl00_ContentPlaceHolder1_tblDemocrat1\"
+        class=\"primaryTable\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\"
+        border=\"0\" width=\"100%\">\r\n\t\t<tr>\r\n\t\t\t<td class=\"partyHeading\">\r\n
+        \                                          DEMOCRATIC PARTY SECTION\r\n                                    </td>\r\n\t\t</tr><tr>\r\n\t\t\t<td
+        colspan=\"2\"><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='division' valign='top'>STATE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>GOVERNOR</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://ABDULFORMICHIGAN.COM'>Abdul
+        El-Sayed</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518037'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://WWW.SHRI2018.COM'>Shri
+        Thanedar</a></td><td  class='financeLink' width='3%' bgcolor = #efefef><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518101'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Democratic</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='http://GRETCHENWHITMER.COM'>Gretchen
+        Whitmer</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518014'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>UNITED STATES SENATOR</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://DEBBIESTABENOW.COM'>Debbie
+        Stabenow</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='mobileOnly' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN CONGRESS</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>9th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.BROOKFORCONGRESS.COM'>Martin
+        Brook</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://WWW.ANDYLEVINFORCONGRESS.COM'>Andy
+        Levin</a></td><td  class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Democratic</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.ELLENLIPTON.COM'>Ellen
+        Lipton</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>LEGISLATIVE</td></tr><tr ><td
+        \ colspan='3' class='office' valign='top'>STATE SENATOR</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>10th DISTRICT</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://VOTEHENRYYANEZ.COM'>Henry
+        Yanez</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518280'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='mobileOnly' valign='top'>LEGISLATIVE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN STATE LEGISLATURE</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>25th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://NATEFORSTATEREP.COM'>Nate
+        Shannon</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518419'>$</a></td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>COUNTY</td></tr><tr ><td  colspan='3'
+        class='office' valign='top'>COUNTY EXECUTIVE</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Mark A. Hackel</td><td  class='financeLink'
+        width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #ffffff>Democratic</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #efefef>Arnold Simkus</td><td  class='financeLink' width='3%'
+        bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #efefef>Democratic</td></tr></table><table cellpadding = '0' cellspacing
+        = '0' class='tblOffice' role='presentation'><tr ><td  colspan='3' class='mobileOnly'
+        valign='top'>COUNTY</td></tr><tr ><td  colspan='3' class='office' valign='top'>CLERK
+        & REGISTER OF DEEDS</td></tr><tr ><td  colspan='3' class='term' valign='top'>Partial
+        Term Ending 12/31/2020</td></tr><tr ><td  colspan='3' class='term' valign='top'>Vote
+        for not more than 1</td></tr><tr ><td  class='candidate' width='55%' bgcolor
+        = #ffffff>Steve Bieda</td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef>Carol Shumard Diehl</td><td
+        \ class='financeLink' width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #efefef>Democratic</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #ffffff>Cynthia A. Konal</td><td
+        \ class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td  class='party'
+        valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr><tr ><td
+        \ class='candidate' width='55%' bgcolor = #efefef>Fred Miller</td><td  class='financeLink'
+        width='3%' bgcolor = #efefef>&nbsp;</td><td  class='party' valign='middle'
+        width='42%' bgcolor = #efefef>Democratic</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Eva Tkaczyk</td><td  class='financeLink' width='3%'
+        bgcolor = #ffffff>&nbsp;</td><td  class='party' valign='middle' width='42%'
+        bgcolor = #ffffff>Democratic</td></tr><tr ><td  class='candidate' width='55%'
+        bgcolor = #efefef>Geoffrey Varga</td><td  class='financeLink' width='3%' bgcolor
+        = #efefef>&nbsp;</td><td  class='party' valign='middle' width='42%' bgcolor
+        = #efefef>Democratic</td></tr></table><table cellpadding = '0' cellspacing
+        = '0' class='tblOffice' role='presentation'><tr ><td  colspan='3' class='mobileOnly'
+        valign='top'>COUNTY</td></tr><tr ><td  colspan='3' class='office' valign='top'>COUNTY
+        COMMISSIONER</td></tr><tr ><td  colspan='3' class='term' valign='top'>5th
+        DISTRICT</td></tr><tr ><td  colspan='3' class='term' valign='top'>Vote for
+        not more than 1</td></tr><tr ><td  class='candidate' width='55%' bgcolor =
+        #ffffff>Robert Mijac</td><td  class='financeLink' width='3%' bgcolor = #ffffff>&nbsp;</td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Democratic</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>DELEGATE</td></tr><tr ><td
+        \ colspan='3' class='office' valign='top'>DELEGATE TO COUNTY CONVENTION</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 2</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table></td>\r\n\t\t</tr>\r\n\t</table>\r\n                        </td>\r\n
+        \                       <td style=\"vertical-align: top; width: 33%;\" colspan=\"2\">\r\n
+        \                           <table id=\"ctl00_ContentPlaceHolder1_tblLibertarian1\"
+        class=\"primaryTable\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\"
+        border=\"0\" width=\"100%\">\r\n\t\t<tr>\r\n\t\t\t<td class=\"partyHeading\">\r\n
+        \                                           LIBERTARIAN PARTY SECTION\r\n
+        \                                   </td>\r\n\t\t</tr><tr>\r\n\t\t\t<td colspan=\"2\"><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>STATE</td></tr><tr ><td  colspan='3'
+        class='office' valign='top'>GOVERNOR</td></tr><tr ><td  colspan='3' class='term'
+        valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff><a target='_blank' href='HTTP://WWW.COMETOGETHERMICHIGAN.ORG'>Bill
+        Gelineau</a></td><td  class='financeLink' width='3%' bgcolor = #ffffff><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518191'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Libertarian</td></tr><tr
+        ><td  class='candidate' width='55%' bgcolor = #efefef><a target='_blank' href='HTTP://WWW.JOHNJTATAR.COM'>John
+        J. Tatar</a></td><td  class='financeLink' width='3%' bgcolor = #efefef><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518241'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #efefef>Libertarian</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='division' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>UNITED STATES SENATOR</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='mobileOnly' valign='top'>CONGRESSIONAL</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN CONGRESS</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>9th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='division' valign='top'>LEGISLATIVE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>STATE SENATOR</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>10th DISTRICT</td></tr><tr ><td  colspan='3'
+        class='term' valign='top'>Vote for not more than 1</td></tr><tr ><td  class='candidate'
+        width='55%' bgcolor = #ffffff>Mike Saliba</td><td  class='financeLink' width='3%'
+        bgcolor = #ffffff><a target='_blank' href='https://cfrsearch.nictusa.com/committees/518874'>$</a></td><td
+        \ class='party' valign='middle' width='42%' bgcolor = #ffffff>Libertarian</td></tr></table><table
+        cellpadding = '0' cellspacing = '0' class='tblOffice' role='presentation'><tr
+        ><td  colspan='3' class='mobileOnly' valign='top'>LEGISLATIVE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>REPRESENTATIVE IN STATE LEGISLATURE</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>25th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='division' valign='top'>COUNTY</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>COUNTY EXECUTIVE</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='mobileOnly' valign='top'>COUNTY</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>CLERK & REGISTER OF DEEDS</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Partial Term Ending 12/31/2020</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='mobileOnly' valign='top'>COUNTY</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>COUNTY COMMISSIONER</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>5th DISTRICT</td></tr><tr ><td
+        \ colspan='3' class='term' valign='top'>Vote for not more than 1</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table><table cellpadding = '0' cellspacing = '0' class='tblOffice'
+        role='presentation'><tr ><td  colspan='3' class='division' valign='top'>DELEGATE</td></tr><tr
+        ><td  colspan='3' class='office' valign='top'>DELEGATE TO COUNTY CONVENTION</td></tr><tr
+        ><td  colspan='3' class='term' valign='top'>Vote for not more than 2</td></tr><tr
+        ><td   colspan='3'  class='candidate'  bgcolor = #ffffff>No candidates on
+        ballot</td></tr></table></td>\r\n\t\t</tr>\r\n\t</table>\r\n                        </td>\r\n
+        \                   </tr>\r\n                </table>\r\n                <br
+        />\r\n                <br />\r\n            \r\n</div>\r\n\r\n            \r\n\r\n
+        \           \r\n\r\n            <div id=\"ctl00_ContentPlaceHolder1_pnlProposal\">\r\n\t\r\n
+        \               <div id=\"tblProposalSection\">\r\n                    <div>\r\n
+        \                       \r\n                        <br />\r\n                        <br
+        />\r\n                    </div>\r\n                    <table id=\"ctl00_ContentPlaceHolder1_tblProposals\"
+        cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\r\n\t\t<tr>\r\n\t\t\t<td><table
+        class=\"proposal\"><tr ><td  colspan='3' class='section' valign='top'>PROPOSAL
+        SECTION</td></tr><tr ><td  colspan='3' class='division' valign='top'>COUNTY
+        PROPOSALS</td></tr><tr ><td  colspan='3' class='proposalTitle' valign='top'>MACOMB
+        COUNTY PUBLIC TRANSPORTATION MILLAGE</td></tr><tr><td colspan=\"3\"class=\"proposalText\"><div><font
+        face=\"Arial\" size=\"2\" color=\"#000000\">If approved, this proposal will
+        renew and increase the .9926 formerly authorized, to 1.0 mills for the years
+        2018 through 2021, and allow continued support to the Suburban Mobility Authority
+        for Regional Transportation (SMART) for a public transportation system serving
+        the elderly, disabled and general public of Macomb County.</font></div>\r\n<div><font
+        face=\"Arial\" size=\"2\" color=\"#000000\"></font>&nbsp;</div>\r\n<div><font
+        face=\"Arial\" size=\"2\" color=\"#000000\"></font>&nbsp;</div>\r\n<div><font
+        face=\"Arial\" size=\"2\" color=\"#000000\"></font>&nbsp;</div>\r\n<div><font
+        face=\"Arial\" size=\"2\" color=\"#000000\">For the purpose of providing funds
+        in support of public transportation serving the elderly, disabled, and general
+        public, shall the limitation on the amount of taxes imposed on taxable property
+        located within Macomb County, be renewed and increased from .9926 formerly
+        authorized, to 1.0 mills for a period of four (4) years, being years 2018
+        through 2021? It is estimated that if approved this millage would raise approximately
+        $27,080,581 in the first year.</font></div>\r\n<div><font face=\"Arial\" size=\"2\"
+        color=\"#000000\"></font></div></td></tr></table></td>\r\n\t\t</tr>\r\n\t</table>\r\n
+        \               </div>\r\n            \r\n</div>\r\n\r\n            <div id=\"btn\"
+        class=\"dontPrint\" style=\"text-align: center;\">\r\n                <input
+        onclick=\" window.opener = self; window.close();\" type=\"button\" value=\"Close\"
+        />\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n                </div>\r\n
+        \           </div>\r\n        </main>\r\n\r\n        <footer>\r\n            <div
+        id=\"footerArea\" class=\"container\">\r\n                <div id='agencylinks'
+        class='footer_1' role=\"navigation\">\r\n                    <ul>\r\n                        <li><a
+        href='http://www.michigan.gov/sos' role='link'>SOS Home</a></li>\r\n                        <li><a
+        href='http://www.michigan.gov/sos/0,1607,7-127-12539---F,00.html' role='link'>FAQ</a></li>\r\n
+        \                       <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_14837---,00.html'
+        role='link'>Online Services</a></li>\r\n                        <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_11777---,00.html'
+        role='link'>Forms</a></li>\r\n                        <li><a href='http://www.michigan.gov//sos/0,4670,7-127--25634--,00.html'
+        role='link'>Contact the Secretary of State</a></li>\r\n                        <li><a
+        href='http://www.michigan.gov/sos/0,4670,7-127--357908--,00.html' role='link'>FOIA</a></li>\r\n
+        \                       <li><a href='http://www.michigan.gov/orr' role='link'>Office
+        of Regulatory Reinvention</a></li>\r\n                        <li><a href='http://www.michigan.gov/sos/0,1607,7-127----A,00.html'
+        role='link'>State Web Sites</a></li>\r\n                        <li><a href='http://www.michigan.gov/openmichigan'
+        role='link'>Open Michigan</a></li>\r\n                        <li><a href='http://www.michigan.gov/'
+        role='link'>Michigan.gov Home</a></li>\r\n                        <li><a href='http://www.michigan.gov/adaform'
+        role='link'>ADA</a></li>\r\n                        <li><a href='http://www.michigan.gov/minewswire'
+        role='link'>Michigan News</a></li>\r\n                        <li><a href='http://www.michigan.gov/som/0,4669,7-192--281460--,00.html'
+        role='link'>Policies</a></li>\r\n                    </ul>\r\n                </div>\r\n
+        \               <span class='copyright' role=\"note\">Copyright &copy; 2001-2018
+        State of Michigan</span>\r\n            </div>\r\n        </footer>\r\n\r\n
+        \   </div>\r\n</body>\r\n</html>\r\n"}
+    headers:
+      Cache-Control: [private]
+      Content-Length: ['40033']
+      Content-Security-Policy: ['connect-src ''self'' https://*.bing.com https://*.virtualearth.net;
+          form-action ''self''; frame-ancestors ''none''; img-src ''self'' https://*.bing.com
+          https://*.virtualearth.net data:; style-src ''self'' ''unsafe-inline'' https://*.bing.com
+          https://*.virtualearth.net; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+          https://*.bing.com https://*.virtualearth.net;']
+      Content-Type: [text/html; charset=utf-8]
+      Date: ['Tue, 17 Jul 2018 02:00:35 GMT']
+      Node: [S]
+      Pragma: [no-cache]
+      Set-Cookie: [TS01ba2f49=010e894530676a7f85c924984e04c695d27dce07464bea5f3e491e07bd1d627a3b6612cc58706b835271f86187ac03fdfa54c27454;
+          Path=/; Domain=.webapps.sos.state.mi.us; Secure]
+      Strict-Transport-Security: [max-age=31536000]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Powered-By: [ASP.NET]
+      X-Xss-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

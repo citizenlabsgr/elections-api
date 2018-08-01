@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import random
+import string
 from datetime import timedelta
-from typing import List
+from typing import List, Optional, Union
 
 from django.db import models
 from django.utils import timezone
@@ -8,6 +11,7 @@ from django.utils import timezone
 import log
 import pendulum
 import requests
+from bs4 import BeautifulSoup, element
 from model_utils.models import TimeStampedModel
 
 from . import helpers
@@ -36,6 +40,9 @@ class District(TimeStampedModel):
     class Meta:
         unique_together = ['category', 'name']
         ordering = ['-population']
+
+    def __repr__(self) -> str:
+        return f'<District: {self.name} ({self.category})>'
 
     def __str__(self) -> str:
         return self.name
@@ -207,6 +214,16 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
+class Party(TimeStampedModel):
+    """Affiliation for a particular candidate."""
+
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class BallotWebsite(TimeStampedModel):
     """Raw HTML of potential ballot from the MI SOS website."""
 
@@ -232,8 +249,7 @@ class BallotWebsite(TimeStampedModel):
             precinct_id=self.mi_sos_precinct_id,
         )
 
-    @property
-    def stale(self) -> bool:
+    def stale(self, fuzz=0.0):
         if not self.fetched:
             log.debug(f'Age of fetch: <infinity>')
             return True
@@ -242,9 +258,14 @@ class BallotWebsite(TimeStampedModel):
         log.debug(f'Age of fetch: {age}')
 
         if self.valid:
-            stale_age = timedelta(days=1, hours=random.randint(2, 22))
+            days = 1.0
+            days += days * random.uniform(-fuzz, +fuzz)
+            stale_age = timedelta(days=days)
         else:
-            stale_age = timedelta(weeks=1, hours=random.randint(2, 22))
+            weeks = 1.0
+            weeks += weeks * random.uniform(-fuzz, +fuzz)
+            stale_age = timedelta(weeks=weeks)
+        log.debug(f'Fetch becomes stale: {stale_age}')
 
         return age > stale_age
 
@@ -275,6 +296,253 @@ class BallotWebsite(TimeStampedModel):
         self.mi_sos_html = html
 
         return updated
+
+    def parse(self):
+        soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
+
+        county = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id).county
+        election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
+        party = None
+        results = []
+        for index, table in enumerate(soup.find_all('table')):
+            result = self._handle(table, county, election, party)
+
+            if isinstance(result, (Party, Position, Proposal)):
+                results.append(result)
+            if isinstance(result, Party):
+                party = result
+
+            if result:
+                continue
+
+            html = table.prettify()
+            msg = f'Unexpected table ({index}) on {self.mi_sos_url}:\n\n{html}'
+            raise ValueError(msg)
+
+        return results
+
+    def _handle(
+        self,
+        table: element.Tag,
+        county: District,
+        election: Election,
+        party: Optional[Party],
+    ) -> Union[None, Party, Position, Proposal]:
+        for handler in [
+            self._handle_primary_header,
+            self._handle_party_section,
+            self._handle_position,
+            self._handle_proposal_header,
+            self._handle_proposal,
+        ]:
+            try:
+                result = handler(  # type: ignore
+                    table, county=county, election=election, party=party
+                )
+            except:
+                print(table.prettify())
+                raise
+
+            if result:
+                return result
+
+        return None
+
+    @staticmethod
+    def _handle_primary_header(table: element.Tag, **_) -> bool:
+        td = table.find('td', class_='primarySection')
+        if td:
+            header = td.text.strip()
+            log.debug(f'Found header: {header!r}')
+            if "partisan section" in header.lower():
+                return True
+        return False
+
+    @staticmethod
+    def _handle_party_section(table: element.Tag, **_) -> Optional[Party]:
+        if table.get('class') != ['primaryTable']:
+            return None
+
+        td = table.find('td', class_='partyHeading')
+        section = td.text.strip()
+        log.debug(f'Found section: {section!r}')
+        name = section.split(' ')[0].title()
+        return Party.objects.get(name=name)
+
+    @staticmethod
+    def _handle_position(
+        table: element.Tag,
+        county: District,
+        election: Election,
+        party: Optional[Party],
+    ) -> Optional['Position']:
+        assert party, 'Party must be parsed before positions'
+        if table.get('class') != ['tblOffice']:
+            return None
+
+        # Parse category
+
+        category = None
+        td = table.find(class_='division')
+        if td:
+            category_name = string.capwords(td.text)
+            if category_name not in {
+                "Congressional",
+                "Legislative",
+                "Delegate",
+            }:
+                log.debug(f'Parsing category from division: {td.text!r}')
+                category = DistrictCategory.objects.get(name=category_name)
+
+        if not category:
+            td = table.find(class_='office')
+            if td:
+                office = string.capwords(td.text)
+
+                if office == "United States Senator":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(name="State")
+
+                elif office == "Representative In Congress":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="US Congress District"
+                    )
+                elif office == "State Senator":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="State Senate District"
+                    )
+                elif office == "Representative In State Legislature":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(
+                        name="State House District"
+                    )
+
+                elif office == "Delegate To County Convention":
+                    log.debug(f'Parsing category from office: {td.text!r}')
+                    category = DistrictCategory.objects.get(name="County")
+
+        if not category:
+            class_ = 'mobileOnly'
+            td = table.find(class_=class_)
+            if td:
+                category_name = string.capwords(td.text)
+                log.debug(f'Parsing category from {class_!r}: {td.text!r}')
+                category = DistrictCategory.objects.get(name=category_name)
+
+        log.info(f'Parsed {category!r}')
+        assert category
+
+        # Parse district
+
+        district = None
+        td = table.find(class_='office')
+        if td:
+            office = string.capwords(td.text)
+
+            if office == "Governor":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = District.objects.get(
+                    category=category, name="Michigan"
+                )
+            elif office == "United States Senator":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = District.objects.get(
+                    category=category, name="Michigan"
+                )
+
+            elif category.name == "County":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = county
+
+            else:
+                td = table.find(class_='term')
+                log.debug(f'Parsing district from term: {td.text!r}')
+                district_name = string.capwords(td.text)
+                district = District.objects.get(
+                    category=category, name=district_name
+                )
+
+        log.info(f'Parsed {district!r}')
+        assert district
+
+        # Parse position
+
+        office = table.find(class_='office').text
+        seats = table.find_all(class_='term')[-1].text
+        log.debug(f'Parsing position from: {office!r} when {seats!r}')
+        position_name = string.capwords(office)
+        if 'DELEGATE' in office:
+            position_name = f'{position_name} ({party})'
+        position, _ = Position.objects.get_or_create(
+            election=election,
+            district=district,
+            name=position_name,
+            seats=int(seats.strip().split()[-1]),
+        )
+        log.info(f'Parsed {position!r}')
+
+        # Parse candidates
+
+        for td in table.find_all(class_='candidate'):
+            log.debug(f'Parsing candidate: {td.text!r}')
+            candidate_name = td.text.strip()
+
+            if candidate_name == "No candidates on ballot":
+                log.warn(f'No {party} candidates for {position}')
+                break
+
+            candidate, _ = Candidate.objects.get_or_create(
+                name=candidate_name, party=party, position=position
+            )
+            log.info(f'Parsed {candidate!r}')
+
+        return position
+
+    @staticmethod
+    def _handle_proposal_header(table: element.Tag, **_) -> bool:
+        if table.get('class') == None:
+            td = table.find('td', class_='section')
+            if td:
+                header = td.text.strip()
+                log.debug(f'Found header: {header!r}')
+                return True
+        return False
+
+    @staticmethod
+    def _handle_proposal(
+        table: element.Tag, election: Election, **_
+    ) -> Optional['Proposal']:
+        if table.get('class') != ['proposal']:
+            return None
+
+        td = table.find(class_='division')
+        log.debug(f'Parsing category from division: {td.text!r}')
+        category = DistrictCategory.objects.get(
+            name=string.capwords(td.text.split("PROPOSALS")[0])
+        )
+        log.info(f'Parsed {category!r}')
+
+        td = table.find(class_='proposalTitle')
+        log.debug(f'Parsing district from title: {td.text!r}')
+        district = District.objects.get(
+            category=category,
+            name=string.capwords(td.text).split(category.name)[0].strip(),
+        )
+        log.info(f'Parsed {district}')
+
+        td2 = table.find(class_='proposalText')
+        log.debug(f'Parsing proposal from text: {td2.text!r}')
+        proposal, _ = Proposal.objects.get_or_create(
+            election=election,
+            district=district,
+            name=string.capwords(td.text),
+            description=td2.text.strip(),
+        )
+        log.info(f'Parsed {proposal!r}')
+
+        return proposal
 
     @staticmethod
     def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -331,6 +599,9 @@ class BallotItem(TimeStampedModel):
         abstract = True
         unique_together = ['election', 'district', 'name']
 
+    def __str__(self):
+        return self.name
+
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_selection.html
@@ -339,16 +610,20 @@ class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
-class Party(TimeStampedModel):
-    """Affiliation for a particular candidate."""
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
+# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
+# TODO: Consider splitting this up to match VIP
+class Position(BallotItem):
+    """Ballot item selecting one ore more candidates."""
 
-    name = models.CharField(max_length=50)
+    seats = models.PositiveIntegerField(default=1)
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
 class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
+
+    position = models.ForeignKey(Position, null=True, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -357,12 +632,8 @@ class Candidate(TimeStampedModel):
         Party, blank=True, null=True, on_delete=models.SET_NULL
     )
 
+    class Meta:
+        unique_together = ['position', 'name']
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
-# TODO: Consider splitting this up to match VIP
-class Position(BallotItem):
-    """Ballot item selecting one ore more candidates."""
-
-    candidates = models.ManyToManyField(Candidate)
-    seats = models.PositiveIntegerField(default=1)
+    def __str__(self) -> str:
+        return f'{self.name} for {self.position}'
