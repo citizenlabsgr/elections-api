@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 import string
 from datetime import timedelta
@@ -314,7 +316,7 @@ class BallotWebsite(TimeStampedModel):
                 continue
 
             html = table.prettify()
-            msg = f'Unexpected table:{index} on {self.mi_sos_url}:\n\n{html}'
+            msg = f'Unexpected table ({index}) on {self.mi_sos_url}:\n\n{html}'
             raise ValueError(msg)
 
         return results
@@ -325,7 +327,7 @@ class BallotWebsite(TimeStampedModel):
         county: District,
         election: Election,
         party: Optional[Party],
-    ) -> Union[None, 'Party', 'Position', 'Proposal']:
+    ) -> Union[None, Party, Position, Proposal]:
         for handler in [
             self._handle_primary_header,
             self._handle_party_section,
@@ -343,6 +345,7 @@ class BallotWebsite(TimeStampedModel):
 
             if result:
                 return result
+
         return None
 
     @staticmethod
@@ -350,7 +353,7 @@ class BallotWebsite(TimeStampedModel):
         td = table.find('td', class_='primarySection')
         if td:
             header = td.text.strip()
-            log.debug(f'Found header: {header}')
+            log.debug(f'Found header: {header!r}')
             if "partisan section" in header.lower():
                 return True
         return False
@@ -362,7 +365,7 @@ class BallotWebsite(TimeStampedModel):
 
         td = table.find('td', class_='partyHeading')
         section = td.text.strip()
-        log.debug(f'Found section: {section}')
+        log.debug(f'Found section: {section!r}')
         name = section.split(' ')[0].title()
         return Party.objects.get(name=name)
 
@@ -428,7 +431,7 @@ class BallotWebsite(TimeStampedModel):
                 log.debug(f'Parsing category from {class_!r}: {td.text!r}')
                 category = DistrictCategory.objects.get(name=category_name)
 
-        log.info(f'Parsed: {category!r}')
+        log.info(f'Parsed {category!r}')
         assert category
 
         # Parse district
@@ -461,7 +464,7 @@ class BallotWebsite(TimeStampedModel):
                     category=category, name=district_name
                 )
 
-        log.info(f'Parsed: {district!r}')
+        log.info(f'Parsed {district!r}')
         assert district
 
         # Parse position
@@ -471,14 +474,14 @@ class BallotWebsite(TimeStampedModel):
         log.debug(f'Parsing position from: {office!r} when {seats!r}')
         position_name = string.capwords(office)
         if 'DELEGATE' in office:
-            position_name += f'{position_name} ({party})'
+            position_name = f'{position_name} ({party})'
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
             name=position_name,
             seats=int(seats.strip().split()[-1]),
         )
-        log.info(f'Parsed: {position}')
+        log.info(f'Parsed {position!r}')
 
         # Parse candidates
 
@@ -488,12 +491,12 @@ class BallotWebsite(TimeStampedModel):
 
             if candidate_name == "No candidates on ballot":
                 log.warn(f'No {party} candidates for {position}')
-                return None
+                break
 
             candidate, _ = Candidate.objects.get_or_create(
                 name=candidate_name, party=party, position=position
             )
-            log.info(f'Parsed: {candidate}')
+            log.info(f'Parsed {candidate!r}')
 
         return position
 
@@ -503,7 +506,7 @@ class BallotWebsite(TimeStampedModel):
             td = table.find('td', class_='section')
             if td:
                 header = td.text.strip()
-                log.debug(f'Found header: {header}')
+                log.debug(f'Found header: {header!r}')
                 return True
         return False
 
@@ -514,23 +517,31 @@ class BallotWebsite(TimeStampedModel):
         if table.get('class') != ['proposal']:
             return None
 
+        td = table.find(class_='division')
+        log.debug(f'Parsing category from division: {td.text!r}')
         category = DistrictCategory.objects.get(
-            name=table.find(class_='division')
-            .text.split("PROPOSALS")[0]
-            .strip()
+            name=string.capwords(td.text.split("PROPOSALS")[0])
         )
+        log.info(f'Parsed {category!r}')
+
+        td = table.find(class_='proposalTitle')
+        log.debug(f'Parsing district from title: {td.text!r}')
         district = District.objects.get(
             category=category,
-            name=table.find(class_='proposalTitle')
-            .text.split(category.name)[0]
-            .strip(),
+            name=string.capwords(td.text).split(category.name)[0].strip(),
         )
+        log.info(f'Parsed {district}')
+
+        td2 = table.find(class_='proposalText')
+        log.debug(f'Parsing proposal from text: {td2.text!r}')
         proposal, _ = Proposal.objects.get_or_create(
             election=election,
             district=district,
-            name=table.find(class_='proposalTitle').text.strip(),
-            description=table.find(class_='proposalText').text.strip(),
+            name=string.capwords(td.text),
+            description=td2.text.strip(),
         )
+        log.info(f'Parsed {proposal!r}')
+
         return proposal
 
     @staticmethod
@@ -623,3 +634,6 @@ class Candidate(TimeStampedModel):
 
     class Meta:
         unique_together = ['position', 'name']
+
+    def __str__(self) -> str:
+        return f'{self.name} for {self.position}'
