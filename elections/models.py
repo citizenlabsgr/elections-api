@@ -308,8 +308,8 @@ class BallotWebsite(TimeStampedModel):
         log.info(f'Parsing HTML for ballot: {self}')
         soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
 
-        log.debug(f'Getting county for precinct ID: {self.mi_sos_precinct_id}')
-        county = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id).county
+        log.debug(f'Getting precinct by ID: {self.mi_sos_precinct_id}')
+        precinct = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id)
 
         log.debug(f'Getting election by ID: {self.mi_sos_election_id}')
         election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
@@ -317,7 +317,13 @@ class BallotWebsite(TimeStampedModel):
         party = None
         results = []
         for index, table in enumerate(soup.find_all('table')):
-            result = self._handle(table, county, election, party)
+            result = self._handle(
+                table,
+                election=election,
+                county=precinct.county,
+                jurisdiction=precinct.jurisdiction,
+                party=party,
+            )
 
             if isinstance(result, (Party, Position, Proposal)):
                 results.append(result)
@@ -336,8 +342,10 @@ class BallotWebsite(TimeStampedModel):
     def _handle(
         self,
         table: element.Tag,
-        county: District,
+        *,
         election: Election,
+        county: District,
+        jurisdiction: District,
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
         for handler in [
@@ -352,7 +360,11 @@ class BallotWebsite(TimeStampedModel):
         ]:
             try:
                 result = handler(  # type: ignore
-                    table, county=county, election=election, party=party
+                    table,
+                    county=county,
+                    jurisdiction=jurisdiction,
+                    election=election,
+                    party=party,
                 )
             except:
                 print(table.prettify())
@@ -387,9 +399,11 @@ class BallotWebsite(TimeStampedModel):
     @staticmethod
     def _handle_partisan_positions(
         table: element.Tag,
-        county: District,
+        *,
         election: Election,
+        county: District,
         party: Optional[Party],
+        **_,
     ) -> Optional[Position]:
         assert party, 'Party must be parsed before positions'
         if party.name == "Nonpartisan":
@@ -544,7 +558,7 @@ class BallotWebsite(TimeStampedModel):
 
     @staticmethod
     def _handle_nonpartisan_positions(
-        table: element.Tag, election: Election, party: Party, **_
+        table: element.Tag, *, election: Election, party: Party, **_
     ) -> Optional[Proposal]:
         assert party, 'Party must be parsed before positions'
         if party.name != "Nonpartisan":
@@ -623,25 +637,37 @@ class BallotWebsite(TimeStampedModel):
 
     @staticmethod
     def _handle_proposals(
-        table: element.Tag, election: Election, **_
+        table: element.Tag, *, election: Election, jurisdiction: District, **_
     ) -> Optional[Proposal]:
         if table.get('class') != ['proposal']:
             return None
 
+        # Parse category
+
         td = table.find(class_='division')
         log.debug(f'Parsing category from division: {td.text!r}')
-        category = DistrictCategory.objects.get(
-            name=helpers.titleize(td.text.split("PROPOSALS")[0])
-        )
+        category_name = helpers.titleize(td.text.split("PROPOSALS")[0])
+        if category_name == "Township":
+            category_name = "Jurisdiction"
+
+        category = DistrictCategory.objects.get(name=category_name)
         log.info(f'Parsed {category!r}')
 
-        td = table.find(class_='proposalTitle')
-        log.debug(f'Parsing district from title: {td.text!r}')
-        district = District.objects.get(
-            category=category,
-            name=helpers.titleize(td.text).split(category.name)[0].strip(),
-        )
-        log.info(f'Parsed {district}')
+        # Parse district
+
+        if category.name == "Jurisdiction":
+            log.debug(f'Inferring district as jurisdiction')
+            district = jurisdiction
+        else:
+            td = table.find(class_='proposalTitle')
+            log.debug(f'Parsing district from title: {td.text!r}')
+            district = District.objects.get(
+                category=category,
+                name=helpers.titleize(td.text).split(category.name)[0].strip(),
+            )
+        log.info(f'Parsed {district!r}')
+
+        # Parse proposal
 
         td2 = table.find(class_='proposalText')
         log.debug(f'Parsing proposal from text: {td2.text!r}')

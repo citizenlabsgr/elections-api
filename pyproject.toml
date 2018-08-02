@@ -10,7 +10,7 @@ authors = ["Jace Browning <jacebrowning@gmail.com>"]
 
 python = "^3.6"
 
-django = "^2.0"
+django = "~2.0"
 django-grappelli = "^2.11"
 django-filter = "^1.1"
 django-model-utils = "^3.1"
@@ -39,7 +39,7 @@ requests = {version = "^2.19", extras = ["security"]}
 isort = "^4.3"
 black = "^18.3-alpha.0"
 
-pylint = "^2.0"
+pylint = "~2.0"
 pylint-django = "*"
 mypy = "^0.610.0"
 
