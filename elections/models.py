@@ -300,7 +300,7 @@ class BallotWebsite(TimeStampedModel):
             self.valid = True
 
         updated = self.mi_sos_html != html
-        self.mi_sos_html = html
+        self.mi_sos_html = html.strip()
 
         return updated
 

@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 from django.contrib import admin
 
 from . import models
@@ -8,7 +10,7 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 
-    list_display = ['id', 'name', 'created', 'modified']
+    list_display = ['id', 'name', 'modified']
 
 
 @admin.register(models.District)
@@ -18,14 +20,9 @@ class DistrictAdmin(admin.ModelAdmin):
 
     list_filter = ['category']
 
-    list_display = [
-        'id',
-        'name',
-        'category',
-        'population',
-        'created',
-        'modified',
-    ]
+    list_display = ['id', 'category', 'name', 'population', 'modified']
+
+    ordering = ['category', 'name']
 
 
 @admin.register(models.Election)
@@ -38,13 +35,14 @@ class ElectionAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'name',
+        'mi_sos_id',
         'date',
         'active',
         'reference_url',
-        'mi_sos_id',
-        'created',
         'modified',
     ]
+
+    ordering = ['-date']
 
 
 @admin.register(models.Precinct)
@@ -65,7 +63,6 @@ class PrecinctAdmin(admin.ModelAdmin):
         'ward',
         'number',
         'mi_sos_id',
-        'created',
         'modified',
     ]
 
@@ -85,64 +82,88 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
         'fetched',
         'valid',
         'source',
-        'created',
         'modified',
     ]
+
+    ordering = ['-modified']
 
 
 @admin.register(models.Ballot)
 class BallotAdmin(admin.ModelAdmin):
 
-    list_display = [
-        'id',
-        'election',
-        'precinct',
-        'website',
-        'created',
-        'modified',
-    ]
+    list_filter = ['election']
+
+    list_display = ['id', 'election', 'precinct', 'website', 'modified']
+
+    ordering = ['-modified']
 
 
 @admin.register(models.Party)
 class PartyAdmin(admin.ModelAdmin):
 
-    search_filter = ['name']
+    search_fields = ['name']
 
     list_display = ['id', 'name']
+
+    ordering = ['name']
 
 
 @admin.register(models.Proposal)
 class ProposalAdmin(admin.ModelAdmin):
 
-    search_filter = ['name', 'description', 'reference_url']
+    search_fields = ['name', 'description', 'reference_url']
 
     list_filter = ['election']
 
-    list_display = ['id', 'name', 'description', 'reference_url']
+    list_display = [
+        'id',
+        'name',
+        'description',
+        'district',
+        'election',
+        'reference_url',
+    ]
 
 
 @admin.register(models.Position)
 class PositionAdmin(admin.ModelAdmin):
 
-    search_filter = ['name', 'description', 'reference_url']
+    search_fields = ['name', 'description', 'reference_url']
 
-    list_filter = ['election']
+    list_filter = ['election', 'seats']
 
-    list_display = ['id', 'name', 'description', 'seats', 'reference_url']
+    list_display = [
+        'id',
+        'name',
+        'description',
+        'district',
+        'election',
+        'seats',
+        'reference_url',
+    ]
 
 
 @admin.register(models.Candidate)
 class CandidateAdmin(admin.ModelAdmin):
 
-    search_filter = ['name', 'description', 'reference_url']
+    search_fields = ['name', 'position__name', 'description', 'reference_url']
 
-    list_filter = ['position', 'party']
+    list_filter = ['party', 'position', 'position__election']
 
     list_display = [
         'id',
         'name',
-        'position',
         'party',
+        'position',
         'description',
         'reference_url',
+        'District',
+        'Election',
+        'modified',
     ]
+
+    def District(self, obj):
+        return obj.position.district
+
+    def Election(self, obj):
+        return obj.position.election
