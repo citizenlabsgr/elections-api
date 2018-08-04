@@ -71,7 +71,7 @@ migrate: install
 .PHONY: data
 data: install migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py crawl_mi_sos --start=1828 --limit=3
+	poetry run python manage.py crawl_mi_sos --start=1828 --limit=3 --randomize
 	poetry run python manage.py fetch_mi_sos --limit=3
 
 .PHONY: reset

@@ -46,6 +46,7 @@ def describe_ballot_website():
             constants.circuit_court, _ = models.DistrictCategory.objects.get_or_create(
                 name="Circuit Court"
             )
+            models.DistrictCategory.objects.get_or_create(name="Precinct")
 
             models.District.objects.get_or_create(
                 category=state, name="Michigan"

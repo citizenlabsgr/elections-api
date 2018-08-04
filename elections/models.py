@@ -322,6 +322,7 @@ class BallotWebsite(TimeStampedModel):
                 election=election,
                 county=precinct.county,
                 jurisdiction=precinct.jurisdiction,
+                precinct=precinct,
                 party=party,
             )
 
@@ -346,6 +347,7 @@ class BallotWebsite(TimeStampedModel):
         election: Election,
         county: District,
         jurisdiction: District,
+        precinct: District,
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
         for handler in [
@@ -363,6 +365,7 @@ class BallotWebsite(TimeStampedModel):
                     table,
                     county=county,
                     jurisdiction=jurisdiction,
+                    precinct=precinct,
                     election=election,
                     party=party,
                 )
@@ -402,6 +405,7 @@ class BallotWebsite(TimeStampedModel):
         *,
         election: Election,
         county: District,
+        precinct: District,
         party: Optional[Party],
         **_,
     ) -> Optional[Position]:
@@ -450,9 +454,9 @@ class BallotWebsite(TimeStampedModel):
                         name="State House District"
                     )
 
-                elif office == "Delegate To County Convention":
+                elif office == "Delegate to County Convention":
                     log.debug(f'Parsing category from office: {td.text!r}')
-                    category = DistrictCategory.objects.get(name="County")
+                    category = DistrictCategory.objects.get(name="Precinct")
 
         if not category:
             class_ = 'mobileOnly'
@@ -483,6 +487,10 @@ class BallotWebsite(TimeStampedModel):
                     category=category, name="Michigan"
                 )
 
+            elif category.name == "Precinct":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = precinct
+
             elif category.name == "County":
                 log.debug(f'Parsing district from office: {td.text!r}')
                 district = county
@@ -503,18 +511,21 @@ class BallotWebsite(TimeStampedModel):
         # Parse position
 
         office = table.find(class_='office').text
-        seats = table.find_all(class_='term')[-1].text
-        log.debug(f'Parsing position from: {office!r} when {seats!r}')
+        term = table.find_all(class_='term')[-1].text
+        log.debug(f'Parsing position from: {office!r} when {term!r}')
         position_name = helpers.titleize(office)
+        seats = int(term.strip().split()[-1])
         if 'DELEGATE' in office:
             position_name = f'{position_name} ({party})'
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
             name=position_name,
-            seats=int(seats.strip().split()[-1]),
+            defaults={'seats': seats},
         )
         log.info(f'Parsed {position!r}')
+        if position.seats != seats:
+            assert 0, f'Number of seats for {position} differs: {position.seats} vs. {seats}'
 
         # Parse candidates
 
