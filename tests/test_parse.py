@@ -31,6 +31,9 @@ def describe_ballot_website():
             constants.county, _ = models.DistrictCategory.objects.get_or_create(
                 name="County"
             )
+            constants.county, _ = models.DistrictCategory.objects.get_or_create(
+                name="City"
+            )
             constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
                 name="Jurisdiction"
             )
@@ -63,6 +66,7 @@ def describe_ballot_website():
                     category=constants.jurisdiction,
                     name="City of Sterling Heights",
                 )[0],
+                number='26',
                 mi_sos_id=2000,
             )
 
@@ -83,6 +87,8 @@ def describe_ballot_website():
                     category=constants.jurisdiction,
                     name="City of Grand Rapids",
                 )[0],
+                ward='1',
+                number='9',
                 mi_sos_id=1828,
             )
 
@@ -102,6 +108,7 @@ def describe_ballot_website():
                 jurisdiction=models.District.objects.get_or_create(
                     category=constants.jurisdiction, name="Lexington Township"
                 )[0],
+                number='1',
                 mi_sos_id=3,
             )
 
@@ -121,6 +128,7 @@ def describe_ballot_website():
                 jurisdiction=models.District.objects.get_or_create(
                     category=constants.jurisdiction, name="Hamburg Township"
                 )[0],
+                number='3',
                 mi_sos_id=2,
             )
 
@@ -131,3 +139,44 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 27
+
+        def with_library_proposal(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Kalamazoo"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Galesburg"
+                )[0],
+                number='1',
+                mi_sos_id=6,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=6,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 26
+
+        def with_city_position(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Washtenaw"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Ann Arbor,"
+                )[0],
+                ward='5',
+                number='8',
+                mi_sos_id=10,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=10,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 31

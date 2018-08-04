@@ -59,8 +59,9 @@ class Command(BaseCommand):
             name="Jurisdiction"
         )
         self.stdout.write(f"Added category: {jurisdiction}")
-        models.DistrictCategory.objects.get_or_create(name="Precinct")
 
+        for name in {"City", "Township"}:
+            models.DistrictCategory.objects.get_or_create(name=name)
 
         michigan, _ = models.District.objects.get_or_create(
             category=state, name="Michigan"
