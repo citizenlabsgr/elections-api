@@ -7,6 +7,7 @@ from typing import List, Optional, Union
 from django.db import models
 from django.utils import timezone
 
+import bugsnag
 import log
 import pendulum
 import requests
@@ -119,6 +120,7 @@ class Precinct(TimeStampedModel):
     def save(self, *args, **kwargs):
         self.ward = self.ward if self.ward.strip('0') else ''
         self.number = self.number if self.number.strip('0') else ''
+        assert self.mi_sos_name
         super().save(*args, **kwargs)
 
 
@@ -322,6 +324,7 @@ class BallotWebsite(TimeStampedModel):
                 election=election,
                 county=precinct.county,
                 jurisdiction=precinct.jurisdiction,
+                precinct=precinct,
                 party=party,
             )
 
@@ -346,6 +349,7 @@ class BallotWebsite(TimeStampedModel):
         election: Election,
         county: District,
         jurisdiction: District,
+        precinct: Precinct,
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
         for handler in [
@@ -363,6 +367,7 @@ class BallotWebsite(TimeStampedModel):
                     table,
                     county=county,
                     jurisdiction=jurisdiction,
+                    precinct=precinct,
                     election=election,
                     party=party,
                 )
@@ -402,6 +407,7 @@ class BallotWebsite(TimeStampedModel):
         *,
         election: Election,
         county: District,
+        precinct: Precinct,
         party: Optional[Party],
         **_,
     ) -> Optional[Position]:
@@ -450,9 +456,9 @@ class BallotWebsite(TimeStampedModel):
                         name="State House District"
                     )
 
-                elif office == "Delegate To County Convention":
+                elif office == "Delegate to County Convention":
                     log.debug(f'Parsing category from office: {td.text!r}')
-                    category = DistrictCategory.objects.get(name="County")
+                    category = DistrictCategory.objects.get(name="Precinct")
 
         if not category:
             class_ = 'mobileOnly'
@@ -483,6 +489,10 @@ class BallotWebsite(TimeStampedModel):
                     category=category, name="Michigan"
                 )
 
+            elif category.name == "Precinct":
+                log.debug(f'Parsing district from office: {td.text!r}')
+                district = precinct
+
             elif category.name == "County":
                 log.debug(f'Parsing district from office: {td.text!r}')
                 district = county
@@ -503,18 +513,29 @@ class BallotWebsite(TimeStampedModel):
         # Parse position
 
         office = table.find(class_='office').text
-        seats = table.find_all(class_='term')[-1].text
-        log.debug(f'Parsing position from: {office!r} when {seats!r}')
+        term = table.find_all(class_='term')[-1].text
+        log.debug(f'Parsing position from: {office!r} when {term!r}')
         position_name = helpers.titleize(office)
-        if 'DELEGATE' in office:
-            position_name = f'{position_name} ({party})'
+        seats = int(term.strip().split()[-1])
+        if isinstance(district, Precinct):
+            position_name = f'{position_name} ({party} | {district})'
+            district = None
         position, _ = Position.objects.get_or_create(
             election=election,
             district=district,
             name=position_name,
-            seats=int(seats.strip().split()[-1]),
+            defaults={'seats': seats},
         )
         log.info(f'Parsed {position!r}')
+        if position.seats != seats:
+            bugsnag.notify(
+                f'Number of seats for {position} differs: {position.seats} vs. {seats}'
+            )
+
+        # Add precinct
+
+        position.precincts.add(precinct)
+        position.save()
 
         # Parse candidates
 
@@ -558,7 +579,12 @@ class BallotWebsite(TimeStampedModel):
 
     @staticmethod
     def _handle_nonpartisan_positions(
-        table: element.Tag, *, election: Election, party: Party, **_
+        table: element.Tag,
+        *,
+        election: Election,
+        precinct: Precinct,
+        party: Party,
+        **_,
     ) -> Optional[Proposal]:
         assert party, 'Party must be parsed before positions'
         if party.name != "Nonpartisan":
@@ -573,8 +599,11 @@ class BallotWebsite(TimeStampedModel):
         if td:
             office = helpers.titleize(td.text)
             log.debug(f'Parsing category from office: {td.text!r}')
-            if office == "Judge of Circuit Court":
-                category = DistrictCategory.objects.get(name="Circuit Court")
+
+            if office.startswith("Judge of"):
+                category = DistrictCategory.objects.get(
+                    name=office.replace("Judge of ", "")
+                )
 
         log.info(f'Parsed {category!r}')
         assert category
@@ -607,6 +636,11 @@ class BallotWebsite(TimeStampedModel):
             seats=int(seats.strip().split()[-1]),
         )
         log.info(f'Parsed {position!r}')
+
+        # Add precinct
+
+        position.precincts.add(precinct)
+        position.save()
 
         # Parse candidates
 
@@ -642,6 +676,7 @@ class BallotWebsite(TimeStampedModel):
         election: Election,
         county: District,
         jurisdiction: District,
+        precinct: Precinct,
         **_,
     ) -> Optional[Proposal]:
         if table.get('class') != ['proposal']:
@@ -653,10 +688,13 @@ class BallotWebsite(TimeStampedModel):
         if td:
             log.debug(f'Parsing category from division: {td.text!r}')
             category_name = helpers.titleize(td.text.split("PROPOSALS")[0])
-            if category_name == "Township":
-                log.warn('Assuming category is jurisdiction')
-                category_name = "Jurisdiction"
-            elif category_name == "Local School District":
+            if category_name in {
+                "Township",
+                "Local School District",
+                "District Library",
+                "City",
+                "Authority",
+            }:
                 log.warn('Assuming category is jurisdiction')
                 category_name = "Jurisdiction"
             category = DistrictCategory.objects.get(name=category_name)
@@ -694,6 +732,11 @@ class BallotWebsite(TimeStampedModel):
             description=proposal_text.text.strip(),
         )
         log.info(f'Parsed {proposal!r}')
+
+        # Add precinct
+
+        proposal.precincts.add(precinct)
+        proposal.save()
 
         return proposal
 
@@ -738,13 +781,10 @@ class Ballot(TimeStampedModel):
 class BallotItem(TimeStampedModel):
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    precinct = models.ForeignKey(
-        Precinct, on_delete=models.CASCADE, null=True
-    )  # TODO: remove null
-    # TODO: Delete this
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    precincts = models.ManyToManyField(Precinct)
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True)
 

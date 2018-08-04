@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use
 
 import re
+from random import randint
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -30,11 +31,18 @@ class Command(BaseCommand):
             dest='max_precincts_count',
             help='Number of precincts to crawl before stopping. ',
         )
+        parser.add_argument(
+            '--randomize',
+            action='store_true',
+            default=False,
+            help='Randomly skip precincts for testing purposes',
+        )
 
     def handle(
         self,
         starting_mi_sos_precinct_precinct_id,
         max_precincts_count,
+        randomize,
         *_args,
         **_kwargs,
     ):
@@ -43,14 +51,19 @@ class Command(BaseCommand):
         helpers.requests_cache.core.remove_expired_responses()
         try:
             self.discover_precincts(
-                starting_mi_sos_precinct_precinct_id, max_precincts_count
+                starting_mi_sos_precinct_precinct_id,
+                max_precincts_count,
+                randomize,
             )
         except Exception as e:
             bugsnag.notify(e)
             raise e
 
     def discover_precincts(
-        self, starting_mi_sos_precinct_precinct_id, max_precincts_count
+        self,
+        starting_mi_sos_precinct_precinct_id,
+        max_precincts_count,
+        randomize,
     ):
         election = (
             models.Election.objects.filter(active=True)
@@ -74,7 +87,11 @@ class Command(BaseCommand):
         mi_sos_precinct_id = starting_mi_sos_precinct_precinct_id - 1
         misses = 0
         while misses < 10:
-            mi_sos_precinct_id += 1
+            if randomize and mi_sos_precinct_id > 0:
+                step = randint(1, 250)
+            else:
+                step = 1
+            mi_sos_precinct_id += step
 
             # Stop early if requested
             count = models.Precinct.objects.count()
