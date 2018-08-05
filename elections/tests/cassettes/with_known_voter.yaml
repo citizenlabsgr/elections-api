@@ -5,7 +5,7 @@ interactions:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      User-Agent: [python-requests/2.19.1]
+      User-Agent: ['Mozilla/5.0 (Windows NT 5.1; rv:21.0) Gecko/20130401 Firefox/21.0']
     method: GET
     uri: https://webapps.sos.state.mi.us/MVIC/
   response:
@@ -19,189 +19,229 @@ interactions:
         winPop = window.open(popUpUrl, \"\", \"width=1024,height=768,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,left=\"
         + placementx + \",top=\" + placementy + \",screenX=\" + placementx + \",screenY=\"
         + placementy + \",\");\r\n        }\r\n    </script>\r\n    <script src=\"Scripts/jquery-3.1.1.min.js\"></script>\r\n
-        \   <script src=\"Scripts/bootstrap.min.js\"></script>\r\n\r\n    <link href=\"masterpage/CommonStyleSheet.css\"
-        rel=\"stylesheet\" type=\"text/css\" media=\"screen\" /><link href=\"Content/bootstrap.min.css\"
-        rel=\"stylesheet\" /><link href=\"masterpage/agency.css\" rel=\"stylesheet\"
-        media=\"screen\" /><link href=\"masterpage/Print.css\" rel=\"stylesheet\"
-        type=\"text/css\" media=\"print\" /><link rel=\"shortcut icon\" href=\"masterpage/images/favicon.ico?v=1\"
-        type=\"image/x-icon\" /></head>\r\n<body id=\"body\">\r\n    <div id=\"main-wrapper\"
-        class=\"container mainWrap\">\r\n        <div role=\"navigation\" aria-label=\"Secondary\">\r\n
-        \           <div class=\"navbar som-brandbar\">\r\n                <a class=\"sr-only\"\r\n
-        \                   href=\"#mainArea\">Skip Navigation\r\n                </a>\r\n
-        \               <div class=\"container\">\r\n                    <div class=\"navbar-header\">\r\n
-        \                       <a href=\"#\"\r\n                            class=\"navbar-toggle
-        collapsed\"\r\n                            data-toggle=\"collapse\"\r\n                            data-target=\".navbar-collapse\">\r\n
-        \                           <span class=\"icon-bar\"></span>\r\n                            <span
-        class=\"icon-bar\"></span>\r\n                            <span class=\"icon-bar\"></span>\r\n
-        \                           <div class=\"menuNav\">MENU</div>\r\n                        </a>\r\n
-        \                       <div class=\"collapse navbar-collapse global-links\">\r\n
-        \                           <ul class=\"nav navbar-nav text-uppercase\"\r\n
-        \                               data-nav-type=\"global-nav\">\r\n                                <li>\r\n
-        \                                   <a href=\"http://michigan.gov/sos\">SOS
-        Home</a>\r\n                                </li>\r\n                                <li>\r\n
-        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-13162-25634--,00.html\"
-        target=\"_blank\"  rel=\"noopener noreferrer\" role=\"link\">Contact SOS</a>\r\n
-        \                               </li>\r\n                            </ul>\r\n
-        \                       </div>\r\n                        <ul class=\"nav
-        navbar-nav navbar-right\">\r\n                            <li>\r\n                                <a
-        class=\"miGovHome\"\r\n                                    href=\"http://www.michigan.gov\"\r\n
-        \                                   title=\"Michigan's Official Web Site\">MI.GOV\r\n
-        \                               </a>\r\n                            </li>\r\n
-        \                       </ul>\r\n                    </div>\r\n                </div>\r\n
-        \           </div>\r\n        </div>\r\n\r\n        <header class=\"header\"
-        role=\"banner\">\r\n            <div>\r\n                <a href=\"http://michigan.gov/sos\">\r\n
+        \   <script src=\"Scripts/bootstrap.min.js\"></script>\r\n\r\n    <link href=\"masterpage/main_navigation.css\"
+        rel=\"stylesheet\" /><link href=\"masterpage/CommonStyleSheet.css\" rel=\"stylesheet\"
+        type=\"text/css\" media=\"screen\" /><link href=\"Content/bootstrap.min.css\"
+        rel=\"stylesheet\" /><link href=\"Content/bootstrap-theme.min.css\" rel=\"stylesheet\"
+        /><link href=\"masterpage/agency.css\" rel=\"stylesheet\" media=\"screen\"
+        /><link href=\"masterpage/Print.css\" rel=\"stylesheet\" type=\"text/css\"
+        media=\"print\" /><link rel=\"shortcut icon\" href=\"masterpage/images/favicon.ico?v=1\"
+        type=\"image/x-icon\" /><link href=\"masterpage/rdLayout.css\" rel=\"stylesheet\"
+        /></head>\r\n<body id=\"body\">\r\n    <div id=\"main-wrapper\" class=\"container
+        mainWrap\">\r\n\r\n        <div class=\"navbar som-brandbar\" role=\"navigation\">\r\n
+        \           <a class=\"sr-only\" href=\"#main\">Skip Navigation</a>\r\n            <div
+        class=\"container\">\r\n                <div class=\"navbar-header\">\r\n
+        \                   <a href=\"#\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\"
+        data-target=\".navbar-collapse\">\r\n                        <span class=\"icon-bar\"></span>\r\n
+        \                       <span class=\"icon-bar\"></span>\r\n                        <span
+        class=\"icon-bar\"></span>\r\n                        <div class=\"menuNav\">MENU</div>\r\n
+        \                   </a>\r\n                    <div class=\"collapse navbar-collapse
+        global-links\">\r\n                        <ul class=\"nav navbar-nav\" data-nav-type=\"global-nav\">\r\n
+        \                           <li>\r\n                                <a href=\"http://michigan.gov/sos\">SOS
+        Home</a>\r\n                            </li>\r\n                            <li>\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-13162-25634--,00.html\"
+        class=\"js-contactInfo\">Contact SOS</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\"><a href=\"votersearch.aspx\"
+        role=\"link\">Your Voter Information</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"ClerkSearch.aspx\" role=\"link\">Find Your Clerk</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"SelectPublicBallot.aspx\" role=\"link\">View Ballots</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">How Do I Register
+        To Vote</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Absentee Voting</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Military And Overseas
+        Voters</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Work At The Polls</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voting Equipment</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Election FAQs</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\" title=\"This link
+        opens a PDF document\">Statewide Ballot Proposals</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8721---,00.html\" target='_blank'
+        rel=\"noopener noreferrer\" role=\"link\">Candidate Information Links</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voter Identification
+        At The Polls</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"CountByCounty.aspx\"
+        role=\"link\">Registered Voter Count By County</a>\r\n                            </li>\r\n
+        \                       </ul>\r\n                    </div>\r\n                    <ul
+        class=\"nav navbar-nav navbar-right\">\r\n                        <li>\r\n
+        \                           <a class=\"miGovHome\" href=\"http://www.michigan.gov\"
+        title=\"Michigan's Official Web Site\">MI.gov</a>\r\n                        </li>\r\n
+        \                   </ul>\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n\r\n        <header class=\"header\" role=\"banner\">\r\n
+        \           <div class=\"container\">\r\n                <a href=\"http://michigan.gov/sos\">\r\n
         \                   <img src=\"masterpage/images/banner_seal_medium.png\"
         id=\"ctl00_logo\" class=\"logo\" title=\"michigan.gov/sos\" alt=\"Secretary
-        of State Seal\" />\r\n                    <div class=\"pull-left\">\r\n                        <h1
-        class=\"siteTitle\" data-som-header=\"appTitle\">Michigan Voter Information
-        Center</h1>\r\n                        <span class=\"tagline\" data-som-header=\"agencyTagLine\">Ruth
-        Johnson, Secretary of State</span>\r\n                    </div>\r\n                </a>\r\n
-        \           </div>\r\n        </header>\r\n\r\n        \r\n\r\n       \r\n
-        \           <div id=\"mainArea\" class=\"midSection container container-fluid\">\r\n
-        \               <div id=\"ctl00_leftSideNav\" class=\"leftNavColumn\" role=\"navigation\"
-        aria-label=\"primary\">\r\n                    <a href=\"votersearch.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_voterSrchBtn\" title=\"Are
-        You Registered to Vote?\" src=\"masterpage/images/Are-You-Registered_ON.gif\"
-        alt=\"Verify Your Voter Registration\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"ClerkSearch.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_clerkSrcBtn\" title=\"Find
-        Your Clerk\" src=\"masterpage/images/Find-Your-Clerk_OFF.gif\" alt=\"Find
-        Your County Or Local Clerk\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"SelectPublicBallot.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_pubBalBtn\" title=\"View
-        Ballots\" src=\"masterpage/images/PublicBallotBtn_off.gif\" alt=\"View Ballot
-        Items For The Upcoming Election\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Registering To Vote In Michigan\" src=\"masterpage/images/Register-To-Vote_OFF.gif\"
-        alt=\"How to Register to Vote\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Obtaining An Absent Voter Ballot\" src=\"masterpage/images/Absentee-Voting-OFF.gif\"
-        alt=\"Absentee Voting Information\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Information For Military And Overseas Voters\" src=\"masterpage/images/mil_OFF.gif\"
-        alt=\"Military and Overseas Voter Information\" height=\"35\" width=\"150\"
-        border=\"0\" />\r\n                    </a>\r\n\r\n                    <a
-        href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\" target='_blank'
-        rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Working At The Polls\" src=\"masterpage/images/Work-At-The-Polls_OFF.gif\"
-        alt=\"Work at the Polls\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Voting Equipment Used In Michigan Elections\" src=\"masterpage/images/VotingEquipment.gif\"
-        alt=\"Voting Equipment Information\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Frequently Asked Questions And Information for Voters\" src=\"masterpage/images/Voting-Info-FAQs_OFF.gif\"
-        alt=\"Voting Information and FAQ\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
+        of State Seal\" />\r\n                    <div class=\"pull-left siteTitleWrap\">\r\n
+        \                       <h1 class=\"siteTitle\" data-som-header=\"appTitle\">Michigan
+        Voter Information Center</h1>\r\n                        <span class=\"tagline\"
+        data-som-header=\"agencyTagLine\">Ruth Johnson, Secretary of State</span>\r\n
+        \                   </div>\r\n                </a>\r\n            </div>\r\n
+        \       </header>\r\n\r\n\r\n\r\n        <main id=\"main\" role=\"main\" class=\"main\">\r\n\r\n
+        \           <div class=\"row\">\r\n                <div id='menu' role='navigation'
+        aria-label='Site' class='col-sm-2 hidden-xs leftNavColumn'>\r\n                    <div
+        id='flyout'>\r\n                        <nav class='main-navigation'>\r\n
+        \                           <ul id='nav'>\r\n\r\n                                <li>\r\n
+        \                                   <a href=\"votersearch.aspx\" role=\"link\">Your
+        Voter Information</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"ClerkSearch.aspx\" role=\"link\">Find
+        Your Clerk</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"SelectPublicBallot.aspx\" role=\"link\">View
+        Ballots</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">How Do I Register
+        To Vote</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Absentee Voting</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Military And Overseas
+        Voters</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Work At The Polls</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voting Equipment</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Election FAQs</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
         target='_blank' rel=\"noopener noreferrer\" role=\"link\" title=\"This link
-        opens a PDF document\">\r\n                        <img title=\"State Proposal
-        Information\" src=\"masterpage/images/StatewideBallot_Prop_OFF.gif\" alt=\"A
-        PDF Document Containing Proposal Information\" height=\"35\" width=\"150\"
-        border=\"0\" />\r\n                    </a>\r\n\r\n                    <a
+        opens a PDF document\">Statewide Ballot Proposals</a>\r\n                                </li>\r\n
+        \                               <li>\r\n                                    <a
         href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8721---,00.html\" target='_blank'
-        rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Registered Candidate Information\" src=\"masterpage/images/CandidateInfoLinks.gif\"
-        alt=\"Candidate Information\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"A Guide To Voter Identification At The Polls\" src=\"masterpage/images/VoterIDButton-OFF.gif\"
-        alt=\"Voter Identification\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"CountByCounty.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_CountBtn\" title=\"Registered
-        Michigan Voters By County\" src=\"masterpage/images/countByCounty-OFF.gif\"
-        alt=\"Voter Count by County\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n                </div>\r\n\r\n                <div
-        class=\"contentArea\">\r\n                     <main>\r\n                    <div
-        id=\"ctl00_contentHeadingArea\" class=\"\" style=\"display: flex;\">\r\n                        <div
-        id=\"divSectionHeading\" class=\"divSectionHeading \">\r\n                            <span
-        id=\"lblSectionHeading\" class=\"sectionHeading dontPrint\">Are You Registered?</span>\r\n
-        \                       </div>\r\n                        <div id=\"ctl00_registeredVoterStats\"
-        class=\"registeredVoterStats\">\r\n                            <span id=\"ctl00_lblVoterCount\"
-        class=\"whiteText dontPrint\">Michigan Registered Voter Count: 7,374,190</span>\r\n
-        \                           <span id=\"ctl00_lblVoterCountDate\" class=\"whiteText
-        dontPrint\" style=\"font-size: small; font-weight: normal;\"><br />(as of
-        06/30/2018)</span>\r\n                        </div>\r\n                    </div>\r\n\r\n
-        \                   <div id=\"trPrinterFriendly\" class=\"dontPrint\">\r\n
-        \                       <div style=\"text-align: right; padding-right: 25px\">\r\n
-        \                           \r\n                        </div>\r\n                    </div>\r\n\r\n
-        \                   \r\n\r\n                    \r\n\r\n                    <form
-        name=\"aspnetForm\" method=\"post\" action=\"./\" id=\"aspnetForm\">\r\n<input
-        type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"gULSwZ+7Q4D+qughrALYvYfW0ZF+R7cKkHVqdAsaPGC1YWD+PgD1u5z3EHlOErE/EGGqODGzc0MHkH+Ygw7qla21lUDvbOSbMKXggtqoR9C+yYY+CXlq2j8qqE2QFrEQsdt1Cd8fT8p6jjv5QBYEK8xjnd8WZRGo4UoEzaN8IqsJt+VfTzujPQVGkVuUjhVcfNow6/1/aDtrKMTpYfqhzx33Vp8rf/VbVMaC4y+c1UKXE0DQtzGyVEz3G5WpiS5OJ6C1sdecOrPKvtoTNR52TswTkQaWFJbDop/xwH6ryLv2DkOCkYl1ChnEiWuMslEI20uldmtV9e1N3zZIFTVmtSeZ2Xz9b7vNmh9NtQ7JGkkt321nDdq2Jd0d14Rt+1xLXFXd7xXL8VKZZby5wNsx8nQRhgmcnNbrIMbMCTX+sk12ZgubPiYNFpOYwU5+YM9HHJ5kKDT7X4z+Jj3tmFiDCg==\"
-        />\r\n\r\n<input type=\"hidden\" name=\"__VIEWSTATEGENERATOR\" id=\"__VIEWSTATEGENERATOR\"
-        value=\"9702278D\" />\r\n<input type=\"hidden\" name=\"__VIEWSTATEENCRYPTED\"
-        id=\"__VIEWSTATEENCRYPTED\" value=\"\" />\r\n<input type=\"hidden\" name=\"__EVENTVALIDATION\"
-        id=\"__EVENTVALIDATION\" value=\"7qMiEG6AFAAKv+msdSiXnzy53pbUuk8e658Sbw3+WceDdSIhfamdL1OD7iZWp4mFUi5SjCLGHEmFMSx3V5LFhdFowKLBMNaxZmqpValGBPlJKtsTf7GbxLEJdR/5d5J26wEA5P/L94YIlc/CLX6OyM5It/Eq1rHjko+1G45Ybj+PBRlxl9tPhI+1wKd3p2iQH/gVlzy0qde4GtT01CpUI5d7tY6sB4uYawPrVIcC88/zpStAPnPgAPFmd8WUXh4JJjiX02kahVt4WFPrswGlZqu302Zw0qZ63sE9U+J/Pna137x+4/OW27+Lm2CNtmh/Dy1EHraLB4zOEH1+4/+dfeEmLzir/dsW5q/6uDRN3HlYGKtXQL6CbeiEIB9OOy5FvUx/pwHM9HasaDIqA3YwsOTvZALfUD2UcSEYB0v/5iVuRxC2+tYWJGBQSgfwNrRvZR5v34o/4eslibGASkkzcuXnwivMhkwTOO2kBICUPyVeLuLwfIabpXY11biK5qfNa0UAwYqrQY5arT8IQN9/4i/jXieEHSvZTC2PzpJXFMRjMKWBFSFTs7p+L3RrxzYC5aeL1OSp+t1+pdEBrLDZxLPtGtAKx6JlIBQxqTEtZOC9aZNIPOHrg8hqviOr0AAC8sIzr7F/kIET35LB1f+yM03ZNioYh9AJnYjruxFwrBTh5o6EMxTJPZuYagiDGIK6l3Aun+w467YaC6lPAilHerftQGQWFpqtLVhxZ3q3+WhKgd22R+pVfcr0LVaYEtFnXZrxwiqaJHTVmoigfVXPWH9Bw4D2S9PAEP38BomT7wP2N9RjYg4arnc1b+pnFPoVvTRJ2TwOGzCRN34ctlnMHw==\"
-        />\r\n                        <noscript style=\"font-size: large; font-weight:
-        bold\">\r\n                            Browsers that can not handle javascript
-        will not be able to access some features of this site.<br />\r\n                        </noscript>\r\n\r\n
-        \                       \r\n    <div id=\"ctl00_ContentPlaceHolder1_divSearch\"
-        class=\"rightSide\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-8
-        noPadding\">\r\n                <div style=\"padding-left: 10px;margin-bottom:10px
-        !important;\">\r\n                    Please use one of the search options
-        below to:\r\n                    <div style=\"padding-left: 15px;\">\r\n                        View
-        your <b>Sample Ballot</b> for the upcoming election\r\n                        <br
-        />\r\n                        Track the status of your <b>Absentee Ballot</b>\r\n
-        \                       <br />\r\n                        Verify your <b>Voter
-        Registration Information</b>\r\n                        <br />\r\n                    </div>\r\n
-        \               </div>\r\n\r\n                <div id=\"ctl00_ContentPlaceHolder1_pnlByName\">\r\n\t\r\n
+        rel=\"noopener noreferrer\" role=\"link\">Candidate Information Links</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voter Identification
+        At The Polls</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"CountByCounty.aspx\" role=\"link\">Registered
+        Voter Count By County</a>\r\n                                </li>\r\n                            </ul>\r\n
+        \                       </nav>\r\n                    </div>\r\n                </div>\r\n
+        \               <div class=\"col-sm-10 noPadding\">\r\n                    <div
+        id=\"ctl00_contentHeadingArea\" class=\"noPadding\" style=\"display: flex;
+        width:100%;\">\r\n                        <span id=\"divSectionHeading\" class=\"divSectionHeading
+        \">\r\n                            <span id=\"lblSectionHeading\" class=\"sectionHeading
+        dontPrint\">Your Voter Information</span>&nbsp;&nbsp;\r\n                        </span>\r\n
+        \                       <span id=\"ctl00_registeredVoterStats\" class=\"registeredVoterStats\">\r\n
+        \                           <span id=\"ctl00_lblVoterCount\" class=\"voterCount
+        dontPrint\">Michigan Registered Voter Count: 7,385,079</span>\r\n                            <span
+        id=\"ctl00_lblVoterCountDate\" class=\"whiteText dontPrint\" style=\"font-size:
+        small; font-weight: normal;\"><br />(as of 08/04/2018)</span>\r\n                        </span>\r\n
+        \                   </div>\r\n\r\n                    <div id=\"trPrinterFriendly\"
+        class=\"dontPrint\">\r\n                        <div style=\"text-align: right;
+        padding-right: 25px\">\r\n                            \r\n                        </div>\r\n
+        \                   </div>\r\n\r\n                    \r\n\r\n                    \r\n\r\n
+        \                   <div id=\"divMobileMessage\" class=\"visible-xs visible-sm
+        hidden-md-block\" style=\"text-align: center;\">\r\n                        <br
+        />\r\n                        <a href=\"https://vote.michigan.gov/m.mvic\"
+        id=\"linkToOurMobileSite\" class=\"btn btn-info\" role=\"button\">Try our
+        mobile friendly site.</a>\r\n                        <br />\r\n                        <br
+        />\r\n                    </div>\r\n\r\n                    <form name=\"aspnetForm\"
+        method=\"post\" action=\"./\" id=\"aspnetForm\">\r\n<div>\r\n<input type=\"hidden\"
+        name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"/bJ/oNkn/QihiQyYk0TYV53Zu7ovTwnzF/7LjeFRXK9ChMCrbU0O8h4lzYHcqZfbmueLy2xZDHY1QvhPu3RIrPtHvMiWNSodUYmXTJ3Q3cXoxoFsTKTBONVfZhgup46GAflkuwBSOD4bfKBcNBIG5mQ9ThVik0FLv3BiOFxFT9Hs+Sx0Zsg+qlSIsx31c6+BoDwh0ayU1GB98XWLJWlqGjOIxhHzmSF2WoKeZ8WtV/sSBzuvBc5Vxpm8FeYvgCZVBfODmEb+OXP/ospnEyy5g0IBRBDrJjcm3qCI739+SIz+Lp7SQlTNykn06ous1TwCuGtLZFJ/OdhvH3evTG5vppSRCTdGaWOozN8TrLyB5BQ=\"
+        />\r\n</div>\r\n\r\n<script type=\"text/javascript\">\r\n//<![CDATA[\r\nvar
+        theForm = document.forms['aspnetForm'];\r\nif (!theForm) {\r\n    theForm
+        = document.aspnetForm;\r\n}\r\nfunction __doPostBack(eventTarget, eventArgument)
+        {\r\n    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {\r\n        theForm.__EVENTTARGET.value
+        = eventTarget;\r\n        theForm.__EVENTARGUMENT.value = eventArgument;\r\n
+        \       theForm.submit();\r\n    }\r\n}\r\n//]]>\r\n</script>\r\n\r\n\r\n<script
+        src=\"/MVIC/WebResource.axd?d=T56BflORC_zWoM08oQl7Z1tsqZANzb5-a_lrVe0ZXe0a0TGXz6cg1JbvmQ4sZypvXoZkj-9fE2EOJjYj1i9pxIEYwu5WHkg3DZO17EdeUPw1&amp;t=636576778480000000\"
+        type=\"text/javascript\"></script>\r\n\r\n<div>\r\n\r\n\t<input type=\"hidden\"
+        name=\"__VIEWSTATEGENERATOR\" id=\"__VIEWSTATEGENERATOR\" value=\"9702278D\"
+        />\r\n\t<input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\"
+        value=\"0\" />\r\n\t<input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\"
+        value=\"0\" />\r\n\t<input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__VIEWSTATEENCRYPTED\" id=\"__VIEWSTATEENCRYPTED\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\"
+        value=\"DpIjg+3xOClQ6EcTB4NGtg/jUgfSxOLCwccUavDSVOlpezdyIep5CzYK/p/bkkronP3JaWg3BlmV+kTAu8F8QWlT5p6xfmdN0vUcfcJASI9Fj3ZFmsq9Qk92oSYJrBHG7cLFF0rK8h/D8BolVqChl09tkIvXbKeMziEIWIrOr96p3N6yd9edrOFzDZUBWP154xGpu7GtWa5eHgG1Wa8XTeWOI1yHyHvsfqFEIZ50ajs55vwRKl21/tU18nqiSm5O0Q5rs9DaftjclhcLekYf3wl2yGdh1IebH0gBZdEW+yx7nw2B2WXzI06svB+wFnrx3NCnfg/YOKqUf6YYI/tztbYp8P8qGEPCgxBphn7K8G2hyGlIMsj/REULXlvLzElGd2lX9kwgoRyfwafHHhcz8X3sGvmTRrd+sOOjmbNZOb5csTzecmXrj+bT2AVFBkWUSgbJBFGzoXAh3LBdvgqrk5aiAooR6OQyzTcrup0vTPpl80lXFBVlLtQWh3HYzN9Ui2vG9NGEPvD1ohYm/ZtcvO+jLlroO5TI4uddduBK7Yh+57dqJe38teyIHkL08ycn2k3TEaLOz+gWbf9IjCWqX+1PcK2HFtFxbS4MIY8zwIcfUcyXSLpuxsY5gf8PqnCuwsxQtDX724ga6xgJ1LW0ZR1V+kzwuPDnhVApNlIOpk74gcRw9KKtERPTIHuu4jy0UWetXSy3AyMFDvPnRBdTTEDU88ZoCfaL4oaPK2MXT8VjuUF5Q+gBtvaGf4kgHW0HND5uE7gVQHHxnz+rHDPUOVkSjuhHwpIoOjyNn2uJJaWy7gXDZIBZ7VQ2qcZBStc26rcctQL1e55cPsh6M848dw==\"
+        />\r\n</div>\r\n                        <noscript style=\"font-size: large;
+        font-weight: bold\">\r\n                            Browsers that can not
+        handle javascript will not be able to access some features of this site.<br
+        />\r\n                        </noscript>\r\n\r\n                        \r\n
+        \   <div id=\"ctl00_ContentPlaceHolder1_divSearch\">\r\n        <div class=\"row\">\r\n
+        \           <div class=\"col-xs-12 col-sm-10 col-md-8 noPadding\">\r\n                <div
+        style=\"padding-left: 10px; margin-bottom: 10px !important;\">\r\n                    Please
+        use one of the search options below to:\r\n                    <div style=\"padding-left:
+        15px;\">\r\n                        View your <b>Sample Ballot</b> for the
+        upcoming election\r\n                        <br />\r\n                        Track
+        the status of your <b>Absentee Ballot</b>\r\n                        <br />\r\n
+        \                       Verify your <b>Voter Registration Information</b>\r\n
+        \                       <br />\r\n                    </div>\r\n                </div>\r\n\r\n
+        \               <div id=\"ctl00_ContentPlaceHolder1_pnlByName\" onkeypress=\"javascript:return
+        WebForm_FireDefaultButton(event, &#39;ctl00_ContentPlaceHolder1_btnSearchByName&#39;)\">\r\n\t\r\n
         \                   <div class=\"panel\">\r\n                        <div
         class=\"panel-heading\">\r\n                            Search For Voter Information
         By Name\r\n                        </div>\r\n                        <div
         class=\"panel-body\">\r\n                            <p class=\"searchSubHeading\">Please
         enter your first name, last name, date of birth and residential ZIP code.</p>\r\n
         \                           <div class=\"row\">\r\n                                <div
-        class=\"col-md-2 inputLabel\">\r\n                                    <label
+        class=\"col-xs-4 col-sm-3 inputLabel\">\r\n                                    <label
         for=\"ctl00_ContentPlaceHolder1_vsFname\" class=\"inputLabel\">First Name:
         </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-3 inputText\">\r\n                                    <input
+        class=\"col-xs-6 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsFname\" type=\"text\" maxlength=\"20\"
         id=\"ctl00_ContentPlaceHolder1_vsFname\" class=\"inputText\" />\r\n                                </div>\r\n
         \                               <div class=\"col-md-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_fname\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-2 inputLabel\">\r\n                                    <label
-        for=\"ctl00_ContentPlaceHolder1_vsLname\" class=\"inputLabel\">Last Name:
-        </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-3 inputText\">\r\n                                    <input
+        \                               <div class=\"col-xs-4 col-sm-3 inputLabel\">\r\n
+        \                                   <label for=\"ctl00_ContentPlaceHolder1_vsLname\"
+        class=\"inputLabel\">Last Name: </label>\r\n                                </div>\r\n
+        \                               <div class=\"col-xs-6 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsLname\" type=\"text\" maxlength=\"35\"
         id=\"ctl00_ContentPlaceHolder1_vsLname\" class=\"inputText\" />\r\n                                </div>\r\n
-        \                               <div class=\"col-md-12 warning\">\r\n                                    <span
+        \                               <div class=\"col-xs-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_lname\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-2 inputLabel\">\r\n                                    <label
-        for=\"ctl00_ContentPlaceHolder1_vsMOB2\" class=\"inputLabel\">Birth Month:
-        </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-3 inputText\">\r\n                                    <select
-        name=\"ctl00$ContentPlaceHolder1$vsMOB2\" id=\"ctl00_ContentPlaceHolder1_vsMOB2\">\r\n\t\t<option
-        value=\"January\">January</option>\r\n\t\t<option value=\"February\">February</option>\r\n\t\t<option
-        value=\"March\">March</option>\r\n\t\t<option value=\"April\">April</option>\r\n\t\t<option
-        value=\"May\">May</option>\r\n\t\t<option value=\"June\">June</option>\r\n\t\t<option
-        value=\"July\">July</option>\r\n\t\t<option value=\"August\">August</option>\r\n\t\t<option
-        value=\"September\">September</option>\r\n\t\t<option value=\"October\">October</option>\r\n\t\t<option
-        value=\"November\">November</option>\r\n\t\t<option value=\"December\">December</option>\r\n\r\n\t</select>\r\n
-        \                               </div>\r\n                                <div
-        class=\"col-md-12 warning\">\r\n                                    <span
+        \                               <div class=\"col-xs-4 col-sm-3 inputLabel\">\r\n
+        \                                   <label for=\"ctl00_ContentPlaceHolder1_vsMOB2\"
+        class=\"inputLabel\">Birth Month: </label>\r\n                                </div>\r\n
+        \                               <div class=\"col-xs-6 inputText\">\r\n                                    <select
+        name=\"ctl00$ContentPlaceHolder1$vsMOB2\" id=\"ctl00_ContentPlaceHolder1_vsMOB2\"
+        style=\"width:100px;\">\r\n\t\t<option value=\"January\">January</option>\r\n\t\t<option
+        value=\"February\">February</option>\r\n\t\t<option value=\"March\">March</option>\r\n\t\t<option
+        value=\"April\">April</option>\r\n\t\t<option value=\"May\">May</option>\r\n\t\t<option
+        value=\"June\">June</option>\r\n\t\t<option value=\"July\">July</option>\r\n\t\t<option
+        value=\"August\">August</option>\r\n\t\t<option value=\"September\">September</option>\r\n\t\t<option
+        value=\"October\">October</option>\r\n\t\t<option value=\"November\">November</option>\r\n\t\t<option
+        value=\"December\">December</option>\r\n\r\n\t</select>\r\n                                </div>\r\n
+        \                               <div class=\"col-xs-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_mob2\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-2 inputLabel\">\r\n                                    <label
-        for=\"ctl00_ContentPlaceHolder1_vsYOB2\" class=\"inputLabel\">Birth Year:
-        </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-3 inputText\">\r\n                                    <input
+        \                               <div class=\"col-xs-4 col-sm-3 inputLabel\">\r\n
+        \                                   <label for=\"ctl00_ContentPlaceHolder1_vsYOB2\"
+        class=\"inputLabel\">Birth Year: </label>\r\n                                </div>\r\n
+        \                               <div class=\"col-xs-6 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsYOB2\" type=\"text\" maxlength=\"4\" size=\"4\"
-        id=\"ctl00_ContentPlaceHolder1_vsYOB2\" title=\"yyyy\" />\r\n                                </div>\r\n
-        \                               <div class=\"col-md-12 warning\">\r\n                                    <span
+        id=\"ctl00_ContentPlaceHolder1_vsYOB2\" title=\"yyyy\" style=\"width:50px;\"
+        />\r\n                                </div>\r\n                                <div
+        class=\"col-xs-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_yob2\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-2 inputLabel\">\r\n                                    <label
-        for=\"ctl00_ContentPlaceHolder1_vsZip\" class=\"inputLabel\">ZIP Code: </label>\r\n
-        \                               </div>\r\n                                <div
-        class=\"col-md-3 inputText\">\r\n                                    <input
+        \                               <div class=\"col-xs-4 col-sm-3 inputLabel\">\r\n
+        \                                   <label for=\"ctl00_ContentPlaceHolder1_vsZip\"
+        class=\"inputLabel\">ZIP Code: </label>\r\n                                </div>\r\n
+        \                               <div class=\"col-xs-6 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsZip\" type=\"text\" maxlength=\"5\" size=\"5\"
-        id=\"ctl00_ContentPlaceHolder1_vsZip\" />\r\n                                </div>\r\n
+        id=\"ctl00_ContentPlaceHolder1_vsZip\" style=\"width:75px;\" />\r\n                                </div>\r\n
         \                               <div class=\"col-md-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_zip\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\"
@@ -212,25 +252,27 @@ interactions:
         \                               <input type=\"submit\" name=\"ctl00$ContentPlaceHolder1$btnClearName\"
         value=\"Clear\" id=\"ctl00_ContentPlaceHolder1_btnClearName\" />\r\n                                </div>\r\n
         \                           </div>\r\n                        </div>\r\n                    </div>\r\n
-        \               \r\n</div>\r\n\r\n                <div id=\"ctl00_ContentPlaceHolder1_pnlByNumber\">\r\n\t\r\n
+        \               \r\n</div>\r\n\r\n                <div id=\"ctl00_ContentPlaceHolder1_pnlByNumber\"
+        onkeypress=\"javascript:return WebForm_FireDefaultButton(event, &#39;ctl00_ContentPlaceHolder1_btnSearchByDLN&#39;)\">\r\n\t\r\n
         \                   <div class=\"panel\">\r\n                        <div
         class=\"panel-heading\">\r\n                            Search for Voter Information
         by Driver's License Number\r\n                        </div>\r\n                        <div
         class=\"panel-body\">\r\n                            <p class=\"searchSubHeading\">Please
         enter your driver's license number and date of birth.</p>\r\n                            <div
-        class=\"row\">\r\n                                <div class=\"col-md-4 inputLabel\">\r\n
+        class=\"row\">\r\n                                <div class=\"col-xs-5  inputLabel\">\r\n
         \                                   <label for=\"ctl00_ContentPlaceHolder1_vsDLN\"
         class=\"inputLabel\">Driver's License Number: </label>\r\n                                </div>\r\n
-        \                               <div class=\"col-md-5 inputText\">\r\n                                    <input
+        \                               <div class=\"col-xs-5 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsDLN\" type=\"text\" maxlength=\"13\" size=\"13\"
-        id=\"ctl00_ContentPlaceHolder1_vsDLN\" class=\"inputText\" />\r\n                                </div>\r\n
-        \                               <div class=\"col-md-12 warning\">\r\n                                    <span
+        id=\"ctl00_ContentPlaceHolder1_vsDLN\" class=\"inputText\" style=\"width:150px;\"
+        />\r\n                                </div>\r\n                                <div
+        class=\"col-xs-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_dln\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-4 inputLabel\">\r\n                                    <label
+        \                               <div class=\"col-xs-5 inputLabel\">\r\n                                    <label
         for=\"ctl00_ContentPlaceHolder1_vsMOB1\" class=\"inputLabel\">Birth Month:
         </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-5 inputText\">\r\n                                    <select
+        class=\"col-xs-5 inputText\">\r\n                                    <select
         name=\"ctl00$ContentPlaceHolder1$vsMOB1\" id=\"ctl00_ContentPlaceHolder1_vsMOB1\">\r\n\t\t<option
         value=\"January\">January</option>\r\n\t\t<option value=\"February\">February</option>\r\n\t\t<option
         value=\"March\">March</option>\r\n\t\t<option value=\"April\">April</option>\r\n\t\t<option
@@ -239,16 +281,17 @@ interactions:
         value=\"September\">September</option>\r\n\t\t<option value=\"October\">October</option>\r\n\t\t<option
         value=\"November\">November</option>\r\n\t\t<option value=\"December\">December</option>\r\n\r\n\t</select>\r\n
         \                               </div>\r\n                                <div
-        class=\"col-md-12 warning\">\r\n                                    <span
+        class=\"col-xs-12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_mob1\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\">\r\n
-        \                               <div class=\"col-md-4 inputLabel\">\r\n                                    <label
+        \                               <div class=\"col-xs-5 inputLabel\">\r\n                                    <label
         for=\"ctl00_ContentPlaceHolder1_vsYOB1\" class=\"inputLabel\">Birth Year:
         </label>\r\n                                </div>\r\n                                <div
-        class=\"col-md-5 inputText\">\r\n                                    <input
+        class=\"col-xs-5 inputText\">\r\n                                    <input
         name=\"ctl00$ContentPlaceHolder1$vsYOB1\" type=\"text\" maxlength=\"4\" size=\"4\"
-        id=\"ctl00_ContentPlaceHolder1_vsYOB1\" title=\"yyyy\" />\r\n                                </div>\r\n
-        \                               <div class=\"col-md-12 warning\">\r\n                                    <span
+        id=\"ctl00_ContentPlaceHolder1_vsYOB1\" title=\"yyyy\" style=\"width:50px;\"
+        />\r\n                                </div>\r\n                                <div
+        class=\"col-mdxs12 warning\">\r\n                                    <span
         id=\"ctl00_ContentPlaceHolder1_req_yob1\"></span>\r\n                                </div>\r\n
         \                           </div>\r\n                            <div class=\"row\"
         style=\"padding-top: 10px; padding-bottom: 10px;\">\r\n                                <div
@@ -258,51 +301,54 @@ interactions:
         \                   <input type=\"submit\" name=\"ctl00$ContentPlaceHolder1$btnClearDLN\"
         value=\"Clear\" id=\"ctl00_ContentPlaceHolder1_btnClearDLN\" />\r\n                                </div>\r\n
         \                           </div>\r\n                        </div>\r\n                    </div>\r\n
-        \               \r\n</div>\r\n            </div>\r\n\r\n            <div class=\"col-md-3\"
-        style=\"text-align: center;\">\r\n                <a href=\"https://vote.michigan.gov/m.mvic\">\r\n
-        \                   <img src=\"images/prod-qrcode.png\" alt=\"MVIC Mobile
-        Application\" />\r\n                </a>\r\n                <div style=\"text-align:
-        center; padding-top: 4px; color: blue; font-weight: bold;\">\r\n                    Go
-        Mobile!\r\n                </div>\r\n                <div style=\"padding-top:
-        16px; color: blue; font-weight: bold;\">\r\n                    Click, tap
-        or scan this QR code to\r\n\t\t\t\t\t\t<br />\r\n                    go to
-        our mobile-friendly site.\r\n                </div>\r\n            </div>\r\n
-        \       </div>\r\n    </div>\r\n\r\n    \r\n\r\n                    </form>\r\n
-        \                        </main>\r\n                </div>\r\n            </div>\r\n\r\n
-        \   </div>\r\n    <footer role=\"contentinfo\">\r\n        <div id=\"footerArea\"
-        class=\"container\">\r\n            <div id='agencylinks' class='footer_1'>\r\n
-        \               <ul>\r\n                    <li><a href='http://www.michigan.gov/sos'
-        >SOS Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-12539---F,00.html'
-        >FAQ</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_14837---,00.html'
-        >Online Services</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_11777---,00.html'
-        >Forms</a></li>\r\n                    <li><a href='http://www.michigan.gov//sos/0,4670,7-127--25634--,00.html'
-        >Contact the Secretary of State</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,4670,7-127--357908--,00.html'
-        >FOIA</a></li>\r\n                    <li><a href='http://www.michigan.gov/orr'
-        >Office of Regulatory Reinvention</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127----A,00.html'
-        >State Web Sites</a></li>\r\n                    <li><a href='http://www.michigan.gov/openmichigan'
-        >Open Michigan</a></li>\r\n                    <li><a href='http://www.michigan.gov/'
-        >Michigan.gov Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/adaform'
-        >ADA</a></li>\r\n                    <li><a href='http://www.michigan.gov/minewswire'
-        >Michigan News</a></li>\r\n                    <li><a href='http://www.michigan.gov/som/0,4669,7-192--281460--,00.html'
-        >Policies</a></li>\r\n                </ul>\r\n            </div>\r\n            <span
-        class='copyright' role=\"note\">Copyright &copy; 2001-2018 State of Michigan</span>\r\n
-        \       </div>\r\n    </footer>\r\n</body>\r\n</html>\r\n"}
+        \               \r\n</div>\r\n            </div>\r\n\r\n            <div class=\"col-md-3
+        hidden-xs hidden-sm\" style=\"text-align: center;\">\r\n                <a
+        href=\"https://vote.michigan.gov/m.mvic\">\r\n                    <img src=\"images/prod-qrcode.png\"
+        alt=\"MVIC Mobile Application\" />\r\n                </a>\r\n                <div
+        style=\"text-align: center; padding-top: 4px; color: blue; font-weight: bold;\">\r\n
+        \                   Go Mobile!\r\n                </div>\r\n                <div
+        style=\"padding-top: 16px; color: blue; font-weight: bold;\">\r\n                    Click,
+        tap or scan this QR code to\r\n\t\t\t\t\t\t<br />\r\n                    go
+        to our mobile-friendly site.\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n\r\n    \r\n\r\n                    \r\n\r\n<script
+        type=\"text/javascript\">\r\n//<![CDATA[\r\n\r\ntheForm.oldSubmit = theForm.submit;\r\ntheForm.submit
+        = WebForm_SaveScrollPositionSubmit;\r\n\r\ntheForm.oldOnSubmit = theForm.onsubmit;\r\ntheForm.onsubmit
+        = WebForm_SaveScrollPositionOnSubmit;\r\n//]]>\r\n</script>\r\n</form>\r\n
+        \               </div>\r\n            </div>\r\n\r\n        </main>\r\n    </div>\r\n\r\n
+        \   <footer role=\"contentinfo\">\r\n        <div id=\"footerArea\" class=\"container\">\r\n
+        \           <div id='agencylinks' class='footer_1'>\r\n                <ul>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos'>SOS Home</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos/0,1607,7-127-12539---F,00.html'>FAQ</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_14837---,00.html'>Online
+        Services</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_11777---,00.html'>Forms</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov//sos/0,4670,7-127--25634--,00.html'>Contact
+        the Secretary of State</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,4670,7-127--357908--,00.html'>FOIA</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/orr'>Office of Regulatory
+        Reinvention</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127----A,00.html'>State
+        Web Sites</a></li>\r\n                    <li><a href='http://www.michigan.gov/openmichigan'>Open
+        Michigan</a></li>\r\n                    <li><a href='http://www.michigan.gov/'>Michigan.gov
+        Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/adaform'>ADA</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/minewswire'>Michigan
+        News</a></li>\r\n                    <li><a href='http://www.michigan.gov/som/0,4669,7-192--281460--,00.html'>Policies</a></li>\r\n
+        \               </ul>\r\n            </div>\r\n            <span class='copyright'
+        role=\"note\">Copyright &copy; 2001-2018 State of Michigan</span>\r\n        </div>\r\n
+        \   </footer>\r\n</body>\r\n</html>\r\n"}
     headers:
       Cache-Control: ['no-cache, no-store, must-revalidate']
-      Content-Length: ['24951']
+      Content-Length: ['28792']
       Content-Security-Policy: ['connect-src ''self'' https://*.bing.com https://*.virtualearth.net;
           form-action ''self''; frame-ancestors ''none''; img-src ''self'' https://*.bing.com
           https://*.virtualearth.net data:; style-src ''self'' ''unsafe-inline'' https://*.bing.com
           https://*.virtualearth.net; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
           https://*.bing.com https://*.virtualearth.net;']
       Content-Type: [text/html; charset=utf-8]
-      Date: ['Sun, 01 Jul 2018 23:37:54 GMT']
+      Date: ['Sun, 05 Aug 2018 19:55:13 GMT']
       Expires: ['-1']
-      Node: [S]
+      Node: [T]
       Pragma: ['no-cache,no-cache']
-      Set-Cookie: [ASP.NET_SessionId=iesv0yla1uyx441ashjzgisx; path=/; secure; HttpOnly,
-        TS01ba2f49=010e894530f2d667affb363d3a1ee0e7dcd9faeb74d3577d86871b6c89ae90ecc52f428b21de5576fde1a887ec33bba8fab124dbff3371c14c4222a002933cb91c1f9c8d36;
-          Path=/; Domain=.webapps.sos.state.mi.us; Secure, TS01ba2f49_31=01a39988747940ccd2de5bb036b78d49476ac646b0b9c1c03b4b0a82896622b09a052a60aa2ddee32481f3a45e749ba6fe5bf73a683736180a6a078c4163d71e73478c78f0;
+      Set-Cookie: [ASP.NET_SessionId=jtui3ndznkonujgq415fek1t; path=/; secure; HttpOnly,
+        TS01ba2f49=010e8945301448c50cc157fe61b6b9572755b543a53d1534efb91e73f735e1d6ad84fb03fd79c253e001b275bd3436570611ad24d1f47a1d3eaaa2e13ca394fa2398b6cb04;
+          Path=/; Domain=.webapps.sos.state.mi.us; Secure, TS01ba2f49_31=01a3998874fdbe9d33886612821180e5cefbb28198f2ed4acf4daad7e44b346a7ef1c5e74fb2bb183809cb5ae2abc02df88a902ede214343c890320dd8768dbda9ace78d0c6b5d276e015161c2f3d220c953af87b3;
           Path=/; Domain=.webapps.sos.state.mi.us; Secure]
       Strict-Transport-Security: [max-age=31536000]
       X-Content-Type-Options: [nosniff]
@@ -311,14 +357,14 @@ interactions:
       X-Xss-Protection: [1; mode=block]
     status: {code: 200, message: OK}
 - request:
-    body: __EVENTVALIDATION=7qMiEG6AFAAKv%2BmsdSiXnzy53pbUuk8e658Sbw3%2BWceDdSIhfamdL1OD7iZWp4mFUi5SjCLGHEmFMSx3V5LFhdFowKLBMNaxZmqpValGBPlJKtsTf7GbxLEJdR%2F5d5J26wEA5P%2FL94YIlc%2FCLX6OyM5It%2FEq1rHjko%2B1G45Ybj%2BPBRlxl9tPhI%2B1wKd3p2iQH%2FgVlzy0qde4GtT01CpUI5d7tY6sB4uYawPrVIcC88%2FzpStAPnPgAPFmd8WUXh4JJjiX02kahVt4WFPrswGlZqu302Zw0qZ63sE9U%2BJ%2FPna137x%2B4%2FOW27%2BLm2CNtmh%2FDy1EHraLB4zOEH1%2B4%2F%2BdfeEmLzir%2FdsW5q%2F6uDRN3HlYGKtXQL6CbeiEIB9OOy5FvUx%2FpwHM9HasaDIqA3YwsOTvZALfUD2UcSEYB0v%2F5iVuRxC2%2BtYWJGBQSgfwNrRvZR5v34o%2F4eslibGASkkzcuXnwivMhkwTOO2kBICUPyVeLuLwfIabpXY11biK5qfNa0UAwYqrQY5arT8IQN9%2F4i%2FjXieEHSvZTC2PzpJXFMRjMKWBFSFTs7p%2BL3RrxzYC5aeL1OSp%2Bt1%2BpdEBrLDZxLPtGtAKx6JlIBQxqTEtZOC9aZNIPOHrg8hqviOr0AAC8sIzr7F%2FkIET35LB1f%2ByM03ZNioYh9AJnYjruxFwrBTh5o6EMxTJPZuYagiDGIK6l3Aun%2Bw467YaC6lPAilHerftQGQWFpqtLVhxZ3q3%2BWhKgd22R%2BpVfcr0LVaYEtFnXZrxwiqaJHTVmoigfVXPWH9Bw4D2S9PAEP38BomT7wP2N9RjYg4arnc1b%2BpnFPoVvTRJ2TwOGzCRN34ctlnMHw%3D%3D&__VIEWSTATE=gULSwZ%2B7Q4D%2BqughrALYvYfW0ZF%2BR7cKkHVqdAsaPGC1YWD%2BPgD1u5z3EHlOErE%2FEGGqODGzc0MHkH%2BYgw7qla21lUDvbOSbMKXggtqoR9C%2ByYY%2BCXlq2j8qqE2QFrEQsdt1Cd8fT8p6jjv5QBYEK8xjnd8WZRGo4UoEzaN8IqsJt%2BVfTzujPQVGkVuUjhVcfNow6%2F1%2FaDtrKMTpYfqhzx33Vp8rf%2FVbVMaC4y%2Bc1UKXE0DQtzGyVEz3G5WpiS5OJ6C1sdecOrPKvtoTNR52TswTkQaWFJbDop%2FxwH6ryLv2DkOCkYl1ChnEiWuMslEI20uldmtV9e1N3zZIFTVmtSeZ2Xz9b7vNmh9NtQ7JGkkt321nDdq2Jd0d14Rt%2B1xLXFXd7xXL8VKZZby5wNsx8nQRhgmcnNbrIMbMCTX%2Bsk12ZgubPiYNFpOYwU5%2BYM9HHJ5kKDT7X4z%2BJj3tmFiDCg%3D%3D&__VIEWSTATEGENERATOR=9702278D&__VIEWSTATEENCRYPTED=&ctl00%24ContentPlaceHolder1%24vsFname=Jace&ctl00%24ContentPlaceHolder1%24vsLname=Browning&ctl00%24ContentPlaceHolder1%24vsMOB2=June&ctl00%24ContentPlaceHolder1%24vsMOB1=June&ctl00%24ContentPlaceHolder1%24vsYOB2=1987&ctl00%24ContentPlaceHolder1%24vsZip=49503&ctl00%24ContentPlaceHolder1%24btnSearchByName=Search
+    body: __EVENTVALIDATION=DpIjg%2B3xOClQ6EcTB4NGtg%2FjUgfSxOLCwccUavDSVOlpezdyIep5CzYK%2Fp%2FbkkronP3JaWg3BlmV%2BkTAu8F8QWlT5p6xfmdN0vUcfcJASI9Fj3ZFmsq9Qk92oSYJrBHG7cLFF0rK8h%2FD8BolVqChl09tkIvXbKeMziEIWIrOr96p3N6yd9edrOFzDZUBWP154xGpu7GtWa5eHgG1Wa8XTeWOI1yHyHvsfqFEIZ50ajs55vwRKl21%2FtU18nqiSm5O0Q5rs9DaftjclhcLekYf3wl2yGdh1IebH0gBZdEW%2Byx7nw2B2WXzI06svB%2BwFnrx3NCnfg%2FYOKqUf6YYI%2FtztbYp8P8qGEPCgxBphn7K8G2hyGlIMsj%2FREULXlvLzElGd2lX9kwgoRyfwafHHhcz8X3sGvmTRrd%2BsOOjmbNZOb5csTzecmXrj%2BbT2AVFBkWUSgbJBFGzoXAh3LBdvgqrk5aiAooR6OQyzTcrup0vTPpl80lXFBVlLtQWh3HYzN9Ui2vG9NGEPvD1ohYm%2FZtcvO%2BjLlroO5TI4uddduBK7Yh%2B57dqJe38teyIHkL08ycn2k3TEaLOz%2BgWbf9IjCWqX%2B1PcK2HFtFxbS4MIY8zwIcfUcyXSLpuxsY5gf8PqnCuwsxQtDX724ga6xgJ1LW0ZR1V%2BkzwuPDnhVApNlIOpk74gcRw9KKtERPTIHuu4jy0UWetXSy3AyMFDvPnRBdTTEDU88ZoCfaL4oaPK2MXT8VjuUF5Q%2BgBtvaGf4kgHW0HND5uE7gVQHHxnz%2BrHDPUOVkSjuhHwpIoOjyNn2uJJaWy7gXDZIBZ7VQ2qcZBStc26rcctQL1e55cPsh6M848dw%3D%3D&__VIEWSTATE=%2FbJ%2FoNkn%2FQihiQyYk0TYV53Zu7ovTwnzF%2F7LjeFRXK9ChMCrbU0O8h4lzYHcqZfbmueLy2xZDHY1QvhPu3RIrPtHvMiWNSodUYmXTJ3Q3cXoxoFsTKTBONVfZhgup46GAflkuwBSOD4bfKBcNBIG5mQ9ThVik0FLv3BiOFxFT9Hs%2BSx0Zsg%2BqlSIsx31c6%2BBoDwh0ayU1GB98XWLJWlqGjOIxhHzmSF2WoKeZ8WtV%2FsSBzuvBc5Vxpm8FeYvgCZVBfODmEb%2BOXP%2FospnEyy5g0IBRBDrJjcm3qCI739%2BSIz%2BLp7SQlTNykn06ous1TwCuGtLZFJ%2FOdhvH3evTG5vppSRCTdGaWOozN8TrLyB5BQ%3D&__VIEWSTATEGENERATOR=9702278D&__VIEWSTATEENCRYPTED=&ctl00%24ContentPlaceHolder1%24vsFname=Jace&ctl00%24ContentPlaceHolder1%24vsLname=Browning&ctl00%24ContentPlaceHolder1%24vsMOB2=June&ctl00%24ContentPlaceHolder1%24vsMOB1=June&ctl00%24ContentPlaceHolder1%24vsYOB2=1987&ctl00%24ContentPlaceHolder1%24vsZip=49503&ctl00%24ContentPlaceHolder1%24btnSearchByName=Search
     headers:
       Accept: ['*/*']
       Accept-Encoding: ['gzip, deflate']
       Connection: [keep-alive]
-      Content-Length: ['1840']
+      Content-Length: ['1690']
       Content-Type: [application/x-www-form-urlencoded]
-      User-Agent: [python-requests/2.19.1]
+      User-Agent: ['Mozilla/5.0 (Windows NT 6.1; rv:21.0) Gecko/20130328 Firefox/21.0']
     method: POST
     uri: https://webapps.sos.state.mi.us/MVIC/
   response:
@@ -332,137 +378,174 @@ interactions:
         winPop = window.open(popUpUrl, \"\", \"width=1024,height=768,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,left=\"
         + placementx + \",top=\" + placementy + \",screenX=\" + placementx + \",screenY=\"
         + placementy + \",\");\r\n        }\r\n    </script>\r\n    <script src=\"Scripts/jquery-3.1.1.min.js\"></script>\r\n
-        \   <script src=\"Scripts/bootstrap.min.js\"></script>\r\n\r\n    <link href=\"masterpage/CommonStyleSheet.css\"
-        rel=\"stylesheet\" type=\"text/css\" media=\"screen\" /><link href=\"Content/bootstrap.min.css\"
-        rel=\"stylesheet\" /><link href=\"masterpage/agency.css\" rel=\"stylesheet\"
-        media=\"screen\" /><link href=\"masterpage/Print.css\" rel=\"stylesheet\"
-        type=\"text/css\" media=\"print\" /><link rel=\"shortcut icon\" href=\"masterpage/images/favicon.ico?v=1\"
-        type=\"image/x-icon\" />\r\n    <script src=\"Scripts/jquery-3.1.1.min.js\"
-        defer></script>\r\n    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap'
+        \   <script src=\"Scripts/bootstrap.min.js\"></script>\r\n\r\n    <link href=\"masterpage/main_navigation.css\"
+        rel=\"stylesheet\" /><link href=\"masterpage/CommonStyleSheet.css\" rel=\"stylesheet\"
+        type=\"text/css\" media=\"screen\" /><link href=\"Content/bootstrap.min.css\"
+        rel=\"stylesheet\" /><link href=\"Content/bootstrap-theme.min.css\" rel=\"stylesheet\"
+        /><link href=\"masterpage/agency.css\" rel=\"stylesheet\" media=\"screen\"
+        /><link href=\"masterpage/Print.css\" rel=\"stylesheet\" type=\"text/css\"
+        media=\"print\" /><link rel=\"shortcut icon\" href=\"masterpage/images/favicon.ico?v=1\"
+        type=\"image/x-icon\" /><link href=\"masterpage/rdLayout.css\" rel=\"stylesheet\"
+        />\r\n    <script src=\"Scripts/jquery-3.1.1.min.js\" defer></script>\r\n
+        \   <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap'
         async defer></script>\r\n    <script type=\"text/javascript\" src=\"Scripts/GetMap.js\"
         defer></script>\r\n    <script src=\"Scripts/Voter.js\" defer></script>\r\n\r\n
         \   <link href=\"Styles/Voter.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\"
         />\r\n    <link href=\"Styles/PrintVoter.css\" rel=\"stylesheet\" type=\"text/css\"
         media=\"print\" />\r\n</head>\r\n<body id=\"body\">\r\n    <div id=\"main-wrapper\"
-        class=\"container mainWrap\">\r\n        <div role=\"navigation\" aria-label=\"Secondary\">\r\n
-        \           <div class=\"navbar som-brandbar\">\r\n                <a class=\"sr-only\"\r\n
-        \                   href=\"#mainArea\">Skip Navigation\r\n                </a>\r\n
-        \               <div class=\"container\">\r\n                    <div class=\"navbar-header\">\r\n
-        \                       <a href=\"#\"\r\n                            class=\"navbar-toggle
-        collapsed\"\r\n                            data-toggle=\"collapse\"\r\n                            data-target=\".navbar-collapse\">\r\n
-        \                           <span class=\"icon-bar\"></span>\r\n                            <span
-        class=\"icon-bar\"></span>\r\n                            <span class=\"icon-bar\"></span>\r\n
-        \                           <div class=\"menuNav\">MENU</div>\r\n                        </a>\r\n
-        \                       <div class=\"collapse navbar-collapse global-links\">\r\n
-        \                           <ul class=\"nav navbar-nav text-uppercase\"\r\n
-        \                               data-nav-type=\"global-nav\">\r\n                                <li>\r\n
-        \                                   <a href=\"http://michigan.gov/sos\">SOS
-        Home</a>\r\n                                </li>\r\n                                <li>\r\n
-        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-13162-25634--,00.html\"
-        target=\"_blank\"  rel=\"noopener noreferrer\" role=\"link\">Contact SOS</a>\r\n
-        \                               </li>\r\n                            </ul>\r\n
-        \                       </div>\r\n                        <ul class=\"nav
-        navbar-nav navbar-right\">\r\n                            <li>\r\n                                <a
-        class=\"miGovHome\"\r\n                                    href=\"http://www.michigan.gov\"\r\n
-        \                                   title=\"Michigan's Official Web Site\">MI.GOV\r\n
-        \                               </a>\r\n                            </li>\r\n
-        \                       </ul>\r\n                    </div>\r\n                </div>\r\n
-        \           </div>\r\n        </div>\r\n\r\n        <header class=\"header\"
-        role=\"banner\">\r\n            <div>\r\n                <a href=\"http://michigan.gov/sos\">\r\n
+        class=\"container mainWrap\">\r\n\r\n        <div class=\"navbar som-brandbar\"
+        role=\"navigation\">\r\n            <a class=\"sr-only\" href=\"#main\">Skip
+        Navigation</a>\r\n            <div class=\"container\">\r\n                <div
+        class=\"navbar-header\">\r\n                    <a href=\"#\" class=\"navbar-toggle
+        collapsed\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\r\n
+        \                       <span class=\"icon-bar\"></span>\r\n                        <span
+        class=\"icon-bar\"></span>\r\n                        <span class=\"icon-bar\"></span>\r\n
+        \                       <div class=\"menuNav\">MENU</div>\r\n                    </a>\r\n
+        \                   <div class=\"collapse navbar-collapse global-links\">\r\n
+        \                       <ul class=\"nav navbar-nav\" data-nav-type=\"global-nav\">\r\n
+        \                           <li>\r\n                                <a href=\"http://michigan.gov/sos\">SOS
+        Home</a>\r\n                            </li>\r\n                            <li>\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-13162-25634--,00.html\"
+        class=\"js-contactInfo\">Contact SOS</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\"><a href=\"votersearch.aspx\"
+        role=\"link\">Your Voter Information</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"ClerkSearch.aspx\" role=\"link\">Find Your Clerk</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"SelectPublicBallot.aspx\" role=\"link\">View Ballots</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">How Do I Register
+        To Vote</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Absentee Voting</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Military And Overseas
+        Voters</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Work At The Polls</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voting Equipment</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Election FAQs</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\" title=\"This link
+        opens a PDF document\">Statewide Ballot Proposals</a>\r\n                            </li>\r\n
+        \                           <li class=\"visible-xs-block\">\r\n                                <a
+        href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8721---,00.html\" target='_blank'
+        rel=\"noopener noreferrer\" role=\"link\">Candidate Information Links</a>\r\n
+        \                           </li>\r\n                            <li class=\"visible-xs-block\">\r\n
+        \                               <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voter Identification
+        At The Polls</a>\r\n                            </li>\r\n                            <li
+        class=\"visible-xs-block\">\r\n                                <a href=\"CountByCounty.aspx\"
+        role=\"link\">Registered Voter Count By County</a>\r\n                            </li>\r\n
+        \                       </ul>\r\n                    </div>\r\n                    <ul
+        class=\"nav navbar-nav navbar-right\">\r\n                        <li>\r\n
+        \                           <a class=\"miGovHome\" href=\"http://www.michigan.gov\"
+        title=\"Michigan's Official Web Site\">MI.gov</a>\r\n                        </li>\r\n
+        \                   </ul>\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n\r\n        <header class=\"header\" role=\"banner\">\r\n
+        \           <div class=\"container\">\r\n                <a href=\"http://michigan.gov/sos\">\r\n
         \                   <img src=\"masterpage/images/banner_seal_medium.png\"
         id=\"ctl00_logo\" class=\"logo\" title=\"michigan.gov/sos\" alt=\"Secretary
-        of State Seal\" />\r\n                    <div class=\"pull-left\">\r\n                        <h1
-        class=\"siteTitle\" data-som-header=\"appTitle\">Michigan Voter Information
-        Center</h1>\r\n                        <span class=\"tagline\" data-som-header=\"agencyTagLine\">Ruth
-        Johnson, Secretary of State</span>\r\n                    </div>\r\n                </a>\r\n
-        \           </div>\r\n        </header>\r\n\r\n        <div id=\"ctl00_divMobileMessage\"
-        role=\"alert\" style=\"display:none;\">\r\n            <a href=\"https://vote.michigan.gov/m.mvic\"
-        id=\"linkToOurMobileSite\" role=\"link\"></a>\r\n        </div>\r\n\r\n       \r\n
-        \           <div id=\"mainArea\" class=\"midSection container container-fluid\">\r\n
-        \               <div id=\"ctl00_leftSideNav\" class=\"leftNavColumn\" role=\"navigation\"
-        aria-label=\"primary\">\r\n                    <a href=\"votersearch.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_voterSrchBtn\" title=\"Are
-        You Registered to Vote?\" src=\"masterpage/images/Are-You-Registered_ON.gif\"
-        alt=\"Verify Your Voter Registration\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"ClerkSearch.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_clerkSrcBtn\" title=\"Find
-        Your Clerk\" src=\"masterpage/images/Find-Your-Clerk_OFF.gif\" alt=\"Find
-        Your County Or Local Clerk\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"SelectPublicBallot.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_pubBalBtn\" title=\"View
-        Ballots\" src=\"masterpage/images/PublicBallotBtn_off.gif\" alt=\"View Ballot
-        Items For The Upcoming Election\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Registering To Vote In Michigan\" src=\"masterpage/images/Register-To-Vote_OFF.gif\"
-        alt=\"How to Register to Vote\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Obtaining An Absent Voter Ballot\" src=\"masterpage/images/Absentee-Voting-OFF.gif\"
-        alt=\"Absentee Voting Information\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Information For Military And Overseas Voters\" src=\"masterpage/images/mil_OFF.gif\"
-        alt=\"Military and Overseas Voter Information\" height=\"35\" width=\"150\"
-        border=\"0\" />\r\n                    </a>\r\n\r\n                    <a
-        href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\" target='_blank'
-        rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Working At The Polls\" src=\"masterpage/images/Work-At-The-Polls_OFF.gif\"
-        alt=\"Work at the Polls\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Voting Equipment Used In Michigan Elections\" src=\"masterpage/images/VotingEquipment.gif\"
-        alt=\"Voting Equipment Information\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Frequently Asked Questions And Information for Voters\" src=\"masterpage/images/Voting-Info-FAQs_OFF.gif\"
-        alt=\"Voting Information and FAQ\" height=\"35\" width=\"150\" border=\"0\"
-        />\r\n                    </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
+        of State Seal\" />\r\n                    <div class=\"pull-left siteTitleWrap\">\r\n
+        \                       <h1 class=\"siteTitle\" data-som-header=\"appTitle\">Michigan
+        Voter Information Center</h1>\r\n                        <span class=\"tagline\"
+        data-som-header=\"agencyTagLine\">Ruth Johnson, Secretary of State</span>\r\n
+        \                   </div>\r\n                </a>\r\n            </div>\r\n
+        \       </header>\r\n\r\n\r\n\r\n        <main id=\"main\" role=\"main\" class=\"main\">\r\n\r\n
+        \           <div class=\"row\">\r\n                <div id='menu' role='navigation'
+        aria-label='Site' class='col-sm-2 hidden-xs leftNavColumn'>\r\n                    <div
+        id='flyout'>\r\n                        <nav class='main-navigation'>\r\n
+        \                           <ul id='nav'>\r\n\r\n                                <li>\r\n
+        \                                   <a href=\"votersearch.aspx\" role=\"link\">Your
+        Voter Information</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"ClerkSearch.aspx\" role=\"link\">Find
+        Your Clerk</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"SelectPublicBallot.aspx\" role=\"link\">View
+        Ballots</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,1607,7-127-1633_8716_8726_47669-175878--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">How Do I Register
+        To Vote</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716_8728-21037--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Absentee Voting</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633-238835--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Military And Overseas
+        Voters</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-29836-182653--F,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Work At The Polls</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voting Equipment</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.mi.gov/sos/0,4670,7-127-1633_8716---,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Election FAQs</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/documents/Statewide_Bal_Prop_Status_145801_7.pdf\"
         target='_blank' rel=\"noopener noreferrer\" role=\"link\" title=\"This link
-        opens a PDF document\">\r\n                        <img title=\"State Proposal
-        Information\" src=\"masterpage/images/StatewideBallot_Prop_OFF.gif\" alt=\"A
-        PDF Document Containing Proposal Information\" height=\"35\" width=\"150\"
-        border=\"0\" />\r\n                    </a>\r\n\r\n                    <a
+        opens a PDF document\">Statewide Ballot Proposals</a>\r\n                                </li>\r\n
+        \                               <li>\r\n                                    <a
         href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8721---,00.html\" target='_blank'
-        rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"Registered Candidate Information\" src=\"masterpage/images/CandidateInfoLinks.gif\"
-        alt=\"Candidate Information\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
-        target='_blank' rel=\"noopener noreferrer\" role=\"link\">\r\n                        <img
-        title=\"A Guide To Voter Identification At The Polls\" src=\"masterpage/images/VoterIDButton-OFF.gif\"
-        alt=\"Voter Identification\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n\r\n                    <a href=\"CountByCounty.aspx\"
-        role=\"link\">\r\n                        <img id=\"ctl00_CountBtn\" title=\"Registered
-        Michigan Voters By County\" src=\"masterpage/images/countByCounty-OFF.gif\"
-        alt=\"Voter Count by County\" height=\"35\" width=\"150\" border=\"0\" />\r\n
-        \                   </a>\r\n                </div>\r\n\r\n                <div
-        class=\"contentArea\">\r\n                     <main>\r\n                    <div
-        id=\"ctl00_contentHeadingArea\" class=\"\" style=\"display: flex;\">\r\n                        <div
-        id=\"divSectionHeading\" class=\"divSectionHeading \">\r\n                            <span
-        id=\"lblSectionHeading\" class=\"sectionHeading dontPrint\">Yes, You Are Registered!</span>\r\n
-        \                       </div>\r\n                        <div id=\"ctl00_registeredVoterStats\"
-        class=\"registeredVoterStats\">\r\n                            <span id=\"ctl00_lblVoterCount\"
-        class=\"whiteText dontPrint\">Michigan Registered Voter Count: 7,374,190</span>\r\n
-        \                           <span id=\"ctl00_lblVoterCountDate\" class=\"whiteText
-        dontPrint\" style=\"font-size: small; font-weight: normal;\"><br />(as of
-        06/30/2018)</span>\r\n                        </div>\r\n                    </div>\r\n\r\n
-        \                   <div id=\"trPrinterFriendly\" class=\"dontPrint\">\r\n
-        \                       <div style=\"text-align: right; padding-right: 25px\">\r\n
-        \                           <a id=\"ctl00_hlPrint\" alt=\"Printer Icon\" href=\"javascript:window.print();\"><img
-        src=\"masterpage/images/print.gif\" alt=\"Printer Icon\" border=\"0\" /></a>\r\n
-        \                       </div>\r\n                    </div>\r\n\r\n                    \r\n\r\n
-        \                   \r\n\r\n                    <form name=\"aspnetForm\"
-        method=\"post\" action=\"registeredvoter.aspx?vid=104677799\" id=\"aspnetForm\">\r\n<input
-        type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"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\"
-        />\r\n\r\n<input type=\"hidden\" name=\"__VIEWSTATEGENERATOR\" id=\"__VIEWSTATEGENERATOR\"
-        value=\"1F5A7F9F\" />\r\n<input type=\"hidden\" name=\"__VIEWSTATEENCRYPTED\"
-        id=\"__VIEWSTATEENCRYPTED\" value=\"\" />\r\n<input type=\"hidden\" name=\"__EVENTVALIDATION\"
-        id=\"__EVENTVALIDATION\" value=\"CuChriQz5FMVUCd1RcylQ7gXAOldxkEfGQXjo+hmSXLOoRZ4vyacW9i62GbWu/yz+O/v/AJuKaIDVOPShGUP/6Mttzj+vopVVpeL6UlWy8PychfMFy2z1Q+NZB+Vc9Rxh4IRs0hfHb9M3ssx67WaV7YjoJParsmgx21uozBm5+7lGJQ6oEXg/mBN59P5RhVZSe7CJAkB0WLSCWQsPaz+5ds/su6HfxCRKLF+yns6XcN4azJuWKqI4KvDBEWV7DvVd8FHRL8Pd3vUbG9iyrstSmvOhOramh6YIXNBLAzkdPKp2aWyJV53OrbTBwYeQrYJIHcssiPYrucr+96ulx81KiDDJSCM2JybASmTq5vXXjY=\"
-        />\r\n                        <noscript style=\"font-size: large; font-weight:
-        bold\">\r\n                            Browsers that can not handle javascript
-        will not be able to access some features of this site.<br />\r\n                        </noscript>\r\n\r\n
-        \                       \r\n\r\n    <ul id=\"ctl00_ContentPlaceHolder1_transistionVoterTabs\"
-        class=\"nav nav-tabs\">\r\n    </ul>\r\n\r\n    <div id=\"ctl00_ContentPlaceHolder1_tabArea\"
+        rel=\"noopener noreferrer\" role=\"link\">Candidate Information Links</a>\r\n
+        \                               </li>\r\n                                <li>\r\n
+        \                                   <a href=\"http://www.michigan.gov/sos/0,4670,7-127-1633_8716-178123--,00.html\"
+        target='_blank' rel=\"noopener noreferrer\" role=\"link\">Voter Identification
+        At The Polls</a>\r\n                                </li>\r\n                                <li>\r\n
+        \                                   <a href=\"CountByCounty.aspx\" role=\"link\">Registered
+        Voter Count By County</a>\r\n                                </li>\r\n                            </ul>\r\n
+        \                       </nav>\r\n                    </div>\r\n                </div>\r\n
+        \               <div class=\"col-sm-10 noPadding\">\r\n                    <div
+        id=\"ctl00_contentHeadingArea\" class=\"noPadding\" style=\"display: flex;
+        width:100%;\">\r\n                        <span id=\"divSectionHeading\" class=\"divSectionHeading
+        \">\r\n                            <span id=\"lblSectionHeading\" class=\"sectionHeading
+        dontPrint\">Your Voter Information</span>&nbsp;&nbsp;\r\n                        </span>\r\n
+        \                       <span id=\"ctl00_registeredVoterStats\" class=\"registeredVoterStats\">\r\n
+        \                           <span id=\"ctl00_lblVoterCount\" class=\"voterCount
+        dontPrint\">Michigan Registered Voter Count: 7,385,079</span>\r\n                            <span
+        id=\"ctl00_lblVoterCountDate\" class=\"whiteText dontPrint\" style=\"font-size:
+        small; font-weight: normal;\"><br />(as of 08/04/2018)</span>\r\n                        </span>\r\n
+        \                   </div>\r\n\r\n                    <div id=\"trPrinterFriendly\"
+        class=\"dontPrint\">\r\n                        <div style=\"text-align: right;
+        padding-right: 25px\">\r\n                            <a id=\"ctl00_hlPrint\"
+        alt=\"Printer Icon\" href=\"javascript:window.print();\"><img src=\"masterpage/images/print.gif\"
+        alt=\"Printer Icon\" style=\"border-width:0px;\" /></a>\r\n                        </div>\r\n
+        \                   </div>\r\n\r\n                    \r\n\r\n                    \r\n\r\n
+        \                   <div id=\"divMobileMessage\" class=\"visible-xs visible-sm
+        hidden-md-block\" style=\"text-align: center;\">\r\n                        <br
+        />\r\n                        <a href=\"https://vote.michigan.gov/m.mvic\"
+        id=\"linkToOurMobileSite\" class=\"btn btn-info\" role=\"button\">Try our
+        mobile friendly site.</a>\r\n                        <br />\r\n                        <br
+        />\r\n                    </div>\r\n\r\n                    <form name=\"aspnetForm\"
+        method=\"post\" action=\"registeredvoter.aspx?vid=104677799\" id=\"aspnetForm\">\r\n<div>\r\n<input
+        type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"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\"
+        />\r\n</div>\r\n\r\n<script type=\"text/javascript\">\r\n//<![CDATA[\r\nvar
+        theForm = document.forms['aspnetForm'];\r\nif (!theForm) {\r\n    theForm
+        = document.aspnetForm;\r\n}\r\nfunction __doPostBack(eventTarget, eventArgument)
+        {\r\n    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {\r\n        theForm.__EVENTTARGET.value
+        = eventTarget;\r\n        theForm.__EVENTARGUMENT.value = eventArgument;\r\n
+        \       theForm.submit();\r\n    }\r\n}\r\n//]]>\r\n</script>\r\n\r\n\r\n<script
+        src=\"/MVIC/WebResource.axd?d=T56BflORC_zWoM08oQl7Z1tsqZANzb5-a_lrVe0ZXe0a0TGXz6cg1JbvmQ4sZypvXoZkj-9fE2EOJjYj1i9pxIEYwu5WHkg3DZO17EdeUPw1&amp;t=636576778480000000\"
+        type=\"text/javascript\"></script>\r\n\r\n<div>\r\n\r\n\t<input type=\"hidden\"
+        name=\"__VIEWSTATEGENERATOR\" id=\"__VIEWSTATEGENERATOR\" value=\"1F5A7F9F\"
+        />\r\n\t<input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\"
+        value=\"0\" />\r\n\t<input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\"
+        value=\"0\" />\r\n\t<input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__VIEWSTATEENCRYPTED\" id=\"__VIEWSTATEENCRYPTED\"
+        value=\"\" />\r\n\t<input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\"
+        value=\"QbV39qhrFjNFIA6WDwIEVcM8SrxjIjwhbzXiMvAZywri7bS5jlhM32rDwD2VUp0cQFu8WtbVi4W4C6vu4b7UfA1Vai2V9iIaAzoneTXyBVuE1aL6taWmwtK70kffmUDXur0CTe8/+ulR/LGy3pKUi8MvMWIGbh9qK40Gi6G9/cqR0biGi+J3fKV4XiViPG1kGhv4Mf2RsKKNw0Dea7m3fsR/OcGfykmWVPZpDb28CUaT1RKlCbNZOjmHffpAJ/P3z8Hdq4nc2C+DZh0XspqzfIa0Z03mUwrg34qzon/QBeoWWJaQZMubS9G7KOa2Zwpm/HBPB/9FJBfLk9F8vFwctWdEpxxaSGnvEXViKwJwit8=\"
+        />\r\n</div>\r\n                        <noscript style=\"font-size: large;
+        font-weight: bold\">\r\n                            Browsers that can not
+        handle javascript will not be able to access some features of this site.<br
+        />\r\n                        </noscript>\r\n\r\n                        \r\n\r\n
+        \   <ul id=\"ctl00_ContentPlaceHolder1_transistionVoterTabs\" class=\"nav
+        nav-tabs\">\r\n    </ul>\r\n\r\n    <div id=\"ctl00_ContentPlaceHolder1_tabArea\"
         class=\"transistionVoterTabs\" style=\"border:0;\">\r\n\r\n        <span id=\"lblJurisdiction\"
         class=\"jurisdictionName\" style=\"display:block;\">City Of Grand Rapids,
         Kent County,  Polling Location Information</span>\r\n        <br />\r\n        <br
@@ -695,8 +778,8 @@ interactions:
         id=\"pollDirectionsItinerary\"></div>\r\n                                        </div>\r\n
         \                                   </div>\r\n\r\n                                    <div
         id=\"NoPollMap\" style=\"display:none;\">\r\n                                        <img
-        id=\"imgNoPollMap\" src=\"images/noMap.gif\" height=\"400\" width=\"100%\"
-        border=\"0\" />\r\n                                    </div>\r\n\r\n                                </div>\r\n
+        id=\"imgNoPollMap\" src=\"images/noMap.gif\" style=\"height:400px;width:100%;border-width:0px;\"
+        />\r\n                                    </div>\r\n\r\n                                </div>\r\n
         \                           </div>\r\n                            <div id=\"pollingLocationError\"
         class=\"padLeft10\" style=\"display:none;\">\r\n                                <br
         />\r\n                                &nbsp;&nbsp;&nbsp;&nbsp;\r\n                                 <span
@@ -739,28 +822,27 @@ interactions:
         id=\"clerkDirectionsItinerary\"></div>\r\n                                        </div>\r\n
         \                                   </div>\r\n\r\n                                    <div
         id=\"ctl00_ContentPlaceHolder1_NoClerkMap\" style=\"display:none;\">\r\n                                        <img
-        id=\"ctl00_ContentPlaceHolder1_Image1\" src=\"images/noMap.gif\" height=\"402\"
-        width=\"540\" border=\"0\" />\r\n                                    </div>\r\n
-        \                               </div>\r\n                            </div>\r\n
-        \                       </div>\r\n                    </div>\r\n\r\n                    <div
-        id=\"view3\" class=\"tab-pane fade\">\r\n                        <div class=\"tabSection\"
-        role=\"presentation\">\r\n                            <span id=\"lblAbsenteeVoterInformation\"><br
-        />&nbsp;&nbsp;&nbsp;&nbsp;No Absentee Voter information is available<br /></span><br
-        />\r\n                            <span class=\"avBallotMsg\">Further inquiries
-        should be directed to your local Clerk.  Click the \u201CLocal Clerk\u201D
-        tab for contact information.</span>\r\n                        </div>\r\n
-        \                   </div>\r\n                </div>\r\n            </div>\r\n
-        \       </div>\r\n    </div>\r\n\r\n    \r\n\r\n\r\n    <style type=\"text/css\">\r\n
-        \   #theBox { z-index: 1; visibility: hidden; position: absolute; text-align:
-        left; font-size: 1.0em; color: black; }\r\n    .infoBoxTitleArea { position:
-        relative; font-weight: bold; }\r\n    .infoBoxBody { background-color: White;
-        vertical-align: top; }\r\n    .infoDescriptionArea { margin-bottom: 5px; padding-bottom:
-        5px; border-bottom: solid 1px Gray; }\r\n    .infoBoxCloseArea { position:
-        relative; top: -1px; padding-left: 10px; cursor: pointer; text-align: right;
-        }\r\n    .infoSearchArea { background-color: #B1B3C8; padding: 5px; text-align:
-        right; }\r\n</style>\r\n\r\n<input type=\"hidden\" id=\"type\" />\r\n<div
-        id=\"theBox\" class=\"panel\">\r\n    <div class=\"panel-heading\">\r\n        <div
-        class=\"infoBoxTitleArea\">\r\n            <span id=\"InfoBoxTitle\"></span>\r\n
+        id=\"ctl00_ContentPlaceHolder1_Image1\" src=\"images/noMap.gif\" style=\"height:402px;width:540px;border-width:0px;\"
+        />\r\n                                    </div>\r\n                                </div>\r\n
+        \                           </div>\r\n                        </div>\r\n                    </div>\r\n\r\n
+        \                   <div id=\"view3\" class=\"tab-pane fade\">\r\n                        <div
+        class=\"tabSection\" role=\"presentation\">\r\n                            <span
+        id=\"lblAbsenteeVoterInformation\"><br />&nbsp;&nbsp;&nbsp;&nbsp;No Absentee
+        Voter information is available<br /></span><br />\r\n                            <span
+        class=\"avBallotMsg\">Further inquiries should be directed to your local Clerk.
+        \ Click the \u201CLocal Clerk\u201D tab for contact information.</span>\r\n
+        \                       </div>\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n\r\n    \r\n\r\n\r\n
+        \   <style type=\"text/css\">\r\n    #theBox { z-index: 1; visibility: hidden;
+        position: absolute; text-align: left; font-size: 1.0em; color: black; }\r\n
+        \   .infoBoxTitleArea { position: relative; font-weight: bold; }\r\n    .infoBoxBody
+        { background-color: White; vertical-align: top; }\r\n    .infoDescriptionArea
+        { margin-bottom: 5px; padding-bottom: 5px; border-bottom: solid 1px Gray;
+        }\r\n    .infoBoxCloseArea { position: relative; top: -1px; padding-left:
+        10px; cursor: pointer; text-align: right; }\r\n    .infoSearchArea { background-color:
+        #B1B3C8; padding: 5px; text-align: right; }\r\n</style>\r\n\r\n<input type=\"hidden\"
+        id=\"type\" />\r\n<div id=\"theBox\" class=\"panel\">\r\n    <div class=\"panel-heading\">\r\n
+        \       <div class=\"infoBoxTitleArea\">\r\n            <span id=\"InfoBoxTitle\"></span>\r\n
         \           &nbsp;\r\n            <span class=\"pull-right\"><img id=\"InfoBoxClose\"
         alt=\"Close\" src=\"Images/SOS_modal_button_Close.png\" role=\"button\" /></span>\r\n
         \       </div>\r\n    </div>\r\n    <div class=\"panel-body\">\r\n        <div
@@ -771,41 +853,44 @@ interactions:
         for=\"InfoBoxSearchText\">Enter a starting point</label>\r\n        </div>\r\n
         \       <input id=\"InfoBoxSearchText\" type=\"text\" autofocus />\r\n        <input
         id=\"InfoBoxSearchSubmit\" type=\"button\" value=\"Get Route\" />\r\n    </div>\r\n</div>\r\n\r\n
-        \                   </form>\r\n                         </main>\r\n                </div>\r\n
-        \           </div>\r\n\r\n    </div>\r\n    <footer role=\"contentinfo\">\r\n
-        \       <div id=\"footerArea\" class=\"container\">\r\n            <div id='agencylinks'
-        class='footer_1'>\r\n                <ul>\r\n                    <li><a href='http://www.michigan.gov/sos'
-        >SOS Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-12539---F,00.html'
-        >FAQ</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_14837---,00.html'
-        >Online Services</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_11777---,00.html'
-        >Forms</a></li>\r\n                    <li><a href='http://www.michigan.gov//sos/0,4670,7-127--25634--,00.html'
-        >Contact the Secretary of State</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,4670,7-127--357908--,00.html'
-        >FOIA</a></li>\r\n                    <li><a href='http://www.michigan.gov/orr'
-        >Office of Regulatory Reinvention</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127----A,00.html'
-        >State Web Sites</a></li>\r\n                    <li><a href='http://www.michigan.gov/openmichigan'
-        >Open Michigan</a></li>\r\n                    <li><a href='http://www.michigan.gov/'
-        >Michigan.gov Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/adaform'
-        >ADA</a></li>\r\n                    <li><a href='http://www.michigan.gov/minewswire'
-        >Michigan News</a></li>\r\n                    <li><a href='http://www.michigan.gov/som/0,4669,7-192--281460--,00.html'
-        >Policies</a></li>\r\n                </ul>\r\n            </div>\r\n            <span
-        class='copyright' role=\"note\">Copyright &copy; 2001-2018 State of Michigan</span>\r\n
-        \       </div>\r\n    </footer>\r\n</body>\r\n</html>\r\n"}
+        \                   \r\n\r\n<script type=\"text/javascript\">\r\n//<![CDATA[\r\n\r\ntheForm.oldSubmit
+        = theForm.submit;\r\ntheForm.submit = WebForm_SaveScrollPositionSubmit;\r\n\r\ntheForm.oldOnSubmit
+        = theForm.onsubmit;\r\ntheForm.onsubmit = WebForm_SaveScrollPositionOnSubmit;\r\n//]]>\r\n</script>\r\n</form>\r\n
+        \               </div>\r\n            </div>\r\n\r\n        </main>\r\n    </div>\r\n\r\n
+        \   <footer role=\"contentinfo\">\r\n        <div id=\"footerArea\" class=\"container\">\r\n
+        \           <div id='agencylinks' class='footer_1'>\r\n                <ul>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos'>SOS Home</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos/0,1607,7-127-12539---F,00.html'>FAQ</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_14837---,00.html'>Online
+        Services</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127-1640_11777---,00.html'>Forms</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov//sos/0,4670,7-127--25634--,00.html'>Contact
+        the Secretary of State</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,4670,7-127--357908--,00.html'>FOIA</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/orr'>Office of Regulatory
+        Reinvention</a></li>\r\n                    <li><a href='http://www.michigan.gov/sos/0,1607,7-127----A,00.html'>State
+        Web Sites</a></li>\r\n                    <li><a href='http://www.michigan.gov/openmichigan'>Open
+        Michigan</a></li>\r\n                    <li><a href='http://www.michigan.gov/'>Michigan.gov
+        Home</a></li>\r\n                    <li><a href='http://www.michigan.gov/adaform'>ADA</a></li>\r\n
+        \                   <li><a href='http://www.michigan.gov/minewswire'>Michigan
+        News</a></li>\r\n                    <li><a href='http://www.michigan.gov/som/0,4669,7-192--281460--,00.html'>Policies</a></li>\r\n
+        \               </ul>\r\n            </div>\r\n            <span class='copyright'
+        role=\"note\">Copyright &copy; 2001-2018 State of Michigan</span>\r\n        </div>\r\n
+        \   </footer>\r\n</body>\r\n</html>\r\n"}
     headers:
       Cache-Control: ['no-cache, no-store, must-revalidate']
-      Content-Length: ['45466']
+      Content-Length: ['48737']
       Content-Security-Policy: ['connect-src ''self'' https://*.bing.com https://*.virtualearth.net;
           form-action ''self''; frame-ancestors ''none''; img-src ''self'' https://*.bing.com
           https://*.virtualearth.net data:; style-src ''self'' ''unsafe-inline'' https://*.bing.com
           https://*.virtualearth.net; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
           https://*.bing.com https://*.virtualearth.net;']
       Content-Type: [text/html; charset=utf-8]
-      Date: ['Sun, 01 Jul 2018 23:37:54 GMT']
+      Date: ['Sun, 05 Aug 2018 19:55:13 GMT']
       Expires: ['-1']
-      Node: [S]
+      Node: [T]
       Pragma: ['no-cache,no-cache']
-      Set-Cookie: [ASP.NET_SessionId=5qjo0feb1o21y0h324ebx3tj; path=/; secure; HttpOnly,
-        TS01ba2f49=010e8945303582f13eab003b96bc1b4f57a580f5496559168e71cec97dafa51d52b627dcd12f7e3a75c6ae54e36a93ce5e86537377963e362b6a9afac123000e655224c663;
-          Path=/; Domain=.webapps.sos.state.mi.us; Secure, TS01ba2f49_31=01a3998874660a0c8d7eb143fd4f98a77164e9e2b83ac10fe1abe972f49ce574111185ef3e017fa480efb134fd09db88ca169a1fe7582cd9215cfd88c90398db4485b94cefd66579ca8959a15fbcaafaad880f8a05;
+      Set-Cookie: [ASP.NET_SessionId=hbycdesb35132uyst3twiv5q; path=/; secure; HttpOnly,
+        TS01ba2f49=010e894530d5b2ae41cb339dc08cf1162d6c5d91b9f499ff1541a1d7e6fa299407677fa72e10e12467ac6bd15c4544b455f5987cfa106e8fed2bdd3090df3120b101fad361;
+          Path=/; Domain=.webapps.sos.state.mi.us; Secure, TS01ba2f49_31=01a39988746ad5651d2dd7989406cec9a1a4059e667fda5c8d3cd0ca3c04a5e5e2fd9bb6e85c2f8a607e43c7190662cdd0f91d588f9673424fc25f79eecf35e601af9728eda347dc3dddc42bd13575aaadb1f437b4c9c018a52cb4fe61244f520fdb4218ff;
           Path=/; Domain=.webapps.sos.state.mi.us; Secure]
       Strict-Transport-Security: [max-age=31536000]
       X-Content-Type-Options: [nosniff]

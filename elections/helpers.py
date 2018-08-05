@@ -8,13 +8,13 @@ import log
 import redis
 import requests
 import requests_cache
+from fake_useragent import UserAgent
 from rest_framework.exceptions import APIException
 
 
 MI_SOS_URL = "https://webapps.sos.state.mi.us/MVIC/"
-USER_AGENT = (
-    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Geck o/20100101 Firefox/40.1'
-)
+
+useragent = UserAgent()
 
 
 class ServiceUnavailable(APIException):
@@ -36,7 +36,9 @@ def fetch_registration_status_data(voter):
     with requests_cache.disabled():
         try:
             url = MI_SOS_URL
-            response = requests.get(url, headers={'User-Agent': USER_AGENT})
+            response = requests.get(
+                url, headers={'User-Agent': useragent.random}
+            )
         except OSError as exc:
             log.error(f'Unable to GET {url}: {exc}')
             raise ServiceUnavailable()
@@ -70,7 +72,7 @@ def fetch_registration_status_data(voter):
         MI_SOS_URL,
         headers={
             'Content-Type': "application/x-www-form-urlencoded",
-            'User-Agent': USER_AGENT,
+            'User-Agent': useragent.random,
         },
         data=form,
     )
@@ -86,14 +88,14 @@ def fetch_registration_status_data(voter):
         )
         with requests_cache.disabled():
             response = requests.get(
-                MI_SOS_URL + page, headers={'User-Agent': USER_AGENT}
+                MI_SOS_URL + page, headers={'User-Agent': useragent.random}
             )
         log.debug(f"Response from MI SOS:\n{response.text}")
         response.raise_for_status()
 
     # Parse registration
     registered: Optional[bool] = bool(
-        re.search("Yes, You Are Registered", response.text)
+        re.search("My Voting District Information", response.text)
     )
     if not registered and bool(
         re.search("not available at this time", response.text)
