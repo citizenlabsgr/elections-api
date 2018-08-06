@@ -132,3 +132,41 @@ class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.BallotFilter
     serializer_class = serializers.BallotSerializer
+
+
+class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
+    """
+    [VIP 5.1.2: BallotMeasureContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html)
+
+    list:
+    Return all proposals for upcoming elections.
+
+    retrieve:
+    Return a specific proposal for an upcoming election.
+    """
+
+    http_method_names = ['get']
+    queryset = models.Proposal.objects.select_related('election').all()
+    # 'precincts', 'precincts__county', 'precincts__jurisdiction'
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = filters.ProposalFilter
+    serializer_class = serializers.ProposalSerializer
+
+
+class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
+    """
+    [VIP 5.1.2: CandidateContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html)
+
+    list:
+    Return all positions for upcoming elections.
+
+    retrieve:
+    Return a position proposal for an upcoming election.
+    """
+
+    http_method_names = ['get']
+    queryset = models.Position.objects.select_related('election').all()
+    # 'precincts', 'precincts__county', 'precincts__jurisdiction'
+    filter_backends = [filters.DjangoFilterBackend]
+    filter_class = filters.PositionFilter
+    serializer_class = serializers.PositionSerializer

@@ -150,3 +150,39 @@ class BallotFilter(InitialilzedFilterSet):
             'precinct_number',
             'active_election',
         ]
+
+
+class ProposalFilter(InitialilzedFilterSet):
+
+    # Election ID lookup
+
+    election_id = filters.NumberFilter(
+        name='election',
+        help_text="Integer value identifying a specific election.",
+    )
+
+    # Election value lookup
+
+    active_election = filters.BooleanFilter(
+        name='election__active',
+        initial=True,
+        help_text="Include only recent and upcoming elections. Defaults to true.",
+    )
+
+    # Precinct ID lookup
+
+    precinct_ids = filters.NumberFilter(
+        name='precincts__id',
+        # lookup_type='contains',
+        help_text="Integer value identifying specific precincts.",
+    )
+
+    class Meta:
+        model = models.Proposal
+        fields = ['election_id', 'precinct_ids', 'active_election']
+
+
+class PositionFilter(ProposalFilter):
+    class Meta:
+        model = models.Position
+        fields = ['election_id', 'precinct_ids', 'active_election']

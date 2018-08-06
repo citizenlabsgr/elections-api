@@ -23,5 +23,7 @@ router.register('district-categories', views.DistrictCategoryViewSet)
 router.register('districts', views.DistrictViewSet)
 router.register('precincts', views.PrecinctViewSet)
 router.register('ballots', views.BallotViewSet)
+router.register('proposals', views.ProposalViewSet)
+router.register('positions', views.PositionViewSet)
 
 urlpatterns = router.urls

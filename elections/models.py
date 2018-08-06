@@ -797,16 +797,10 @@ class BallotItem(TimeStampedModel):
         return self.name
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_selection.html
-# TODO: Considering adding selection options
 class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_selection.html
-# TODO: Consider splitting this up to match VIP
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
 

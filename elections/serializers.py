@@ -16,11 +16,12 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
+
+    category = serializers.CharField()
+
     class Meta:
         model = models.District
         fields = ['url', 'id', 'category', 'name']
-
-    category = serializers.CharField()
 
 
 class ElectionSerializer(serializers.ModelSerializer):
@@ -30,23 +31,74 @@ class ElectionSerializer(serializers.ModelSerializer):
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Precinct
-        fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'number']
 
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
     ward = fields.NullCharField()
     number = fields.NullCharField()
 
+    class Meta:
+        model = models.Precinct
+        fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'number']
+
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
+
+    election = ElectionSerializer()
+    precinct = PrecinctSerializer()
+
     class Meta:
         model = models.Ballot
         fields = ['url', 'id', 'election', 'precinct', 'mi_sos_url']
 
+
+class ProposalSerializer(serializers.HyperlinkedModelSerializer):
+
     election = ElectionSerializer()
-    precinct = PrecinctSerializer()
+    district = DistrictSerializer()
+    precincts = PrecinctSerializer(many=True)
+
+    class Meta:
+        model = models.Proposal
+        fields = [
+            'url',
+            'id',
+            'name',
+            'description',
+            'reference_url',
+            'election',
+            'district',
+            'precincts',
+        ]
+
+
+class CandidateSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Candidate
+        fields = ['url', 'id', 'name', 'description', 'reference_url', 'party']
+
+
+class PositionSerializer(serializers.HyperlinkedModelSerializer):
+
+    # candidates = CandidateSerializer(many=True)
+    election = ElectionSerializer()
+    district = DistrictSerializer()
+    precincts = PrecinctSerializer(many=True)
+
+    class Meta:
+        model = models.Position
+        fields = [
+            'url',
+            'id',
+            'name',
+            'description',
+            'reference_url',
+            'seats',
+            # 'candidates',
+            'election',
+            'district',
+            'precincts',
+        ]
 
 
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
