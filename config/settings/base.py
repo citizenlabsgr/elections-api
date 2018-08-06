@@ -24,12 +24,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'corsheaders',
     # First party
     'elections',
 ]
 
 MIDDLEWARE = [
     'bugsnag.django.middleware.BugsnagMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,6 +130,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
 }
+
+###############################################################################
+# CORS
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ###############################################################################
 # Swagger

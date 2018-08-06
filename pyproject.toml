@@ -17,6 +17,7 @@ django-model-utils = "^3.1"
 
 djangorestframework = "^3.8"
 drf-yasg = "^1.9"
+django-cors-headers = "^2.4"
 
 dj-database-url = "^0.5.0"
 psycopg2-binary = "*"
@@ -29,11 +30,11 @@ pendulum = "*"
 requests_cache = "*"
 beautifulsoup4 = "^4.6"
 fake-useragent = "*"
+requests = {version = "^2.19", extras = ["security"]}
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
 bugsnag = "^3.4"
-requests = {version = "^2.19", extras = ["security"]}
 
 [tool.poetry.dev-dependencies]
 
