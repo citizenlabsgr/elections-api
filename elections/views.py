@@ -55,7 +55,7 @@ class ElectionViewSet(viewsets.ModelViewSet):
     Return a specific upcoming election.
     """
 
-    http_method_names = ['get']
+    http_method_names = ['options', 'get']
     queryset = models.Election.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.ElectionFilter
@@ -73,7 +73,7 @@ class DistrictCategoryViewSet(CacheMixin, viewsets.ModelViewSet):
     Return a specific type of district, which can filter ballot items.
     """
 
-    http_method_names = ['get']
+    http_method_names = ['options', 'get']
     queryset = models.DistrictCategory.objects.all()
     serializer_class = serializers.DistrictCategorySerializer
 
@@ -89,7 +89,7 @@ class DistrictViewSet(CacheMixin, viewsets.ModelViewSet):
     Return a specific district, which can filter ballot items.
     """
 
-    http_method_names = ['get']
+    http_method_names = ['options', 'get']
     queryset = models.District.objects.all().prefetch_related('category')
     serializer_class = serializers.DistrictSerializer
 
@@ -105,7 +105,7 @@ class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
     Return a specific region which shares the same ballot.
     """
 
-    http_method_names = ['get']
+    http_method_names = ['options', 'get']
     queryset = models.Precinct.objects.select_related(
         'county', 'jurisdiction'
     ).all()
@@ -125,7 +125,7 @@ class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
     Return a specific ballot for an upcoming election.
     """
 
-    http_method_names = ['get']
+    http_method_names = ['options', 'get']
     queryset = models.Ballot.objects.select_related(
         'election', 'precinct', 'precinct__county', 'precinct__jurisdiction'
     ).all()
