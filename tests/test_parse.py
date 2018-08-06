@@ -166,7 +166,7 @@ def describe_ballot_website():
                     category=constants.county, name="Washtenaw"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction, name="City of Ann Arbor,"
+                    category=constants.jurisdiction, name="City of Ann Arbor"
                 )[0],
                 ward='5',
                 number='8',
@@ -180,3 +180,23 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 31
+
+        def with_school_district_proposal(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Midland"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="Edenville Township"
+                )[0],
+                number='1',
+                mi_sos_id=67,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=67,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 29

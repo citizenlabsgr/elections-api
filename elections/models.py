@@ -694,6 +694,7 @@ class BallotWebsite(TimeStampedModel):
                 "District Library",
                 "City",
                 "Authority",
+                "Intermediate School District",
             }:
                 log.warn('Assuming category is jurisdiction')
                 category_name = "Jurisdiction"
