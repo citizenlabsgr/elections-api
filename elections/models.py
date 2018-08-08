@@ -706,34 +706,41 @@ class BallotWebsite(TimeStampedModel):
         if category.name == "County":
             log.debug('Inferring district as county')
             district = precinct.county
-        elif category.name == "Jurisdiction":
+        elif category.name in {"Jurisdiction", "Township"}:
             log.debug('Inferring district as jurisdiction')
             district = precinct.jurisdiction
         else:
-            td = table.find(class_='proposalTitle')
-            title = helpers.titleize(td.text)
+            proposal_title = table.find(class_='proposalTitle').text
+            proposal_text = table.find(class_='proposalText').text
+            log.debug(f'Parsing district from title: {proposal_title!r}')
+            title = helpers.titleize(proposal_title)
             if category.name in title:
-                log.debug(f'Parsing district from title: {td.text!r}')
-                district_name = title.split(category.name)[0].strip()
                 district = District.objects.get(
-                    category=category, name=district_name
+                    category=category,
+                    name=title.split(category.name)[0].strip(),
                 )
+            elif precinct.jurisdiction.name in proposal_text:
+                log.warn('Assuming district is jurisdiction from proposal')
+                district = precinct.jurisdiction
+            elif precinct.county.name in proposal_text:
+                log.warn('Assuming district is county from proposal')
+                district = precinct.county
             else:
-                log.debug(f'Assuming previous district')
+                assert 0, f'Could not determine district: {table}'
 
         log.info(f'Parsed {district!r}')
         assert district
 
         # Parse proposal
 
-        proposal_title = table.find(class_='proposalTitle')
-        proposal_text = table.find(class_='proposalText')
-        log.debug(f'Parsing proposal from text: {proposal_text.text!r}')
+        proposal_title = table.find(class_='proposalTitle').text
+        proposal_text = table.find(class_='proposalText').text
+        log.debug(f'Parsing proposal from text: {proposal_text!r}')
         proposal, _ = Proposal.objects.get_or_create(
             election=election,
             district=district,
-            name=helpers.titleize(proposal_title.text),
-            description=proposal_text.text.strip(),
+            name=helpers.titleize(proposal_title),
+            description=proposal_text.strip(),
         )
         log.info(f'Parsed {proposal!r}')
 

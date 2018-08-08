@@ -11,7 +11,7 @@ def describe_registrations():
     def url():
         return '/api/registrations/'
 
-    def with_valid_identity(expect, client, url, db):
+    def with_valid_identity(expect, anything, client, url, db):
         response = client.get(
             url + '?first_name=Jace'
             '&last_name=Browning'
@@ -23,8 +23,8 @@ def describe_registrations():
         expect(response.data) == {
             'registered': True,
             'precinct': {
-                'url': 'http://testserver/api/precincts/1/',
-                'id': 1,
+                'url': anything,
+                'id': anything,
                 'county': 'Kent',
                 'jurisdiction': 'City of Grand Rapids',
                 'ward': '1',
@@ -32,80 +32,80 @@ def describe_registrations():
             },
             'districts': [
                 {
-                    'url': 'http://testserver/api/districts/1/',
-                    'id': 1,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Circuit Court',
                     'name': '17th Circuit',
                 },
                 {
-                    'url': 'http://testserver/api/districts/2/',
-                    'id': 2,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Community College District',
                     'name': 'Grand Rapids Community College',
                 },
                 {
-                    'url': 'http://testserver/api/districts/3/',
-                    'id': 3,
+                    'url': anything,
+                    'id': anything,
                     'category': 'County',
                     'name': 'Kent',
                 },
                 {
-                    'url': 'http://testserver/api/districts/4/',
-                    'id': 4,
+                    'url': anything,
+                    'id': anything,
                     'category': 'County Commissioner District',
                     'name': '15th District',
                 },
                 {
-                    'url': 'http://testserver/api/districts/5/',
-                    'id': 5,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Court of Appeals',
                     'name': '3rd District',
                 },
                 {
-                    'url': 'http://testserver/api/districts/6/',
-                    'id': 6,
+                    'url': anything,
+                    'id': anything,
                     'category': 'District Court',
                     'name': '61st District',
                 },
                 {
-                    'url': 'http://testserver/api/districts/7/',
-                    'id': 7,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Intermediate School District',
                     'name': 'Kent ISD',
                 },
                 {
-                    'url': 'http://testserver/api/districts/8/',
-                    'id': 8,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Jurisdiction',
                     'name': 'City of Grand Rapids',
                 },
                 {
-                    'url': 'http://testserver/api/districts/9/',
-                    'id': 9,
+                    'url': anything,
+                    'id': anything,
                     'category': 'Probate Court',
                     'name': 'Kent County Probate Court',
                 },
                 {
-                    'url': 'http://testserver/api/districts/10/',
-                    'id': 10,
+                    'url': anything,
+                    'id': anything,
                     'category': 'School District',
                     'name': 'Grand Rapids Public Schools',
                 },
                 {
-                    'url': 'http://testserver/api/districts/11/',
-                    'id': 11,
+                    'url': anything,
+                    'id': anything,
                     'category': 'State House District',
                     'name': '75th District',
                 },
                 {
-                    'url': 'http://testserver/api/districts/12/',
-                    'id': 12,
+                    'url': anything,
+                    'id': anything,
                     'category': 'State Senate District',
                     'name': '29th District',
                 },
                 {
-                    'url': 'http://testserver/api/districts/13/',
-                    'id': 13,
+                    'url': anything,
+                    'id': anything,
                     'category': 'US Congress District',
                     'name': '3rd District',
                 },

@@ -205,3 +205,44 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 29
+
+        def with_township_proposals(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Berrien"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction,
+                    name="St. Joseph Charter Township",
+                )[0],
+                number='1',
+                mi_sos_id=1523,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=1523,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 32
+
+        def with_county_name_in_body(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Sanilac"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="Lexington Township"
+                )[0],
+                number='1',
+                mi_sos_id=3,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=3,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 33
