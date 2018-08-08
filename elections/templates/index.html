@@ -98,10 +98,12 @@ precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_war
 <h3>
 <a id="user-content-ballot-details" class="anchor" href="#ballot-details" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ballot Details</h3>
 <p>Get more information about the specific proposals on your ballot:</p>
-<pre><code>http GET {{BASE_URL}}/api/proposals/ "Accept: application/json; version=0" precinct_ids==1209
+<pre><code>http GET {{BASE_URL}}/api/proposals/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 </code></pre>
 <p>Get more information about the specific positions and candidates on your ballot:</p>
-<pre><code>http GET {{BASE_URL}}/api/positions/ "Accept: application/json; version=0" precinct_ids==1209
+<pre><code>http GET {{BASE_URL}}/api/positions/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 </code></pre>
 <h2>
 <a id="user-content-documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>

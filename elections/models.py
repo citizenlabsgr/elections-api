@@ -811,7 +811,12 @@ class Position(BallotItem):
 class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
 
-    position = models.ForeignKey(Position, null=True, on_delete=models.CASCADE)
+    position = models.ForeignKey(
+        Position,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='candidates',
+    )
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)

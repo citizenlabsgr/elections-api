@@ -37,13 +37,15 @@ precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_war
 Get more information about the specific proposals on your ballot: 
 
 ```
-http GET https://michiganelections.io/api/proposals/ "Accept: application/json; version=0" precinct_ids==1209
+http GET https://michiganelections.io/api/proposals/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 ```
 
 Get more information about the specific positions and candidates on your ballot:
 
 ```
-http GET https://michiganelections.io/api/positions/ "Accept: application/json; version=0" precinct_ids==1209
+http GET https://michiganelections.io/api/positions/ "Accept: application/json; version=0" \
+precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==1 precinct_number==9
 ```
 
 ## Documentation

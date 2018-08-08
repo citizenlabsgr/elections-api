@@ -153,6 +153,43 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.ProposalSerializer
 
 
+class PartyViewSet(CacheMixin, viewsets.ModelViewSet):
+    """
+    [VIP 5.1.2: Party](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html)
+
+    list:
+    Return all political parties.
+
+    retrieve:
+    Return a specific political party.
+    """
+
+    http_method_names = ['get']
+    queryset = models.Party.objects.all()
+    serializer_class = serializers.PartySerializer
+
+
+class CandidateViewSet(CacheMixin, viewsets.ModelViewSet):
+    """
+    [VIP 5.1.2: Candidate](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html)
+
+    list:
+    Return all candidates in an upcoming elections.
+
+    retrieve:
+    Return a specific candidate in an upcoming election.
+    """
+
+    http_method_names = ['get']
+    queryset = models.Candidate.objects.select_related(
+        'position', 'party'
+    ).all()
+    # TODO: Add support for filtering candidates
+    # filter_backends = [filters.DjangoFilterBackend]
+    # filter_class = filters.CandidateFilter
+    serializer_class = serializers.CandidateSerializer
+
+
 class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: CandidateContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html)

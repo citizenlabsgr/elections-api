@@ -72,7 +72,15 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class PartySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Party
+        fields = ['url', 'id', 'name']
+
+
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
+    party = serializers.CharField()
+
     class Meta:
         model = models.Candidate
         fields = ['url', 'id', 'name', 'description', 'reference_url', 'party']
@@ -80,7 +88,7 @@ class CandidateSerializer(serializers.HyperlinkedModelSerializer):
 
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
 
-    # candidates = CandidateSerializer(many=True)
+    candidates = CandidateSerializer(many=True)
     election = ElectionSerializer()
     district = DistrictSerializer()
     precincts = PrecinctSerializer(many=True)
@@ -94,7 +102,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'reference_url',
             'seats',
-            # 'candidates',
+            'candidates',
             'election',
             'district',
             'precincts',
