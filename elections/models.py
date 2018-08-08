@@ -57,7 +57,7 @@ class Election(TimeStampedModel):
     active = models.BooleanField(default=False)
     reference_url = models.URLField(blank=True, null=True)
 
-    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
+    mi_sos_id = models.PositiveIntegerField()
 
     class Meta:
         unique_together = ['date', 'name']
@@ -90,7 +90,7 @@ class Precinct(TimeStampedModel):
     ward = models.CharField(max_length=2, blank=True)
     number = models.CharField(max_length=3, blank=True)
 
-    mi_sos_id = models.PositiveIntegerField(blank=True, null=True)
+    mi_sos_id = models.PositiveIntegerField()
 
     class Meta:
         unique_together = ['county', 'jurisdiction', 'ward', 'number']
@@ -205,9 +205,12 @@ class Voter(models.Model):
             jurisdiction=jurisdiction,
             ward=data['districts']['Ward'],
             number=data['districts']['Precinct'],
+            defaults=dict(mi_sos_id=0),
         )
         if created:
             log.info(f"New precinct: {precinct}")
+        if not precinct.mi_sos_id:
+            bugsnag.notify(f'Precinct missing MI SOS ID: {precinct}')
 
         status = RegistrationStatus(
             registered=data['registered'], precinct=precinct

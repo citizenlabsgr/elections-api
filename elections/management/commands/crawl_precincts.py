@@ -4,66 +4,33 @@ import re
 from random import randint
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
 
 import bugsnag
 import log
 
 from elections import helpers, models
 
+from ._bases import MichiganCrawler
 
-class Command(BaseCommand):
+
+class Command(MichiganCrawler):
     help = "Crawl the Michigan SOS website to discover precincts"
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            '--start',
-            metavar='ID',
-            type=int,
-            dest='starting_mi_sos_precinct_precinct_id',
-            default=1,
-            help='Initial MI SOS precinct ID to start the crawl.',
-        )
-        parser.add_argument(
-            '--limit',
-            metavar='COUNT',
-            type=int,
-            dest='max_precincts_count',
-            help='Number of precincts to crawl before stopping. ',
-        )
-        parser.add_argument(
-            '--randomize',
-            action='store_true',
-            default=False,
-            help='Randomly skip precincts for testing purposes',
-        )
-
-    def handle(
-        self,
-        starting_mi_sos_precinct_precinct_id,
-        max_precincts_count,
-        randomize,
-        *_args,
-        **_kwargs,
-    ):
+    def handle(self, start, limit, randomize, *_args, **_kwargs):
         log.init(reset=True)
         helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
         helpers.requests_cache.core.remove_expired_responses()
         try:
-            self.discover_precincts(
-                starting_mi_sos_precinct_precinct_id,
-                max_precincts_count,
-                randomize,
-            )
+            self.discover_precincts(start, limit, randomize)
         except Exception as e:
             bugsnag.notify(e)
             raise e
 
     def discover_precincts(
         self,
-        starting_mi_sos_precinct_precinct_id,
-        max_precincts_count,
-        randomize,
+        starting_mi_sos_precinct_id: int,
+        max_precincts_count: int,
+        randomly_skip_precincts: bool,
     ):
         election = (
             models.Election.objects.filter(active=True)
@@ -84,10 +51,10 @@ class Command(BaseCommand):
         if created:
             log.warn(f"Created category: {jurisdiction_category}")
 
-        mi_sos_precinct_id = starting_mi_sos_precinct_precinct_id - 1
+        mi_sos_precinct_id = starting_mi_sos_precinct_id - 1
         misses = 0
         while misses < 10:
-            if randomize and mi_sos_precinct_id > 0:
+            if randomly_skip_precincts and mi_sos_precinct_id > 0:
                 step = randint(1, 250)
             else:
                 step = 1
@@ -175,6 +142,12 @@ class Command(BaseCommand):
                 website.save()
             elif precinct.mi_sos_id == mi_sos_precinct_id:
                 self.stdout.write(f'Matched precinct: {precinct}')
+            elif not precinct.mi_sos_id:
+                self.stdout.write(f'Updated precinct: {precinct}')
+                precinct.mi_sos_id = mi_sos_precinct_id
+                precinct.save()
+                website.source = True
+                website.save()
             else:
                 log.warn(f'Duplicate precinct: {website}')
                 precinct.delete()
