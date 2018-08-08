@@ -332,7 +332,7 @@ name = "drf-yasg"
 optional = false
 platform = "*"
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "1.9.2"
+version = "1.10.0"
 
 [package.dependencies]
 Django = ">=1.11.7"
@@ -788,7 +788,7 @@ name = "pytest-expecter"
 optional = false
 platform = "*"
 python-versions = "*"
-version = "1.2"
+version = "1.3b1"
 
 [[package]]
 category = "dev"
@@ -1070,7 +1070,7 @@ multidict = ">=4.0"
 python = ">=3.4"
 
 [metadata]
-content-hash = "bd4f3b15a13a13046366755e80a8d2d4f4ba8a2dd4cb1de8782445a58aa5c409"
+content-hash = "67a84fd662244382ca0a7ed79d40950e2d82dd044490cf8b0f055749f9b732dd"
 platform = "*"
 python-versions = "^3.6"
 
@@ -1105,7 +1105,7 @@ django-model-utils = ["2c057f3bf0859aba27f04389f0cedd2d48f8c9b3848acb86fd9970794
 django-redis-cache = ["2b4e3510bbcaf3d331975717afd6f15a36fbaf7622504599d2727dc99f90c64d"]
 djangorestframework = ["b6714c3e4b0f8d524f193c91ecf5f5450092c2145439ac2769711f7eba89a9d9", "c375e4f95a3a64fccac412e36fb42ba36881e52313ec021ef410b40f67cddca4"]
 docopt = ["49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"]
-drf-yasg = ["3e7d8ab855daaf8f76871d7e3add21fc99501a23cd17b0047e3c226af53920ce", "e54f85b6719a0f1548f1db97372a8e1f9fd2e6f9707f540cced97af022953bce"]
+drf-yasg = ["5b1d33da813553e08a5864e0c78bde891f084fb7428aa37dc85e705096ee4982", "94c21dcc0bb517a02a0eb23aa4020f9c56b772ae0abd80615b8258224c673452"]
 factory-boy = ["6f25cc4761ac109efd503f096e2ad99421b1159f01a29dbb917359dcd68e08ca", "d552cb872b310ae78bd7429bf318e42e1e903b1a109e899a523293dfa762ea4f"]
 fake-useragent = ["cc9b9ddcebc708b3deac846f5fccb16e37c02ee47435a4ec7132271dd96aec8c"]
 faker = ["0e9a1227a3a0f3297a485715e72ee6eb77081b17b629367042b586e38c03c867", "b4840807a94a3bad0217d6ed3f9b65a1cc6e1db1c99e1184673056ae2c0a4c4d"]
@@ -1145,7 +1145,7 @@ pytest = ["86a8dbf407e437351cef4dba46736e9c5a6e3c3ac71b2e942209748e76ff2086", "e
 pytest-cov = ["03aa752cf11db41d281ea1d807d954c4eda35cfa1b21d6971966cc041bbf6e2d", "890fe5565400902b0c78b5357004aab1c814115894f4f21370e2433256a3eeec"]
 pytest-describe = ["bd6be131452b7822c872735ffe53ce3931b3b80cbbad1647c2b482cc9ef3d00e"]
 pytest-django = ["434abfd2afe61b69a58af41e7339617f3aa33dc9a05e3b77fa5955204a61b865", "a73e355138675db8f535777ddf34bde28580b688be17dc21d0efa65e5c16927c"]
-pytest-expecter = ["9d579961379026f5c2211070125f042f882fc0db00488b10ebbdf79491679ff6", "efd92985547f2f2b170d8b7459d00075d9694d3ebdabfb41dbb7f71d9183d5e0"]
+pytest-expecter = ["035531d034834eb44f28d4d5489b0eac853174ff63c03fe69cadd694a60eb98d", "cee223afd78de80539534ed53482c6db948b3c07f334c25680259510fea5d5fb"]
 pytest-vcr = ["13f2e24ab4b8674e012ca23df50e34f0b322a8b8cf8aa80f2b432ae95a92e298", "b3d1f0a470e172a5f8ef60b3f1daf3ff1ff60a43280a9cdfb24a8c53e3e9c12c"]
 pytest-watch = ["06136f03d5b361718b8d0d234042f7b2f203910d8568f63df2f866b547b3d4b9"]
 python-dateutil = ["1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0", "e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"]

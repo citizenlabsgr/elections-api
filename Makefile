@@ -50,8 +50,8 @@ check: install
 .PHONY: test
 test: install
 	@ rm -f .cache/coverage*
-	poetry run pytest elections --disable-warnings
-	poetry run pytest tests --disable-warnings --cov-append --maxfail=1
+	poetry run pytest elections
+	poetry run pytest tests --cov-append --maxfail=1 --failed-first
 
 .PHONY: watch
 watch: install

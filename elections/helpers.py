@@ -124,4 +124,6 @@ def clean_district_name(text: str):
 
 
 def titleize(text: str) -> str:
-    return string.capwords(text).replace(" Of", " of").replace(" To", " to")
+    return (
+        string.capwords(text).replace(" Of ", " of ").replace(" To ", " to ")
+    )

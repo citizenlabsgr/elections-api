@@ -33,6 +33,9 @@ class Command(BaseCommand):
         return user
 
     def add_known_data(self):
+
+        # Elections
+
         election, _ = models.Election.objects.get_or_create(
             name="State Primary",
             date=pendulum.parse("2018-08-07", tz='America/Detroit'),
@@ -47,6 +50,8 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added election: {election}")
 
+        # Categories
+
         state, _ = models.DistrictCategory.objects.get_or_create(name="State")
         self.stdout.write(f'Added category: {state}')
 
@@ -60,8 +65,19 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added category: {jurisdiction}")
 
-        for name in {"City", "Township", "Precinct"}:
-            models.DistrictCategory.objects.get_or_create(name=name)
+        for name in {
+            "City",
+            "Township",
+            "Local School District",
+            "District Library",
+            "Precinct",
+        }:
+            category, _ = models.DistrictCategory.objects.get_or_create(
+                name=name
+            )
+            self.stdout.write(f'Added category: {category}')
+
+        # Districts
 
         michigan, _ = models.District.objects.get_or_create(
             category=state, name="Michigan"
@@ -78,6 +94,8 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added district: {grand_rapids}")
 
+        # Precincts
+
         precinct, _ = models.Precinct.objects.get_or_create(
             county=kent,
             jurisdiction=grand_rapids,
@@ -86,6 +104,8 @@ class Command(BaseCommand):
             mi_sos_id=1828,
         )
         self.stdout.write(f"Added precinct: {precinct}")
+
+        # Parties
 
         for party_name in [
             'Democratic',
