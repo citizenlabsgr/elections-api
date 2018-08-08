@@ -689,32 +689,40 @@ class BallotWebsite(TimeStampedModel):
         if td:
             log.debug(f'Parsing category from division: {td.text!r}')
             category_name = helpers.titleize(td.text.split("PROPOSALS")[0])
+            if category_name == "Authority":
+                log.warn('Assuming category is county')
+                category_name = "County"
             category = DistrictCategory.objects.get(name=category_name)
         else:
             log.debug(f'Reusing category from previous district: {district}')
             assert district
             category = district.category
+
         log.info(f'Parsed {category!r}')
         assert category
 
         # Parse district
 
         if category.name == "County":
-            log.debug(f'Inferring district as county')
-            assert district
-            assert district.category.name == "County"
+            log.debug('Inferring district as county')
+            district = precinct.county
         elif category.name == "Jurisdiction":
-            log.debug(f'Inferring district as jurisdiction')
-            assert district
-            assert district.category.name == "Jurisdiction"
+            log.debug('Inferring district as jurisdiction')
+            district = precinct.jurisdiction
         else:
             td = table.find(class_='proposalTitle')
-            log.debug(f'Parsing district from title: {td.text!r}')
-            district = District.objects.get(
-                category=category,
-                name=helpers.titleize(td.text).split(category.name)[0].strip(),
-            )
+            title = helpers.titleize(td.text)
+            if category.name in title:
+                log.debug(f'Parsing district from title: {td.text!r}')
+                district_name = title.split(category.name)[0].strip()
+                district = District.objects.get(
+                    category=category, name=district_name
+                )
+            else:
+                log.debug(f'Assuming previous district')
+
         log.info(f'Parsed {district!r}')
+        assert district
 
         # Parse proposal
 

@@ -14,16 +14,22 @@ def describe_ballot_website():
         def constants(db):
             constants = SimpleNamespace()
 
+            # Elections
+
             constants.election, _ = models.Election.objects.get_or_create(
                 name="State Primary",
                 date=pendulum.parse("2018-08-07", tz='America/Detroit'),
                 mi_sos_id=675,
             )
 
+            # Parties
+
             models.Party.objects.get_or_create(name="Republican")
             models.Party.objects.get_or_create(name="Democratic")
             models.Party.objects.get_or_create(name="Libertarian")
             models.Party.objects.get_or_create(name="Nonpartisan")
+
+            # Categories
 
             state, _ = models.DistrictCategory.objects.get_or_create(
                 name="State"
@@ -31,25 +37,24 @@ def describe_ballot_website():
             constants.county, _ = models.DistrictCategory.objects.get_or_create(
                 name="County"
             )
-            constants.county, _ = models.DistrictCategory.objects.get_or_create(
-                name="City"
-            )
             constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
                 name="Jurisdiction"
             )
-            constants.us_congress_district, _ = models.DistrictCategory.objects.get_or_create(
-                name="US Congress District"
-            )
-            constants.state_senate_district, _ = models.DistrictCategory.objects.get_or_create(
-                name="State Senate District"
-            )
-            constants.state_house_district, _ = models.DistrictCategory.objects.get_or_create(
-                name="State House District"
-            )
-            constants.circuit_court, _ = models.DistrictCategory.objects.get_or_create(
-                name="Circuit Court"
-            )
-            models.DistrictCategory.objects.get_or_create(name="Precinct")
+            for name in {
+                "City",
+                "US Congress District",
+                "State Senate District",
+                "State House District",
+                "Circuit Court",
+                "Precinct",
+                "Local School District",
+                "Township",
+                "District Library",
+                "Intermediate School District",
+            }:
+                models.DistrictCategory.objects.get_or_create(name=name)
+
+            # Districts
 
             models.District.objects.get_or_create(
                 category=state, name="Michigan"
