@@ -27,6 +27,8 @@ class DistrictCategory(TimeStampedModel):
         verbose_name_plural = "District Categories"
 
     def __str__(self) -> str:
+        if self.name in {"County", "Jurisdiction"}:
+            return self.name
         return f'{self.name} District'
 
 

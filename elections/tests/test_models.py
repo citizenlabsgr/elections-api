@@ -87,7 +87,7 @@ def describe_voter_identity():
 def describe_district_category():
     def describe_str():
         def it_includes_the_name(expect, district_category):
-            expect(str(district_category)) == "County District"
+            expect(str(district_category)) == "County"
 
 
 def describe_district():

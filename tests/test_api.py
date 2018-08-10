@@ -34,13 +34,13 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Circuit Court',
+                    'category': 'Circuit Court District',
                     'name': '17th Circuit',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Community College',
+                    'category': 'Community College District',
                     'name': 'Grand Rapids Community College',
                 },
                 {
@@ -52,25 +52,25 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'County Commissioner',
+                    'category': 'County Commissioner District',
                     'name': '15th District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Court of Appeals',
+                    'category': 'Court of Appeals District',
                     'name': '3rd District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'District Court',
+                    'category': 'District Court District',
                     'name': '61st District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Intermediate School',
+                    'category': 'Intermediate School District',
                     'name': 'Kent ISD',
                 },
                 {
@@ -82,31 +82,31 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Probate Court',
+                    'category': 'Probate Court District',
                     'name': 'Kent County Probate Court',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'School',
+                    'category': 'School District',
                     'name': 'Grand Rapids Public Schools',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'State House',
+                    'category': 'State House District',
                     'name': '75th District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'State Senate',
+                    'category': 'State Senate District',
                     'name': '29th District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'US Congress',
+                    'category': 'US Congress District',
                     'name': '3rd District',
                 },
             ],
