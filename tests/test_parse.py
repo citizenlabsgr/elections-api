@@ -8,60 +8,57 @@ import pytest
 from elections import models
 
 
+@pytest.fixture
+def constants(db):
+    constants = SimpleNamespace()
+
+    # Elections
+
+    constants.election, _ = models.Election.objects.get_or_create(
+        name="State Primary",
+        date=pendulum.parse("2018-08-07", tz='America/Detroit'),
+        mi_sos_id=675,
+    )
+
+    # Parties
+
+    models.Party.objects.get_or_create(name="Republican")
+    models.Party.objects.get_or_create(name="Democratic")
+    models.Party.objects.get_or_create(name="Libertarian")
+    models.Party.objects.get_or_create(name="Nonpartisan")
+
+    # Categories
+
+    state, _ = models.DistrictCategory.objects.get_or_create(name="State")
+    constants.county, _ = models.DistrictCategory.objects.get_or_create(
+        name="County"
+    )
+    constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
+        name="Jurisdiction"
+    )
+    for name in {
+        "City",
+        "US Congress",
+        "State Senate",
+        "State House",
+        "Circuit Court",
+        "Precinct",
+        "Local School",
+        "Township",
+        "District Library",
+        "Intermediate School",
+    }:
+        models.DistrictCategory.objects.get_or_create(name=name)
+
+    # Districts
+
+    models.District.objects.get_or_create(category=state, name="Michigan")
+
+    return constants
+
+
 def describe_ballot_website():
     def describe_parse():
-        @pytest.fixture
-        def constants(db):
-            constants = SimpleNamespace()
-
-            # Elections
-
-            constants.election, _ = models.Election.objects.get_or_create(
-                name="State Primary",
-                date=pendulum.parse("2018-08-07", tz='America/Detroit'),
-                mi_sos_id=675,
-            )
-
-            # Parties
-
-            models.Party.objects.get_or_create(name="Republican")
-            models.Party.objects.get_or_create(name="Democratic")
-            models.Party.objects.get_or_create(name="Libertarian")
-            models.Party.objects.get_or_create(name="Nonpartisan")
-
-            # Categories
-
-            state, _ = models.DistrictCategory.objects.get_or_create(
-                name="State"
-            )
-            constants.county, _ = models.DistrictCategory.objects.get_or_create(
-                name="County"
-            )
-            constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
-                name="Jurisdiction"
-            )
-            for name in {
-                "City",
-                "US Congress",
-                "State Senate",
-                "State House",
-                "Circuit Court",
-                "Precinct",
-                "Local School",
-                "Township",
-                "District Library",
-                "Intermediate School",
-            }:
-                models.DistrictCategory.objects.get_or_create(name=name)
-
-            # Districts
-
-            models.District.objects.get_or_create(
-                category=state, name="Michigan"
-            )
-
-            return constants
-
         def with_single_proposal(expect, constants):
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
@@ -246,3 +243,24 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 33
+
+        def with_city_proposal(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Oakland"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction,
+                    name="City of Farmington Hills",
+                )[0],
+                number='23',
+                mi_sos_id=30,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=30,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 26

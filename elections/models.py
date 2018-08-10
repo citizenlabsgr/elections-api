@@ -27,7 +27,7 @@ class DistrictCategory(TimeStampedModel):
         verbose_name_plural = "District Categories"
 
     def __str__(self) -> str:
-        if self.name in {"County", "Jurisdiction"}:
+        if self.name in {"County", "Jurisdiction", "City", "Township"}:
             return self.name
         return f'{self.name} District'
 
@@ -707,7 +707,7 @@ class BallotWebsite(TimeStampedModel):
         if category.name == "County":
             log.debug('Inferring district as county')
             district = precinct.county
-        elif category.name in {"Jurisdiction", "Township"}:
+        elif category.name in {"Jurisdiction", "City", "Township"}:
             log.debug('Inferring district as jurisdiction')
             district = precinct.jurisdiction
         else:
