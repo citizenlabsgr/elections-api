@@ -42,7 +42,6 @@ def fetch_registration_status_data(voter):
         except OSError as exc:
             log.error(f'Unable to GET {url}: {exc}')
             raise ServiceUnavailable()
-    log.debug(f"Fetched MI SOS form:\n{response.text}")
     response.raise_for_status()
 
     # Build form data
@@ -76,7 +75,6 @@ def fetch_registration_status_data(voter):
         },
         data=form,
     )
-    log.debug(f"Response from MI SOS:\n{response.text}")
     response.raise_for_status()
 
     # Handle recently moved voters
@@ -108,7 +106,8 @@ def fetch_registration_status_data(voter):
         r'districtCell">[\s\S]*?<b>(.*?): <\/b>[\s\S]*?districtCell">[\s\S]*?">(.*?)<\/span>',
         response.text,
     ):
-        districs[match[0]] = clean_district_name(match[1])
+        category = clean_district_category(match[0])
+        districs[category] = clean_district_name(match[1])
 
     return {"registered": registered, "districts": districs}
 
@@ -117,6 +116,13 @@ def find_or_abort(pattern: str, text: str):
     match = re.search(pattern, text)
     assert match, f"Unable for match {pattern!r} to {text!r}"
     return match[1]
+
+
+def clean_district_category(text: str):
+    words = text.replace("Judge of ", "").split()
+    while words and words[-1] == "District":
+        words.pop()
+    return " ".join(words)
 
 
 def clean_district_name(text: str):

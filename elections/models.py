@@ -27,7 +27,7 @@ class DistrictCategory(TimeStampedModel):
         verbose_name_plural = "District Categories"
 
     def __str__(self) -> str:
-        return self.name
+        return f'{self.name} District'
 
 
 class District(TimeStampedModel):
@@ -443,19 +443,15 @@ class BallotWebsite(TimeStampedModel):
 
                 elif office == "Representative In Congress":
                     log.debug(f'Parsing category from office: {td.text!r}')
-                    category = DistrictCategory.objects.get(
-                        name="US Congress District"
-                    )
+                    category = DistrictCategory.objects.get(name="US Congress")
                 elif office == "State Senator":
                     log.debug(f'Parsing category from office: {td.text!r}')
                     category = DistrictCategory.objects.get(
-                        name="State Senate District"
+                        name="State Senate"
                     )
                 elif office == "Representative In State Legislature":
                     log.debug(f'Parsing category from office: {td.text!r}')
-                    category = DistrictCategory.objects.get(
-                        name="State House District"
-                    )
+                    category = DistrictCategory.objects.get(name="State House")
 
                 elif office == "Delegate to County Convention":
                     log.debug(f'Parsing category from office: {td.text!r}')
@@ -530,7 +526,8 @@ class BallotWebsite(TimeStampedModel):
         log.info(f'Parsed {position!r}')
         if position.seats != seats:
             bugsnag.notify(
-                f'Number of seats for {position} differs: {position.seats} vs. {seats}'
+                f'Number of seats for {position} differs: '
+                f'{position.seats} vs. {seats}'
             )
 
         # Add precinct
@@ -600,11 +597,9 @@ class BallotWebsite(TimeStampedModel):
         if td:
             office = helpers.titleize(td.text)
             log.debug(f'Parsing category from office: {td.text!r}')
-
-            if office.startswith("Judge of"):
-                category = DistrictCategory.objects.get(
-                    name=office.replace("Judge of ", "")
-                )
+            category = DistrictCategory.objects.get(
+                name=helpers.clean_district_category(office)
+            )
 
         log.info(f'Parsed {category!r}')
         assert category
@@ -622,6 +617,7 @@ class BallotWebsite(TimeStampedModel):
             # but circuit court districts are only created when checking status
             if created:
                 log.warn(f'Added missing district: {district}')
+
         log.info(f'Parsed {district!r}')
         assert district
 
@@ -637,6 +633,7 @@ class BallotWebsite(TimeStampedModel):
             seats=int(seats.strip().split()[-1]),
         )
         log.info(f'Parsed {position!r}')
+        assert position
 
         # Add precinct
 
@@ -688,7 +685,9 @@ class BallotWebsite(TimeStampedModel):
         td = table.find(class_='division')
         if td:
             log.debug(f'Parsing category from division: {td.text!r}')
-            category_name = helpers.titleize(td.text.split("PROPOSALS")[0])
+            category_name = helpers.clean_district_category(
+                helpers.titleize(td.text.split("PROPOSALS")[0])
+            )
             if category_name == "Authority":
                 log.warn('Assuming category is county')
                 category_name = "County"

@@ -40,7 +40,7 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Community College District',
+                    'category': 'Community College',
                     'name': 'Grand Rapids Community College',
                 },
                 {
@@ -52,7 +52,7 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'County Commissioner District',
+                    'category': 'County Commissioner',
                     'name': '15th District',
                 },
                 {
@@ -70,7 +70,7 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'Intermediate School District',
+                    'category': 'Intermediate School',
                     'name': 'Kent ISD',
                 },
                 {
@@ -88,25 +88,25 @@ def describe_registrations():
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'School District',
+                    'category': 'School',
                     'name': 'Grand Rapids Public Schools',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'State House District',
+                    'category': 'State House',
                     'name': '75th District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'State Senate District',
+                    'category': 'State Senate',
                     'name': '29th District',
                 },
                 {
                     'url': anything,
                     'id': anything,
-                    'category': 'US Congress District',
+                    'category': 'US Congress',
                     'name': '3rd District',
                 },
             ],

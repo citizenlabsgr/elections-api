@@ -68,7 +68,7 @@ class Command(BaseCommand):
         for name in {
             "City",
             "Township",
-            "Local School District",
+            "Local School",
             "District Library",
             "Precinct",
         }:

@@ -42,15 +42,15 @@ def describe_ballot_website():
             )
             for name in {
                 "City",
-                "US Congress District",
-                "State Senate District",
-                "State House District",
+                "US Congress",
+                "State Senate",
+                "State House",
                 "Circuit Court",
                 "Precinct",
-                "Local School District",
+                "Local School",
                 "Township",
                 "District Library",
-                "Intermediate School District",
+                "Intermediate School",
             }:
                 models.DistrictCategory.objects.get_or_create(name=name)
 
