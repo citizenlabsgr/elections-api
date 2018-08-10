@@ -61,9 +61,11 @@ class Command(MichiganCrawler):
                     ballot.save()
 
                 # Fetch website
-                if ballot.website.stale(fuzz=0.5) and ballot.website.fetch():
+                if ballot.website.stale(fuzz=0.5):
+                    ballot.website.fetch()
                     self.stdout.write(f'Updated website: {ballot.website}')
-                    ballot.website.parse()
+                    results = ballot.website.parse()
+                    self.stdout.write(f'Parsed {len(results)} ballot items')
                     ballot.website.save()
 
                 # Stop early if requested
