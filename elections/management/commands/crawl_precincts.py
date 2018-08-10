@@ -39,17 +39,10 @@ class Command(MichiganCrawler):
         )
         self.stdout.write(f"Crawling precincts for election: {election}")
 
-        county_cateogry, created = models.DistrictCategory.objects.get_or_create(
-            name="County"
-        )
-        if created:
-            log.warn(f"Created category: {county_cateogry}")
-
-        jurisdiction_category, created = models.DistrictCategory.objects.get_or_create(
+        county_category = models.DistrictCategory.objects.get(name="County")
+        jurisdiction_category = models.DistrictCategory.objects.get(
             name="Jurisdiction"
         )
-        if created:
-            log.warn(f"Created category: {jurisdiction_category}")
 
         mi_sos_precinct_id = starting_mi_sos_precinct_id - 1
         misses = 0
@@ -112,7 +105,7 @@ class Command(MichiganCrawler):
 
             # Add county
             county, created = models.District.objects.get_or_create(
-                category=county_cateogry, name=county_name
+                category=county_category, name=county_name
             )
             if created:
                 self.stdout.write(f'Added county: {county}')

@@ -270,11 +270,11 @@ class BallotWebsite(TimeStampedModel):
         log.debug(f'Age of fetch: {age}')
 
         if self.valid:
-            days = 1.0
+            days = 2.0
             days += days * random.uniform(-fuzz, +fuzz)
             stale_age = timedelta(days=days)
         else:
-            weeks = 1.0
+            weeks = 2.0
             weeks += weeks * random.uniform(-fuzz, +fuzz)
             stale_age = timedelta(weeks=weeks)
         log.debug(f'Fetch becomes stale: {stale_age}')

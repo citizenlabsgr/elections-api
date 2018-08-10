@@ -63,10 +63,8 @@ class Command(MichiganCrawler):
                 # Fetch website
                 if ballot.website.stale(fuzz=0.5) and ballot.website.fetch():
                     self.stdout.write(f'Updated website: {ballot.website}')
+                    ballot.website.parse()
                     ballot.website.save()
-
-                # Parse website
-                ballot.website.parse()
 
                 # Stop early if requested
                 count = models.Ballot.objects.count()
