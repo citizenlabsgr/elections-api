@@ -213,8 +213,8 @@ def describe_ballots():
                     'url': 'http://testserver/api/ballots/1/',
                     'id': 1,
                     'election': {
-                        'url': 'http://testserver/api/elections/5/',
-                        'id': 5,
+                        'url': anything,
+                        'id': anything,
                         'name': '',
                         'date': '2018-08-07',
                         'active': True,

@@ -39,12 +39,12 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         )
         return Response(output_serializer.data)
 
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 30))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
 
-class ElectionViewSet(viewsets.ModelViewSet):
+class ElectionViewSet(CacheMixin, viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Election](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html)
 
@@ -146,8 +146,15 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.Proposal.objects.select_related('election').all()
-    # 'precincts', 'precincts__county', 'precincts__jurisdiction'
+    queryset = (
+        models.Proposal.objects.select_related(
+            'election', 'district', 'district__category'
+        )
+        .prefetch_related(
+            'precincts', 'precincts__county', 'precincts__jurisdiction'
+        )
+        .all()
+    )
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.ProposalFilter
     serializer_class = serializers.ProposalSerializer
@@ -202,8 +209,19 @@ class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.Position.objects.select_related('election').all()
-    # 'precincts', 'precincts__county', 'precincts__jurisdiction'
+    queryset = (
+        models.Position.objects.select_related(
+            'election', 'district', 'district__category'
+        )
+        .prefetch_related(
+            'precincts',
+            'precincts__county',
+            'precincts__jurisdiction',
+            'candidates',
+            'candidates__party',
+        )
+        .all()
+    )
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.PositionFilter
     serializer_class = serializers.PositionSerializer
