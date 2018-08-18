@@ -75,6 +75,8 @@ def fetch_registration_status_data(voter):
         },
         data=form,
     )
+    if response.status_code == 500:
+        raise ServiceUnavailable()
     response.raise_for_status()
 
     # Handle recently moved voters
