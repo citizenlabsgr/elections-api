@@ -32,14 +32,14 @@ def election():
     return models.Election(
         name="State Primary",
         date=pendulum.parse("2018-08-07", tz='America/Detroit'),
-        mi_sos_id=675,
+        mi_sos_id=676,
     )
 
 
 @pytest.fixture
 def website():
     return models.BallotWebsite(
-        mi_sos_election_id=675, mi_sos_precinct_id=1828
+        mi_sos_election_id=676, mi_sos_precinct_id=1828
     )
 
 
@@ -127,7 +127,7 @@ def describe_ballot_website():
         def it_includes_ids_from_election_and_precinct(expect, website):
             expect(
                 website.mi_sos_url
-            ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=675"
+            ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=676"
 
 
 def describe_ballot():
