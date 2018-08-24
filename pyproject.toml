@@ -16,6 +16,8 @@ django-filter = "^1.1"
 django-model-utils = "^3.1"
 
 djangorestframework = "^3.8"
+pygments = "*" # optional dependency Django Rest Framework
+markdown = "*" # optional dependency Django Rest Framework
 drf-yasg = "^1.9"
 django-cors-headers = "^2.4"
 
