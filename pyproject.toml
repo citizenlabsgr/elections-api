@@ -15,9 +15,7 @@ django-grappelli = "^2.11"
 django-filter = "^1.1"
 django-model-utils = "^3.1"
 
-djangorestframework = "^3.8"
-pygments = "*" # optional dependency Django Rest Framework
-markdown = "*" # optional dependency Django Rest Framework
+djangorestframework = { version = "^3.8", extras = ["pygments", "markdown"] }
 drf-yasg = "^1.9"
 django-cors-headers = "^2.4"
 
@@ -32,7 +30,7 @@ pendulum = "*"
 requests_cache = "*"
 beautifulsoup4 = "^4.6"
 fake-useragent = "*"
-requests = {version = "^2.19", extras = ["security"]}
+requests = { version = "^2.19", extras = ["security"] }
 
 gunicorn = "^19.8"
 whitenoise = "^3.3"
