@@ -71,8 +71,7 @@ migrate: install
 .PHONY: data
 data: install migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py crawl_precincts --start=1828 --limit=10 --randomize
-	poetry run python manage.py fetch_ballots --limit=5 --randomize
+	poetry run python manage.py scrape_data --start=1828 --limit=5
 
 .PHONY: reset
 reset: install
