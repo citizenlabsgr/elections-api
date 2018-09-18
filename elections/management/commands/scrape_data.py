@@ -18,6 +18,7 @@ from elections.models import (
     Precinct,
 )
 
+
 class Command(BaseCommand):
     help = "Crawl the Michigan SOS website to parse ballots"
 

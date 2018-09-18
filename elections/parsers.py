@@ -16,6 +16,188 @@ from .models import (
     Proposal,
 )
 
+
+# General
+
+
+def handle_main_wrapper(table: element.Tag, **_) -> bool:
+    if table.get('class') == ['mainTable']:
+        td = table.find('td', class_='section')
+        log.debug(f'Found header: {td.text!r}')
+        if "partisan section" in td.text.lower():
+            return True
+    return False
+
+
+def handle_general_wrapper(table: element.Tag, **_) -> bool:
+    if table.get('class') == ['generalTable']:
+        td = table.find('td', class_='section')
+        log.debug(f'Found header: {td.text!r}')
+        if "partisan section" in td.text.lower():
+            return True
+    return False
+
+
+def handle_partisan_section(
+    table: element.Tag,
+    *,
+    election: Election,
+    precinct: Precinct,
+    party: Optional[Party],
+    **_,
+) -> Optional[Position]:
+    if party and party.name == "Nonpartisan":
+        return None
+    if table.get('class') != ['tblOffice']:
+        return None
+
+    # Parse category
+
+    category = None
+    td = table.find(class_='division')
+    if td:
+        category_name = helpers.titleize(td.text)
+        if category_name not in {"Congressional", "Legislative", "Delegate"}:
+            log.debug(f'Parsing category from division: {td.text!r}')
+            category = DistrictCategory.objects.get(name=category_name)
+
+    if not category:
+        td = table.find(class_='office')
+        if td:
+            office = helpers.titleize(td.text)
+
+            if office == "United States Senator":
+                log.debug(f'Parsing category from office: {td.text!r}')
+                category = DistrictCategory.objects.get(name="State")
+
+            elif office == "Representative In Congress":
+                log.debug(f'Parsing category from office: {td.text!r}')
+                category = DistrictCategory.objects.get(name="US Congress")
+            elif office == "State Senator":
+                log.debug(f'Parsing category from office: {td.text!r}')
+                category = DistrictCategory.objects.get(name="State Senate")
+            elif office == "Representative In State Legislature":
+                log.debug(f'Parsing category from office: {td.text!r}')
+                category = DistrictCategory.objects.get(name="State House")
+
+            elif office == "Delegate to County Convention":
+                log.debug(f'Parsing category from office: {td.text!r}')
+                category = DistrictCategory.objects.get(name="Precinct")
+
+    if not category:
+        class_ = 'mobileOnly'
+        td = table.find(class_=class_)
+        if td:
+            category_name = helpers.titleize(td.text)
+            log.debug(f'Parsing category from {class_!r}: {td.text!r}')
+            category = DistrictCategory.objects.get(name=category_name)
+
+    log.info(f'Parsed {category!r}')
+    assert category
+
+    # Parse district
+
+    district = None
+    td = table.find(class_='office')
+    if td:
+        office = helpers.titleize(td.text)
+
+        if office in {"Governor", "Governor and Lieutenant Governor"}:
+            log.debug(f'Parsing district from office: {td.text!r}')
+            district = District.objects.get(category=category, name="Michigan")
+        elif office == "United States Senator":
+            log.debug(f'Parsing district from office: {td.text!r}')
+            district = District.objects.get(category=category, name="Michigan")
+
+        elif category.name == "Precinct":
+            log.debug(f'Parsing district from office: {td.text!r}')
+            district = precinct
+
+        elif category.name == "County":
+            log.debug(f'Parsing district from office: {td.text!r}')
+            district = precinct.county
+
+        else:
+            td = table.find(class_='term')
+            log.debug(f'Parsing district from term: {td.text!r}')
+            assert 'Vote for' not in td.text
+            district_name = helpers.titleize(td.text)
+            district, created = District.objects.get_or_create(
+                category=category, name=district_name
+            )
+            if created:
+                log.warn(f'Added missing district: {district}')
+
+    log.info(f'Parsed {district!r}')
+    assert district
+
+    # Parse position
+
+    office = table.find(class_='office').text
+    term = table.find_all(class_='term')[-1].text
+    log.debug(f'Parsing position from: {office!r} when {term!r}')
+    position_name = helpers.titleize(office)
+    seats = int(term.strip().split()[-1])
+    if isinstance(district, Precinct):
+        position_name = f'{position_name} ({party} | {district})'
+        district = None
+    position, _ = Position.objects.get_or_create(
+        election=election,
+        district=district,
+        name=position_name,
+        defaults={'seats': seats},
+    )
+    log.info(f'Parsed {position!r}')
+    if position.seats != seats:
+        bugsnag.notify(
+            f'Number of seats for {position} differs: '
+            f'{position.seats} vs. {seats}'
+        )
+
+    # Add precinct
+
+    position.precincts.add(precinct)
+    position.save()
+
+    # Parse parties
+
+    parties = []
+    for td in table.find_all(class_='party'):
+        log.debug(f'Parsing party: {td.text!r}')
+        party = Party.objects.get(name=td.text.strip())
+        log.info(f'Parsed {party!r}')
+        parties.append(party)
+
+    log.debug(f'Expecting {len(parties)} candidate(s) for {position}')
+
+    # Parse candidates
+
+    for index, td in enumerate(table.find_all(class_='candidate')):
+
+        log.debug(f'Parsing candidate: {td.text!r}')
+        candidate_name = td.text.strip()
+
+        if candidate_name == "No candidates on ballot":
+            log.warn(f'No {party} candidates for {position}')
+            break
+
+        if " and " in position.name and index % 2:
+            log.warn(f'Skipped running mate: {candidate_name}')
+            continue
+
+        party = parties[index // 2]
+
+        candidate, _ = Candidate.objects.get_or_create(
+            name=candidate_name, party=party, position=position
+        )
+        log.info(f'Parsed {candidate!r}')
+
+    return position
+
+
+# Primary
+
+
 def handle_primary_header(table: element.Tag, **_) -> bool:
     td = table.find('td', class_='primarySection')
     if td:
@@ -26,7 +208,7 @@ def handle_primary_header(table: element.Tag, **_) -> bool:
     return False
 
 
-def handle_party_section(table: element.Tag, **_) -> Optional[Party]:
+def handle_primary_party_section(table: element.Tag, **_) -> Optional[Party]:
     if table.get('class') != ['primaryTable']:
         return None
 
@@ -37,7 +219,7 @@ def handle_party_section(table: element.Tag, **_) -> Optional[Party]:
     return Party.objects.get(name=name)
 
 
-def handle_partisan_positions(
+def handle_primary_partisan_positions(
     table: element.Tag,
     *,
     election: Election,

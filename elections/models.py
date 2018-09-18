@@ -359,15 +359,19 @@ class BallotWebsite(models.Model):
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
         from . import parsers
+
         for handler in [
-            parsers.handle_primary_header,
-            parsers.handle_party_section,
-            parsers.handle_partisan_positions,
-            parsers.handle_general_header,
-            parsers.handle_nonpartisan_section,
-            parsers.handle_nonpartisan_positions,
-            parsers.handle_proposals_header,
-            parsers.handle_proposals,
+            # parsers.handle_primary_header,
+            # parsers.handle_party_section,
+            # parsers.handle_partisan_section,
+            parsers.handle_main_wrapper,
+            parsers.handle_general_wrapper,
+            parsers.handle_partisan_section,
+            # parsers.handle_general_header,
+            # parsers.handle_nonpartisan_section,
+            # parsers.handle_nonpartisan_positions,
+            # parsers.handle_proposals_header,
+            # parsers.handle_proposals,
         ]:
             try:
                 result = handler(  # type: ignore
