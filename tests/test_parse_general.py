@@ -29,6 +29,8 @@ def constants(db):
     models.Party.objects.get_or_create(name="Green")
     models.Party.objects.get_or_create(name="Natural Law")
     models.Party.objects.get_or_create(name="Nonpartisan")
+    models.Party.objects.get_or_create(name="No Party Affiliation")
+    models.Party.objects.get_or_create(name="Working Class")
 
     # Categories
 
@@ -50,6 +52,9 @@ def constants(db):
         "Township",
         "District Library",
         "Intermediate School",
+        "Court of Appeals",
+        "Probate Court",
+        "District Court",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 

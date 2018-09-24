@@ -335,6 +335,14 @@ class BallotWebsite(models.Model):
 
             if isinstance(result, (Party, Position, Proposal)):
                 results.append(result)
+            if isinstance(result, Position):
+                candidates = result.candidates
+                if (
+                    candidates
+                    and candidates.first().party.name == "Nonpartisan"
+                ):
+                    log.info('Start nonpartisan section')
+                    party = candidates.first().party
             if isinstance(result, Party):
                 party = result
             if isinstance(result, (Position, Proposal)):
@@ -368,7 +376,7 @@ class BallotWebsite(models.Model):
             parsers.handle_general_wrapper,
             parsers.handle_partisan_section,
             # parsers.handle_general_header,
-            # parsers.handle_nonpartisan_section,
+            parsers.handle_nonpartisan_section,
             # parsers.handle_nonpartisan_positions,
             # parsers.handle_proposals_header,
             # parsers.handle_proposals,

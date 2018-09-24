@@ -50,6 +50,9 @@ def handle_partisan_section(
         return None
     if table.get('class') != ['tblOffice']:
         return None
+    td = table.find(class_='section')
+    if td and td.text == "NONPARTISAN SECTION":
+        return None
 
     # Parse category
 
@@ -57,7 +60,10 @@ def handle_partisan_section(
     td = table.find(class_='division')
     if td:
         category_name = helpers.titleize(td.text)
-        if category_name not in {"Congressional", "Legislative", "Delegate"}:
+        if category_name in {"State Board"}:
+            log.debug(f'Assuming category from division: {category_name}')
+            category = DistrictCategory.objects.get(name="State")
+        elif category_name not in {"Congressional", "Legislative", "Delegate"}:
             log.debug(f'Parsing category from division: {td.text!r}')
             category = DistrictCategory.objects.get(name=category_name)
 
@@ -90,7 +96,10 @@ def handle_partisan_section(
         if td:
             category_name = helpers.titleize(td.text)
             log.debug(f'Parsing category from {class_!r}: {td.text!r}')
-            category = DistrictCategory.objects.get(name=category_name)
+            if category_name in {"State Board"}:
+                category = DistrictCategory.objects.get(name="State")
+            else:
+                category = DistrictCategory.objects.get(name=category_name)
 
     log.info(f'Parsed {category!r}')
     assert category
@@ -101,11 +110,15 @@ def handle_partisan_section(
     td = table.find(class_='office')
     if td:
         office = helpers.titleize(td.text)
-
-        if office in {"Governor", "Governor and Lieutenant Governor"}:
+        if category.name == "State":
+            log.debug(f'Assuming state position: {office}')
+            district = District.objects.get(category=category, name="Michigan")
+        elif office in {"Governor", "Governor and Lieutenant Governor"}:
+            # TODO: Delete?
             log.debug(f'Parsing district from office: {td.text!r}')
             district = District.objects.get(category=category, name="Michigan")
         elif office == "United States Senator":
+            # TODO: Delete?
             log.debug(f'Parsing district from office: {td.text!r}')
             district = District.objects.get(category=category, name="Michigan")
 
@@ -136,6 +149,7 @@ def handle_partisan_section(
     office = table.find(class_='office').text
     term = table.find_all(class_='term')[-1].text
     log.debug(f'Parsing position from: {office!r} when {term!r}')
+    assert 'Vote for' not in office
     position_name = helpers.titleize(office)
     seats = int(term.strip().split()[-1])
     if isinstance(district, Precinct):
@@ -186,6 +200,88 @@ def handle_partisan_section(
             continue
 
         party = parties[index // 2]
+
+        candidate, _ = Candidate.objects.get_or_create(
+            name=candidate_name, party=party, position=position
+        )
+        log.info(f'Parsed {candidate!r}')
+
+    return position
+
+
+def handle_nonpartisan_section(
+    table: element.Tag, *, election: Election, precinct: Precinct, **_
+) -> Optional[Proposal]:
+    td = table.find(class_='section')
+    if td and td.text != "NONPARTISAN SECTION":
+        return None
+
+    # Set party
+
+    party = Party.objects.get(name="Nonpartisan")
+
+    # Parse category
+
+    category = None
+    td = table.find(class_='office')
+    if td:
+        office = helpers.titleize(td.text)
+        log.debug(f'Parsing category from office: {td.text!r}')
+        if office in {"Justice of Supreme Court"}:
+            category = DistrictCategory.objects.get(name="State")
+        else:
+            category = DistrictCategory.objects.get(
+                name=helpers.clean_district_category(office)
+            )
+
+    log.info(f'Parsed {category!r}')
+    assert category
+
+    # Parse district
+
+    district = None
+    td = table.find(class_='term')
+    if td:
+        log.debug(f'Parsing district from term: {td.text!r}')
+        district, created = District.objects.get_or_create(
+            category=category, name=helpers.titleize(td.text)
+        )
+        # We expect all districts to exist in the system through crawling,
+        # but circuit court districts are only created when checking status
+        if created:
+            log.warn(f'Added missing district: {district}')
+
+    log.info(f'Parsed {district!r}')
+    assert district
+
+    # Parse position
+
+    office = table.find(class_='office').text
+    seats = table.find_all(class_='term')[-1].text
+    log.debug(f'Parsing position from: {office!r} when {seats!r}')
+    position, _ = Position.objects.get_or_create(
+        election=election,
+        district=district,
+        name=helpers.titleize(office),
+        seats=int(seats.strip().split()[-1]),
+    )
+    log.info(f'Parsed {position!r}')
+    assert position
+
+    # Add precinct
+
+    position.precincts.add(precinct)
+    position.save()
+
+    # Parse candidates
+
+    for td in table.find_all(class_='candidate'):
+        log.debug(f'Parsing candidate: {td.text!r}')
+        candidate_name = td.text.strip()
+
+        if candidate_name == "No candidates on ballot":
+            log.warn(f'No {party} candidates for {position}')
+            break
 
         candidate, _ = Candidate.objects.get_or_create(
             name=candidate_name, party=party, position=position
@@ -367,7 +463,9 @@ def handle_general_header(table: element.Tag, **_) -> bool:
     return False
 
 
-def handle_nonpartisan_section(table: element.Tag, **_) -> Optional[Party]:
+def handle_primary_nonpartisan_section(
+    table: element.Tag, **_
+) -> Optional[Party]:
     if table.get('class') != ['generalTable']:
         return None
 
@@ -379,7 +477,7 @@ def handle_nonpartisan_section(table: element.Tag, **_) -> Optional[Party]:
     return party
 
 
-def handle_nonpartisan_positions(
+def handle_primary_nonpartisan_positions(
     table: element.Tag,
     *,
     election: Election,
