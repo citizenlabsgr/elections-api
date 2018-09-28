@@ -79,13 +79,16 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
         'mi_sos_election_id',
         'mi_sos_precinct_id',
         'mi_sos_url',
-        'fetched',
         'valid',
         'source',
-        'modified',
+        'table_count',
+        'refetch_weight',
+        'last_fetch',
+        'last_fetch_with_precent',
+        'last_fetch_with_ballot',
     ]
 
-    ordering = ['-modified']
+    ordering = ['-last_fetch']
 
 
 @admin.register(models.Ballot)
