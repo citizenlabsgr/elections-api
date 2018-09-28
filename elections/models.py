@@ -378,8 +378,8 @@ class BallotWebsite(models.Model):
             # parsers.handle_general_header,
             parsers.handle_nonpartisan_section,
             # parsers.handle_nonpartisan_positions,
-            # parsers.handle_proposals_header,
-            # parsers.handle_proposals,
+            parsers.handle_proposals_header,
+            parsers.handle_proposals,
         ]:
             try:
                 result = handler(  # type: ignore

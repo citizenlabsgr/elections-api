@@ -215,6 +215,8 @@ def handle_nonpartisan_section(
     td = table.find(class_='section')
     if td and td.text != "NONPARTISAN SECTION":
         return None
+    if table.find(class_='proposalTitle'):
+        return None
 
     # Set party
 
@@ -223,8 +225,20 @@ def handle_nonpartisan_section(
     # Parse category
 
     category = None
+
+    td = table.find(class_='division')
+    if not category and td:
+        division = helpers.titleize(td.text)
+        if division in {"Judicial"}:
+            pass  # parse category from 'office'
+        else:
+            log.debug(f'Parsing category from division: {td.text!r}')
+            category = DistrictCategory.objects.get(
+                name=helpers.clean_district_category(division)
+            )
+
     td = table.find(class_='office')
-    if td:
+    if not category and td:
         office = helpers.titleize(td.text)
         log.debug(f'Parsing category from office: {td.text!r}')
         if office in {"Justice of Supreme Court"}:
@@ -603,7 +617,10 @@ def handle_proposals(
 
     # Parse district
 
-    if category.name == "County":
+    if category.name == "State":
+        log.debug('Inferring district as state')
+        district = District.objects.get(category=category, name="Michigan")
+    elif category.name == "County":
         log.debug('Inferring district as county')
         district = precinct.county
     elif category.name in {"Jurisdiction", "City", "Township"}:

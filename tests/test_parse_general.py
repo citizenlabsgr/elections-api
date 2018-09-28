@@ -55,6 +55,7 @@ def constants(db):
         "Court of Appeals",
         "Probate Court",
         "District Court",
+        "Community College",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 
@@ -87,4 +88,4 @@ def describe_ballot_website():
             )
             website.fetch()
 
-            expect(len(website.parse())) == 99
+            expect(len(website.parse())) == 24
