@@ -108,11 +108,15 @@ class Command(BaseCommand):
         # Parties
 
         for party_name in [
-            'Democratic',
-            'Green',
-            'Libertarian',
-            'Republican',
-            'Nonpartisan',
+            "Democratic",
+            "Green",
+            "Libertarian",
+            "Republican",
+            "Natural Law",
+            "Working Class",
+            "U.S. Taxpayers",
+            "No Party Affiliation",
+            "Nonpartisan",
         ]:
             party, _ = models.Party.objects.get_or_create(name=party_name)
             self.stdout.write(f'Added party: {party}')
