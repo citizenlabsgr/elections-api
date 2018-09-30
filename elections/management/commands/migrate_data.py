@@ -16,8 +16,8 @@ class Command(BaseCommand):
     def initialize_parties(self):
         for name, color in [
             # Placeholders
-            ("Nonpartisan", ''),
-            ("No Party Affiliation", '#C8CCD1'),
+            ("Nonpartisan", '#999'),
+            ("No Party Affiliation", '#999'),
             # Parties
             ("Democratic", '#3333FF'),
             ("Green", '#00A95C'),
