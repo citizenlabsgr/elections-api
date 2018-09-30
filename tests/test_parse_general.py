@@ -110,4 +110,4 @@ def describe_ballot_website():
             )
             website.fetch()
 
-            expect(len(website.parse())) == 99
+            expect(len(website.parse())) == 26

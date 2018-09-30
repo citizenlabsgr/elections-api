@@ -231,6 +231,15 @@ def handle_nonpartisan_section(
                 name=helpers.clean_district_category(division)
             )
 
+    td = table.find(class_='mobileOnly')
+    if not category and td:
+        mobileonly = helpers.titleize(td.text)
+        if "District" in mobileonly:
+            log.debug(f'Parsing category from mobileOnly: {td.text!r}')
+            category = DistrictCategory.objects.get(
+                name=helpers.clean_district_category(mobileonly)
+            )
+
     td = table.find(class_='office')
     if not category and td:
         office = helpers.titleize(td.text)
