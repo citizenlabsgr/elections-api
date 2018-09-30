@@ -84,7 +84,7 @@ class BallotWebsiteAdmin(admin.ModelAdmin):
         'table_count',
         'refetch_weight',
         'last_fetch',
-        'last_fetch_with_precent',
+        'last_fetch_with_precinct',
         'last_fetch_with_ballot',
     ]
 

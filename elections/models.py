@@ -252,7 +252,7 @@ class BallotWebsite(models.Model):
     refetch_weight = models.FloatField(default=1.0)
 
     last_fetch = models.DateTimeField(null=True)
-    last_fetch_with_precent = models.DateTimeField(null=True)
+    last_fetch_with_precinct = models.DateTimeField(null=True)
     last_fetch_with_ballot = models.DateTimeField(null=True)
 
     class Meta:
@@ -293,7 +293,7 @@ class BallotWebsite(models.Model):
         elif "General Information" in self.mi_sos_html:
             log.info(f'Valid ballot URL: {url}')
             self.valid = True
-            self.last_fetch_with_precent = timezone.now()
+            self.last_fetch_with_precinct = timezone.now()
             soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
             table_count = len(soup.find_all('table'))
             if table_count:
@@ -372,14 +372,14 @@ class BallotWebsite(models.Model):
             # parsers.handle_primary_header,
             # parsers.handle_party_section,
             # parsers.handle_partisan_section,
-            parsers.handle_main_wrapper,
-            parsers.handle_general_wrapper,
-            parsers.handle_partisan_section,
+            parsers.general.handle_main_wrapper,
+            parsers.general.handle_general_wrapper,
+            parsers.general.handle_partisan_section,
             # parsers.handle_general_header,
-            parsers.handle_nonpartisan_section,
+            parsers.general.handle_nonpartisan_section,
             # parsers.handle_nonpartisan_positions,
-            parsers.handle_proposals_header,
-            parsers.handle_proposals,
+            parsers.general.handle_proposals_header,
+            parsers.general.handle_proposals,
         ]:
             try:
                 result = handler(  # type: ignore
