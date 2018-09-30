@@ -246,6 +246,7 @@ class BallotWebsite(models.Model):
 
     mi_sos_html = models.TextField(blank=True)
 
+    fetched = models.BooleanField(default=False)
     valid = models.NullBooleanField()
     source = models.NullBooleanField()
 
@@ -284,6 +285,7 @@ class BallotWebsite(models.Model):
             },
         )
         response.raise_for_status()
+        self.fetched = True
         self.last_fetch = timezone.now()
 
         self.mi_sos_html = response.text.strip()

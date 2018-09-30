@@ -1,9 +1,26 @@
 # pylint: disable=no-self-use
 
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.utils.html import format_html
 
 from . import models
+
+
+class DefaultFiltersMixin(admin.ModelAdmin):
+    def changelist_view(self, request, *args, **kwargs):
+        default_filters = getattr(self, 'default_filters', [])
+        query_string = request.META['QUERY_STRING']
+        http_referer = request.META.get('HTTP_REFERER', "")
+        if all(
+            [
+                default_filters,
+                not query_string,
+                request.path not in http_referer,
+            ]
+        ):
+            return redirect(request.path + '?' + '&'.join(default_filters))
+        return super().changelist_view(request, *args, **kwargs)
 
 
 @admin.register(models.DistrictCategory)
@@ -69,17 +86,19 @@ class PrecinctAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.BallotWebsite)
-class BallotWebsiteAdmin(admin.ModelAdmin):
+class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
 
-    list_filter = ['valid', 'source']
+    list_filter = ['fetched', 'valid', 'source']
+    default_filters = ['fetched__exact=1']
 
     list_display = [
         'id',
         'mi_sos_election_id',
         'mi_sos_precinct_id',
         'mi_sos_url',
+        'fetched',
         'valid',
         'source',
         'table_count',
