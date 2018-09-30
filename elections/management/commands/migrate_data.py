@@ -1,10 +1,8 @@
-# pylint: disable=no-self-use
-
 from django.core.management.base import BaseCommand
 
 import log
 
-from elections.models import Party
+from elections.models import District, DistrictCategory, Party
 
 
 class Command(BaseCommand):
@@ -13,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *_args, **_kwargs):
         log.init(reset=True)
         self.initialize_parties()
+        self.initialize_districts()
 
     def initialize_parties(self):
         for name, color in [
@@ -28,6 +27,36 @@ class Command(BaseCommand):
             ("U.S. Taxpayers", '#A356DE'),
             ("Working Class", '#A30000'),
         ]:
-            Party.objects.update_or_create(
+            party, created = Party.objects.update_or_create(
                 name=name, defaults=dict(color=color)
             )
+            if created:
+                self.stdout.write(f'Added party: {party}')
+
+    def initialize_districts(self):
+        state, created = DistrictCategory.objects.get_or_create(name="State")
+        if created:
+            self.stdout.write(f'Added district category: {state}')
+
+        for name in [
+            # State
+            "County",
+            "Jurisdiction",
+            "Precinct",
+            # Local
+            "City",
+            "District Library",
+            "Local School",
+            "Township",
+        ]:
+            category, created = DistrictCategory.objects.get_or_create(
+                name=name
+            )
+            if created:
+                self.stdout.write(f'Added district category: {category}')
+
+        michigan, created = District.objects.get_or_create(
+            category=state, name="Michigan"
+        )
+        if created:
+            self.stdout.write(f'Added district: {michigan}')

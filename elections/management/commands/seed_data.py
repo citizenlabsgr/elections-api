@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         self.get_or_create_superuser()
-        self.add_known_data()
+        self.add_elections()
         self.fetch_districts()
 
     def get_or_create_superuser(self, username="admin", password="password"):
@@ -32,10 +32,7 @@ class Command(BaseCommand):
 
         return user
 
-    def add_known_data(self):
-
-        # Elections
-
+    def add_elections(self):
         election, _ = models.Election.objects.get_or_create(
             name="State Primary",
             date=pendulum.parse("2018-08-07", tz='America/Detroit'),
@@ -49,61 +46,6 @@ class Command(BaseCommand):
             defaults=dict(active=True, mi_sos_id=676),
         )
         self.stdout.write(f"Added election: {election}")
-
-        # Categories
-
-        state, _ = models.DistrictCategory.objects.get_or_create(name="State")
-        self.stdout.write(f'Added category: {state}')
-
-        county, _ = models.DistrictCategory.objects.get_or_create(
-            name="County"
-        )
-        self.stdout.write(f"Added category: {county}")
-
-        jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
-            name="Jurisdiction"
-        )
-        self.stdout.write(f"Added category: {jurisdiction}")
-
-        for name in {
-            "City",
-            "Township",
-            "Local School",
-            "District Library",
-            "Precinct",
-        }:
-            category, _ = models.DistrictCategory.objects.get_or_create(
-                name=name
-            )
-            self.stdout.write(f'Added category: {category}')
-
-        # Districts
-
-        michigan, _ = models.District.objects.get_or_create(
-            category=state, name="Michigan"
-        )
-        self.stdout.write(f'Added district: {michigan}')
-
-        kent, _ = models.District.objects.get_or_create(
-            category=county, name="Kent"
-        )
-        self.stdout.write(f"Added district: {kent}")
-
-        grand_rapids, _ = models.District.objects.get_or_create(
-            category=jurisdiction, name="City of Grand Rapids"
-        )
-        self.stdout.write(f"Added district: {grand_rapids}")
-
-        # Precincts
-
-        precinct, _ = models.Precinct.objects.get_or_create(
-            county=kent,
-            jurisdiction=grand_rapids,
-            ward='1',
-            number='9',
-            mi_sos_id=1828,
-        )
-        self.stdout.write(f"Added precinct: {precinct}")
 
     def fetch_districts(self):
         voter = models.Voter(
