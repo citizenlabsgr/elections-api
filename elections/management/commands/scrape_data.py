@@ -2,6 +2,7 @@
 
 import itertools
 import re
+from typing import Tuple
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -11,6 +12,7 @@ import log
 
 from elections import helpers
 from elections.models import (
+    Ballot,
     BallotWebsite,
     District,
     DistrictCategory,
@@ -60,7 +62,7 @@ class Command(BaseCommand):
         for mi_sos_precinct_id in itertools.count(start=start):
             if self.should_stop():
                 break
-            self.fetch_ballot_website(election, mi_sos_precinct_id)
+            self.scrape_ballot_website(election, mi_sos_precinct_id)
 
     def get_current_election(self) -> Election:
         election = (
@@ -90,9 +92,9 @@ class Command(BaseCommand):
 
         return False
 
-    def fetch_ballot_website(
+    def scrape_ballot_website(
         self, election: Election, mi_sos_precinct_id: int
-    ):
+    ) -> BallotWebsite:
         website, created = BallotWebsite.objects.get_or_create(
             mi_sos_election_id=election.mi_sos_id,
             mi_sos_precinct_id=mi_sos_precinct_id,
@@ -103,7 +105,8 @@ class Command(BaseCommand):
         if website.stale:
             website.fetch()
             if website.valid:
-                self.add_precent(mi_sos_precinct_id, website)
+                precinct = self.ensure_precinct(mi_sos_precinct_id, website)
+                self.ensure_ballot(election, precinct, website)
                 website.parse()
             self.ballot_fetches += 1
 
@@ -112,7 +115,11 @@ class Command(BaseCommand):
         else:
             self.ballot_misses += 1
 
-    def add_precent(self, mi_sos_precinct_id: int, website: BallotWebsite):
+        return website
+
+    def ensure_precinct(
+        self, mi_sos_precinct_id: int, website: BallotWebsite
+    ) -> Precinct:
         county_category, jurisdiction_category = self.get_district_categories()
 
         # Parse county
@@ -171,13 +178,30 @@ class Command(BaseCommand):
             website.source = False
             website.save()
 
-    def get_district_categories(self):
+        return precinct
+
+    def ensure_ballot(
+        self, election: Election, precinct: Precinct, website: BallotWebsite
+    ) -> Ballot:
+        ballot, created = Ballot.objects.update_or_create(
+            election=election,
+            precinct=precinct,
+            defaults=dict(website=website),
+        )
+        if created:
+            self.stdout.write(f'Added ballot: {ballot}')
+
+        return ballot
+
+    def get_district_categories(
+        self
+    ) -> Tuple[DistrictCategory, DistrictCategory]:
         return (
             DistrictCategory.objects.get(name="County"),
             DistrictCategory.objects.get(name="Jurisdiction"),
         )
 
-    def parse_jurisdiction(self, html, url):
+    def parse_jurisdiction(self, html: str, url: str) -> Tuple[str, str, str]:
         match = None
         for pattern in [
             r'(?P<jurisdiction_name>[^>]+), Ward (?P<ward>\d+) Precinct (?P<precinct>\d+)<',
