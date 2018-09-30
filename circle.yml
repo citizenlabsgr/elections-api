@@ -24,9 +24,8 @@ jobs:
           name: Checking system dependencies
           command: make doctor
 
-      # TODO: Fix caching
-      # - type: cache-restore
-      #   key: poetry-{{ checksum "pyproject.lock" }}
+      - type: cache-restore
+        key: poetry-{{ checksum "pyproject.lock" }}
 
       - run:
           name: Installing project dependencies
