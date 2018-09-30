@@ -75,11 +75,11 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 class PartySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Party
-        fields = ['url', 'id', 'name']
+        fields = ['url', 'id', 'name', 'color']
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
-    party = serializers.CharField()
+    party = PartySerializer()
 
     class Meta:
         model = models.Candidate
