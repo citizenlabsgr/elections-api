@@ -228,8 +228,8 @@ class Voter(models.Model):
 class Party(TimeStampedModel):
     """Affiliation for a particular candidate."""
 
-    name = models.CharField(max_length=50, unique=True)
-    color = models.CharField(max_length=7, blank=True)
+    name = models.CharField(max_length=50, unique=True, editable=False)
+    color = models.CharField(max_length=7, blank=True, editable=False)
 
     class Meta:
         verbose_name_plural = "Parties"
