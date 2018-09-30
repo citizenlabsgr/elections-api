@@ -56,7 +56,6 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 
     election = ElectionSerializer()
     district = DistrictSerializer()
-    precincts = PrecinctSerializer(many=True)
 
     class Meta:
         model = models.Proposal
@@ -68,7 +67,6 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
             'reference_url',
             'election',
             'district',
-            'precincts',
         ]
 
 
@@ -91,7 +89,6 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     candidates = CandidateSerializer(many=True)
     election = ElectionSerializer()
     district = DistrictSerializer()
-    precincts = PrecinctSerializer(many=True)
 
     class Meta:
         model = models.Position
@@ -105,7 +102,6 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'candidates',
             'election',
             'district',
-            'precincts',
         ]
 
 

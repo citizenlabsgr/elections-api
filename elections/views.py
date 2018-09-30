@@ -145,15 +145,9 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = (
-        models.Proposal.objects.select_related(
-            'election', 'district', 'district__category'
-        )
-        .prefetch_related(
-            'precincts', 'precincts__county', 'precincts__jurisdiction'
-        )
-        .all()
-    )
+    queryset = models.Proposal.objects.select_related(
+        'election', 'district', 'district__category'
+    ).all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.ProposalFilter
     serializer_class = serializers.ProposalSerializer
@@ -212,13 +206,7 @@ class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
         models.Position.objects.select_related(
             'election', 'district', 'district__category'
         )
-        .prefetch_related(
-            'precincts',
-            'precincts__county',
-            'precincts__jurisdiction',
-            'candidates',
-            'candidates__party',
-        )
+        .prefetch_related('candidates', 'candidates__party')
         .all()
     )
     filter_backends = [filters.DjangoFilterBackend]
