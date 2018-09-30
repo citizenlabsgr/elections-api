@@ -111,3 +111,24 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 26
+
+        def with_city_position(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Kent"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Wyoming"
+                )[0],
+                ward='1',
+                number='6',
+                mi_sos_id=6009,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=6009,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 28
