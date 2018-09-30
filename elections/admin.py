@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use
 
 from django.contrib import admin
+from django.utils.html import format_html
 
 from . import models
 
@@ -106,9 +107,16 @@ class PartyAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 
-    list_display = ['id', 'name']
+    list_display = ['id', 'name', 'Color']
 
     ordering = ['name']
+
+    def Color(self, obj):
+        return format_html(
+            '<div style="background-color: {color};'
+            ' padding: 10px; border: 1px solid black;">',
+            color=obj.color,
+        )
 
 
 @admin.register(models.Proposal)
