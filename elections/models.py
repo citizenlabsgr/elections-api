@@ -246,9 +246,9 @@ class BallotWebsite(models.Model):
 
     mi_sos_html = models.TextField(blank=True)
 
+    source = models.NullBooleanField()
     fetched = models.BooleanField(default=False)
     valid = models.NullBooleanField()
-    source = models.NullBooleanField()
 
     table_count = models.IntegerField(default=-1)
     refetch_weight = models.FloatField(default=1.0)

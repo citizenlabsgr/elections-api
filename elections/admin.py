@@ -97,18 +97,21 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'id',
         'mi_sos_election_id',
         'mi_sos_precinct_id',
-        'mi_sos_url',
-        'fetched',
-        'valid',
+        'Link',
         'source',
-        'table_count',
         'refetch_weight',
+        'fetched',
         'last_fetch',
+        'valid',
         'last_fetch_with_precinct',
+        'table_count',
         'last_fetch_with_ballot',
     ]
 
     ordering = ['-last_fetch']
+
+    def Link(self, obj):
+        return format_html('<a href="{url}">MI SOS</a>', url=obj.mi_sos_url)
 
 
 @admin.register(models.Ballot)
