@@ -279,12 +279,21 @@ def handle_nonpartisan_section(
     # Parse position
 
     office = table.find(class_='office').text
-    seats = table.find_all(class_='term')[-1].text
-    log.debug(f'Parsing position from: {office!r} when {seats!r}')
+    terms = table.find_all(class_='term')
+    term = ''
+    if len(terms) >= 2:
+        if "Term" in terms[-2].text:
+            term = terms[-2].text
+        seats = terms[-1].text
+    else:
+        seats = terms[-1].text
+    log.debug(f'Parsing position from: {office!r} for {term!r} when {seats!r}')
+    assert "Vote for" in seats
     position, _ = Position.objects.get_or_create(
         election=election,
         district=district,
         name=helpers.titleize(office),
+        term=term,
         seats=int(seats.strip().split()[-1]),
     )
     log.info(f'Parsed {position!r}')

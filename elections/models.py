@@ -451,20 +451,31 @@ class BallotItem(TimeStampedModel):
 
     class Meta:
         abstract = True
+
+
+class Proposal(BallotItem):
+    """Ballot item with a boolean outcome."""
+
+    class Meta:
         unique_together = ['election', 'district', 'name']
 
     def __str__(self):
         return self.name
 
 
-class Proposal(BallotItem):
-    """Ballot item with a boolean outcome."""
-
-
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
 
+    term = models.CharField(max_length=200)
     seats = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ['election', 'district', 'name', 'term']
+
+    def __str__(self):
+        if self.term:
+            return f'{self.name} ({self.term})'
+        return self.name
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html

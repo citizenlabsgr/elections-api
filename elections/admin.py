@@ -168,6 +168,7 @@ class PositionAdmin(admin.ModelAdmin):
         'description',
         'district',
         'election',
+        'term',
         'seats',
         'reference_url',
     ]
