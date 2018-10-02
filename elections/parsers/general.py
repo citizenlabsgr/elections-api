@@ -130,8 +130,8 @@ def handle_partisan_section(
         else:
             td = table.find(class_='term')
             log.debug(f'Parsing district from term: {td.text!r}')
-            assert 'vote for' not in td.text.lower()
             assert 'term' not in td.text.lower()
+            assert 'vote for' not in td.text.lower()
             district_name = helpers.titleize(td.text)
             district, created = District.objects.get_or_create(
                 category=category, name=district_name
@@ -147,7 +147,8 @@ def handle_partisan_section(
     office = table.find(class_='office').text
     term = table.find_all(class_='term')[-1].text
     log.debug(f'Parsing position from: {office!r} when {term!r}')
-    assert 'Vote for' not in office
+    assert 'term' not in office.lower()
+    assert 'vote for' not in office.lower()
     position_name = helpers.titleize(office)
     seats = int(term.strip().split()[-1])
     if isinstance(district, Precinct):
@@ -264,16 +265,19 @@ def handle_nonpartisan_section(
     td = table.find(class_='term')
     if td:
         if category.name == "State":
+            log.debug(f'Assuming district is state from {category}')
             district = District.objects.get(category=category, name="Michigan")
+        elif category.name in {"City", "Township"}:
+            log.debug(f'Assuming district is jurisdiction from {category}')
+            district = precinct.jurisdiction
         else:
             log.debug(f'Parsing district from term: {td.text!r}')
             assert 'term' not in td.text.lower()
+            assert 'vote for' not in td.text.lower()
             district_name = helpers.titleize(td.text)
             district, created = District.objects.get_or_create(
                 category=category, name=district_name
             )
-            # We expect all districts to exist in the system through crawling,
-            # but circuit court districts are only created when checking status
             if created:
                 log.warn(f'Added missing district: {district}')
 
