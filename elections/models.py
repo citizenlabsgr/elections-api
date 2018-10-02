@@ -308,17 +308,15 @@ class BallotWebsite(models.Model):
         if table_count == self.table_count:
             min_weight = 1 / 14 if self.valid else 1 / 28
             self.refetch_weight = max(min_weight, self.refetch_weight / 2)
+        elif self.table_count == -1:
+            self.refetch_weight = 0.5
         else:
             if self.parsed and table_count:
-                log.warn(
-                    f'Table count changed from {self.table_count} to {table_count}'
-                )
                 self.parsed = False
             self.refetch_weight = (self.refetch_weight + 1.0) / 2
 
         self.table_count = table_count
         self.refetch_weight = round(self.refetch_weight, 3)
-
         self.save()
 
     def parse(self):
