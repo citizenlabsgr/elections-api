@@ -19,7 +19,12 @@ class DefaultFiltersMixin(admin.ModelAdmin):
                 request.path not in http_referer,
             ]
         ):
-            return redirect(request.path + '?' + '&'.join(default_filters))
+            election = models.Election.objects.last()
+            params = [
+                f.format(mi_sos_election_id=election.mi_sos_id)
+                for f in default_filters
+            ]
+            return redirect(request.path + '?' + '&'.join(params))
         return super().changelist_view(request, *args, **kwargs)
 
 
@@ -90,8 +95,17 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
 
-    list_filter = ['source', 'fetched', 'valid', 'parsed']
-    default_filters = ['fetched__exact=1']
+    list_filter = [
+        'mi_sos_election_id',
+        'source',
+        'fetched',
+        'valid',
+        'parsed',
+    ]
+    default_filters = [
+        'mi_sos_election_id={mi_sos_election_id}',
+        'fetched__exact=1',
+    ]
 
     list_display = [
         'id',

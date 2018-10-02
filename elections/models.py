@@ -254,10 +254,10 @@ class BallotWebsite(models.Model):
     table_count = models.IntegerField(default=-1)
     refetch_weight = models.FloatField(default=1.0)
 
-    last_fetch = models.DateTimeField(null=True)
-    last_fetch_with_precinct = models.DateTimeField(null=True)
-    last_fetch_with_ballot = models.DateTimeField(null=True)
-    last_parse = models.DateTimeField(null=True)
+    last_fetch = models.DateTimeField(null=True, editable=False)
+    last_fetch_with_precinct = models.DateTimeField(null=True, editable=False)
+    last_fetch_with_ballot = models.DateTimeField(null=True, editable=False)
+    last_parse = models.DateTimeField(null=True, editable=False)
 
     class Meta:
         unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
