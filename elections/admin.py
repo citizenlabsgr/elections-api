@@ -90,7 +90,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
 
-    list_filter = ['fetched', 'valid', 'source']
+    list_filter = ['source', 'fetched', 'valid', 'parsed']
     default_filters = ['fetched__exact=1']
 
     list_display = [
@@ -106,6 +106,8 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'last_fetch_with_precinct',
         'table_count',
         'last_fetch_with_ballot',
+        'parsed',
+        'last_parse',
     ]
 
     ordering = ['-last_fetch']

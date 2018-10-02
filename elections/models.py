@@ -249,6 +249,7 @@ class BallotWebsite(models.Model):
     source = models.NullBooleanField()
     fetched = models.BooleanField(default=False)
     valid = models.NullBooleanField()
+    parsed = models.BooleanField(default=False)
 
     table_count = models.IntegerField(default=-1)
     refetch_weight = models.FloatField(default=1.0)
@@ -256,6 +257,7 @@ class BallotWebsite(models.Model):
     last_fetch = models.DateTimeField(null=True)
     last_fetch_with_precinct = models.DateTimeField(null=True)
     last_fetch_with_ballot = models.DateTimeField(null=True)
+    last_parse = models.DateTimeField(null=True)
 
     class Meta:
         unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
@@ -327,7 +329,7 @@ class BallotWebsite(models.Model):
         party = district = None
         results = []
         for index, table in enumerate(soup.find_all('table')):
-            result = self._handle(
+            result = self._handle_html_element(
                 table,
                 election=election,
                 precinct=precinct,
@@ -357,10 +359,14 @@ class BallotWebsite(models.Model):
             msg = f'Unexpected table ({index}) on {self.mi_sos_url}:\n\n{html}'
             raise ValueError(msg)
 
+        self.parsed = True
+        self.last_parse = timezone.now()
+        self.save()
+
         return results
 
     @staticmethod
-    def _handle(
+    def _handle_html_element(
         table: element.Tag,
         *,
         election: Election,

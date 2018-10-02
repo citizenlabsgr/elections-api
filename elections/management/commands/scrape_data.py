@@ -109,7 +109,7 @@ class Command(BaseCommand):
 
         if website.stale:
             website.fetch()
-            if website.valid:
+            if website.valid and website.source:
                 precinct = self.ensure_precinct(mi_sos_precinct_id, website)
                 self.ensure_ballot(election, precinct, website)
                 website.parse()
@@ -168,8 +168,6 @@ class Command(BaseCommand):
         )
         if created:
             self.stdout.write(f'Added precinct: {precinct}')
-            website.source = True
-            website.save()
         elif precinct.mi_sos_id == mi_sos_precinct_id:
             self.stdout.write(
                 f'Matched precinct: {precinct} (d={precinct.mi_sos_id})'
@@ -178,8 +176,6 @@ class Command(BaseCommand):
             self.stdout.write(f'Updated precinct: {precinct}')
             precinct.mi_sos_id = mi_sos_precinct_id
             precinct.save()
-            website.source = True
-            website.save()
         else:
             log.warn(
                 f'Duplicated precinct: {precinct} (d={precinct.mi_sos_id})'
@@ -191,8 +187,6 @@ class Command(BaseCommand):
                 ward=ward,
                 number=number,
             )
-            website.source = False
-            website.save()
 
         return precinct
 
