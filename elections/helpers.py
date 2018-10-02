@@ -1,13 +1,10 @@
-import os
 import re
 import string
 from pprint import pformat
 from typing import Optional
 
 import log
-import redis
 import requests
-import requests_cache
 from fake_useragent import UserAgent
 from rest_framework.exceptions import APIException
 
@@ -23,25 +20,15 @@ class ServiceUnavailable(APIException):
     default_code = 'service_unavailable'
 
 
-def enable_requests_cache(expire_after):  # pragma: no cover
-    connection = redis.from_url(os.environ['REDIS_URL'])
-    requests_cache.install_cache(
-        backend='redis', connection=connection, expire_after=expire_after
-    )
-
-
 def fetch_registration_status_data(voter):
 
     # GET form tokens
-    with requests_cache.disabled():
-        try:
-            url = MI_SOS_URL
-            response = requests.get(
-                url, headers={'User-Agent': useragent.random}
-            )
-        except OSError as exc:
-            log.error(f'Unable to GET {url}: {exc}')
-            raise ServiceUnavailable()
+    try:
+        url = MI_SOS_URL
+        response = requests.get(url, headers={'User-Agent': useragent.random})
+    except OSError as exc:
+        log.error(f'Unable to GET {url}: {exc}')
+        raise ServiceUnavailable()
     response.raise_for_status()
 
     # Build form data
@@ -86,10 +73,8 @@ def fetch_registration_status_data(voter):
             r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",
             response.text,
         )
-        with requests_cache.disabled():
-            response = requests.get(
-                MI_SOS_URL + page, headers={'User-Agent': useragent.random}
-            )
+        url = MI_SOS_URL + page
+        response = requests.get(url, headers={'User-Agent': useragent.random})
         log.debug(f"Response from MI SOS:\n{response.text}")
         response.raise_for_status()
 

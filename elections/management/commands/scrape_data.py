@@ -10,7 +10,6 @@ from django.core.management.base import BaseCommand
 import bugsnag
 import log
 
-from elections import helpers
 from elections.models import (
     Ballot,
     BallotWebsite,
@@ -41,9 +40,6 @@ class Command(BaseCommand):
 
     def handle(self, start, limit, *_args, **_kwargs):
         log.init(reset=True)
-
-        helpers.enable_requests_cache(settings.REQUESTS_CACHE_EXPIRE_AFTER)
-        helpers.requests_cache.core.remove_expired_responses()
 
         self.ballot_fetches = 0
         self.max_ballot_fetches = limit
