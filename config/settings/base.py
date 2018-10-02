@@ -139,8 +139,3 @@ SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'list',
     'DEFAULT_MODEL_RENDERING': 'example',
 }
-
-###############################################################################
-# Requests cache
-
-REQUESTS_CACHE_EXPIRE_AFTER = None

@@ -1,8 +1,7 @@
 from datetime import timedelta
 
 import pytest
-
-from elections import helpers
+import requests_cache
 
 
 class Anything:
@@ -16,5 +15,5 @@ def anything():
 
 
 @pytest.fixture(scope='session', autouse=True)
-def requests_cache():
-    helpers.enable_requests_cache(timedelta(hours=12))
+def cache_requests():
+    requests_cache.install_cache(expire_after=timedelta(hours=12))
