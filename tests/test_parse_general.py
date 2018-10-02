@@ -153,3 +153,24 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 24
+
+        def with_recall_election(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Cheboygan"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="Inverness Township"
+                )[0],
+                ward='',
+                number='1',
+                mi_sos_id=19,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=19,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 28

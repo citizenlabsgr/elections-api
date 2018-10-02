@@ -115,13 +115,17 @@ def handle_partisan_section(
             log.debug(f'Parsing district from office: {td.text!r}')
             district = District.objects.get(category=category, name="Michigan")
 
-        elif category.name == "Precinct":
-            log.debug(f'Parsing district from office: {td.text!r}')
-            district = precinct
-
         elif category.name == "County":
             log.debug(f'Parsing district from office: {td.text!r}')
             district = precinct.county
+
+        elif category.name in {"City", "Township"}:
+            log.debug(f'Assuming jurisdiction position: {office}')
+            district = precinct.jurisdiction
+
+        elif category.name == "Precinct":
+            log.debug(f'Parsing district from office: {td.text!r}')
+            district = precinct
 
         else:
             td = table.find(class_='term')

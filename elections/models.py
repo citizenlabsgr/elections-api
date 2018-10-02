@@ -290,27 +290,26 @@ class BallotWebsite(models.Model):
 
         self.mi_sos_html = response.text.strip()
         if "not available at this time" in self.mi_sos_html:
-            log.warn(f'Invalid ballot URL: {url}')
+            log.warn('Ballot URL does contain precinct information')
             self.valid = False
             table_count = -1
-        elif "General Information" in self.mi_sos_html:
-            log.info(f'Valid ballot URL: {url}')
+        else:
+            assert "General Information" in self.mi_sos_html
+            log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
             soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
             table_count = len(soup.find_all('table'))
             if table_count:
                 self.last_fetch_with_ballot = timezone.now()
-        else:
-            assert 0
 
         if table_count == self.table_count:
             min_weight = 1 / 14 if self.valid else 1 / 28
             self.refetch_weight = max(min_weight, self.refetch_weight / 2)
         else:
             self.refetch_weight = (self.refetch_weight + 1.0) / 2
-            self.table_count = table_count
 
+        self.table_count = table_count
         self.refetch_weight = round(self.refetch_weight, 3)
 
         self.save()
@@ -392,9 +391,9 @@ class BallotWebsite(models.Model):
                     party=party,
                     district=district,
                 )
-            except:
+            except Exception as e:
                 print(table.prettify())
-                raise
+                raise e from None
 
             if result:
                 return result

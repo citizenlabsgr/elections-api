@@ -54,15 +54,18 @@ class Command(BaseCommand):
         try:
             self.run(start)
         except Exception as e:
-            bugsnag.notify(e)
-            raise e
+            if not settings.DEBUG:
+                bugsnag.notify(e)
+            raise e from None
 
     def run(self, start: int):
         election = self.get_current_election()
+        self.stdout.write('')
         for mi_sos_precinct_id in itertools.count(start=start):
             if self.should_stop():
                 break
-            self.scrape_ballot_website(election, mi_sos_precinct_id)
+            if self.scrape_ballot_website(election, mi_sos_precinct_id):
+                self.stdout.write('')
 
     def get_current_election(self) -> Election:
         election = (
@@ -94,7 +97,9 @@ class Command(BaseCommand):
 
     def scrape_ballot_website(
         self, election: Election, mi_sos_precinct_id: int
-    ) -> BallotWebsite:
+    ) -> bool:
+        scraped = False
+
         website, created = BallotWebsite.objects.get_or_create(
             mi_sos_election_id=election.mi_sos_id,
             mi_sos_precinct_id=mi_sos_precinct_id,
@@ -109,13 +114,14 @@ class Command(BaseCommand):
                 self.ensure_ballot(election, precinct, website)
                 website.parse()
             self.ballot_fetches += 1
+            scraped = True
 
         if website.valid:
             self.ballot_misses = 0
         else:
             self.ballot_misses += 1
 
-        return website
+        return scraped
 
     def ensure_precinct(
         self, mi_sos_precinct_id: int, website: BallotWebsite
@@ -165,7 +171,9 @@ class Command(BaseCommand):
             website.source = True
             website.save()
         elif precinct.mi_sos_id == mi_sos_precinct_id:
-            self.stdout.write(f'Matched precinct: {precinct}')
+            self.stdout.write(
+                f'Matched precinct: {precinct} (d={precinct.mi_sos_id})'
+            )
         elif not precinct.mi_sos_id:
             self.stdout.write(f'Updated precinct: {precinct}')
             precinct.mi_sos_id = mi_sos_precinct_id
@@ -173,8 +181,16 @@ class Command(BaseCommand):
             website.source = True
             website.save()
         else:
-            log.warn(f'Duplicate precinct: {website}')
+            log.warn(
+                f'Duplicated precinct: {precinct} (d={precinct.mi_sos_id})'
+            )
             precinct.delete()
+            precinct = Precinct.objects.get(
+                county=county,
+                jurisdiction=jurisdiction,
+                ward=ward,
+                number=number,
+            )
             website.source = False
             website.save()
 

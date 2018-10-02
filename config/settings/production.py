@@ -16,6 +16,8 @@ BASE_URL = f"https://{BASE_DOMAIN}"
 ###############################################################################
 # Core
 
+MIDDLEWARE.insert(0, 'bugsnag.django.middleware.BugsnagMiddleware')
+
 SECRET_KEY = os.environ['SECRET_KEY']
 
 ALLOWED_HOSTS = ['localhost', '.michiganelections.io']
