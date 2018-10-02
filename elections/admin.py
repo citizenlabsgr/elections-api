@@ -21,7 +21,10 @@ class DefaultFiltersMixin(admin.ModelAdmin):
         ):
             election = models.Election.objects.last()
             params = [
-                f.format(mi_sos_election_id=election.mi_sos_id)
+                f.format(
+                    election_id=election.id,
+                    mi_sos_election_id=election.mi_sos_id,
+                )
                 for f in default_filters
             ]
             return redirect(request.path + '?' + '&'.join(params))
@@ -131,9 +134,10 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
 
 @admin.register(models.Ballot)
-class BallotAdmin(admin.ModelAdmin):
+class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     list_filter = ['election']
+    default_filters = ['election__id__exact={election_id}']
 
     list_display = ['id', 'election', 'precinct', 'website', 'modified']
 
@@ -158,11 +162,12 @@ class PartyAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Proposal)
-class ProposalAdmin(admin.ModelAdmin):
+class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['name', 'description', 'reference_url']
 
     list_filter = ['election']
+    default_filters = ['election__id__exact={election_id}']
 
     list_display = [
         'id',
@@ -175,11 +180,12 @@ class ProposalAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Position)
-class PositionAdmin(admin.ModelAdmin):
+class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['name', 'description', 'reference_url']
 
-    list_filter = ['election', 'seats']
+    list_filter = ['election', 'term', 'seats']
+    default_filters = ['election__id__exact={election_id}']
 
     list_display = [
         'id',
@@ -194,11 +200,12 @@ class PositionAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Candidate)
-class CandidateAdmin(admin.ModelAdmin):
+class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['name', 'position__name', 'description', 'reference_url']
 
-    list_filter = ['party', 'position', 'position__election']
+    list_filter = ['position__election', 'party', 'position']
+    default_filters = ['position__election__id__exact={election_id}']
 
     list_display = [
         'id',
