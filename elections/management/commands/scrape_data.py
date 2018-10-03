@@ -70,9 +70,14 @@ class Command(BaseCommand):
                 if "D. Etta Wilcoxon" in str(e):
                     continue
 
-                # TODO: Parse district from prposal title
+                # TODO: Parse district from proposal title
                 # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=78&ed=676
                 if "District matching query does not exist" in str(e):
+                    continue
+
+                # TODO: Handle school proposals
+                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=112&ed=676
+                if "Could not determine district" in str(e):
                     continue
 
                 raise e from None
