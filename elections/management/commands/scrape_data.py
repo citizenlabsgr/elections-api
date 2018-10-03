@@ -64,8 +64,15 @@ class Command(BaseCommand):
                 else:
                     bugsnag.notify(e)
 
+                # TODO: Handle duplicate name listings for the same position
+                # See test 'general.parse.with_duplicatate_listing'
                 # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
                 if "D. Etta Wilcoxon" in str(e):
+                    continue
+
+                # TODO: Parse district from prposal title
+                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=78&ed=676
+                if "District matching query does not exist" in str(e):
                     continue
 
                 raise e from None

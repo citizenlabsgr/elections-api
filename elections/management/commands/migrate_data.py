@@ -47,6 +47,7 @@ class Command(BaseCommand):
             "City",
             "District Library",
             "Local School",
+            "Intermediate School",
             "Township",
         ]:
             category, created = DistrictCategory.objects.get_or_create(

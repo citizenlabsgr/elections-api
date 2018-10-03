@@ -197,8 +197,6 @@ def describe_ballot_website():
 
             expect(len(website.parse())) == 25
 
-        # TODO: Handle duplicate name listings for the same position
-        # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
         @pytest.mark.xfail
         def with_duplicatate_listing(expect, constants):
             models.Precinct.objects.get_or_create(
