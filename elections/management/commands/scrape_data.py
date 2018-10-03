@@ -121,6 +121,9 @@ class Command(BaseCommand):
             self.ballot_misses = 0
 
             if website.source and not website.parsed:
+                precinct = self.ensure_precinct(mi_sos_precinct_id, website)
+                ballot = self.ensure_ballot(election, precinct)
+                website.ballot = ballot
                 website.parse()
                 fetched_or_parsed = True
 
