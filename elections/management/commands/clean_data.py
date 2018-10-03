@@ -24,8 +24,29 @@ class Command(BaseCommand):
     def run(self):
         election = self.get_current_election()
         for ballot in Ballot.objects.filter(election=election):
-            count = len(ballot.websites.all())
-            self.stdout.write(f'Ballot {ballot.id}: {count} website(s)')
+            websites = ballot.websites.all()
+            count = len(websites)
+            log.debug(f'Ballot {ballot.id}: {count} website(s)')
+
+            if count == 1:
+                website = websites[0]
+                if not website.source:
+                    self.stdout.write(f'Set source of truth: {website}')
+                    website.source = True
+                    website.save()
+                if ballot.precinct.mi_sos_id != website.mi_sos_precinct_id:
+                    self.stdout.write(f'Set precinct ID: {ballot.precinct}')
+                    assert website.mi_sos_precinct_id
+                    ballot.precinct.mi_sos_id = website.mi_sos_precinct_id
+                    ballot.precinct.save()
+
+            elif count > 1:
+                log.warn(f'Ballot has {count} websites: {ballot}')
+                for website in websites:
+                    log.info(f'{website.table_count} tables: {website}')
+
+            else:
+                log.warn(f'Ballot has no websites: {ballot}')
 
     def get_current_election(self) -> Election:
         return (
