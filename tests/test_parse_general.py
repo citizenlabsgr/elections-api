@@ -196,3 +196,27 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 25
+
+        # TODO: Handle duplicate name listings for the same position
+        # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
+        @pytest.mark.xfail
+        def with_duplicatate_listing(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Wayne"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Wayne"
+                )[0],
+                ward='2',
+                number='2',
+                mi_sos_id=48,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=48,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 999

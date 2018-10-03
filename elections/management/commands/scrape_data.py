@@ -47,21 +47,28 @@ class Command(BaseCommand):
         self.ballot_misses = 0
         self.max_ballot_misses = 10
 
-        try:
-            self.run(start)
-        except Exception as e:
-            if not settings.DEBUG:
-                bugsnag.notify(e)
-            raise e from None
-
-    def run(self, start: int):
         election = self.get_current_election()
+
         self.stdout.write('')
         for mi_sos_precinct_id in itertools.count(start=start):
+
             if self.should_stop():
                 break
-            if self.scrape_ballot_website(election, mi_sos_precinct_id):
-                self.stdout.write('')
+
+            try:
+                if self.scrape_ballot_website(election, mi_sos_precinct_id):
+                    self.stdout.write('')
+            except Exception as e:
+                if settings.DEBUG:
+                    log.exception(e)
+                else:
+                    bugsnag.notify(e)
+
+                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
+                if "D. Etta Wilcoxon" in str(e):
+                    continue
+
+                raise e from None
 
     def get_current_election(self) -> Election:
         election = (
