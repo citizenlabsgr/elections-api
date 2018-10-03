@@ -130,7 +130,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     def Link(self, obj):
         return format_html(
-            '<a href={url!r}>MI SOS election={eid} precinct={pid}</a>',
+            '<a href={url!r}>MI SOS: election={eid} precinct={pid}</a>',
             url=obj.mi_sos_url,
             eid=obj.mi_sos_election_id,
             pid=obj.mi_sos_precinct_id,

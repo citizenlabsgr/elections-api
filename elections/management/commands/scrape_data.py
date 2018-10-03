@@ -94,7 +94,7 @@ class Command(BaseCommand):
     def scrape_ballot_website(
         self, election: Election, mi_sos_precinct_id: int
     ) -> bool:
-        scraped = False
+        fetched_or_parsed = False
 
         website, created = BallotWebsite.objects.get_or_create(
             mi_sos_election_id=election.mi_sos_id,
@@ -105,6 +105,8 @@ class Command(BaseCommand):
 
         if website.stale:
             website.fetch()
+            self.ballot_fetches += 1
+            fetched_or_parsed = True
 
             if website.valid:
                 precinct = self.ensure_precinct(mi_sos_precinct_id, website)
@@ -115,15 +117,17 @@ class Command(BaseCommand):
                 if website.source:
                     website.parse()
 
-            self.ballot_fetches += 1
-            scraped = True
-
         if website.valid:
             self.ballot_misses = 0
+
+            if website.source and not website.parsed:
+                website.parse()
+                fetched_or_parsed = True
+
         else:
             self.ballot_misses += 1
 
-        return scraped
+        return fetched_or_parsed
 
     def ensure_precinct(
         self, mi_sos_precinct_id: int, website: BallotWebsite
