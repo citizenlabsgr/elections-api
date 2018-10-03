@@ -56,6 +56,7 @@ def constants(db):
         "Probate Court",
         "District Court",
         "Community College",
+        "Metropolitan",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 
@@ -218,3 +219,25 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 999
+
+        def with_metropolitan_position(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Genesee"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction,
+                    name="Mount Morris Township",
+                )[0],
+                ward='',
+                number='11',
+                mi_sos_id=128,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=128,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 25
