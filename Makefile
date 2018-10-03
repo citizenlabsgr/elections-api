@@ -55,6 +55,7 @@ test: install
 
 .PHONY: watch
 watch: install
+	rm -f cache.sqlite
 	poetry run ptw
 
 ###############################################################################
