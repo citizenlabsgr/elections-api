@@ -292,7 +292,10 @@ def handle_nonpartisan_section(
     if len(terms) >= 2:
         if "term" in terms[-2].text.lower():
             term = terms[-2].text
-        if "position" in terms[1].text.lower():
+        if (
+            "position" in terms[1].text.lower()
+            or "judgeship" in terms[1].text.lower()
+        ):
             assert term, f'Expected term: {term!r}'
             term += f', {terms[1].text}'
         seats = terms[-1].text
