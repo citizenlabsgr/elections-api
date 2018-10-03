@@ -89,7 +89,7 @@ elections/templates/index.html: README.md scripts/render_readme.py
 
 .PHONY: uml
 uml: install
-	poetry run python manage.py graph_models --all-applications --group-models --output=docs/ERD.png
+	poetry run python manage.py graph_models elections --group-models --output=docs/ERD.png --exclude-models=TimeStampedModel
 
 ###############################################################################
 
