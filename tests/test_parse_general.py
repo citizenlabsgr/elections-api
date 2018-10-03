@@ -174,3 +174,25 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 28
+
+        def with_incumbent_judgeship(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Oakland"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction,
+                    name="City of Farmington Hills",
+                )[0],
+                ward='',
+                number='23',
+                mi_sos_id=30,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=30,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 25
