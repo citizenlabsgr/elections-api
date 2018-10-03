@@ -105,6 +105,26 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class BallotDetailSerializer(serializers.HyperlinkedModelSerializer):
+
+    election = ElectionSerializer()
+    precinct = PrecinctSerializer()
+    positions = PositionSerializer(many=True)
+    proposals = ProposalSerializer(many=True)
+
+    class Meta:
+        model = models.Ballot
+        fields = [
+            'url',
+            'id',
+            'election',
+            'precinct',
+            'mi_sos_url',
+            'positions',
+            'proposals',
+        ]
+
+
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RegistrationStatus

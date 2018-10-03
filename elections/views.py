@@ -130,7 +130,11 @@ class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
     ).all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.BallotFilter
-    serializer_class = serializers.BallotSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return serializers.BallotDetailSerializer
+        return serializers.BallotSerializer
 
 
 class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):

@@ -192,14 +192,14 @@ def describe_ballots():
     def url():
         return '/api/ballots/'
 
-    def describe_list():
-        @pytest.fixture
-        def ballot(db):
-            ballot = factories.BallotFactory.create()
-            ballot.precinct.number = '1A'
-            ballot.precinct.save()
-            return ballot
+    @pytest.fixture
+    def ballot(db):
+        ballot = factories.BallotFactory.create()
+        ballot.precinct.number = '1A'
+        ballot.precinct.save()
+        return ballot
 
+    def describe_list():
         def filter_by_precinct_with_letter(
             expect, client, url, ballot, anything
         ):
@@ -242,3 +242,13 @@ def describe_ballots():
 
             expect(response.status_code) == 200
             expect(response.data['count']) == 1
+
+    def describe_detail():
+        def includes_positions_and_proposals(
+            expect, client, url, ballot, anything
+        ):
+            response = client.get(f'{url}{ballot.id}/')
+
+            expect(response.status_code) == 200
+            expect(response.data).contains('positions')
+            expect(response.data).contains('proposals')
