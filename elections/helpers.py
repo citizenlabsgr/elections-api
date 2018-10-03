@@ -123,3 +123,11 @@ def titleize(text: str) -> str:
         .replace(" To ", " to ")
         .replace(" And ", " and ")
     )
+
+
+def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
+    assert election_id, "MI SOS election ID is missing"
+    assert precinct_id, "MI SOS precinct ID is missing"
+    base = MI_SOS_URL + 'SampleBallot.aspx'
+    params = f'd={precinct_id}&ed={election_id}'
+    return f'{base}?{params}'

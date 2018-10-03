@@ -105,10 +105,16 @@ class Command(BaseCommand):
 
         if website.stale:
             website.fetch()
-            if website.valid and website.source:
+
+            if website.valid:
                 precinct = self.ensure_precinct(mi_sos_precinct_id, website)
-                self.ensure_ballot(election, precinct, website)
-                website.parse()
+                ballot = self.ensure_ballot(election, precinct)
+                website.ballot = ballot
+                website.save()
+
+                if website.source:
+                    website.parse()
+
             self.ballot_fetches += 1
             scraped = True
 
@@ -164,35 +170,18 @@ class Command(BaseCommand):
         )
         if created:
             self.stdout.write(f'Added precinct: {precinct}')
-        elif precinct.mi_sos_id == mi_sos_precinct_id:
-            self.stdout.write(
-                f'Matched precinct: {precinct} (d={precinct.mi_sos_id})'
-            )
-        elif not precinct.mi_sos_id:
+        elif precinct.mi_sos_id:
+            self.stdout.write(f'Matched precinct: {precinct}')
+        else:
             self.stdout.write(f'Updated precinct: {precinct}')
             precinct.mi_sos_id = mi_sos_precinct_id
             precinct.save()
-        else:
-            log.warn(
-                f'Duplicated precinct: {precinct} (d={precinct.mi_sos_id})'
-            )
-            precinct.delete()
-            precinct = Precinct.objects.get(
-                county=county,
-                jurisdiction=jurisdiction,
-                ward=ward,
-                number=number,
-            )
 
         return precinct
 
-    def ensure_ballot(
-        self, election: Election, precinct: Precinct, website: BallotWebsite
-    ) -> Ballot:
+    def ensure_ballot(self, election: Election, precinct: Precinct) -> Ballot:
         ballot, created = Ballot.objects.update_or_create(
-            election=election,
-            precinct=precinct,
-            defaults=dict(website=website),
+            election=election, precinct=precinct
         )
         if created:
             self.stdout.write(f'Added ballot: {ballot}')

@@ -238,11 +238,39 @@ class Party(TimeStampedModel):
         return self.name
 
 
+class Ballot(TimeStampedModel):
+    """Full ballot bound to a particular polling location."""
+
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['election', 'precinct']
+        ordering = ['election__date']
+
+    def __str__(self) -> str:
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return self.election.mi_sos_name + self.precinct.mi_sos_name
+
+    @property
+    def mi_sos_url(self) -> str:
+        return helpers.build_mi_sos_url(
+            election_id=self.election.mi_sos_id,
+            precinct_id=self.precinct.mi_sos_id,
+        )
+
+
 class BallotWebsite(models.Model):
     """Raw HTML of potential ballot from the MI SOS website."""
 
     mi_sos_election_id = models.PositiveIntegerField()
     mi_sos_precinct_id = models.PositiveIntegerField()
+    ballot = models.ForeignKey(
+        Ballot, null=True, on_delete=models.SET_NULL, related_name='websites'
+    )
 
     mi_sos_html = models.TextField(blank=True)
 
@@ -267,7 +295,7 @@ class BallotWebsite(models.Model):
 
     @property
     def mi_sos_url(self) -> str:
-        return self.build_mi_sos_url(
+        return helpers.build_mi_sos_url(
             election_id=self.mi_sos_election_id,
             precinct_id=self.mi_sos_precinct_id,
         )
@@ -408,43 +436,6 @@ class BallotWebsite(models.Model):
                 return result
 
         return None
-
-    @staticmethod
-    def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
-        assert election_id, "MI SOS election ID is missing"
-        assert precinct_id, "MI SOS precinct ID is missing"
-        base = 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx'
-        params = f'd={precinct_id}&ed={election_id}'
-        return f'{base}?{params}'
-
-
-class Ballot(TimeStampedModel):
-    """Full ballot bound to a particular polling location."""
-
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
-
-    website = models.ForeignKey(
-        BallotWebsite, null=True, on_delete=models.SET_NULL
-    )
-
-    class Meta:
-        unique_together = ['election', 'precinct']
-        ordering = ['election__date']
-
-    def __str__(self) -> str:
-        return ' | '.join(self.mi_sos_name)
-
-    @property
-    def mi_sos_name(self) -> List[str]:
-        return self.election.mi_sos_name + self.precinct.mi_sos_name
-
-    @property
-    def mi_sos_url(self) -> str:
-        return BallotWebsite.build_mi_sos_url(
-            election_id=self.election.mi_sos_id,
-            precinct_id=self.precinct.mi_sos_id,
-        )
 
 
 class BallotItem(TimeStampedModel):
