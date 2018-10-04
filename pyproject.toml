@@ -30,7 +30,7 @@ factory_boy = "*"
 pendulum = "*"
 requests_cache = "*"
 beautifulsoup4 = "^4.6"
-fake-useragent = "*"
+fake-useragent = "~0.1.11"
 requests = "^2.19"
 
 gunicorn = "^19.8"
