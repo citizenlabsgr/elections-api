@@ -51,6 +51,7 @@ class Command(BaseCommand):
             "Township",
             "Metropolitan",
             "Village",
+            "Authority",
         ]:
             category, created = DistrictCategory.objects.get_or_create(
                 name=name

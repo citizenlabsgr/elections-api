@@ -276,7 +276,12 @@ def handle_nonpartisan_section(
         if category.name == "State":
             log.debug(f'Assuming district is state from {category}')
             district = District.objects.get(category=category, name="Michigan")
-        elif category.name in {"City", "Township", "Metropolitan"}:
+        elif category.name in {
+            "City",
+            "Township",
+            "Metropolitan",
+            "Authority",
+        }:
             log.debug(f'Assuming district is jurisdiction from {category}')
             district = precinct.jurisdiction
         else:

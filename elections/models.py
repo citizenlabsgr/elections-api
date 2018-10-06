@@ -374,6 +374,7 @@ class BallotWebsite(models.Model):
                 candidates = result.candidates
                 if (
                     candidates
+                    and candidates.first()
                     and candidates.first().party.name == "Nonpartisan"
                 ):
                     log.info('Start nonpartisan section')
