@@ -28,10 +28,19 @@ def handle_main_wrapper(table: element.Tag, **_) -> bool:
 
 def handle_general_wrapper(table: element.Tag, **_) -> bool:
     if table.get('class') == ['generalTable']:
+
         td = table.find('td', class_='section')
-        log.debug(f'Found header: {td.text!r}')
-        if "partisan section" in td.text.lower():
-            return True
+        if td:
+            log.debug(f'Found header: {td.text!r}')
+            if "partisan section" in td.text.lower():
+                return True
+
+        td = table.find('td', class_='continuation')
+        if td:
+            log.debug(f'Found header: {td.text!r}')
+            if "continued" in td.text.lower():
+                return True
+
     return False
 
 
