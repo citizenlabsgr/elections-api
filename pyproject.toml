@@ -25,7 +25,7 @@ psycopg2-binary = "*"
 
 django-redis-cache = "*"
 
-minilog = "*"
+minilog = "1.1a2"
 factory_boy = "*"
 pendulum = "*"
 requests_cache = "*"
