@@ -16,8 +16,8 @@ useragent = UserAgent()
 
 class ServiceUnavailable(APIException):
     status_code = 503
-    default_detail = "Service temporarily unavailable, try again later."
     default_code = 'service_unavailable'
+    default_detail = f'The Michigan Secretary of State website ({MI_SOS_URL}SelectPublicBallot.aspx) is temporarily unavailable, please try again later.'
 
 
 def fetch_registration_status_data(voter):
