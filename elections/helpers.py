@@ -21,15 +21,10 @@ class ServiceUnavailable(APIException):
 
 
 def fetch_registration_status_data(voter):
-
     # GET form tokens
-    try:
-        url = MI_SOS_URL
-        response = requests.get(url, headers={'User-Agent': useragent.random})
-    except OSError as exc:
-        log.error(f'Unable to GET {url}: {exc}')
-        raise ServiceUnavailable()
-    response.raise_for_status()
+    url = MI_SOS_URL
+    response = requests.get(url, headers={'User-Agent': useragent.random})
+    check_availability(response)
 
     # Build form data
     form = {
@@ -62,9 +57,7 @@ def fetch_registration_status_data(voter):
         },
         data=form,
     )
-    if response.status_code == 500:
-        raise ServiceUnavailable()
-    response.raise_for_status()
+    check_availability(response)
 
     # Handle recently moved voters
     if "you have recently moved" in response.text:
@@ -76,7 +69,7 @@ def fetch_registration_status_data(voter):
         url = MI_SOS_URL + page
         response = requests.get(url, headers={'User-Agent': useragent.random})
         log.debug(f"Response from MI SOS:\n{response.text}")
-        response.raise_for_status()
+        check_availability(response)
 
     # Parse registration
     registered: Optional[bool] = bool(
@@ -97,6 +90,12 @@ def fetch_registration_status_data(voter):
         districs[category] = clean_district_name(match[1])
 
     return {"registered": registered, "districts": districs}
+
+
+def check_availability(response):
+    html = response.text.lower()
+    if response.status_code >= 400 or "not available" in html:
+        raise ServiceUnavailable()
 
 
 def find_or_abort(pattern: str, text: str):
