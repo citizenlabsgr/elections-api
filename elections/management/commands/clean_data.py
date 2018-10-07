@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *_args, **_kwargs):
         log.init(reset=True)
+
         try:
             self.run()
         except Exception as e:
