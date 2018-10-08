@@ -5,6 +5,7 @@ from typing import Optional
 
 import log
 import requests
+from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from rest_framework.exceptions import APIException
 
@@ -93,9 +94,15 @@ def fetch_registration_status_data(voter):
 
 
 def check_availability(response):
-    html = response.text.lower()
-    if response.status_code >= 400 or "not available" in html:
+    if response.status_code >= 400:
+        log.error(f'MI SOS status code: {response.status_code}')
         raise ServiceUnavailable()
+
+    html = BeautifulSoup(response.text, 'html.parser')
+    div = html.find(id='pollingLocationError')
+    if div:
+        if div['style'] != 'display:none;':
+            raise ServiceUnavailable()
 
 
 def find_or_abort(pattern: str, text: str):
