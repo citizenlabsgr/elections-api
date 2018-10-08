@@ -438,11 +438,11 @@ def handle_proposals(
     proposal_title = table.find(class_='proposalTitle').text
     proposal_text = table.find(class_='proposalText').text
     log.debug(f'Parsing proposal from text: {proposal_text!r}')
-    proposal, _ = Proposal.objects.get_or_create(
+    proposal, _ = Proposal.objects.update_or_create(
         election=election,
         district=district,
         name=helpers.titleize(proposal_title),
-        description=proposal_text.strip(),
+        defaults=dict(description=proposal_text.strip()),
     )
     log.info(f'Parsed {proposal!r}')
 

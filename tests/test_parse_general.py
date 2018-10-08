@@ -41,6 +41,7 @@ def constants(db):
     constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
         name="Jurisdiction"
     )
+    # TODO: Share this list with 'manage.py migrate_data.py'
     for name in {
         "City",
         "US Congress",
@@ -58,6 +59,7 @@ def constants(db):
         "Community College",
         "Metropolitan",
         "Authority",
+        "Probate District Court",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 
