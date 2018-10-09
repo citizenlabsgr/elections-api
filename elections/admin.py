@@ -96,7 +96,7 @@ class PrecinctAdmin(admin.ModelAdmin):
 @admin.register(models.BallotWebsite)
 class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
-    search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id']
+    search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id', 'mi_sos_html']
 
     list_filter = [
         'mi_sos_election_id',
