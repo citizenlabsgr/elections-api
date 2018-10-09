@@ -470,7 +470,7 @@ class Position(BallotItem):
     seats = models.PositiveIntegerField(default=1)
 
     class Meta:
-        unique_together = ['election', 'district', 'name', 'term']
+        unique_together = ['election', 'district', 'name', 'term', 'seats']
 
     def __str__(self):
         if self.term:

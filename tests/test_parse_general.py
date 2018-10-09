@@ -60,6 +60,7 @@ def constants(db):
         "Metropolitan",
         "Authority",
         "Probate District Court",
+        "Village",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 
@@ -283,6 +284,27 @@ def describe_ballot_website():
             website = models.BallotWebsite(
                 mi_sos_election_id=constants.election.mi_sos_id,
                 mi_sos_precinct_id=219,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 27
+
+        def with_multiple_positions_and_no_terms(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Jackson"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="Springport Township"
+                )[0],
+                ward='',
+                number='1',
+                mi_sos_id=6733,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=6733,
             )
             website.fetch()
 
