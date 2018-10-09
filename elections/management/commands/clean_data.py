@@ -42,9 +42,12 @@ class Command(BaseCommand):
                     count_1 += 1
 
                 if count_0 > count_1:
-                    precincts[1].delete()
+                    duplicate = precincts[1]
                 else:
-                    precincts[0].delete()
+                    duplicate = precincts[0]
+
+                self.stdout.write(f'Deleted duplicate precinct: {duplicate}')
+                duplicate.delete()
 
         for ballot in Ballot.objects.filter(election=election):
 
