@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 import bugsnag
 import log
 
-from elections.models import Ballot, Election
+from elections.models import Ballot, Election, Precinct
 
 
 class Command(BaseCommand):
@@ -24,6 +24,27 @@ class Command(BaseCommand):
 
     def run(self):
         election = Election.objects.filter(active=True).get()
+
+        for precinct in Precinct.objects.all():
+            precincts = Precinct.objects.filter(mi_sos_id=precinct.mi_sos_id)
+            if len(precincts) == 2:
+
+                count_0 = 0
+                if precincts[0].ward:
+                    count_0 += 1
+                if precincts[0].number:
+                    count_0 += 1
+
+                count_1 = 0
+                if precincts[1].ward:
+                    count_1 += 1
+                if precincts[1].number:
+                    count_1 += 1
+
+                if count_0 > count_1:
+                    precincts[1].delete()
+                else:
+                    precincts[0].delete()
 
         for ballot in Ballot.objects.filter(election=election):
 
