@@ -69,6 +69,9 @@ class Command(BaseCommand):
                 # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
                 if "D. Etta Wilcoxon" in str(e):
                     continue
+                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=3133&ed=676
+                if "Adam Hollier" in str(e):
+                    continue
 
                 # TODO: Parse district from proposal title
                 # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=78&ed=676
