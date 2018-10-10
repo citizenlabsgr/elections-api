@@ -38,8 +38,8 @@ class Command(BaseCommand):
             help='Maximum number of fetches to perform before stopping.',
         )
 
-    def handle(self, start, limit, *_args, **_kwargs):
-        log.init(reset=True)
+    def handle(self, start: int, limit: int, verbosity: int, **_kwargs):
+        log.init(reset=True, debug=verbosity >= 2)
 
         self.ballot_fetches = 0
         self.max_ballot_fetches = limit

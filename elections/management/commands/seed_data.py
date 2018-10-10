@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
+import log
 import pendulum
 
 from elections import models
@@ -13,7 +14,9 @@ from elections import models
 class Command(BaseCommand):
     help = "Generate data for local development and review"
 
-    def handle(self, *_args, **_kwargs):
+    def handle(self, verbosity: int, **_kwargs):
+        log.init(reset=True, debug=verbosity >= 2)
+
         self.get_or_create_superuser()
         self.add_elections()
         self.fetch_districts()

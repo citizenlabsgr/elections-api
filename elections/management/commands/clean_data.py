@@ -12,8 +12,8 @@ from elections.models import Ballot, Election, Precinct
 class Command(BaseCommand):
     help = "Validate ballot websites to select the source of truth"
 
-    def handle(self, *_args, **_kwargs):
-        log.init(reset=True)
+    def handle(self, verbosity: int, **_kwargs):
+        log.init(reset=True, debug=verbosity >= 2)
 
         try:
             self.run()
