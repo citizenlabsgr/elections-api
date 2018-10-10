@@ -71,8 +71,11 @@ class Command(BaseCommand):
 
             elif count > 1:
                 log.warn(f'Ballot has {count} websites: {ballot}')
+                newest = max(websites, key=lambda _: _.mi_sos_precinct_id)
+                assert newest.table_count
                 for website in websites:
                     log.info(f'{website.table_count} tables: {website}')
-
+                    website.source = website.id == newest.id
+                    website.save()
             else:
                 log.warn(f'Ballot has no websites: {ballot}')
