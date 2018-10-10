@@ -59,7 +59,7 @@ class Command(BaseCommand):
                 website = websites[0]
 
                 if not website.source:
-                    self.stdout.write(f'Set source of truth: {website}')
+                    self.stdout.write(f'Set source: {website}')
                     website.source = True
                     website.save()
 
@@ -70,12 +70,19 @@ class Command(BaseCommand):
                     ballot.precinct.save()
 
             elif count > 1:
-                log.warn(f'Ballot has {count} websites: {ballot}')
                 newest = max(websites, key=lambda _: _.mi_sos_precinct_id)
-                assert newest.table_count
-                for website in websites:
-                    log.info(f'{website.table_count} tables: {website}')
-                    website.source = website.id == newest.id
-                    website.save()
+                if newest.table_count:
+                    for website in websites:
+                        if website.id == newest.id and not website.source:
+                            self.stdout.write(f'Set source: {website}')
+                            website.source = True
+                            website.save()
+                        elif website.source:
+                            website.source = False
+                            website.save()
+                else:
+                    log.warn(f'Ballot has {count} websites: {ballot}')
+                    for website in websites:
+                        log.info(f'{website.table_count} tables: {website}')
             else:
                 log.warn(f'Ballot has no websites: {ballot}')
