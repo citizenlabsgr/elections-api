@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use
+# pylint: disable=no-self-use,too-many-nested-blocks
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -73,10 +73,27 @@ class Command(BaseCommand):
                 newest = max(websites, key=lambda _: _.mi_sos_precinct_id)
                 if newest.table_count:
                     for website in websites:
-                        if website.id == newest.id and not website.source:
-                            self.stdout.write(f'Set source: {website}')
-                            website.source = True
-                            website.save()
+
+                        if website.id == newest.id:
+
+                            if not website.source:
+                                self.stdout.write(f'Set source: {website}')
+                                website.source = True
+                                website.save()
+
+                            if (
+                                ballot.precinct.mi_sos_id
+                                != website.mi_sos_precinct_id
+                            ):
+                                self.stdout.write(
+                                    f'Set precinct ID: {ballot.precinct}'
+                                )
+                                assert website.mi_sos_precinct_id
+                                ballot.precinct.mi_sos_id = (
+                                    website.mi_sos_precinct_id
+                                )
+                                ballot.precinct.save()
+
                         elif website.source:
                             website.source = False
                             website.save()
