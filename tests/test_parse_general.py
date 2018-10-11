@@ -61,6 +61,7 @@ def constants(db):
         "Authority",
         "Probate District Court",
         "Village",
+        "Library",
     }:
         models.DistrictCategory.objects.get_or_create(name=name)
 
@@ -309,3 +310,24 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 27
+
+        def with_library_postion_without_district(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Benzie"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="Benzonia Township"
+                )[0],
+                ward='',
+                number='1',
+                mi_sos_id=6442,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=6442,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 30
