@@ -284,10 +284,9 @@ def handle_nonpartisan_section(
         }:
             log.debug(f'Assuming district is jurisdiction from {category}')
             district = precinct.jurisdiction
-        elif category.name in {"Library"}:
+        elif category.name in {"Library"} and 'vote for' in td.text.lower():
             log.warn(f'Assuming district is jurisdiction from {category}')
             district = precinct.jurisdiction
-            assert 'vote for' in td.text.lower()
         else:
             log.debug(f'Parsing district from term: {td.text!r}')
             assert 'term' not in td.text.lower()
