@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     ballot.precinct.save()
 
             elif count > 1:
-                newest = max(websites, key=lambda _: _.mi_sos_precinct_id)
+                newest = max(websites, key=lambda w: w.mi_sos_precinct_id)
                 if newest.table_count:
                     for website in websites:
 
