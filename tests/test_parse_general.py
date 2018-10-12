@@ -331,3 +331,24 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 30
+
+        def with_district_in_proposal_title(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Saginaw"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Saginaw"
+                )[0],
+                ward='',
+                number='2',
+                mi_sos_id=78,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=78,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 29

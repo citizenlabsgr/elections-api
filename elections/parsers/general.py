@@ -421,9 +421,13 @@ def handle_proposals(
         log.debug(f'Parsing district from title: {proposal_title!r}')
         title = helpers.titleize(proposal_title)
         if category.name in title:
-            district = District.objects.get(
-                category=category, name=title.split(category.name)[0].strip()
+            district_name = title.split(category.name)[0].strip()
+            log.debug(f'Parsed district name: {district_name}')
+            district, created = District.objects.get_or_create(
+                category=category, name=district_name
             )
+            if created:
+                log.warn(f'Added missing district: {district}')
         elif precinct.jurisdiction.name in proposal_text:
             log.warn('Assuming district is jurisdiction from proposal')
             district = precinct.jurisdiction
