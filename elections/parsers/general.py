@@ -154,12 +154,18 @@ def handle_partisan_section(
     # Parse position
 
     office = table.find(class_='office').text
-    term = table.find_all(class_='term')[-1].text
-    log.debug(f'Parsing position from: {office!r} when {term!r}')
+    terms = table.find_all(class_='term')
+    if len(terms) >= 3:
+        term = terms[-2].text
+        assert "Term" in term
+    else:
+        term = ''
+    seats = terms[-1].text
+    log.debug(f'Parsing position from: {office!r} when {seats!r}')
     assert 'term' not in office.lower()
     assert 'vote for' not in office.lower()
     position_name = helpers.titleize(office)
-    seats = int(term.strip().split()[-1])
+    seats = int(seats.strip().split()[-1])
     if isinstance(district, Precinct):
         position_name = f'{position_name} ({party} | {district})'
         district = None
@@ -167,7 +173,8 @@ def handle_partisan_section(
         election=election,
         district=district,
         name=position_name,
-        defaults={'seats': seats},
+        term=term,
+        seats=seats,
     )
     log.info(f'Parsed {position!r}')
     if position.seats != seats:

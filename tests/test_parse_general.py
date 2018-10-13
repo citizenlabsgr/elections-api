@@ -203,7 +203,6 @@ def describe_ballot_website():
 
             expect(len(website.parse())) == 25
 
-        @pytest.mark.xfail
         def with_duplicatate_listing(expect, constants):
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
@@ -223,7 +222,7 @@ def describe_ballot_website():
             )
             website.fetch()
 
-            expect(len(website.parse())) == 999
+            expect(len(website.parse())) == 33
 
         def with_metropolitan_position(expect, constants):
             models.Precinct.objects.get_or_create(

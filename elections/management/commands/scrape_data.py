@@ -64,15 +64,6 @@ class Command(BaseCommand):
                 else:
                     bugsnag.notify(e)
 
-                # TODO: Handle duplicate name listings for the same position
-                # See test 'general.parse.with_duplicatate_listing'
-                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=48&ed=676
-                if "D. Etta Wilcoxon" in str(e):
-                    continue
-                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=3133&ed=676
-                if "Adam Hollier" in str(e):
-                    continue
-
                 # TODO: Handle school proposals
                 # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=112&ed=676
                 if "Could not determine district" in str(e):
