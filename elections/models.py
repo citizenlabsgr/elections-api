@@ -319,7 +319,10 @@ class BallotWebsite(models.Model):
         self.last_fetch = timezone.now()
 
         self.mi_sos_html = response.text.strip()
-        if "not available at this time" in self.mi_sos_html:
+        if (
+            "not available at this time" in self.mi_sos_html
+            or " County" not in self.mi_sos_html
+        ):
             log.warn('Ballot URL does contain precinct information')
             self.valid = False
             table_count = -1
