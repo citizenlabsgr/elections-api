@@ -15,12 +15,12 @@ doctor:
 
 .PHONY: install
 install: .venv/flag
-.venv/flag: pyproject.lock
+.venv/flag: poetry.lock
 	@ poetry config settings.virtualenvs.in-project true
-	poetry develop
+	poetry install
 	@ touch $@
 
-pyproject.lock: pyproject.toml
+poetry.lock: pyproject.toml
 	poetry lock
 	@ touch $@
 
