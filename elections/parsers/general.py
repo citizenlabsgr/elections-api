@@ -441,8 +441,16 @@ def handle_proposals(
         elif precinct.county.name in proposal_text:
             log.warn('Assuming district is county from proposal')
             district = precinct.county
+        elif " county " in proposal_title.lower():
+            district_name = helpers.titleize(
+                proposal_title.lower().split(" county ")[0].split('.')[-1]
+            )
+            log.warn(f'Assuming district is different county: {district_name}')
+            district = District.objects.get(
+                category=precinct.county.category, name=district_name
+            )
         else:
-            assert 0, f'Could not determine district: {table}'
+            assert False, f'Could not determine district: {table}'
 
     log.info(f'Parsed {district!r}')
     assert district

@@ -63,12 +63,6 @@ class Command(BaseCommand):
                     log.exception(e)
                 else:
                     bugsnag.notify(e)
-
-                # TODO: Handle school proposals
-                # https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=112&ed=676
-                if "Could not determine district" in str(e):
-                    continue
-
                 raise e from None
 
     def get_current_election(self) -> Election:

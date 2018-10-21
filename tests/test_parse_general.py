@@ -372,3 +372,27 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 0
+
+        def with_school_proposal(expect, constants):
+            models.District.objects.get_or_create(
+                category=constants.county, name="Clinton"
+            )
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Shiawassee"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction, name="City of Ovid"
+                )[0],
+                ward='',
+                number='1',
+                mi_sos_id=112,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=112,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 27
