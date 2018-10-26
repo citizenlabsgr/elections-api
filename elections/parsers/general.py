@@ -449,7 +449,7 @@ def handle_proposals(
             district = District.objects.get(
                 category=precinct.county.category, name=district_name
             )
-        elif category.name in {"Community College"}:
+        elif category.name in {"Community College", "District Library"}:
             log.warn(f'Assuming district is county from category')
             district = precinct.county
         else:
