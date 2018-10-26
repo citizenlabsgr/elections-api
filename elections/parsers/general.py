@@ -449,6 +449,9 @@ def handle_proposals(
             district = District.objects.get(
                 category=precinct.county.category, name=district_name
             )
+        elif category.name in {"Community College"}:
+            log.warn(f'Assuming district is county from category')
+            district = precinct.county
         else:
             assert False, f'Could not determine district: {table}'
 
