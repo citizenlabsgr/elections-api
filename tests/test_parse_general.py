@@ -397,7 +397,7 @@ def describe_ballot_website():
 
             expect(len(website.parse())) == 27
 
-        def with_community_college_proposal_in_body(expect, constants):
+        def with_community_college_proposal_no_district(expect, constants):
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
                     category=constants.county, name="Oakland"
@@ -418,3 +418,25 @@ def describe_ballot_website():
             website.fetch()
 
             expect(len(website.parse())) == 27
+
+        def with_library_proposal_no_district(expect, constants):
+            models.Precinct.objects.get_or_create(
+                county=models.District.objects.get_or_create(
+                    category=constants.county, name="Wayne"
+                )[0],
+                jurisdiction=models.District.objects.get_or_create(
+                    category=constants.jurisdiction,
+                    name="City of Grosse Pointe",
+                )[0],
+                ward='',
+                number='1',
+                mi_sos_id=6348,
+            )
+
+            website = models.BallotWebsite(
+                mi_sos_election_id=constants.election.mi_sos_id,
+                mi_sos_precinct_id=6348,
+            )
+            website.fetch()
+
+            expect(len(website.parse())) == 30

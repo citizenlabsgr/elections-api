@@ -39,7 +39,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, start: int, limit: int, verbosity: int, **_kwargs):
-        log.init(reset=True, debug=verbosity >= 2)
+        log.init(reset=True, verbosity=verbosity)
 
         self.ballot_fetches = 0
         self.max_ballot_fetches = limit

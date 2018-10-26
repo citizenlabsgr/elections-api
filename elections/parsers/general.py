@@ -419,7 +419,7 @@ def handle_proposals(
     elif category.name == "County":
         log.debug('Inferring district as county')
         district = precinct.county
-    elif category.name in {"Jurisdiction", "City", "Township"}:
+    elif category.name in {"Jurisdiction", "City", "Township", "Village"}:
         log.debug('Inferring district as jurisdiction')
         district = precinct.jurisdiction
     else:
