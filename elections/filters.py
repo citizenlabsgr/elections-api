@@ -21,22 +21,22 @@ class InitialilzedFilterSet(filters.FilterSet):
 
 class VoterFilter(filters.FilterSet):
     first_name = filters.CharFilter(
-        name='first_name',
+        field_name='first_name',
         required=True,
         help_text="Legal first name of potential voter.",
     )
     last_name = filters.CharFilter(
-        name='last_name',
+        field_name='last_name',
         required=True,
         help_text="Last name of potential voter.",
     )
     zip_code = filters.NumberFilter(
-        name='zip_code',
+        field_name='zip_code',
         required=True,
         help_text="5-digit zip code of voter's home address.",
     )
     birth_date = filters.DateFilter(
-        name='birth_date',
+        field_name='birth_date',
         required=True,
         help_text="Date (YYYY-MM-DD) voter was born.",
     )
@@ -49,7 +49,7 @@ class VoterFilter(filters.FilterSet):
 class ElectionFilter(InitialilzedFilterSet):
 
     active = filters.BooleanFilter(
-        name='active',
+        field_name='active',
         initial=True,
         help_text="Include only recent and upcoming elections. Defaults to true.",
     )
@@ -64,12 +64,12 @@ class PrecinctFilter(filters.FilterSet):
     # ID lookup
 
     county_id = filters.NumberFilter(
-        name='county',
+        field_name='county',
         label="County ID",
         help_text="Integer value identifying a specific county.",
     )
     jurisdiction_id = filters.NumberFilter(
-        name='jurisdiction',
+        field_name='jurisdiction',
         label="Jurisdiction ID",
         help_text="Integer value identifying a specific jurisdiction.",
     )
@@ -77,18 +77,20 @@ class PrecinctFilter(filters.FilterSet):
     # Value lookup
 
     county = filters.CharFilter(
-        name='county__name', label="County", help_text="Name of the county."
+        field_name='county__name',
+        label="County",
+        help_text="Name of the county.",
     )
     jurisdiction = filters.CharFilter(
-        name='jurisdiction__name',
+        field_name='jurisdiction__name',
         label="Jurisdiction",
         help_text="Name of the jurisdiction.",
     )
     ward = filters.CharFilter(
-        name='ward', help_text="Ward containing the precinct."
+        field_name='ward', help_text="Ward containing the precinct."
     )
     number = filters.CharFilter(
-        name='number', help_text="Number of the precinct."
+        field_name='number', help_text="Number of the precinct."
     )
 
     class Meta:
@@ -108,7 +110,7 @@ class BallotFilter(InitialilzedFilterSet):
     # Election ID lookup
 
     election_id = filters.NumberFilter(
-        name='election',
+        field_name='election',
         label="Election ID",
         help_text="Integer value identifying a specific election.",
     )
@@ -116,7 +118,7 @@ class BallotFilter(InitialilzedFilterSet):
     # Election value lookup
 
     active_election = filters.BooleanFilter(
-        name='election__active',
+        field_name='election__active',
         initial=True,
         help_text="Include only recent and upcoming elections. Defaults to true.",
     )
@@ -124,7 +126,7 @@ class BallotFilter(InitialilzedFilterSet):
     # Precinct ID lookup
 
     precinct_id = filters.NumberFilter(
-        name='precinct',
+        field_name='precinct',
         label="Precinct ID",
         help_text="Integer value identifying a specific precinct.",
     )
@@ -132,22 +134,22 @@ class BallotFilter(InitialilzedFilterSet):
     # Precinct value lookup
 
     precinct_county = filters.CharFilter(
-        name='precinct__county__name',
+        field_name='precinct__county__name',
         label="County",
         help_text="Name of the precinct's county.",
     )
     precinct_jurisdiction = filters.CharFilter(
-        name='precinct__jurisdiction__name',
+        field_name='precinct__jurisdiction__name',
         label="Jurisdiction",
         help_text="Name of the precinct's jurisdiction.",
     )
     precinct_ward = filters.CharFilter(
-        name='precinct__ward',
+        field_name='precinct__ward',
         label="Ward",
         help_text="Ward containing the precinct.",
     )
     precinct_number = filters.CharFilter(
-        name='precinct__number',
+        field_name='precinct__number',
         label="Precinct",
         help_text="Number of the precinct.",
     )
@@ -170,7 +172,7 @@ class ProposalFilter(BallotFilter):
     # Precinct ID lookup
 
     precinct_id = filters.NumberFilter(
-        name='precincts',
+        field_name='precincts',
         label="Precinct ID",
         help_text="Integer value identifying a specific precinct.",
     )
@@ -178,22 +180,22 @@ class ProposalFilter(BallotFilter):
     # Precinct value lookup
 
     precinct_county = filters.CharFilter(
-        name='precincts__county__name',
+        field_name='precincts__county__name',
         label="County",
         help_text="Name of the precinct's county.",
     )
     precinct_jurisdiction = filters.CharFilter(
-        name='precincts__jurisdiction__name',
+        field_name='precincts__jurisdiction__name',
         label="Jurisdiction",
         help_text="Name of the precinct's jurisdiction.",
     )
     precinct_ward = filters.CharFilter(
-        name='precincts__ward',
+        field_name='precincts__ward',
         label="Ward",
         help_text="Ward containing the precinct.",
     )
     precinct_number = filters.CharFilter(
-        name='precincts__number',
+        field_name='precincts__number',
         label="Precinct",
         help_text="Number of the precinct.",
     )
