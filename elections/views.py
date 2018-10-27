@@ -146,7 +146,7 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
 
     http_method_names = ['get']
     queryset = models.Proposal.objects.select_related(
-        'election', 'district', 'district__category'
+        'election', 'district__category'
     ).distinct()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.ProposalFilter
@@ -204,9 +204,9 @@ class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = (
         models.Position.objects.select_related(
-            'election', 'district', 'district__category'
+            'election', 'district__category'
         )
-        .prefetch_related('candidates', 'candidates__party')
+        .prefetch_related('candidates__party')
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
