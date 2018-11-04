@@ -2,10 +2,11 @@
 
 import itertools
 import re
-from typing import Tuple
+from typing import Optional, Tuple
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 import bugsnag
 import log
@@ -48,6 +49,11 @@ class Command(BaseCommand):
         self.max_ballot_misses = 10
 
         election = self.get_current_election()
+        if election:
+            self.stdout.write(f'Crawling precincts for election: {election}')
+        else:
+            log.warn("No elections to crawl")
+            return
 
         self.stdout.write('')
         for mi_sos_precinct_id in itertools.count(start=start):
@@ -65,15 +71,12 @@ class Command(BaseCommand):
                     bugsnag.notify(e)
                 raise e from None
 
-    def get_current_election(self) -> Election:
-        election = (
-            Election.objects.filter(active=True)
+    def get_current_election(self) -> Optional[Election]:
+        return (
+            Election.objects.filter(active=True, date__gt=timezone.now())
             .exclude(mi_sos_id=None)
             .first()
         )
-        self.stdout.write(f'Crawling precincts for election: {election}')
-        # TODO: Ensure election date is in the future
-        return election
 
     def should_stop(self) -> bool:
         if self.ballot_misses >= self.max_ballot_misses:
