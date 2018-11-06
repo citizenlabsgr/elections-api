@@ -201,6 +201,7 @@ def handle_partisan_section(
 
     # Parse candidates
 
+    has_running_mates = False
     for index, td in enumerate(table.find_all(class_='candidate')):
 
         log.debug(f'Parsing candidate: {td.text!r}')
@@ -212,9 +213,10 @@ def handle_partisan_section(
 
         if " and " in position.name and index % 2:
             log.warn(f'Skipped running mate: {candidate_name}')
+            has_running_mates = True
             continue
 
-        party = parties[index // 2]
+        party = parties[index // (2 if has_running_mates else 1)]
 
         candidate, _ = Candidate.objects.get_or_create(
             name=candidate_name, party=party, position=position

@@ -96,6 +96,30 @@ def describe_ballot_website():
 
             expect(len(website.parse())) == 24
 
+            expect(
+                models.Candidate.objects.get(name="Bill Schuette").party.name
+            ) == "Republican"
+            expect(
+                models.Candidate.objects.get(
+                    name="Gretchen Whitmer"
+                ).party.name
+            ) == "Democratic"
+            expect(
+                models.Candidate.objects.get(name="Bill Gelineau").party.name
+            ) == "Libertarian"
+
+            expect(
+                models.Candidate.objects.get(name="John James").party.name
+            ) == "Republican"
+            expect(
+                models.Candidate.objects.get(name="Debbie Stabenow").party.name
+            ) == "Democratic"
+            expect(
+                models.Candidate.objects.get(
+                    name="George E. Huffman III"
+                ).party.name
+            ) == "U.S. Taxpayers"
+
         def with_local_school_position(expect, constants):
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
