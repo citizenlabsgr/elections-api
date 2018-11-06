@@ -96,6 +96,9 @@ def describe_ballot_website():
 
             expect(len(website.parse())) == 24
 
+            candidate = models.Candidate.objects.get(name="Debbie Stabenow")
+            expect(candidate.party.name) == "Democratic"
+
         def with_local_school_position(expect, constants):
             models.Precinct.objects.get_or_create(
                 county=models.District.objects.get_or_create(
