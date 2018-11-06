@@ -22,8 +22,8 @@ class DistrictCategory(TimeStampedModel):
     name = models.CharField(max_length=50, unique=True)
 
     class Meta:
-        ordering = ['name']
         verbose_name_plural = "District Categories"
+        ordering = ['name']
 
     def __str__(self) -> str:
         if self.name in {"County", "Jurisdiction", "City", "Township"}:
@@ -233,6 +233,7 @@ class Party(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "Parties"
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -461,6 +462,7 @@ class Proposal(BallotItem):
 
     class Meta:
         unique_together = ['election', 'district', 'name']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -474,6 +476,7 @@ class Position(BallotItem):
 
     class Meta:
         unique_together = ['election', 'district', 'name', 'term', 'seats']
+        ordering = ['name', 'seats']
 
     def __str__(self):
         if self.term:
@@ -501,6 +504,7 @@ class Candidate(TimeStampedModel):
 
     class Meta:
         unique_together = ['position', 'name']
+        ordering = ['name']
 
     def __str__(self) -> str:
         return f'{self.name} for {self.position}'
