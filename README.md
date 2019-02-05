@@ -8,7 +8,7 @@ APIs to check voter registration status and view upcoming ballots in Michigan.
 Quick links:
 - Browse the source: https://github.com/citizenlabsgr/elections-api
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues
-- Contact the maintainers: https://citizenlabs.org/contact/
+- Contact the maintainers: https://citizenlabs.org/contact
 
 ## Overview
 
