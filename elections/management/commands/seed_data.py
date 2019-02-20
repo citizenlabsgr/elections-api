@@ -46,9 +46,17 @@ class Command(BaseCommand):
         election, _ = models.Election.objects.get_or_create(
             name="State General",
             date=pendulum.parse("2018-11-06", tz='America/Detroit'),
-            defaults=dict(active=True, mi_sos_id=676),
+            defaults=dict(active=False, mi_sos_id=676),
         )
         self.stdout.write(f"Added election: {election}")
+
+        election, _ = models.Election.objects.get_or_create(
+            name="May Consolidated",
+            date=pendulum.parse("2019-05-07", tz='America/Detroit'),
+            defaults=dict(active=True, mi_sos_id=677),
+        )
+        self.stdout.write(f"Added election: {election}")
+
 
     def fetch_districts(self):
         voter = models.Voter(
