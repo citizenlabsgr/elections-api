@@ -13,9 +13,9 @@ def describe_registrations():
 
     def with_valid_identity(expect, anything, client, url, db):
         response = client.get(
-            url + '?first_name=Jace'
-            '&last_name=Browning'
-            '&birth_date=1987-06-02'
+            url + '?first_name=Rosalynn'
+            '&last_name=Bliss'
+            '&birth_date=1975-08-03'
             '&zip_code=49503'
         )
 
@@ -27,8 +27,8 @@ def describe_registrations():
                 'id': anything,
                 'county': 'Kent',
                 'jurisdiction': 'City of Grand Rapids',
-                'ward': '1',
-                'number': '9',
+                'ward': '2',
+                'number': '30',
             },
             'districts': [
                 {
@@ -53,7 +53,7 @@ def describe_registrations():
                     'url': anything,
                     'id': anything,
                     'category': 'County Commissioner District',
-                    'name': '15th District',
+                    'name': '18th District',
                 },
                 {
                     'url': anything,

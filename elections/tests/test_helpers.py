@@ -11,9 +11,9 @@ from .. import helpers, models
 @pytest.fixture
 def voter():
     return models.Voter(
-        first_name="Jace",
-        last_name="Browning",
-        birth_date=pendulum.parse("1987-06-02", tz='America/Detroit'),
+        first_name="Rosalynn",
+        last_name="Bliss",
+        birth_date=pendulum.parse("1975-08-03"),
         zip_code="49503",
     )
 
@@ -39,7 +39,7 @@ def describe_fetch_registration_status_data():
                 "Circuit Court": "17th Circuit",
                 "Community College": "Grand Rapids Community College",
                 "County": "Kent County",
-                "County Commissioner": "15th District",
+                "County Commissioner": "18th District",
                 "Court of Appeals": "3rd District",
                 "District Court": "61st District",
                 "Intermediate School": "Kent ISD",
@@ -47,7 +47,7 @@ def describe_fetch_registration_status_data():
                 "Library": "",
                 "Metropolitan": "",
                 "Municipal Court": "",
-                "Precinct": "9",
+                "Precinct": "30",
                 "Probate Court": "Kent County Probate Court",
                 "Probate District Court": "",
                 "School": "Grand Rapids Public Schools",
@@ -55,7 +55,7 @@ def describe_fetch_registration_status_data():
                 "State Senate": "29th District",
                 "US Congress": "3rd District",
                 "Village": "",
-                "Ward": "1",
+                "Ward": "2",
             },
         }
 

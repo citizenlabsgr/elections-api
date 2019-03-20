@@ -39,6 +39,12 @@ def fetch_registration_status_data(voter):
 
     # Handle recently moved voters
     if "you have recently moved" in response.text:
+        #######################################################################
+        # TODO: Figure out what a moved voter looks like
+        import bugsnag
+
+        bugsnag.notify(f'Moved {voter}')
+        #######################################################################
         log.warn(f"Handling recently moved voter: {voter}")
         page = find_or_abort(
             r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",

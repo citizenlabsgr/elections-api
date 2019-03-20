@@ -59,9 +59,9 @@ class Command(BaseCommand):
 
     def fetch_districts(self):
         voter = models.Voter(
-            first_name="Jace",
-            last_name="Browning",
-            birth_date=pendulum.parse("1987-06-02"),
+            first_name="Rosalynn",
+            last_name="Bliss",
+            birth_date=pendulum.parse("1975-08-03"),
             zip_code="49503",
         )
         voter.fetch_registration_status()
