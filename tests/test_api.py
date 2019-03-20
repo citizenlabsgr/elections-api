@@ -228,7 +228,7 @@ def describe_ballots():
                         'ward': '2',
                         'number': '1A',
                     },
-                    'mi_sos_url': 'https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1111&ed=2222',
+                    'mi_sos_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
                 }
             ]
 

@@ -155,8 +155,8 @@ class Voter(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     @property
-    def birth_month(self) -> str:
-        return pendulum.parse(str(self.birth_date)).format("MMMM")
+    def birth_month(self) -> int:
+        return self.birth_date.month
 
     @property
     def birth_year(self) -> int:
@@ -314,6 +314,7 @@ class BallotWebsite(models.Model):
             headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Geck o/20100101 Firefox/40.1'
             },
+            verify=False,
         )
         response.raise_for_status()
         self.fetched = True

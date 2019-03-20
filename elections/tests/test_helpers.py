@@ -20,6 +20,7 @@ def voter():
 
 @pytest.fixture
 def moved_voter():
+    pytest.skip("Moved voter required")
     return models.Voter(
         first_name="Samuel",
         last_name="Bleckley",
