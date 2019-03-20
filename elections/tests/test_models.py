@@ -77,7 +77,7 @@ def describe_voter_identity():
 
     def describe_birth_month():
         def is_parsed_from_date(expect, voter):
-            expect(voter.birth_month) == "June"
+            expect(voter.birth_month) == 6
 
     def describe_birth_year():
         def is_parsed_from_date(expect, voter):
@@ -127,7 +127,7 @@ def describe_ballot_website():
         def it_includes_ids_from_election_and_precinct(expect, website):
             expect(
                 website.mi_sos_url
-            ) == "https://webapps.sos.state.mi.us/MVIC/SampleBallot.aspx?d=1828&ed=676"
+            ) == "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1828/676/"
 
 
 def describe_ballot():

@@ -57,7 +57,6 @@ class Command(BaseCommand):
         )
         self.stdout.write(f"Added election: {election}")
 
-
     def fetch_districts(self):
         voter = models.Voter(
             first_name="Jace",
