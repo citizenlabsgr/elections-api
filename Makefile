@@ -32,7 +32,7 @@ run: install migrate
 
 ###############################################################################
 
-PACKAGES := config elections scripts tests
+PACKAGES := config elections tests
 
 .PHONY: ci
 ci: check test
@@ -84,11 +84,6 @@ scrape: data
 reset: install
 	dropdb elections_dev; createdb elections_dev
 	make data
-
-.PHONY: readme
-readme: install elections/templates/index.html
-elections/templates/index.html: README.md scripts/render_readme.py
-	poetry run readme $< $@
 
 .PHONY: uml
 uml: install
