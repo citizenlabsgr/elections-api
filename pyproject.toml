@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "elections"
-version = "0.0.0"
+version = "1.0.0"
 description = "Voter registration status and ballots for Michigan."
 
 authors = ["Jace Browning <jacebrowning@gmail.com>"]
