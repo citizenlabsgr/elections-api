@@ -3,12 +3,15 @@
 [![CircleCI](https://circleci.com/gh/citizenlabsgr/elections-api.svg?style=svg)](https://circleci.com/gh/citizenlabsgr/elections-api)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/citizenlabsgr/elections-api.svg?columns=Backlog,Started,Review)](https://waffle.io/citizenlabsgr/elections-api)
 
+<!-- content -->
+
 APIs to check voter registration status and view upcoming ballots in Michigan.
 
 Quick links:
-- Browse the source: https://github.com/citizenlabsgr/elections-api
-- Report an issue: https://github.com/citizenlabsgr/elections-api/issues
-- Contact the maintainers: https://citizenlabs.org/contact
+
+- Browse the source: https://github.com/citizenlabsgr/elections-api/
+- Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
+- Contact the maintainers: https://citizenlabs.org/contact/
 
 ## Overview
 
@@ -20,7 +23,7 @@ Check your registration status and fetch your voting precinct:
 
 ```
 http GET https://michiganelections.io/api/registrations/ "Accept: application/json; version=0" \
-first_name==Rosalynn last_name==Bliss birth_date==1975-08-03 zip_code==49503
+  first_name==Rosalynn last_name==Bliss birth_date==1975-08-03 zip_code==49503
 ```
 
 ### Sample Ballots
@@ -29,7 +32,7 @@ Get a link to your sample ballot for upcoming elections:
 
 ```
 http GET https://michiganelections.io/api/ballots/ "Accept: application/json; version=0" \
-precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
 ```
 
 ### Ballot Details
@@ -38,14 +41,14 @@ Get more information about the specific proposals on your ballot:
 
 ```
 http GET https://michiganelections.io/api/proposals/ "Accept: application/json; version=0" \
-precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
 ```
 
 Get more information about the specific positions and candidates on your ballot:
 
 ```
 http GET https://michiganelections.io/api/positions/ "Accept: application/json; version=0" \
-precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" precinct_ward==2 precinct_number==30
 ```
 
 ## Documentation

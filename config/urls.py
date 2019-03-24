@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.conf import settings
 from django.contrib import admin
 from django.shortcuts import render
@@ -5,14 +7,21 @@ from django.urls import include, path
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from markdown import markdown
 
 
 def index(request):
-    return render(
-        request,
-        'index.html',
-        {'BASE_URL': settings.BASE_URL, 'BASE_DOMAIN': settings.BASE_DOMAIN},
-    )
+    with Path('README.md').open() as readme:
+        text = readme.read()
+
+    text = text.split('<!-- content -->')[1]
+    text = text.replace('https://michiganelections.io', settings.BASE_URL)
+    text = text.replace('>michiganelections.io', f'>{settings.BASE_DOMAIN}')
+
+    html = markdown(text, extensions=['pymdownx.magiclink'])
+    html = html.replace(' \\', ' \\<br>&nbsp;')
+
+    return render(request, 'index.html', {'body': html})
 
 
 schema_view = get_schema_view(
