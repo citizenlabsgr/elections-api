@@ -329,7 +329,7 @@ class BallotWebsite(models.Model):
             self.valid = False
             table_count = -1
         else:
-            assert "General Information" in self.mi_sos_html
+            assert "Sample Ballot" in self.mi_sos_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
