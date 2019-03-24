@@ -34,7 +34,8 @@ Get a link to your sample ballot for upcoming elections:
 ```
 http GET https://michiganelections.io/api/ballots/ \
   "Accept: application/json; version=1" \
-  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ 
+  precinct_ward==2 precinct_number==30
 ```
 
 ### Ballot Details
@@ -44,7 +45,8 @@ Get more information about the specific proposals on your ballot:
 ```
 http GET https://michiganelections.io/api/proposals/ \
   "Accept: application/json; version=1" \
-  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ 
+  precinct_ward==2 precinct_number==30
 ```
 
 Get more information about the specific positions and candidates on your ballot:
@@ -52,7 +54,8 @@ Get more information about the specific positions and candidates on your ballot:
 ```
 http GET https://michiganelections.io/api/positions/ \
   "Accept: application/json; version=1" \
-  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ precinct_ward==2 precinct_number==30
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \ 
+  precinct_ward==2 precinct_number==30
 ```
 
 ## Documentation
