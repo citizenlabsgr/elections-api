@@ -10,8 +10,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name='position',
-            unique_together={
-                ('election', 'district', 'name', 'term', 'seats')
-            },
+            unique_together={('election', 'district', 'name', 'term', 'seats')},
         )
     ]

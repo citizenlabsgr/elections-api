@@ -12,19 +12,10 @@ class DefaultFiltersMixin(admin.ModelAdmin):
         default_filters = getattr(self, 'default_filters', [])
         query_string = request.META['QUERY_STRING']
         http_referer = request.META.get('HTTP_REFERER', "")
-        if all(
-            [
-                default_filters,
-                not query_string,
-                request.path not in http_referer,
-            ]
-        ):
+        if all([default_filters, not query_string, request.path not in http_referer]):
             election = models.Election.objects.last()
             params = [
-                f.format(
-                    election_id=election.id,
-                    mi_sos_election_id=election.mi_sos_id,
-                )
+                f.format(election_id=election.id, mi_sos_election_id=election.mi_sos_id)
                 for f in default_filters
             ]
             return redirect(request.path + '?' + '&'.join(params))
@@ -98,17 +89,8 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id', 'mi_sos_html']
 
-    list_filter = [
-        'mi_sos_election_id',
-        'source',
-        'fetched',
-        'valid',
-        'parsed',
-    ]
-    default_filters = [
-        'mi_sos_election_id={mi_sos_election_id}',
-        'fetched__exact=1',
-    ]
+    list_filter = ['mi_sos_election_id', 'source', 'fetched', 'valid', 'parsed']
+    default_filters = ['mi_sos_election_id={mi_sos_election_id}', 'fetched__exact=1']
 
     list_display = [
         'id',
@@ -138,9 +120,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     def Ballot(self, obj):
         if obj.ballot:
-            url = reverse(
-                'admin:elections_ballot_change', args=[obj.ballot.id]
-            )
+            url = reverse('admin:elections_ballot_change', args=[obj.ballot.id])
             return format_html(f"<a href={url!r}>{obj.ballot.id}</a>")
         return None
 

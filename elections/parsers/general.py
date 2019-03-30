@@ -170,17 +170,12 @@ def handle_partisan_section(
         position_name = f'{position_name} ({party} | {district})'
         district = None
     position, _ = Position.objects.get_or_create(
-        election=election,
-        district=district,
-        name=position_name,
-        term=term,
-        seats=seats,
+        election=election, district=district, name=position_name, term=term, seats=seats
     )
     log.info(f'Parsed {position!r}')
     if position.seats != seats:
         bugsnag.notify(
-            f'Number of seats for {position} differs: '
-            f'{position.seats} vs. {seats}'
+            f'Number of seats for {position} differs: ' f'{position.seats} vs. {seats}'
         )
 
     # Add precinct
@@ -285,12 +280,7 @@ def handle_nonpartisan_section(
         if category.name == "State":
             log.debug(f'Assuming district is state from {category}')
             district = District.objects.get(category=category, name="Michigan")
-        elif category.name in {
-            "City",
-            "Township",
-            "Metropolitan",
-            "Authority",
-        }:
+        elif category.name in {"City", "Township", "Metropolitan", "Authority"}:
             log.debug(f'Assuming district is jurisdiction from {category}')
             district = precinct.jurisdiction
         elif category.name in {"Library"} and 'vote for' in td.text.lower():
@@ -318,10 +308,7 @@ def handle_nonpartisan_section(
     if len(terms) >= 2:
         if "term" in terms[-2].text.lower():
             term = terms[-2].text
-        if (
-            "position" in terms[1].text.lower()
-            or "judgeship" in terms[1].text.lower()
-        ):
+        if "position" in terms[1].text.lower() or "judgeship" in terms[1].text.lower():
             assert term, f'Expected term: {term!r}'
             term += f', {terms[1].text}'
         seats = terms[-1].text

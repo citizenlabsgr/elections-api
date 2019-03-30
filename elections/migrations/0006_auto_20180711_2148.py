@@ -19,8 +19,6 @@ class Migration(migrations.Migration):
             model_name='proposal', old_name='poll', new_name='precinct'
         ),
         migrations.RenameField(
-            model_name='registrationstatus',
-            old_name='poll',
-            new_name='precinct',
+            model_name='registrationstatus', old_name='poll', new_name='precinct'
         ),
     ]

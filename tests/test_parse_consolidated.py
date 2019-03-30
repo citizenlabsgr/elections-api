@@ -35,9 +35,7 @@ def constants(db):
     # Categories
 
     state, _ = models.DistrictCategory.objects.get_or_create(name="State")
-    constants.county, _ = models.DistrictCategory.objects.get_or_create(
-        name="County"
-    )
+    constants.county, _ = models.DistrictCategory.objects.get_or_create(name="County")
     constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
         name="Jurisdiction"
     )
@@ -89,8 +87,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6009,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6009
             )
             website.fetch()
 

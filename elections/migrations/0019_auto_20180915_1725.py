@@ -9,9 +9,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name='ballotwebsite',
-            old_name='fetched',
-            new_name='last_fetch',
+            model_name='ballotwebsite', old_name='fetched', new_name='last_fetch'
         ),
         migrations.RemoveField(model_name='ballotwebsite', name='created'),
         migrations.RemoveField(model_name='ballotwebsite', name='modified'),

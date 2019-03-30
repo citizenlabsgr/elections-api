@@ -5,7 +5,7 @@
 
 <!-- content -->
 
-APIs to check voter registration status and view upcoming ballots in Michigan.
+APIs to check voter registration status and view ballots for all elections in Michigan.
 
 Quick links:
 
@@ -15,7 +15,7 @@ Quick links:
 
 ## Overview
 
-These examples use [HTTPie](https://httpie.org/) for brevity, but the interactive documentation below includes raw `curl` requests.
+These examples use [HTTPie](https://httpie.org/) for brevity, but the interactive documentation below shows how to do the same using raw `curl` requests.
 
 ### Registration Status
 
@@ -29,7 +29,7 @@ http GET https://michiganelections.io/api/registrations/ \
 
 ### Sample Ballots
 
-Get a link to your sample ballot for upcoming elections:
+Get a link to the official sample ballot for upcoming elections:
 
 ```
 http GET https://michiganelections.io/api/ballots/ \

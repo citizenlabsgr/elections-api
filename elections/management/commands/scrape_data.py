@@ -85,10 +85,7 @@ class Command(BaseCommand):
             )
             return True
 
-        if (
-            self.max_ballot_fetches
-            and self.ballot_fetches >= self.max_ballot_fetches
-        ):
+        if self.max_ballot_fetches and self.ballot_fetches >= self.max_ballot_fetches:
             self.stdout.write(
                 f'Stopping at {self.ballot_fetches} ballot fetches (limit: {self.max_ballot_fetches})'
             )
@@ -102,8 +99,7 @@ class Command(BaseCommand):
         fetched_or_parsed = False
 
         website, created = BallotWebsite.objects.get_or_create(
-            mi_sos_election_id=election.mi_sos_id,
-            mi_sos_precinct_id=mi_sos_precinct_id,
+            mi_sos_election_id=election.mi_sos_id, mi_sos_precinct_id=mi_sos_precinct_id
         )
         if created:
             self.stdout.write(f'Added website: {website}')
@@ -200,9 +196,7 @@ class Command(BaseCommand):
 
         return ballot
 
-    def get_district_categories(
-        self
-    ) -> Tuple[DistrictCategory, DistrictCategory]:
+    def get_district_categories(self) -> Tuple[DistrictCategory, DistrictCategory]:
         return (
             DistrictCategory.objects.get(name="County"),
             DistrictCategory.objects.get(name="Jurisdiction"),

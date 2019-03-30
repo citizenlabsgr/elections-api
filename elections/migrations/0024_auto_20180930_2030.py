@@ -15,7 +15,6 @@ class Migration(migrations.Migration):
             preserve_default=False,
         ),
         migrations.AlterUniqueTogether(
-            name='position',
-            unique_together={('election', 'district', 'name', 'term')},
+            name='position', unique_together={('election', 'district', 'name', 'term')}
         ),
     ]

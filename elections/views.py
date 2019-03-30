@@ -25,9 +25,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     pagination_class = None
 
     def list(self, request):  # pylint: disable=arguments-differ
-        input_serializer = serializers.VoterSerializer(
-            data=request.query_params
-        )
+        input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         voter = models.Voter(**input_serializer.validated_data)
 
@@ -105,9 +103,7 @@ class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
     """
 
     http_method_names = ['options', 'get']
-    queryset = models.Precinct.objects.select_related(
-        'county', 'jurisdiction'
-    ).all()
+    queryset = models.Precinct.objects.select_related('county', 'jurisdiction').all()
     filter_backends = [filters.DjangoFilterBackend]
     filter_class = filters.PrecinctFilter
     serializer_class = serializers.PrecinctSerializer
@@ -181,9 +177,7 @@ class CandidateViewSet(CacheMixin, viewsets.ModelViewSet):
     """
 
     http_method_names = ['get']
-    queryset = models.Candidate.objects.select_related(
-        'position', 'party'
-    ).all()
+    queryset = models.Candidate.objects.select_related('position', 'party').all()
     # TODO: Add support for filtering candidates
     # filter_backends = [filters.DjangoFilterBackend]
     # filter_class = filters.CandidateFilter
@@ -203,9 +197,7 @@ class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
 
     http_method_names = ['get']
     queryset = (
-        models.Position.objects.select_related(
-            'election', 'district__category'
-        )
+        models.Position.objects.select_related('election', 'district__category')
         .prefetch_related('candidates__party')
         .distinct()
     )

@@ -64,9 +64,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {'format': '%(levelname)s: %(name)s: %(message)s'}
-    },
+    'formatters': {'simple': {'format': '%(levelname)s: %(name)s: %(message)s'}},
     'handlers': {
         'console': {
             'level': 'INFO',

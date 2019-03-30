@@ -31,9 +31,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name='position',
-            name='name',
-            field=models.CharField(max_length=200),
+            model_name='position', name='name', field=models.CharField(max_length=200)
         ),
         migrations.AlterField(
             model_name='proposal',
@@ -45,8 +43,6 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name='proposal',
-            name='name',
-            field=models.CharField(max_length=200),
+            model_name='proposal', name='name', field=models.CharField(max_length=200)
         ),
     ]

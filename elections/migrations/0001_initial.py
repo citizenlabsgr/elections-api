@@ -109,10 +109,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('name', models.CharField(max_length=100)),
-                (
-                    'population',
-                    models.PositiveIntegerField(blank=True, null=True),
-                ),
+                ('population', models.PositiveIntegerField(blank=True, null=True)),
             ],
             options={'ordering': ['-population']},
         ),
@@ -183,10 +180,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('active', models.BooleanField(default=False)),
                 ('reference_url', models.URLField(blank=True, null=True)),
-                (
-                    'mi_sos_id',
-                    models.PositiveIntegerField(blank=True, null=True),
-                ),
+                ('mi_sos_id', models.PositiveIntegerField(blank=True, null=True)),
             ],
             options={'ordering': ['-date']},
         ),
@@ -252,10 +246,7 @@ class Migration(migrations.Migration):
                 ),
                 ('ward', models.CharField(blank=True, max_length=2)),
                 ('precinct', models.CharField(blank=True, max_length=3)),
-                (
-                    'mi_sos_id',
-                    models.PositiveIntegerField(blank=True, null=True),
-                ),
+                ('mi_sos_id', models.PositiveIntegerField(blank=True, null=True)),
                 (
                     'county',
                     models.ForeignKey(
@@ -307,10 +298,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True)),
                 ('reference_url', models.URLField(blank=True, null=True)),
                 ('seats', models.PositiveIntegerField(default=1)),
-                (
-                    'candidates',
-                    models.ManyToManyField(to='elections.Candidate'),
-                ),
+                ('candidates', models.ManyToManyField(to='elections.Candidate')),
                 (
                     'district',
                     models.ForeignKey(
@@ -458,16 +446,14 @@ class Migration(migrations.Migration):
             model_name='ballot',
             name='election',
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                to='elections.Election',
+                on_delete=django.db.models.deletion.CASCADE, to='elections.Election'
             ),
         ),
         migrations.AddField(
             model_name='ballot',
             name='poll',
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                to='elections.Poll',
+                on_delete=django.db.models.deletion.CASCADE, to='elections.Poll'
             ),
         ),
         migrations.AlterUniqueTogether(

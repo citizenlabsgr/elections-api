@@ -81,17 +81,10 @@ class Command(BaseCommand):
                                 website.source = True
                                 website.save()
 
-                            if (
-                                ballot.precinct.mi_sos_id
-                                != website.mi_sos_precinct_id
-                            ):
-                                self.stdout.write(
-                                    f'Set precinct ID: {ballot.precinct}'
-                                )
+                            if ballot.precinct.mi_sos_id != website.mi_sos_precinct_id:
+                                self.stdout.write(f'Set precinct ID: {ballot.precinct}')
                                 assert website.mi_sos_precinct_id
-                                ballot.precinct.mi_sos_id = (
-                                    website.mi_sos_precinct_id
-                                )
+                                ballot.precinct.mi_sos_id = website.mi_sos_precinct_id
                                 ballot.precinct.save()
 
                         elif website.source:

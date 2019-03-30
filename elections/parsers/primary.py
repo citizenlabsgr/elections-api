@@ -150,8 +150,7 @@ def handle_partisan_positions(
     log.info(f'Parsed {position!r}')
     if position.seats != seats:
         bugsnag.notify(
-            f'Number of seats for {position} differs: '
-            f'{position.seats} vs. {seats}'
+            f'Number of seats for {position} differs: ' f'{position.seats} vs. {seats}'
         )
 
     # Add precinct
@@ -199,12 +198,7 @@ def handle_nonpartisan_section(table: element.Tag, **_) -> Optional[Party]:
 
 
 def handle_nonpartisan_positions(
-    table: element.Tag,
-    *,
-    election: Election,
-    precinct: Precinct,
-    party: Party,
-    **_,
+    table: element.Tag, *, election: Election, precinct: Precinct, party: Party, **_
 ) -> Optional[Proposal]:
     assert party, 'Party must be parsed before positions'
     if party.name != "Nonpartisan":

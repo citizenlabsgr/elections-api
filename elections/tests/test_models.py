@@ -38,9 +38,7 @@ def election():
 
 @pytest.fixture
 def website():
-    return models.BallotWebsite(
-        mi_sos_election_id=676, mi_sos_precinct_id=1828
-    )
+    return models.BallotWebsite(mi_sos_election_id=676, mi_sos_precinct_id=1828)
 
 
 @pytest.fixture
@@ -51,11 +49,7 @@ def precinct(district):
         category=models.DistrictCategory(name="Jurisdiction"),
     )
     return models.Precinct(
-        county=county,
-        jurisdiction=jurisdiction,
-        ward=1,
-        number='9',
-        mi_sos_id=1828,
+        county=county, jurisdiction=jurisdiction, ward=1, number='9', mi_sos_id=1828
     )
 
 
@@ -67,9 +61,7 @@ def ballot(election, precinct):
 def describe_voter_identity():
     def describe_repr():
         def it_includes_all_info(expect, voter):
-            expect(
-                repr(voter)
-            ) == "<voter: Jane Doe, birth=1985-06-19, zip=12345>"
+            expect(repr(voter)) == "<voter: Jane Doe, birth=1985-06-19, zip=12345>"
 
     def describe_str():
         def it_includes_full_name(expect, voter):

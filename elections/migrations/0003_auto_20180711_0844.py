@@ -11,7 +11,5 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='ballot', options={'ordering': ['election__date']}
         ),
-        migrations.AlterModelOptions(
-            name='election', options={'ordering': ['date']}
-        ),
+        migrations.AlterModelOptions(name='election', options={'ordering': ['date']}),
     ]

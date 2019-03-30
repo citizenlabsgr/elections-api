@@ -8,9 +8,7 @@ class Migration(migrations.Migration):
     dependencies = [('elections', '0003_auto_20180711_0844')]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='poll', options={'ordering': ['mi_sos_id']}
-        ),
+        migrations.AlterModelOptions(name='poll', options={'ordering': ['mi_sos_id']}),
         migrations.AlterUniqueTogether(
             name='poll',
             unique_together={

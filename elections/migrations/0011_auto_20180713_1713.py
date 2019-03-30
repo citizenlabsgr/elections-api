@@ -9,13 +9,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='source',
-            field=models.NullBooleanField(),
+            model_name='ballotwebsite', name='source', field=models.NullBooleanField()
         ),
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='valid',
-            field=models.NullBooleanField(),
+            model_name='ballotwebsite', name='valid', field=models.NullBooleanField()
         ),
     ]

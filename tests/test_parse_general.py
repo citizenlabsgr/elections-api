@@ -37,9 +37,7 @@ def constants(db):
     # Categories
 
     state, _ = models.DistrictCategory.objects.get_or_create(name="State")
-    constants.county, _ = models.DistrictCategory.objects.get_or_create(
-        name="County"
-    )
+    constants.county, _ = models.DistrictCategory.objects.get_or_create(name="County")
     constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
         name="Jurisdiction"
     )
@@ -82,8 +80,7 @@ def describe_ballot_website():
                     category=constants.county, name="Kent"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Grand Rapids",
+                    category=constants.jurisdiction, name="City of Grand Rapids"
                 )[0],
                 ward='1',
                 number='9',
@@ -91,8 +88,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=1828,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=1828
             )
             website.fetch()
 
@@ -102,9 +98,7 @@ def describe_ballot_website():
                 models.Candidate.objects.get(name="Bill Schuette").party.name
             ) == "Republican"
             expect(
-                models.Candidate.objects.get(
-                    name="Gretchen Whitmer"
-                ).party.name
+                models.Candidate.objects.get(name="Gretchen Whitmer").party.name
             ) == "Democratic"
             expect(
                 models.Candidate.objects.get(name="Bill Gelineau").party.name
@@ -117,9 +111,7 @@ def describe_ballot_website():
                 models.Candidate.objects.get(name="Debbie Stabenow").party.name
             ) == "Democratic"
             expect(
-                models.Candidate.objects.get(
-                    name="George E. Huffman III"
-                ).party.name
+                models.Candidate.objects.get(name="George E. Huffman III").party.name
             ) == "U.S. Taxpayers"
 
         def with_local_school_position(expect, constants):
@@ -128,8 +120,7 @@ def describe_ballot_website():
                     category=constants.county, name="Kent"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Grand Rapids",
+                    category=constants.jurisdiction, name="City of Grand Rapids"
                 )[0],
                 ward='1',
                 number='23',
@@ -137,8 +128,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=1848,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=1848
             )
             website.fetch()
 
@@ -158,8 +148,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6009,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6009
             )
             website.fetch()
 
@@ -179,8 +168,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=2,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=2
             )
             website.fetch()
 
@@ -200,8 +188,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=19,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=19
             )
             website.fetch()
 
@@ -213,8 +200,7 @@ def describe_ballot_website():
                     category=constants.county, name="Oakland"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Farmington Hills",
+                    category=constants.jurisdiction, name="City of Farmington Hills"
                 )[0],
                 ward='',
                 number='23',
@@ -222,8 +208,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=30,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=30
             )
             website.fetch()
 
@@ -243,8 +228,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=48,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=48
             )
             website.fetch()
 
@@ -256,8 +240,7 @@ def describe_ballot_website():
                     category=constants.county, name="Genesee"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="Mount Morris Township",
+                    category=constants.jurisdiction, name="Mount Morris Township"
                 )[0],
                 ward='',
                 number='11',
@@ -265,8 +248,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=128,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=128
             )
             website.fetch()
 
@@ -286,8 +268,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=182,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=182
             )
             website.fetch()
 
@@ -299,8 +280,7 @@ def describe_ballot_website():
                     category=constants.county, name="Genesee"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="Mount Morris Township",
+                    category=constants.jurisdiction, name="Mount Morris Township"
                 )[0],
                 ward='',
                 number='6',
@@ -308,8 +288,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=219,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=219
             )
             website.fetch()
 
@@ -329,8 +308,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6733,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6733
             )
             website.fetch()
 
@@ -350,8 +328,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6442,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6442
             )
             website.fetch()
 
@@ -371,8 +348,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=78,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=78
             )
             website.fetch()
 
@@ -395,8 +371,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=112,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=112
             )
             website.fetch()
 
@@ -408,8 +383,7 @@ def describe_ballot_website():
                     category=constants.county, name="Oakland"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="Charter Township of Lyon",
+                    category=constants.jurisdiction, name="Charter Township of Lyon"
                 )[0],
                 ward='',
                 number='7',
@@ -417,8 +391,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=169,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=169
             )
             website.fetch()
 
@@ -430,8 +403,7 @@ def describe_ballot_website():
                     category=constants.county, name="Wayne"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Grosse Pointe",
+                    category=constants.jurisdiction, name="City of Grosse Pointe"
                 )[0],
                 ward='',
                 number='1',
@@ -439,8 +411,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6348,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6348
             )
             website.fetch()
 

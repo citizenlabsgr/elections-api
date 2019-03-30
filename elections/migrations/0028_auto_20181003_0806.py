@@ -9,13 +9,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name='position',
-            name='name',
-            field=models.CharField(max_length=300),
+            model_name='position', name='name', field=models.CharField(max_length=300)
         ),
         migrations.AlterField(
-            model_name='proposal',
-            name='name',
-            field=models.CharField(max_length=300),
+            model_name='proposal', name='name', field=models.CharField(max_length=300)
         ),
     ]

@@ -31,9 +31,7 @@ def constants(db):
     # Categories
 
     state, _ = models.DistrictCategory.objects.get_or_create(name="State")
-    constants.county, _ = models.DistrictCategory.objects.get_or_create(
-        name="County"
-    )
+    constants.county, _ = models.DistrictCategory.objects.get_or_create(name="County")
     constants.jurisdiction, _ = models.DistrictCategory.objects.get_or_create(
         name="Jurisdiction"
     )
@@ -66,16 +64,14 @@ def describe_ballot_website():
                     category=constants.county, name="Macomb"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Sterling Heights",
+                    category=constants.jurisdiction, name="City of Sterling Heights"
                 )[0],
                 number='26',
                 mi_sos_id=2000,
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=2000,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=2000
             )
             website.fetch()
 
@@ -87,8 +83,7 @@ def describe_ballot_website():
                     category=constants.county, name="Kent"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Grand Rapids",
+                    category=constants.jurisdiction, name="City of Grand Rapids"
                 )[0],
                 ward='1',
                 number='9',
@@ -96,8 +91,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=1828,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=1828
             )
             website.fetch()
 
@@ -116,8 +110,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=3,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=3
             )
             website.fetch()
 
@@ -136,8 +129,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=2,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=2
             )
             website.fetch()
 
@@ -156,8 +148,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=6,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=6
             )
             website.fetch()
 
@@ -177,8 +168,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=10,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=10
             )
             website.fetch()
 
@@ -197,8 +187,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=67,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=67
             )
             website.fetch()
 
@@ -210,16 +199,14 @@ def describe_ballot_website():
                     category=constants.county, name="Berrien"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="St. Joseph Charter Township",
+                    category=constants.jurisdiction, name="St. Joseph Charter Township"
                 )[0],
                 number='1',
                 mi_sos_id=1523,
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=1523,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=1523
             )
             website.fetch()
 
@@ -238,8 +225,7 @@ def describe_ballot_website():
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=3,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=3
             )
             website.fetch()
 
@@ -251,16 +237,14 @@ def describe_ballot_website():
                     category=constants.county, name="Oakland"
                 )[0],
                 jurisdiction=models.District.objects.get_or_create(
-                    category=constants.jurisdiction,
-                    name="City of Farmington Hills",
+                    category=constants.jurisdiction, name="City of Farmington Hills"
                 )[0],
                 number='23',
                 mi_sos_id=30,
             )
 
             website = models.BallotWebsite(
-                mi_sos_election_id=constants.election.mi_sos_id,
-                mi_sos_precinct_id=30,
+                mi_sos_election_id=constants.election.mi_sos_id, mi_sos_precinct_id=30
             )
             website.fetch()
 

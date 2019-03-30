@@ -8,9 +8,7 @@ class Migration(migrations.Migration):
     dependencies = [('elections', '0029_auto_20181009_1849')]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='candidate', options={'ordering': ['name']}
-        ),
+        migrations.AlterModelOptions(name='candidate', options={'ordering': ['name']}),
         migrations.AlterModelOptions(
             name='party',
             options={'ordering': ['name'], 'verbose_name_plural': 'Parties'},
@@ -18,7 +16,5 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='position', options={'ordering': ['name', 'seats']}
         ),
-        migrations.AlterModelOptions(
-            name='proposal', options={'ordering': ['name']}
-        ),
+        migrations.AlterModelOptions(name='proposal', options={'ordering': ['name']}),
     ]

@@ -8,7 +8,5 @@ class Migration(migrations.Migration):
     dependencies = [('elections', '0007_auto_20180712_2221')]
 
     operations = [
-        migrations.RenameModel(
-            old_name='BallotWebpage', new_name='BallotWebsite'
-        )
+        migrations.RenameModel(old_name='BallotWebpage', new_name='BallotWebsite')
     ]

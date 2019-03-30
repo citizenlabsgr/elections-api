@@ -129,9 +129,7 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
-    precinct = models.ForeignKey(
-        Precinct, null=True, on_delete=models.SET_NULL
-    )
+    precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
 
@@ -213,9 +211,7 @@ class Voter(models.Model):
         if not precinct.mi_sos_id:
             bugsnag.notify(f'Precinct missing MI SOS ID: {precinct}')
 
-        status = RegistrationStatus(
-            registered=data['registered'], precinct=precinct
-        )
+        status = RegistrationStatus(registered=data['registered'], precinct=precinct)
         status.districts = districts
 
         return status
@@ -259,8 +255,7 @@ class Ballot(TimeStampedModel):
     @property
     def mi_sos_url(self) -> str:
         return helpers.build_mi_sos_url(
-            election_id=self.election.mi_sos_id,
-            precinct_id=self.precinct.mi_sos_id,
+            election_id=self.election.mi_sos_id, precinct_id=self.precinct.mi_sos_id
         )
 
 
@@ -297,8 +292,7 @@ class BallotWebsite(models.Model):
     @property
     def mi_sos_url(self) -> str:
         return helpers.build_mi_sos_url(
-            election_id=self.mi_sos_election_id,
-            precinct_id=self.mi_sos_precinct_id,
+            election_id=self.mi_sos_election_id, precinct_id=self.mi_sos_precinct_id
         )
 
     @property
@@ -490,18 +484,13 @@ class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
 
     position = models.ForeignKey(
-        Position,
-        null=True,
-        on_delete=models.CASCADE,
-        related_name='candidates',
+        Position, null=True, on_delete=models.CASCADE, related_name='candidates'
     )
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True)
-    party = models.ForeignKey(
-        Party, blank=True, null=True, on_delete=models.SET_NULL
-    )
+    party = models.ForeignKey(Party, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = ['position', 'name']

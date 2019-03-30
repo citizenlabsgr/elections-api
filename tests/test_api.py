@@ -43,12 +43,7 @@ def describe_registrations():
                     'category': 'Community College District',
                     'name': 'Grand Rapids Community College',
                 },
-                {
-                    'url': anything,
-                    'id': anything,
-                    'category': 'County',
-                    'name': 'Kent',
-                },
+                {'url': anything, 'id': anything, 'category': 'County', 'name': 'Kent'},
                 {
                     'url': anything,
                     'id': anything,
@@ -170,8 +165,7 @@ def describe_elections():
         def elections(db):
             factories.ElectionFactory.create(active=True)
             factories.ElectionFactory.create(
-                active=False,
-                date=pendulum.parse('2017-08-07', tz='America/Detroit'),
+                active=False, date=pendulum.parse('2017-08-07', tz='America/Detroit')
             )
 
         def filter_by_active(expect, client, url, elections):
@@ -200,12 +194,8 @@ def describe_ballots():
             ballot.precinct.save()
             return ballot
 
-        def filter_by_precinct_with_letter(
-            expect, client, url, ballot, anything
-        ):
-            response = client.get(
-                url + f'?precinct_number={ballot.precinct.number}'
-            )
+        def filter_by_precinct_with_letter(expect, client, url, ballot, anything):
+            response = client.get(url + f'?precinct_number={ballot.precinct.number}')
 
             expect(response.status_code) == 200
             expect(response.data['results']) == [

@@ -26,9 +26,7 @@ class VoterFilter(filters.FilterSet):
         help_text="Legal first name of potential voter.",
     )
     last_name = filters.CharFilter(
-        field_name='last_name',
-        required=True,
-        help_text="Last name of potential voter.",
+        field_name='last_name', required=True, help_text="Last name of potential voter."
     )
     zip_code = filters.NumberFilter(
         field_name='zip_code',
@@ -77,9 +75,7 @@ class PrecinctFilter(filters.FilterSet):
     # Value lookup
 
     county = filters.CharFilter(
-        field_name='county__name',
-        label="County",
-        help_text="Name of the county.",
+        field_name='county__name', label="County", help_text="Name of the county."
     )
     jurisdiction = filters.CharFilter(
         field_name='jurisdiction__name',

@@ -55,9 +55,7 @@ class Command(BaseCommand):
             "Authority",
             "Library",
         ]:
-            category, created = DistrictCategory.objects.get_or_create(
-                name=name
-            )
+            category, created = DistrictCategory.objects.get_or_create(name=name)
             if created:
                 self.stdout.write(f'Added district category: {category}')
 
