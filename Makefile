@@ -16,7 +16,7 @@ doctor:
 .PHONY: install
 install: .venv/flag
 .venv/flag: poetry.lock
-	@ poetry config settings.virtualenvs.in-project true
+	@ poetry config settings.virtualenvs.in-project true || poetry config virtualenvs.in-project true
 	poetry install
 	@ touch $@
 
@@ -44,8 +44,8 @@ format: install
 
 .PHONY: check
 check: install
-	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 	poetry run mypy $(PACKAGES) --config-file=.mypy.ini
+	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 
 .PHONY: test
 test: install

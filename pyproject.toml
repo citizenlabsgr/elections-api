@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "elections"
-version = "1.0.0"
+version = "1.0"
 description = "APIs for voter registration status and ballots in Michigan."
 
 authors = ["Citizen Labs <info@citizenlabs.com>"]

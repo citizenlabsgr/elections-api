@@ -41,7 +41,7 @@ def fetch_registration_status_data(voter):
     if "you have recently moved" in response.text:
         #######################################################################
         # TODO: Figure out what a moved voter looks like
-        import bugsnag
+        import bugsnag  # pylint: disable=import-outside-toplevel
 
         bugsnag.notify(f'Moved {voter}')
         #######################################################################
