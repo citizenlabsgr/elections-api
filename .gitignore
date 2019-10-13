@@ -8,3 +8,5 @@ cache.sqlite
 htmlcov/
 
 .envrc
+
+*.ipynb_checkpoints

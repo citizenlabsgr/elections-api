@@ -58,6 +58,10 @@ watch: install
 	rm -f cache.sqlite
 	poetry run ptw
 
+.PHONY: notebook
+notebook: install
+	poetry run jupyter notebook --notebook-dir=notebooks --browser=safari
+
 ###############################################################################
 
 .PHONY: migrations

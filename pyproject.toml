@@ -75,6 +75,9 @@ pygraphviz = "*"
 django-debug-toolbar = "*"
 django-livereload-server = "*"
 
+# Notebooks
+jupyter = "^1.0.0"
+
 [tool.black]
 
 target_version = ['py37']
