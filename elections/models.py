@@ -405,20 +405,20 @@ class BallotWebsite(models.Model):
         district: Optional[District],
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
-        from . import parsers
+        from . import legacy_parsers
 
         for handler in [
-            # parsers.handle_primary_header,
-            # parsers.handle_party_section,
-            # parsers.handle_partisan_section,
-            parsers.general.handle_main_wrapper,
-            parsers.general.handle_general_wrapper,
-            parsers.general.handle_partisan_section,
-            # parsers.handle_general_header,
-            parsers.general.handle_nonpartisan_section,
-            # parsers.handle_nonpartisan_positions,
-            parsers.general.handle_proposals_header,
-            parsers.general.handle_proposals,
+            # legacy_parsers.handle_primary_header,
+            # legacy_parsers.handle_party_section,
+            # legacy_parsers.handle_partisan_section,
+            legacy_parsers.general.handle_main_wrapper,
+            legacy_parsers.general.handle_general_wrapper,
+            legacy_parsers.general.handle_partisan_section,
+            # legacy_parsers.handle_general_header,
+            legacy_parsers.general.handle_nonpartisan_section,
+            # legacy_parsers.handle_nonpartisan_positions,
+            legacy_parsers.general.handle_proposals_header,
+            legacy_parsers.general.handle_proposals,
         ]:
             try:
                 result = handler(  # type: ignore
