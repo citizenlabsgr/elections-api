@@ -76,13 +76,11 @@ migrate: install
 .PHONY: data
 data: migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py scrape_data_legacy --start=1828 --limit=5
-	poetry run python manage.py clean_data
-	poetry run python manage.py scrape_data_legacy --start=1828 --limit=5
+	poetry run python manage.py scrape_data --start=1828 --limit=5
 
 .PHONY: scrape
 scrape: data
-	poetry run python manage.py scrape_data_legacy
+	poetry run python manage.py scrape_data
 
 .PHONY: reset
 reset: install

@@ -34,7 +34,7 @@ pymdown-extensions = "*"
 pygments = "*"
 
 # Utilities
-minilog = "^1.2.3"
+minilog = "^1.2.4"
 factory_boy = "*"
 pendulum = "*"
 requests_cache = "*"
