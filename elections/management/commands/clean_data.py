@@ -13,7 +13,7 @@ class Command(BaseCommand):
     help = "Validate ballot websites to select the source of truth"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(reset=True, verbosity=verbosity)
+        log.init(verbosity=verbosity)
 
         try:
             self.run()

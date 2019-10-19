@@ -405,7 +405,7 @@ class BallotWebsite(models.Model):
         district: Optional[District],
         party: Optional[Party],
     ) -> Union[None, Party, Position, Proposal]:
-        from . import legacy_parsers
+        from . import legacy_parsers  # pylint: disable=import-outside-toplevel
 
         for handler in [
             # legacy_parsers.handle_primary_header,

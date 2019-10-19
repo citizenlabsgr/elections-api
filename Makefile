@@ -9,6 +9,8 @@ doctor:
 
 .PHONY: .envrc
 .envrc:
+	echo "export PYTHONBREAKPOINT=ipdb.set_trace" >> $@
+	echo >> $@
 	echo "export REDIS_URL=redis://localhost:6379" >> $@
 
 ###############################################################################
@@ -76,11 +78,11 @@ migrate: install
 .PHONY: data
 data: migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py scrape_data --start=1828 --limit=5
+	poetry run python manage.py scrape_data --start=1828 --limit=5 --verbosity=3
 
 .PHONY: scrape
-scrape: data
-	poetry run python manage.py scrape_data
+scrape: install
+	poetry run python manage.py scrape_data --verbosity=3
 
 .PHONY: reset
 reset: install

@@ -15,7 +15,7 @@ class Command(BaseCommand):
     help = "Generate data for local development and review"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(reset=True, verbosity=verbosity)
+        log.init(verbosity=verbosity)
 
         self.get_or_create_superuser()
         self.add_elections()
