@@ -62,6 +62,8 @@ class Command(BaseCommand):
                 log.info(f'Discovered new website: {website}')
             if website.stale or limit:
                 website.fetch()
+                website.parse()
+                website.convert()
             if website.valid:
                 ballot_count += 1
                 error_count = 0

@@ -1,10 +1,76 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 import log
 from bs4 import BeautifulSoup
+import requests
+import re
+
+from .helpers import titleize
+from datetime import datetime
 
 
-def parse(html: str, data: Dict) -> int:
+def fetch(url: str) -> str:
+    log.info(f'Fetching {url}')
+    response = requests.get(
+        url,
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
+        },
+        verify=False,
+    )
+    response.raise_for_status()
+    return response.text.strip()
+
+
+def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
+    """Parse election information from ballot HTML."""
+    soup = BeautifulSoup(html, 'html.parser')
+    header = soup.find(id='PreviewMvicBallot').div.div.div.text
+
+    election_name_text, election_date_text, *_ = header.strip().split('\n')
+    election_name = titleize(election_name_text)
+    election_date = datetime.strptime(election_date_text.strip(), '%A, %B %d, %Y')
+
+    return election_name, (election_date.year, election_date.month, election_date.day)
+
+
+def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
+    """Parse precinct information from ballot HTML."""
+
+    # Parse county
+    match = re.search(r'(?P<county>[^>]+) County, Michigan', html)
+    assert match, f'Unable to find county name: {url}'
+    county = titleize(match.group('county'))
+
+    # Parse jurisdiction
+    match = None
+    for pattern in [
+        r'(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+) Precinct (?P<precinct>\d+)',
+        r'(?P<jurisdiction>[^>]+),  Precinct (?P<precinct>\d+[A-Z]?)',
+        r'(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+)',
+    ]:
+        match = re.search(pattern, html)
+        if match:
+            break
+    assert match, f'Unable to find precinct information: {url}'
+    jurisdiction = titleize(match.group('jurisdiction'))
+
+    # Parse ward
+    try:
+        ward = match.group('ward')
+    except IndexError:
+        ward = ''
+
+    # Parse number
+    try:
+        precinct = match.group('precinct')
+    except IndexError:
+        precinct = ''
+
+    return county, jurisdiction, ward, precinct
+
+
+def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
     soup = BeautifulSoup(html, 'html.parser')
     ballot = soup.find(id='PreviewMvicBallot').div.div.find_all('div', recursive=False)[
