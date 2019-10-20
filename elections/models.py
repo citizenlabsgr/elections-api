@@ -5,6 +5,7 @@ from typing import Dict, List, Optional, Union
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.postgres.fields import JSONField
 
 import bugsnag
 import log
@@ -275,6 +276,7 @@ class BallotWebsite(models.Model):
     valid = models.NullBooleanField(editable=False)
     parsed = models.BooleanField(default=False, editable=False)
 
+    data = JSONField(null=True, editable=False)
     data_count = models.IntegerField(default=-1, editable=False)
     refetch_weight = models.FloatField(default=1.0, editable=False)
 
@@ -327,11 +329,12 @@ class BallotWebsite(models.Model):
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
-            data: Dict[str, Dict] = {}  # TODO: Save data as JSONB
+            data: Dict[str, Dict] = {}
             data_count = scrapers.parse(self.mi_sos_html, data)
+            log.info(f'Ballot URL contains {data_count} parsed item(s)')
             if data_count:
                 self.last_fetch_with_ballot = timezone.now()
-            log.info(f'Ballot URL contains {data_count} parsed item(s)')
+                self.data = data
 
         if data_count == self.data_count:
             min_weight = 1 / 14 if self.valid else 1 / 28
