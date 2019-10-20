@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import List, Optional, Union
+from typing import Dict, List, Optional, Union
 
 from django.db import models
 from django.utils import timezone
@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup, element
 from model_utils.models import TimeStampedModel
 
-from . import helpers
+from . import helpers, scrapers
 
 
 class DistrictCategory(TimeStampedModel):
@@ -268,15 +268,15 @@ class BallotWebsite(models.Model):
         Ballot, null=True, on_delete=models.SET_NULL, related_name='websites'
     )
 
-    mi_sos_html = models.TextField(blank=True)
+    mi_sos_html = models.TextField(blank=True, editable=False)
 
     source = models.NullBooleanField()
-    fetched = models.BooleanField(default=False)
-    valid = models.NullBooleanField()
-    parsed = models.BooleanField(default=False)
+    fetched = models.BooleanField(default=False, editable=False)
+    valid = models.NullBooleanField(editable=False)
+    parsed = models.BooleanField(default=False, editable=False)
 
-    table_count = models.IntegerField(default=-1)
-    refetch_weight = models.FloatField(default=1.0)
+    data_count = models.IntegerField(default=-1, editable=False)
+    refetch_weight = models.FloatField(default=1.0, editable=False)
 
     last_fetch = models.DateTimeField(null=True, editable=False)
     last_fetch_with_precinct = models.DateTimeField(null=True, editable=False)
@@ -321,28 +321,29 @@ class BallotWebsite(models.Model):
         ):
             log.warn('Ballot URL does contain precinct information')
             self.valid = False
-            table_count = -1
+            data_count = -1
         else:
             assert "Sample Ballot" in self.mi_sos_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
-            soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
-            table_count = len(soup.find_all('table'))
-            if table_count:
+            data: Dict[str, Dict] = {}  # TODO: Save data as JSONB
+            data_count = scrapers.parse(self.mi_sos_html, data)
+            if data_count:
                 self.last_fetch_with_ballot = timezone.now()
+            log.info(f'Ballot URL contains {data_count} parsed item(s)')
 
-        if table_count == self.table_count:
+        if data_count == self.data_count:
             min_weight = 1 / 14 if self.valid else 1 / 28
             self.refetch_weight = max(min_weight, self.refetch_weight / 2)
-        elif self.table_count == -1:
+        elif self.data_count == -1:
             self.refetch_weight = 0.5
         else:
-            if self.parsed and table_count:
+            if self.parsed and data_count:
                 self.parsed = False
             self.refetch_weight = (self.refetch_weight + 1.0) / 2
 
-        self.table_count = table_count
+        self.data_count = data_count
         self.refetch_weight = round(self.refetch_weight, 3)
         self.save()
 

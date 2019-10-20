@@ -78,11 +78,11 @@ migrate: install
 .PHONY: data
 data: migrate
 	poetry run python manage.py seed_data
-	poetry run python manage.py scrape_data --start=1828 --limit=5 --verbosity=3
+	poetry run python manage.py scrape_data --start=1828 --limit=5 --verbosity=2
 
 .PHONY: scrape
 scrape: install
-	poetry run python manage.py scrape_data --verbosity=3
+	poetry run python manage.py scrape_data --verbosity=2
 
 .PHONY: reset
 reset: install
