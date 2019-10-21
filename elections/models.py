@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
-from django.contrib.postgres.fields import JSONField
+
 
 import bugsnag
 import log
@@ -308,7 +309,7 @@ class BallotWebsite(models.Model):
             "not available at this time" in self.mi_sos_html
             or " County" not in self.mi_sos_html
         ):
-            log.warn('Ballot URL does contain precinct information')
+            log.warn('Ballot URL does not contain precinct information')
             self.valid = False
         else:
             assert "Sample Ballot" in self.mi_sos_html
@@ -319,6 +320,7 @@ class BallotWebsite(models.Model):
 
     def parse(self):
         """Parse ballot data from the HTML."""
+        assert self.valid, 'Ballot has not been fetched'
         data: Dict[str, Any] = {}
 
         data['election'] = scraper.parse_election(self.mi_sos_html)
@@ -348,13 +350,20 @@ class BallotWebsite(models.Model):
     def convert(self):
         """Convert parsed ballot data into models."""
         log.info(f'Exctracting models for ballot: {self}')
-        assert self.data, 'Ballot has not been fetched'
+        assert self.data, 'Ballot has not been parsed'
 
-        # TODO: Create and update elections automatically
-        election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
+        election, created = Election.objects.get_or_create(
+            mi_sos_id=self.mi_sos_election_id,
+            defaults={
+                'name': self.data['election'][0],
+                'date': pendulum.date(*self.data['election'][1]),
+            },
+        )
+        if created:
+            log.info(f'Created election: {election}')
         assert (
             election.name == self.data['election'][0]
-        ), f"Election name changed: {self.data['election'][0]}"
+        ), f"Election {election.mi_sos_id} name changed: {self.data['election'][0]}"
 
         log.debug(f'Getting precinct by ID: {self.mi_sos_precinct_id}')
         # TODO: Create precincts

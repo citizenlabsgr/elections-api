@@ -1,12 +1,12 @@
+import re
+from datetime import datetime
 from typing import Dict, Optional, Tuple
 
 import log
-from bs4 import BeautifulSoup
 import requests
-import re
+from bs4 import BeautifulSoup
 
 from .helpers import titleize
-from datetime import datetime
 
 
 def fetch(url: str) -> str:

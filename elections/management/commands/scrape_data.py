@@ -35,13 +35,22 @@ class Command(BaseCommand):
 
         last_election = Election.objects.exclude(active=True).last()
 
+        error_count = 0
+
         for election_id in itertools.count(last_election.mi_sos_id + 1):
-            count = self.scrape_ballots(election_id, start, limit)
-            if limit and count >= limit:
-                log.info(f'Stopping after fetching {count} ballot(s)')
-                break
-            if not count:
+            ballot_count = self.scrape_ballots(election_id, start, limit)
+
+            if ballot_count:
+                error_count = 0
+            else:
+                error_count += 1
+
+            if error_count >= 3:
                 log.info(f'No more ballots to scrape')
+                break
+
+            if limit and ballot_count >= limit:
+                log.info(f'Stopping after fetching {ballot_count} ballot(s)')
                 break
 
     def scrape_ballots(
@@ -54,6 +63,7 @@ class Command(BaseCommand):
 
         ballot_count = 0
         error_count = 0
+
         for precinct_id in itertools.count(starting_precinct_id):
             website, created = BallotWebsite.objects.get_or_create(
                 mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
@@ -62,8 +72,10 @@ class Command(BaseCommand):
                 log.info(f'Discovered new website: {website}')
             if website.stale or limit:
                 website.fetch()
-                website.parse()
-                website.convert()
+                if website.valid:
+                    website.parse()
+                if website.data:
+                    website.convert()
             if website.valid:
                 ballot_count += 1
                 error_count = 0
