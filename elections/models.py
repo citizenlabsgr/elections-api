@@ -7,7 +7,6 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
-
 import bugsnag
 import log
 import pendulum
@@ -352,31 +351,71 @@ class BallotWebsite(models.Model):
         log.info(f'Exctracting models for ballot: {self}')
         assert self.data, 'Ballot has not been parsed'
 
-        election, created = Election.objects.get_or_create(
-            mi_sos_id=self.mi_sos_election_id,
-            defaults={
-                'name': self.data['election'][0],
-                'date': pendulum.date(*self.data['election'][1]),
-            },
-        )
-        if created:
-            log.info(f'Created election: {election}')
-        assert (
-            election.name == self.data['election'][0]
-        ), f"Election {election.mi_sos_id} name changed: {self.data['election'][0]}"
-
-        log.debug(f'Getting precinct by ID: {self.mi_sos_precinct_id}')
-        # TODO: Create precincts
-        # precinct = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id)
-
         items = []  # type: ignore
+
+        election = self._get_election()
+        precinct = self._get_precinct()
+
+        log.critical((election, precinct))
+
         log.critical('TODO: parse data for ballot: {self.data}')
 
         # self.parsed = True
         # self.last_parse = timezone.now()
+        # self.balot = ???
         # self.save()
 
         return items
+
+    def _get_election(self) -> Election:
+        election_name, election_date = self.data['election']
+
+        election, created = Election.objects.get_or_create(
+            mi_sos_id=self.mi_sos_election_id,
+            defaults={'name': election_name, 'date': pendulum.date(*election_date)},
+        )
+        if created:
+            log.info(f'Created election: {election}')
+
+        assert (
+            election.name == election_name
+        ), f'Election {election.mi_sos_id} name changed: {election_name}'
+
+        return election
+
+    def _get_precinct(self) -> Precinct:
+        county_name, jurisdiction_name, ward, number = self.data['precinct']
+
+        county, created = District.objects.get_or_create(
+            category=DistrictCategory.objects.get(name="County"), name=county_name
+        )
+        if created:
+            log.info(f'Created district: {county}')
+
+        jurisdiction, created = District.objects.get_or_create(
+            category=DistrictCategory.objects.get(name="Jurisdiction"),
+            name=jurisdiction_name,
+        )
+        if jurisdiction:
+            log.info(f'Created district: {jurisdiction}')
+
+        precinct, created = Precinct.objects.get_or_create(
+            mi_sos_id=self.mi_sos_precinct_id,
+            defaults={
+                'county': county,
+                'jurisdiction': jurisdiction,
+                'ward': ward,
+                'number': number,
+            },
+        )
+        if created:
+            log.info(f'Created precinct: {precinct}')
+
+        assert (
+            precinct.number == number
+        ), f'Precinct {precinct.mi_sos_id} number changed: {number}'
+
+        return precinct
 
 
 class BallotItem(TimeStampedModel):
