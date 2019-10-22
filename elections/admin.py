@@ -1,7 +1,7 @@
 # pylint: disable=no-self-use
 
 from django.contrib import admin
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect
 from django.utils.html import format_html
 
 from . import models
@@ -105,7 +105,6 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'last_fetch_with_ballot',
         'parsed',
         'last_parse',
-        'Ballot',
     ]
 
     ordering = ['-last_fetch']
@@ -123,19 +122,15 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'data',
     ]
 
-    def Link(self, obj):
+    def Link(self, website: models.BallotWebsite):
         return format_html(
             '<a href={url!r}>MI SOS: election={eid} precinct={pid}</a>',
-            url=obj.mi_sos_url,
-            eid=obj.mi_sos_election_id,
-            pid=obj.mi_sos_precinct_id,
+            url=website.mi_sos_url,
+            eid=website.mi_sos_election_id,
+            pid=website.mi_sos_precinct_id,
         )
 
-    def Ballot(self, obj):
-        if obj.ballot:
-            url = reverse('admin:elections_ballot_change', args=[obj.ballot.id])
-            return format_html(f"<a href={url!r}>{obj.ballot.id}</a>")
-        return None
+
 
 
 @admin.register(models.Ballot)
@@ -144,7 +139,7 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     list_filter = ['election']
     default_filters = ['election__id__exact={election_id}']
 
-    list_display = ['id', 'election', 'precinct', 'modified']
+    list_display = ['id', 'election', 'precinct', 'website', 'modified']
 
     ordering = ['-modified']
 

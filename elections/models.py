@@ -239,6 +239,10 @@ class Ballot(TimeStampedModel):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
+    website = models.ForeignKey(
+        'BallotWebsite', null=True, on_delete=models.SET_NULL
+    )
+
     class Meta:
         unique_together = ['election', 'precinct']
         ordering = ['election__date']
@@ -262,9 +266,7 @@ class BallotWebsite(models.Model):
 
     mi_sos_election_id = models.PositiveIntegerField()
     mi_sos_precinct_id = models.PositiveIntegerField()
-    ballot = models.ForeignKey(
-        Ballot, null=True, on_delete=models.SET_NULL, related_name='websites'
-    )
+    ballot_legacy = models.ForeignKey(Ballot, null=True, on_delete=models.SET_NULL)
 
     mi_sos_html = models.TextField(blank=True, editable=False)
 
