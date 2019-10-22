@@ -54,7 +54,7 @@ class Election(TimeStampedModel):
     name = models.CharField(max_length=100)
     date = models.DateField()
 
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     reference_url = models.URLField(blank=True, null=True)
 
     mi_sos_id = models.PositiveIntegerField()

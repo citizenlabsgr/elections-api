@@ -2,7 +2,11 @@ from django.core.management.base import BaseCommand
 
 import log
 
-from elections.models import District, DistrictCategory, Party
+from django.utils import timezone
+
+from datetime import timedelta
+
+from elections.models import District, DistrictCategory, Party, Election
 
 
 class Command(BaseCommand):
@@ -13,6 +17,7 @@ class Command(BaseCommand):
 
         self.initialize_parties()
         self.initialize_districts()
+        self.update_elections()
 
     def initialize_parties(self):
         for name, color in [
@@ -64,3 +69,11 @@ class Command(BaseCommand):
         )
         if created:
             self.stdout.write(f'Added district: {michigan}')
+
+    @staticmethod
+    def update_elections():
+        for election in Election.objects.filter(active=True):
+            if election.date < timezone.now() - timedelta(weeks=3):
+                log.info(f'Deactivating election: {election}')
+                election.active = False
+                election.save()
