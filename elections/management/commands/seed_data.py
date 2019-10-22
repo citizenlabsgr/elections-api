@@ -15,7 +15,7 @@ class Command(BaseCommand):
     help = "Generate data for local development and review"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(reset=True, verbosity=verbosity)
+        log.init(verbosity=verbosity)
 
         self.get_or_create_superuser()
         self.add_elections()
@@ -53,7 +53,14 @@ class Command(BaseCommand):
         election, _ = models.Election.objects.get_or_create(
             name="May Consolidated",
             date=pendulum.parse("2019-05-07", tz='America/Detroit'),
-            defaults=dict(active=True, mi_sos_id=677),
+            defaults=dict(active=False, mi_sos_id=677),
+        )
+        self.stdout.write(f"Added election: {election}")
+
+        election, _ = models.Election.objects.get_or_create(
+            name="November Consolidated",
+            date=pendulum.parse("2019-11-05", tz='America/Detroit'),
+            defaults=dict(active=True, mi_sos_id=678),
         )
         self.stdout.write(f"Added election: {election}")
 

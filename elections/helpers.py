@@ -109,6 +109,7 @@ def titleize(text: str) -> str:
         .replace(" Of ", " of ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
+        .strip()
     )
 
 

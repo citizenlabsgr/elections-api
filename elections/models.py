@@ -1,19 +1,18 @@
 from __future__ import annotations
 
 import random
-from typing import List, Optional, Union
+from typing import Any, Dict, List
 
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
 import bugsnag
 import log
 import pendulum
-import requests
-from bs4 import BeautifulSoup, element
 from model_utils.models import TimeStampedModel
 
-from . import helpers
+from . import helpers, scraper
 
 
 class DistrictCategory(TimeStampedModel):
@@ -91,6 +90,7 @@ class Precinct(TimeStampedModel):
     ward = models.CharField(max_length=2, blank=True)
     number = models.CharField(max_length=3, blank=True)
 
+    # TODO: Remove this field to normalize data
     mi_sos_id = models.PositiveIntegerField()
 
     class Meta:
@@ -108,9 +108,7 @@ class Precinct(TimeStampedModel):
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f"Ward {self.ward} "
         else:
-            assert (
-                self.number
-            ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"  # pylint: disable=no-member
+            assert self.number, f"Ward and precinct are missing: pk={self.id}"
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f" Precinct {self.number}"
         return [
@@ -268,15 +266,16 @@ class BallotWebsite(models.Model):
         Ballot, null=True, on_delete=models.SET_NULL, related_name='websites'
     )
 
-    mi_sos_html = models.TextField(blank=True)
+    mi_sos_html = models.TextField(blank=True, editable=False)
 
     source = models.NullBooleanField()
-    fetched = models.BooleanField(default=False)
-    valid = models.NullBooleanField()
-    parsed = models.BooleanField(default=False)
+    fetched = models.BooleanField(default=False, editable=False)
+    valid = models.NullBooleanField(editable=False)
+    parsed = models.BooleanField(default=False, editable=False)
 
-    table_count = models.IntegerField(default=-1)
-    refetch_weight = models.FloatField(default=1.0)
+    data = JSONField(null=True, editable=False)
+    data_count = models.IntegerField(default=-1, editable=False)
+    refetch_weight = models.FloatField(default=1.0, editable=False)
 
     last_fetch = models.DateTimeField(null=True, editable=False)
     last_fetch_with_precinct = models.DateTimeField(null=True, editable=False)
@@ -299,143 +298,137 @@ class BallotWebsite(models.Model):
     def stale(self) -> bool:
         return self.refetch_weight > random.random()
 
-    def fetch(self):
-        url = self.mi_sos_url
+    def fetch(self) -> bool:
+        """Fetch ballot HTML from the URL."""
+        self.mi_sos_html = scraper.fetch(self.mi_sos_url)
 
-        log.info(f'Fetching {url}')
-        response = requests.get(
-            url,
-            headers={
-                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Geck o/20100101 Firefox/40.1'
-            },
-            verify=False,
-        )
-        response.raise_for_status()
         self.fetched = True
         self.last_fetch = timezone.now()
 
-        self.mi_sos_html = response.text.strip()
         if (
             "not available at this time" in self.mi_sos_html
             or " County" not in self.mi_sos_html
         ):
-            log.warn('Ballot URL does contain precinct information')
+            log.warn('Ballot URL does not contain precinct information')
             self.valid = False
-            table_count = -1
         else:
             assert "Sample Ballot" in self.mi_sos_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
-            soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
-            table_count = len(soup.find_all('table'))
-            if table_count:
-                self.last_fetch_with_ballot = timezone.now()
 
-        if table_count == self.table_count:
+        self.save()
+
+        return self.valid
+
+    def parse(self) -> int:
+        """Parse ballot data from the HTML."""
+        assert self.valid, 'Ballot has not been fetched'
+        data: Dict[str, Any] = {}
+
+        data['election'] = scraper.parse_election(self.mi_sos_html)
+        data['precinct'] = scraper.parse_precinct(self.mi_sos_html, self.mi_sos_url)
+        data['ballot'] = {}
+
+        data_count = scraper.parse_ballot(self.mi_sos_html, data['ballot'])
+        log.info(f'Ballot URL contains {data_count} parsed item(s)')
+        if data_count:
+            self.last_fetch_with_ballot = timezone.now()
+            self.data = data
+
+        if data_count == self.data_count:
             min_weight = 1 / 14 if self.valid else 1 / 28
             self.refetch_weight = max(min_weight, self.refetch_weight / 2)
-        elif self.table_count == -1:
+        elif self.data_count == -1:
             self.refetch_weight = 0.5
         else:
-            if self.parsed and table_count:
+            if self.parsed and data_count:
                 self.parsed = False
             self.refetch_weight = (self.refetch_weight + 1.0) / 2
 
-        self.table_count = table_count
+        self.data_count = data_count
         self.refetch_weight = round(self.refetch_weight, 3)
         self.save()
 
-    def parse(self):
-        log.info(f'Parsing HTML for ballot: {self}')
-        soup = BeautifulSoup(self.mi_sos_html, 'html.parser')
+        return self.data_count
 
-        log.debug(f'Getting precinct by ID: {self.mi_sos_precinct_id}')
-        precinct = Precinct.objects.get(mi_sos_id=self.mi_sos_precinct_id)
+    def convert(self) -> int:
+        """Convert parsed ballot data into models."""
+        log.info(f'Exctracting models for ballot: {self}')
+        assert self.data, 'Ballot has not been parsed'
 
-        log.debug(f'Getting election by ID: {self.mi_sos_election_id}')
-        election = Election.objects.get(mi_sos_id=self.mi_sos_election_id)
+        count = 0
 
-        party = district = None
-        results = []
-        for index, table in enumerate(soup.find_all('table')):
-            result = self._handle_html_element(
-                table,
-                election=election,
-                precinct=precinct,
-                party=party,
-                district=district,
+        election = self._get_election()
+        precinct = self._get_precinct()
+        self._get_ballot(election, precinct)
+
+        # self.parsed = True
+        # self.last_parse = timezone.now()
+        # self.balot = ???
+        # self.save()
+
+        return count
+
+    def _get_election(self) -> Election:
+        election_name, election_date = self.data['election']
+
+        election, created = Election.objects.get_or_create(
+            mi_sos_id=self.mi_sos_election_id,
+            defaults={'name': election_name, 'date': pendulum.date(*election_date)},
+        )
+        if created:
+            log.info(f'Created election: {election}')
+
+        assert (
+            election.name == election_name
+        ), f'Election {election.mi_sos_id} name changed: {election_name}'
+
+        return election
+
+    def _get_precinct(self) -> Precinct:
+        county_name, jurisdiction_name, ward, number = self.data['precinct']
+
+        county, created = District.objects.get_or_create(
+            category=DistrictCategory.objects.get(name="County"), name=county_name
+        )
+        if created:
+            log.info(f'Created district: {county}')
+
+        jurisdiction, created = District.objects.get_or_create(
+            category=DistrictCategory.objects.get(name="Jurisdiction"),
+            name=jurisdiction_name,
+        )
+        if jurisdiction:
+            log.info(f'Created district: {jurisdiction}')
+
+        assert self.mi_sos_precinct_id
+        precinct, created = Precinct.objects.get_or_create(
+            county=county,
+            jurisdiction=jurisdiction,
+            ward=ward,
+            number=number,
+            defaults={'mi_sos_id': self.mi_sos_precinct_id},
+        )
+        if created:
+            log.info(f'Created precinct: {precinct}')
+        elif precinct.mi_sos_id != self.mi_sos_election_id:
+            log.warning(
+                f'Precinct ID changed from {precinct.mi_sos_id} to {self.mi_sos_precinct_id}'
             )
+            precinct.mi_sos_id = self.mi_sos_election_id
+            precinct.save()
 
-            if isinstance(result, (Party, Position, Proposal)):
-                results.append(result)
-            if isinstance(result, Position):
-                candidates = result.candidates
-                if (
-                    candidates
-                    and candidates.first()
-                    and candidates.first().party.name == "Nonpartisan"
-                ):
-                    log.info('Start nonpartisan section')
-                    party = candidates.first().party
-            if isinstance(result, Party):
-                party = result
-            if isinstance(result, (Position, Proposal)):
-                district = result.district
-
-            if result:
-                continue
-
-            html = table.prettify()
-            msg = f'Unexpected table ({index}) on {self.mi_sos_url}:\n\n{html}'
-            raise ValueError(msg)
-
-        self.parsed = True
-        self.last_parse = timezone.now()
-        self.save()
-
-        return results
+        return precinct
 
     @staticmethod
-    def _handle_html_element(
-        table: element.Tag,
-        *,
-        election: Election,
-        precinct: Precinct,
-        district: Optional[District],
-        party: Optional[Party],
-    ) -> Union[None, Party, Position, Proposal]:
-        from . import legacy_parsers
-
-        for handler in [
-            # legacy_parsers.handle_primary_header,
-            # legacy_parsers.handle_party_section,
-            # legacy_parsers.handle_partisan_section,
-            legacy_parsers.general.handle_main_wrapper,
-            legacy_parsers.general.handle_general_wrapper,
-            legacy_parsers.general.handle_partisan_section,
-            # legacy_parsers.handle_general_header,
-            legacy_parsers.general.handle_nonpartisan_section,
-            # legacy_parsers.handle_nonpartisan_positions,
-            legacy_parsers.general.handle_proposals_header,
-            legacy_parsers.general.handle_proposals,
-        ]:
-            try:
-                result = handler(  # type: ignore
-                    table,
-                    election=election,
-                    precinct=precinct,
-                    party=party,
-                    district=district,
-                )
-            except Exception as e:
-                print(table.prettify())
-                raise e from None
-
-            if result:
-                return result
-
-        return None
+    def _get_ballot(election: Election, precinct: Precinct) -> Ballot:
+        ballot, created = Ballot.objects.get_or_create(
+            election=election, precinct=precinct
+        )
+        if created:
+            log.info(f'Created ballot: {ballot}')
+        return ballot
 
 
 class BallotItem(TimeStampedModel):

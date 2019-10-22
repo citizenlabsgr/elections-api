@@ -65,16 +65,21 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {'simple': {'format': '%(levelname)s: %(name)s: %(message)s'}},
+    'root': {'level': 'ERROR', 'handlers': ['console']},
+    'loggers': {
+        'elections': {'level': 'DEBUG', 'handlers': ['console'], 'propagate': False},
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         }
-    },
-    'loggers': {
-        'django': {'handlers': ['console'], 'level': 'WARNING'},
-        'elections': {'handlers': ['console'], 'level': 'INFO'},
     },
 }
 

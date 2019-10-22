@@ -95,20 +95,33 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     list_display = [
         'id',
         'Link',
-        'Ballot',
         'source',
         'refetch_weight',
         'fetched',
         'last_fetch',
         'valid',
         'last_fetch_with_precinct',
-        'table_count',
+        'data_count',
         'last_fetch_with_ballot',
         'parsed',
         'last_parse',
+        'Ballot',
     ]
 
     ordering = ['-last_fetch']
+
+    readonly_fields = [
+        'refetch_weight',
+        'fetched',
+        'last_fetch',
+        'valid',
+        'last_fetch_with_precinct',
+        'data_count',
+        'last_fetch_with_ballot',
+        'parsed',
+        'last_parse',
+        'data',
+    ]
 
     def Link(self, obj):
         return format_html(

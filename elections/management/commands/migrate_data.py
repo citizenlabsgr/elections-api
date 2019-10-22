@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = "Migrate data between existing models and initialize constants"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(reset=True, verbosity=verbosity)
+        log.init(verbosity=verbosity)
 
         self.initialize_parties()
         self.initialize_districts()
