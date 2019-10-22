@@ -37,30 +37,9 @@ class Command(BaseCommand):
 
     def add_elections(self):
         election, _ = models.Election.objects.get_or_create(
-            name="State Primary",
-            date=pendulum.parse("2018-08-07", tz='America/Detroit'),
-            defaults=dict(active=False, mi_sos_id=675),
-        )
-        self.stdout.write(f"Added election: {election}")
-
-        election, _ = models.Election.objects.get_or_create(
-            name="State General",
-            date=pendulum.parse("2018-11-06", tz='America/Detroit'),
-            defaults=dict(active=False, mi_sos_id=676),
-        )
-        self.stdout.write(f"Added election: {election}")
-
-        election, _ = models.Election.objects.get_or_create(
-            name="May Consolidated",
-            date=pendulum.parse("2019-05-07", tz='America/Detroit'),
-            defaults=dict(active=False, mi_sos_id=677),
-        )
-        self.stdout.write(f"Added election: {election}")
-
-        election, _ = models.Election.objects.get_or_create(
             name="November Consolidated",
             date=pendulum.parse("2019-11-05", tz='America/Detroit'),
-            defaults=dict(active=True, mi_sos_id=678),
+            defaults=dict(active=True, mi_sos_id=679),
         )
         self.stdout.write(f"Added election: {election}")
 

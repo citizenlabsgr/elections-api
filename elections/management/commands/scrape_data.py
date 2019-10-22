@@ -34,10 +34,15 @@ class Command(BaseCommand):
         warnings.simplefilter('once')
 
         last_election = Election.objects.exclude(active=True).last()
+        current_election = Election.objects.filter(active=True).first()
+
+        if last_election:
+            starting_election_id = last_election.mi_sos_id + 1
+        else:
+            starting_election_id = current_election.mi_sos_id
 
         error_count = 0
-
-        for election_id in itertools.count(last_election.mi_sos_id + 1):
+        for election_id in itertools.count(starting_election_id):
             ballot_count = self.scrape_ballots(election_id, start, limit)
 
             if ballot_count:

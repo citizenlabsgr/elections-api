@@ -73,7 +73,8 @@ class Command(BaseCommand):
     @staticmethod
     def update_elections():
         for election in Election.objects.filter(active=True):
-            if election.date < timezone.now() - timedelta(weeks=3):
+            age = timezone.now() - timedelta(weeks=3)
+            if election.date < age.date():
                 log.info(f'Deactivating election: {election}')
                 election.active = False
                 election.save()
