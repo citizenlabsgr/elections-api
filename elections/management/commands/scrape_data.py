@@ -71,11 +71,7 @@ class Command(BaseCommand):
             if created:
                 log.info(f'Discovered new website: {website}')
             if website.stale or limit:
-                website.fetch()
-                if website.valid:
-                    website.parse()
-                if website.data:
-                    website.convert()
+                website.fetch() and website.parse() and website.convert()
             if website.valid:
                 ballot_count += 1
                 error_count = 0
@@ -85,7 +81,7 @@ class Command(BaseCommand):
             if limit and ballot_count >= limit:
                 break
 
-            if error_count >= 10:
+            if error_count >= 100:
                 log.info(f'No more ballots to scrape for election {election_id}')
                 break
 

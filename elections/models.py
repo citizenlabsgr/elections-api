@@ -90,6 +90,7 @@ class Precinct(TimeStampedModel):
     ward = models.CharField(max_length=2, blank=True)
     number = models.CharField(max_length=3, blank=True)
 
+    # TODO: Remove this field to normalize data
     mi_sos_id = models.PositiveIntegerField()
 
     class Meta:
@@ -107,9 +108,7 @@ class Precinct(TimeStampedModel):
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f"Ward {self.ward} "
         else:
-            assert (
-                self.number
-            ), f"Ward and precinct are missing: id={self.id} mi_sos_id={self.mi_sos_id}"  # pylint: disable=no-member
+            assert self.number, f"Ward and precinct are missing: pk={self.id}"
             # Extra space is intentional to match the MI SOS website format
             ward_precinct = f" Precinct {self.number}"
         return [
@@ -299,11 +298,13 @@ class BallotWebsite(models.Model):
     def stale(self) -> bool:
         return self.refetch_weight > random.random()
 
-    def fetch(self):
+    def fetch(self) -> bool:
         """Fetch ballot HTML from the URL."""
         self.mi_sos_html = scraper.fetch(self.mi_sos_url)
+
         self.fetched = True
         self.last_fetch = timezone.now()
+
         if (
             "not available at this time" in self.mi_sos_html
             or " County" not in self.mi_sos_html
@@ -315,9 +316,12 @@ class BallotWebsite(models.Model):
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_fetch_with_precinct = timezone.now()
+
         self.save()
 
-    def parse(self):
+        return self.valid
+
+    def parse(self) -> int:
         """Parse ballot data from the HTML."""
         assert self.valid, 'Ballot has not been fetched'
         data: Dict[str, Any] = {}
@@ -346,26 +350,25 @@ class BallotWebsite(models.Model):
         self.refetch_weight = round(self.refetch_weight, 3)
         self.save()
 
-    def convert(self):
+        return self.data_count
+
+    def convert(self) -> int:
         """Convert parsed ballot data into models."""
         log.info(f'Exctracting models for ballot: {self}')
         assert self.data, 'Ballot has not been parsed'
 
-        items = []  # type: ignore
+        count = 0
 
         election = self._get_election()
         precinct = self._get_precinct()
-
-        log.critical((election, precinct))
-
-        log.critical('TODO: parse data for ballot: {self.data}')
+        self._get_ballot(election, precinct)
 
         # self.parsed = True
         # self.last_parse = timezone.now()
         # self.balot = ???
         # self.save()
 
-        return items
+        return count
 
     def _get_election(self) -> Election:
         election_name, election_date = self.data['election']
@@ -399,23 +402,33 @@ class BallotWebsite(models.Model):
         if jurisdiction:
             log.info(f'Created district: {jurisdiction}')
 
+        assert self.mi_sos_precinct_id
         precinct, created = Precinct.objects.get_or_create(
-            mi_sos_id=self.mi_sos_precinct_id,
-            defaults={
-                'county': county,
-                'jurisdiction': jurisdiction,
-                'ward': ward,
-                'number': number,
-            },
+            county=county,
+            jurisdiction=jurisdiction,
+            ward=ward,
+            number=number,
+            defaults={'mi_sos_id': self.mi_sos_precinct_id},
         )
         if created:
             log.info(f'Created precinct: {precinct}')
-
-        assert (
-            precinct.number == number
-        ), f'Precinct {precinct.mi_sos_id} number changed: {number}'
+        elif precinct.mi_sos_id != self.mi_sos_election_id:
+            log.warning(
+                f'Precinct ID changed from {precinct.mi_sos_id} to {self.mi_sos_precinct_id}'
+            )
+            precinct.mi_sos_id = self.mi_sos_election_id
+            precinct.save()
 
         return precinct
+
+    @staticmethod
+    def _get_ballot(election: Election, precinct: Precinct) -> Ballot:
+        ballot, created = Ballot.objects.get_or_create(
+            election=election, precinct=precinct
+        )
+        if created:
+            log.info(f'Created ballot: {ballot}')
+        return ballot
 
 
 class BallotItem(TimeStampedModel):
