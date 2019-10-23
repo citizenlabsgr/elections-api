@@ -90,7 +90,11 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id', 'mi_sos_html']
 
     list_filter = ['mi_sos_election_id', 'source', 'fetched', 'valid', 'parsed']
-    default_filters = ['mi_sos_election_id={mi_sos_election_id}', 'fetched__exact=1']
+    default_filters = [
+        'mi_sos_election_id={mi_sos_election_id}',
+        'fetched__exact=1',
+        'valid__exact=1',
+    ]
 
     list_display = [
         'id',
@@ -105,11 +109,13 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'last_fetch_with_ballot',
         'parsed',
         'last_parse',
+        'ballot',
     ]
 
     ordering = ['-last_fetch']
 
     readonly_fields = [
+        'ballot',
         'refetch_weight',
         'fetched',
         'last_fetch',
@@ -129,8 +135,6 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
             eid=website.mi_sos_election_id,
             pid=website.mi_sos_precinct_id,
         )
-
-
 
 
 @admin.register(models.Ballot)

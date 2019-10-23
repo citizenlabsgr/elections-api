@@ -233,40 +233,11 @@ class Party(TimeStampedModel):
         return self.name
 
 
-class Ballot(TimeStampedModel):
-    """Full ballot bound to a particular polling location."""
-
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
-
-    website = models.ForeignKey(
-        'BallotWebsite', null=True, on_delete=models.SET_NULL
-    )
-
-    class Meta:
-        unique_together = ['election', 'precinct']
-        ordering = ['election__date']
-
-    def __str__(self) -> str:
-        return ' | '.join(self.mi_sos_name)
-
-    @property
-    def mi_sos_name(self) -> List[str]:
-        return self.election.mi_sos_name + self.precinct.mi_sos_name
-
-    @property
-    def mi_sos_url(self) -> str:
-        return helpers.build_mi_sos_url(
-            election_id=self.election.mi_sos_id, precinct_id=self.precinct.mi_sos_id
-        )
-
-
 class BallotWebsite(models.Model):
     """Raw HTML of potential ballot from the MI SOS website."""
 
     mi_sos_election_id = models.PositiveIntegerField()
     mi_sos_precinct_id = models.PositiveIntegerField()
-    ballot_legacy = models.ForeignKey(Ballot, null=True, on_delete=models.SET_NULL)
 
     mi_sos_html = models.TextField(blank=True, editable=False)
 
@@ -431,6 +402,34 @@ class BallotWebsite(models.Model):
         if created:
             log.info(f'Created ballot: {ballot}')
         return ballot
+
+
+class Ballot(TimeStampedModel):
+    """Full ballot bound to a particular polling location."""
+
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
+
+    website = models.OneToOneField(
+        BallotWebsite, blank=True, null=True, on_delete=models.SET_NULL
+    )
+
+    class Meta:
+        unique_together = ['election', 'precinct']
+        ordering = ['election__date']
+
+    def __str__(self) -> str:
+        return ' | '.join(self.mi_sos_name)
+
+    @property
+    def mi_sos_name(self) -> List[str]:
+        return self.election.mi_sos_name + self.precinct.mi_sos_name
+
+    @property
+    def mi_sos_url(self) -> str:
+        return helpers.build_mi_sos_url(
+            election_id=self.election.mi_sos_id, precinct_id=self.precinct.mi_sos_id
+        )
 
 
 class BallotItem(TimeStampedModel):
