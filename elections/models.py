@@ -241,7 +241,6 @@ class BallotWebsite(models.Model):
 
     mi_sos_html = models.TextField(blank=True, editable=False)
 
-    source = models.NullBooleanField()
     fetched = models.BooleanField(default=False, editable=False)
     valid = models.NullBooleanField(editable=False)
     parsed = models.BooleanField(default=False, editable=False)
