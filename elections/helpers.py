@@ -43,7 +43,7 @@ def fetch_registration_status_data(voter):
         # TODO: Figure out what a moved voter looks like
         import bugsnag  # pylint: disable=import-outside-toplevel
 
-        bugsnag.notify(f'Moved {voter}')
+        bugsnag.notify(ValueError(f'Moved {voter}'))
         #######################################################################
         log.warn(f"Handling recently moved voter: {voter}")
         page = find_or_abort(

@@ -31,6 +31,8 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, start: int, limit: Optional[int], **_kwargs):
         log.init(verbosity=verbosity)
+
+        # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
 
         last_election = Election.objects.exclude(active=True).last()

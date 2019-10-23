@@ -1,5 +1,7 @@
 # pylint: disable=no-self-use
 
+import warnings
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -17,6 +19,9 @@ class Command(BaseCommand):
     def handle(self, verbosity: int, **_kwargs):
         log.init(verbosity=verbosity)
 
+        # https://github.com/citizenlabsgr/elections-api/issues/81
+        warnings.simplefilter('once')
+
         self.get_or_create_superuser()
         self.add_elections()
         self.fetch_districts()
@@ -28,10 +33,10 @@ class Command(BaseCommand):
                 email=f"{username}@{settings.BASE_DOMAIN}",
                 password=password,
             )
-            self.stdout.write(f"Created new superuser: {user}")
+            log.info(f"Created new superuser: {user}")
         except IntegrityError:
             user = User.objects.get(username=username)
-            self.stdout.write(f"Found existing superuser: {user}")
+            log.debug(f"Found existing superuser: {user}")
 
         return user
 
@@ -41,7 +46,7 @@ class Command(BaseCommand):
             date=pendulum.parse("2019-11-05", tz='America/Detroit'),
             defaults=dict(active=True, mi_sos_id=679),
         )
-        self.stdout.write(f"Added election: {election}")
+        log.info(f"Added election: {election}")
 
     def fetch_districts(self):
         voter = models.Voter(

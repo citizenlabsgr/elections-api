@@ -168,8 +168,8 @@ class Voter(models.Model):
         county = jurisdiction = None
 
         for category_name, district_name in sorted(data['districts'].items()):
-            if not (category_name and district_name):
-                log.warn("Skipped blank MI SOS district")
+            if not district_name:
+                log.debug(f'Skipped blank district: {category_name}')
                 continue
 
             if category_name in ["Ward", "Precinct"]:
@@ -207,7 +207,7 @@ class Voter(models.Model):
         if created:
             log.info(f"New precinct: {precinct}")
         if not precinct.mi_sos_id:
-            bugsnag.notify(f'Precinct missing MI SOS ID: {precinct}')
+            bugsnag.notify(ValueError(f'Precinct missing MI SOS ID: {precinct}'))
 
         status = RegistrationStatus(registered=data['registered'], precinct=precinct)
         status.districts = districts
