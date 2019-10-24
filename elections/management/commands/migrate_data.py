@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
@@ -9,13 +11,14 @@ from elections.models import District, DistrictCategory, Election, Party
 
 
 class Command(BaseCommand):
-    help = "Migrate data between existing models and initialize constants"
+    help = "Initialize contants and migrate data between existing models"
 
     def handle(self, verbosity: int, **_kwargs):
         log.init(verbosity=verbosity)
 
         self.initialize_parties()
         self.initialize_districts()
+
         self.update_elections()
 
     def initialize_parties(self):
@@ -36,12 +39,12 @@ class Command(BaseCommand):
                 name=name, defaults=dict(color=color)
             )
             if created:
-                self.stdout.write(f'Added party: {party}')
+                log.info(f'Added party: {party}')
 
     def initialize_districts(self):
         state, created = DistrictCategory.objects.get_or_create(name="State")
         if created:
-            self.stdout.write(f'Added district category: {state}')
+            log.info(f'Added district category: {state}')
 
         for name in [
             # State
@@ -61,16 +64,15 @@ class Command(BaseCommand):
         ]:
             category, created = DistrictCategory.objects.get_or_create(name=name)
             if created:
-                self.stdout.write(f'Added district category: {category}')
+                log.info(f'Added district category: {category}')
 
         michigan, created = District.objects.get_or_create(
             category=state, name="Michigan"
         )
         if created:
-            self.stdout.write(f'Added district: {michigan}')
+            log.info(f'Added district: {michigan}')
 
-    @staticmethod
-    def update_elections():
+    def update_elections(self):
         for election in Election.objects.filter(active=True):
             age = timezone.now() - timedelta(weeks=3)
             if election.date < age.date():

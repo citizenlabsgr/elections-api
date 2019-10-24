@@ -45,7 +45,10 @@ format: install
 	poetry run black $(PACKAGES)
 
 .PHONY: check
-check: install
+check: format
+ifdef CI
+	git diff --exit-code
+endif
 	poetry run mypy $(PACKAGES) --config-file=.mypy.ini
 	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 
@@ -72,15 +75,15 @@ migrations: install
 migrate: install
 	poetry run python manage.py migrate
 	@ echo
-	poetry run python manage.py migrate_data
+	poetry run python manage.py migrate_data -v2
 
 .PHONY: data
 data: migrate
-	poetry run python manage.py seed_data
+	poetry run python manage.py seed_data -v2
 	@ echo
-	poetry run python manage.py scrape_data --start=1828 --limit=5
+	poetry run python manage.py scrape_data --start=1828 --limit=5  -v2
 	@ echo
-	poetry run python manage.py sync_data
+	poetry run python manage.py sync_data -v2
 
 .PHONY: reset
 reset: install

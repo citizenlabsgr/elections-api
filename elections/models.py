@@ -207,7 +207,10 @@ class Voter(models.Model):
         if created:
             log.info(f"New precinct: {precinct}")
         if not precinct.mi_sos_id:
-            bugsnag.notify(ValueError(f'Precinct missing MI SOS ID: {precinct}'))
+            bugsnag.notify(
+                RuntimeError("Precinct missing MI SOS ID"),
+                meta_data={"precinct": repr(precinct)},
+            )
 
         status = RegistrationStatus(registered=data['registered'], precinct=precinct)
         status.districts = districts
