@@ -45,7 +45,10 @@ format: install
 	poetry run black $(PACKAGES)
 
 .PHONY: check
-check: install
+check: format
+ifdef CI
+	git diff --exit-code
+endif
 	poetry run mypy $(PACKAGES) --config-file=.mypy.ini
 	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 
