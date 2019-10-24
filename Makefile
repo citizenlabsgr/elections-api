@@ -17,14 +17,20 @@ doctor:
 
 .PHONY: install
 install: .venv/flag
-.venv/flag: poetry.lock
-	@ poetry config settings.virtualenvs.in-project true || poetry config virtualenvs.in-project true
+.venv/flag: poetry.lock runtime.txt requirements.txt
+	@ poetry config virtualenvs.in-project true
 	poetry install
 	@ touch $@
 
 poetry.lock: pyproject.toml
 	poetry lock
 	@ touch $@
+
+runtime.txt: .python-version
+	echo "python-$(shell cat $<)" > $@
+
+requirements.txt: poetry.lock
+	poetry export --format requirements.txt --output $@
 
 ###############################################################################
 
