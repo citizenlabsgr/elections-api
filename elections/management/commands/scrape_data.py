@@ -12,7 +12,7 @@ from elections.models import BallotWebsite, Election
 
 
 class Command(BaseCommand):
-    help = "Crawl the Michigan SOS website to parse ballots"
+    help = "Crawl the Michigan SOS website to discover ballots"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -38,10 +38,10 @@ class Command(BaseCommand):
         last_election = Election.objects.exclude(active=True).last()
         current_election = Election.objects.filter(active=True).first()
 
-        if last_election:
-            starting_election_id = last_election.mi_sos_id + 1
-        else:
+        if current_election:
             starting_election_id = current_election.mi_sos_id
+        else:
+            starting_election_id = last_election.mi_sos_id + 1
 
         error_count = 0
         for election_id in itertools.count(starting_election_id):
