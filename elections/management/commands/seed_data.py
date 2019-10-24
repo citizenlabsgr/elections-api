@@ -41,12 +41,21 @@ class Command(BaseCommand):
         return user
 
     def add_elections(self):
-        election, _ = models.Election.objects.get_or_create(
+        election, created = models.Election.objects.get_or_create(
+            name="State General",
+            date=pendulum.parse("2018-11-06", tz='America/Detroit'),
+            defaults=dict(active=False, mi_sos_id=676),
+        )
+        if created:
+            log.info(f"Added election: {election}")
+
+        election, created = models.Election.objects.get_or_create(
             name="November Consolidated",
             date=pendulum.parse("2019-11-05", tz='America/Detroit'),
             defaults=dict(active=True, mi_sos_id=679),
         )
-        log.info(f"Added election: {election}")
+        if created:
+            log.info(f"Added election: {election}")
 
     def fetch_districts(self):
         voter = models.Voter(

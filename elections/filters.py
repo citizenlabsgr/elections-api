@@ -44,12 +44,11 @@ class VoterFilter(filters.FilterSet):
         fields = ['first_name', 'last_name', 'zip_code', 'birth_date']
 
 
-class ElectionFilter(InitialilzedFilterSet):
+class ElectionFilter(filters.FilterSet):
 
     active = filters.BooleanFilter(
         field_name='active',
-        initial=True,
-        help_text="Include only recent and upcoming elections. Defaults to true.",
+        help_text="Include only recent and upcoming elections.",
     )
 
     class Meta:
