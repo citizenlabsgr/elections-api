@@ -169,7 +169,7 @@ def describe_elections():
             )
 
         def filter_by_active(expect, client, url, elections):
-            response = client.get(url)  # filter by active should be default
+            response = client.get(url + '?active=true')
 
             expect(response.status_code) == 200
             expect(response.data['count']) == 1
