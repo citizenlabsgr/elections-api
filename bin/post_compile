@@ -10,9 +10,5 @@ puts-step() {
   echo "-----> $@"
 }
 
-puts-step "Installing dependencies with poetry..."
-poetry config settings.virtualenvs.create false 2>&1 | indent
-poetry install --no-dev 2>&1 | indent
-
 puts-step "Collecting static files..."
 python manage.py collectstatic --no-input 2>&1 | indent
