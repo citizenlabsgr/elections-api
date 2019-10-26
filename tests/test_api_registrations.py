@@ -1,16 +1,14 @@
 # pylint: disable=unused-argument,unused-variable
 
-import pendulum
 import pytest
 
-from . import factories
+
+@pytest.fixture
+def url():
+    return '/api/registrations/'
 
 
-def describe_registrations():
-    @pytest.fixture
-    def url():
-        return '/api/registrations/'
-
+def describe_list():
     def with_valid_identity(expect, anything, client, url, db):
         response = client.get(
             url + '?first_name=Rosalynn'
@@ -121,114 +119,3 @@ def describe_registrations():
             'precinct': None,
             'districts': [],
         }
-
-
-def describe_precincts():
-    @pytest.fixture
-    def url():
-        return '/api/precincts/'
-
-    def describe_detail():
-        @pytest.fixture
-        def precinct(db):
-            precinct = factories.PrecinctFactory.create()
-            precinct.county.name = "Marquette"
-            precinct.county.save()
-            precinct.jurisdiction.name = "Forsyth Township"
-            precinct.jurisdiction.save()
-            precinct.ward = ''
-            precinct.number = '3'
-            precinct.save()
-            return precinct
-
-        def when_no_ward(expect, client, url, precinct, anything):
-            response = client.get(f'{url}{precinct.id}/')
-
-            expect(response.status_code) == 200
-            expect(response.data) == {
-                'url': anything,
-                'id': anything,
-                'county': 'Marquette',
-                'jurisdiction': 'Forsyth Township',
-                'ward': None,
-                'number': '3',
-            }
-
-
-def describe_elections():
-    @pytest.fixture
-    def url():
-        return '/api/elections/'
-
-    def describe_list():
-        @pytest.fixture
-        def elections(db):
-            factories.ElectionFactory.create(active=True)
-            factories.ElectionFactory.create(
-                active=False, date=pendulum.parse('2017-08-07', tz='America/Detroit')
-            )
-
-        def filter_by_active(expect, client, url, elections):
-            response = client.get(url + '?active=true')
-
-            expect(response.status_code) == 200
-            expect(response.data['count']) == 1
-
-        def filter_by_all(expect, client, url, elections):
-            response = client.get(url + '?active=all')
-
-            expect(response.status_code) == 200
-            expect(response.data['count']) == 2
-
-
-def describe_ballots():
-    @pytest.fixture
-    def url():
-        return '/api/ballots/'
-
-    def describe_list():
-        @pytest.fixture
-        def ballot(db):
-            ballot = factories.BallotFactory.create()
-            ballot.precinct.number = '1A'
-            ballot.precinct.save()
-            return ballot
-
-        def filter_by_precinct_with_letter(expect, client, url, ballot, anything):
-            response = client.get(url + f'?precinct_number={ballot.precinct.number}')
-
-            expect(response.status_code) == 200
-            expect(response.data['results']) == [
-                {
-                    'url': 'http://testserver/api/ballots/1/',
-                    'id': 1,
-                    'election': {
-                        'url': anything,
-                        'id': anything,
-                        'name': '',
-                        'date': '2018-08-07',
-                        'active': True,
-                        'reference_url': None,
-                    },
-                    'precinct': {
-                        'url': anything,
-                        'id': anything,
-                        'county': '',
-                        'jurisdiction': '',
-                        'ward': '2',
-                        'number': '1A',
-                    },
-                    'mi_sos_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
-                }
-            ]
-
-        def filter_by_election_id(expect, client, url, ballot):
-            response = client.get(url + '?election_id=999')
-
-            expect(response.status_code) == 200
-            expect(response.data['count']) == 0
-
-            response = client.get(url + f'?election_id={ballot.election.id}')
-
-            expect(response.status_code) == 200
-            expect(response.data['count']) == 1

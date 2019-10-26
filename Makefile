@@ -20,6 +20,7 @@ install: .venv/flag
 .venv/flag: poetry.lock runtime.txt requirements.txt
 	@ poetry config virtualenvs.in-project true || poetry config settings.virtualenvs.in-project true
 	poetry install
+	@ mkdir -p staticfiles
 	@ touch $@
 
 poetry.lock: pyproject.toml
@@ -49,6 +50,7 @@ ci: check test
 format: install
 	poetry run isort $(PACKAGES) --recursive --apply
 	poetry run black $(PACKAGES)
+	@ echo
 
 .PHONY: check
 check: format
@@ -94,7 +96,8 @@ data: migrate
 .PHONY: reset
 reset: install
 	dropdb elections_dev; createdb elections_dev
-	make data
+	@ echo
+	@ make data
 
 .PHONY: uml
 uml: install
