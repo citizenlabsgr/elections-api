@@ -1,5 +1,6 @@
 # pylint: disable=no-self-use
 
+import sys
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
@@ -14,7 +15,7 @@ class Command(BaseCommand):
     help = "Initialize contants and migrate data between existing models"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(verbosity=verbosity)
+        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
         self.initialize_parties()
         self.initialize_districts()

@@ -82,15 +82,15 @@ migrations: install
 migrate: install
 	poetry run python manage.py migrate
 	@ echo
-	poetry run python manage.py migrate_data -v2
+	poetry run python manage.py migrate_data
 
 .PHONY: data
 data: migrate
-	poetry run python manage.py seed_data -v2
+	poetry run python manage.py seed_data
 	@ echo
-	poetry run python manage.py scrape_data --start=1828 --limit=5 -v2
+	poetry run python manage.py scrape_data --start=1828 --limit=5
 	@ echo
-	poetry run python manage.py sync_data -v2
+	poetry run python manage.py sync_data
 
 .PHONY: reset
 reset: install

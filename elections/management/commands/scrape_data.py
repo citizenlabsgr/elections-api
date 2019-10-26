@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use
 
 import itertools
+import sys
 import warnings
 from typing import Optional
 
@@ -30,7 +31,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, verbosity: int, start: int, limit: Optional[int], **_kwargs):
-        log.init(verbosity=verbosity)
+        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')

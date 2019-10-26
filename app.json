@@ -20,6 +20,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "python manage.py seed_data -v2"
+    "postdeploy": "python manage.py seed_data"
   }
 }

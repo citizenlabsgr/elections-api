@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use
 
 
+import sys
 import warnings
 from typing import Set
 
@@ -15,7 +16,7 @@ class Command(BaseCommand):
     help = "Convert fetched ballot data into database records"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(verbosity=verbosity)
+        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
