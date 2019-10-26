@@ -21,7 +21,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
     queryset = models.Voter.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.VoterFilter
+    filterset_class = filters.VoterFilter
     pagination_class = None
 
     def list(self, request):  # pylint: disable=arguments-differ
@@ -55,7 +55,7 @@ class ElectionViewSet(CacheMixin, viewsets.ModelViewSet):
     http_method_names = ['options', 'get']
     queryset = models.Election.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.ElectionFilter
+    filterset_class = filters.ElectionFilter
     serializer_class = serializers.ElectionSerializer
 
 
@@ -105,7 +105,7 @@ class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
     http_method_names = ['options', 'get']
     queryset = models.Precinct.objects.select_related('county', 'jurisdiction').all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.PrecinctFilter
+    filterset_class = filters.PrecinctFilter
     serializer_class = serializers.PrecinctSerializer
 
 
@@ -125,7 +125,7 @@ class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
         'election', 'precinct', 'precinct__county', 'precinct__jurisdiction'
     ).all()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.BallotFilter
+    filterset_class = filters.BallotFilter
     serializer_class = serializers.BallotSerializer
 
 
@@ -145,7 +145,7 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
         'election', 'district__category'
     ).distinct()
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.ProposalFilter
+    filterset_class = filters.ProposalFilter
     serializer_class = serializers.ProposalSerializer
 
 
@@ -180,7 +180,7 @@ class CandidateViewSet(CacheMixin, viewsets.ModelViewSet):
     queryset = models.Candidate.objects.select_related('position', 'party').all()
     # TODO: Add support for filtering candidates
     # filter_backends = [filters.DjangoFilterBackend]
-    # filter_class = filters.CandidateFilter
+    # filterset_class = filters.CandidateFilter
     serializer_class = serializers.CandidateSerializer
 
 
@@ -202,5 +202,5 @@ class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
-    filter_class = filters.PositionFilter
+    filterset_class = filters.PositionFilter
     serializer_class = serializers.PositionSerializer

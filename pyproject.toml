@@ -11,7 +11,7 @@ authors = ["Citizen Labs <info@citizenlabs.com>"]
 python = "^3.7"
 
 # Django
-django = "^2.1"
+django = "~2.2.6"
 django-grappelli = "^2.11"
 django-filter = "^2.0"
 django-model-utils = "^3.1"
