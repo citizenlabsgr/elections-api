@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
@@ -8,7 +9,7 @@ from . import filters, models, serializers
 
 
 class CacheMixin:
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(settings.DEFAULT_API_CACHE_SECONDS))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)  # type: ignore
 
@@ -36,7 +37,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         )
         return Response(output_serializer.data)
 
-    @method_decorator(cache_page(60 * 30))
+    @method_decorator(cache_page(settings.REGISTRATION_API_CACHE_SECONDS))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 

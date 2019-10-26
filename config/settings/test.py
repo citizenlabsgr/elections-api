@@ -1,11 +1,13 @@
 import bugsnag
 
-from .base import *
+from .default import *
 
 
 # BASE_NAME and BASE_DOMAIN are intentionally unset
 # None of the commands that rely on these values should run during tests
 BASE_URL = 'http://example.com'
+
+DEFAULT_API_CACHE_SECONDS = 0
 
 ###############################################################################
 # Core

@@ -3,13 +3,12 @@
 import pytest
 
 
-@pytest.fixture
-def url():
-    return '/api/registrations/'
-
-
 def describe_list():
-    def with_valid_identity(expect, anything, client, url, db):
+    @pytest.fixture
+    def url():
+        return '/api/registrations/'
+
+    def it_returns_data_for_a_registered_voter(expect, anything, client, url, db):
         response = client.get(
             url + '?first_name=Rosalynn'
             '&last_name=Bliss'
@@ -105,7 +104,7 @@ def describe_list():
             ],
         }
 
-    def with_unknown_identity(expect, client, url):
+    def it_handles_unknown_voters(expect, client, url):
         response = client.get(
             url + '?first_name=Jane'
             '&last_name=Doe'

@@ -66,7 +66,6 @@ test: install
 
 .PHONY: watch
 watch: install
-	rm -f cache.sqlite
 	poetry run ptw
 
 .PHONY: notebook
@@ -89,7 +88,7 @@ migrate: install
 data: migrate
 	poetry run python manage.py seed_data -v2
 	@ echo
-	poetry run python manage.py scrape_data --start=1828 --limit=5  -v2
+	poetry run python manage.py scrape_data --start=1828 --limit=5 -v2
 	@ echo
 	poetry run python manage.py sync_data -v2
 

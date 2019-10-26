@@ -32,8 +32,6 @@ class PrecinctFactory(factory.django.DjangoModelFactory):
     ward = factory.Sequence(lambda n: str(n + 1))
     number = factory.Sequence(lambda n: str(n + 1))
 
-    mi_sos_id = 1111
-
 
 class ElectionFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -44,9 +42,19 @@ class ElectionFactory(factory.django.DjangoModelFactory):
     mi_sos_id = 2222
 
 
+class BallotWebsiteFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.BallotWebsite
+
+    mi_sos_election_id = 2222
+    mi_sos_precinct_id = 1111
+
+
 class BallotFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Ballot
 
     election = factory.SubFactory(ElectionFactory)
     precinct = factory.SubFactory(PrecinctFactory)
+
+    website = factory.SubFactory(BallotWebsiteFactory)
