@@ -11,7 +11,7 @@ import log
 import pendulum
 from model_utils.models import TimeStampedModel
 
-from . import helpers, scraper
+from . import helpers
 
 
 class DistrictCategory(TimeStampedModel):
@@ -264,7 +264,7 @@ class BallotWebsite(models.Model):
 
     def fetch(self) -> bool:
         """Fetch ballot HTML from the URL."""
-        self.mi_sos_html = scraper.fetch(self.mi_sos_url)
+        self.mi_sos_html = helpers.fetch(self.mi_sos_url)
 
         self.fetched = True
         self.last_fetch = timezone.now()
@@ -290,11 +290,11 @@ class BallotWebsite(models.Model):
         assert self.valid, 'Ballot has not been fetched'
         data: Dict[str, Any] = {}
 
-        data['election'] = scraper.parse_election(self.mi_sos_html)
-        data['precinct'] = scraper.parse_precinct(self.mi_sos_html, self.mi_sos_url)
+        data['election'] = helpers.parse_election(self.mi_sos_html)
+        data['precinct'] = helpers.parse_precinct(self.mi_sos_html, self.mi_sos_url)
         data['ballot'] = {}
 
-        data_count = scraper.parse_ballot(self.mi_sos_html, data['ballot'])
+        data_count = helpers.parse_ballot(self.mi_sos_html, data['ballot'])
         log.info(f'Ballot URL contains {data_count} parsed item(s)')
         if data_count:
             self.last_fetch_with_ballot = timezone.now()

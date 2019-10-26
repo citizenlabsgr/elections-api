@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use
 
-import itertools
+
 import sys
 import warnings
 from typing import Optional
@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 
 import log
 
-from elections.models import BallotWebsite, Election
+from elections.commands import scrape_ballots
 
 
 class Command(BaseCommand):
@@ -36,61 +36,4 @@ class Command(BaseCommand):
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
 
-        last_election = Election.objects.exclude(active=True).last()
-        current_election = Election.objects.filter(active=True).first()
-
-        if current_election:
-            starting_election_id = current_election.mi_sos_id
-        else:
-            starting_election_id = last_election.mi_sos_id + 1
-
-        error_count = 0
-        for election_id in itertools.count(starting_election_id):
-            ballot_count = self.scrape_ballots(election_id, start, limit)
-
-            if ballot_count:
-                error_count = 0
-            else:
-                error_count += 1
-
-            if error_count >= 3:
-                log.info(f'No more ballots to scrape')
-                break
-
-            if limit and ballot_count >= limit:
-                log.info(f'Stopping after fetching {ballot_count} ballot(s)')
-                break
-
-    def scrape_ballots(
-        self, election_id: int, starting_precinct_id: int, limit: Optional[int]
-    ) -> int:
-        log.info(f'Scrapping ballots for election {election_id}')
-        log.info(f'Starting from precinct {starting_precinct_id}')
-        if limit:
-            log.info(f'Stopping after {limit} ballots')
-
-        ballot_count = 0
-        error_count = 0
-
-        for precinct_id in itertools.count(starting_precinct_id):
-            website, created = BallotWebsite.objects.get_or_create(
-                mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
-            )
-            if created:
-                log.info(f'Discovered new website: {website}')
-            if website.stale or limit:
-                website.fetch() and website.parse() and website.convert()
-            if website.valid:
-                ballot_count += 1
-                error_count = 0
-            else:
-                error_count += 1
-
-            if limit and ballot_count >= limit:
-                break
-
-            if error_count >= 100:
-                log.info(f'No more ballots to scrape for election {election_id}')
-                break
-
-        return ballot_count
+        scrape_ballots(start=start, limit=limit)
