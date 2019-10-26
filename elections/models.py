@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
-import bugsnag
 import log
 import pendulum
 from model_utils.models import TimeStampedModel
@@ -90,12 +89,8 @@ class Precinct(TimeStampedModel):
     ward = models.CharField(max_length=2, blank=True)
     number = models.CharField(max_length=3, blank=True)
 
-    # TODO: Remove this field to normalize data
-    mi_sos_id = models.PositiveIntegerField()
-
     class Meta:
         unique_together = ['county', 'jurisdiction', 'ward', 'number']
-        ordering = ['mi_sos_id']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
@@ -180,7 +175,7 @@ class Voter(models.Model):
                 name=category_name
             )
             if created:
-                log.info(f"New category: {category}")
+                log.info(f"Created category: {category}")
 
             if category.name == "County":
                 district_name = district_name.replace(" County", "")
@@ -188,7 +183,7 @@ class Voter(models.Model):
                 category=category, name=district_name
             )
             if created:
-                log.info(f"New district: {district}")
+                log.info(f"Created district: {district}")
 
             districts.append(district)
 
@@ -202,15 +197,9 @@ class Voter(models.Model):
             jurisdiction=jurisdiction,
             ward=data['districts']['Ward'],
             number=data['districts']['Precinct'],
-            defaults=dict(mi_sos_id=0),
         )
         if created:
-            log.info(f"New precinct: {precinct}")
-        if not precinct.mi_sos_id:
-            bugsnag.notify(
-                RuntimeError("Precinct missing MI SOS ID"),
-                meta_data={"precinct": repr(precinct)},
-            )
+            log.info(f"Created precinct: {precinct}")
 
         status = RegistrationStatus(registered=data['registered'], precinct=precinct)
         status.districts = districts
@@ -327,23 +316,15 @@ class BallotWebsite(models.Model):
 
         return self.data_count
 
-    def convert(self) -> int:
-        """Convert parsed ballot data into models."""
-        log.info(f'Exctracting models for ballot: {self}')
-        assert self.data, 'Ballot has not been parsed'
-
-        count = 0
+    def convert(self) -> Ballot:
+        """Convert parsed ballot data into a ballot."""
+        log.info(f'Converting to a ballot: {self}')
+        assert self.data, 'Data has not yet been extracted from HTML'
 
         election = self._get_election()
         precinct = self._get_precinct()
-        self._get_ballot(election, precinct)
 
-        # self.parsed = True
-        # self.last_parse = timezone.now()
-        # self.balot = ???
-        # self.save()
-
-        return count
+        return self._get_ballot(election, precinct)
 
     def _get_election(self) -> Election:
         election_name, election_date = self.data['election']
@@ -379,20 +360,10 @@ class BallotWebsite(models.Model):
 
         assert self.mi_sos_precinct_id
         precinct, created = Precinct.objects.get_or_create(
-            county=county,
-            jurisdiction=jurisdiction,
-            ward=ward,
-            number=number,
-            defaults={'mi_sos_id': self.mi_sos_precinct_id},
+            county=county, jurisdiction=jurisdiction, ward=ward, number=number
         )
         if created:
             log.info(f'Created precinct: {precinct}')
-        elif precinct.mi_sos_id != self.mi_sos_election_id:
-            log.warning(
-                f'Precinct ID changed from {precinct.mi_sos_id} to {self.mi_sos_precinct_id}'
-            )
-            precinct.mi_sos_id = self.mi_sos_election_id
-            precinct.save()
 
         return precinct
 
@@ -405,6 +376,12 @@ class BallotWebsite(models.Model):
             log.info(f'Created ballot: {ballot}')
         return ballot
 
+    def tbd_action(self):
+        # TODO: Parse ballot into models
+        self.parsed = True
+        self.last_parse = timezone.now()
+        self.save()
+
 
 class Ballot(TimeStampedModel):
     """Full ballot bound to a particular polling location."""
@@ -413,7 +390,11 @@ class Ballot(TimeStampedModel):
     precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
 
     website = models.OneToOneField(
-        BallotWebsite, blank=True, null=True, on_delete=models.SET_NULL
+        BallotWebsite,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='ballot',
     )
 
     class Meta:
@@ -428,10 +409,10 @@ class Ballot(TimeStampedModel):
         return self.election.mi_sos_name + self.precinct.mi_sos_name
 
     @property
-    def mi_sos_url(self) -> str:
-        return helpers.build_mi_sos_url(
-            election_id=self.election.mi_sos_id, precinct_id=self.precinct.mi_sos_id
-        )
+    def mi_sos_url(self) -> Optional[str]:
+        if self.website:
+            return self.website.mi_sos_url
+        return None
 
 
 class BallotItem(TimeStampedModel):

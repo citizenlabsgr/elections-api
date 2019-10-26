@@ -6,11 +6,6 @@ from . import factories
 
 
 @pytest.fixture
-def url():
-    return '/api/ballots/'
-
-
-@pytest.fixture
 def ballot(db):
     ballot = factories.BallotFactory.create()
     ballot.precinct.number = '1A'
@@ -19,35 +14,20 @@ def ballot(db):
 
 
 def describe_list():
-    def filter_by_precinct_with_letter(expect, client, url, ballot, anything):
-        response = client.get(url + f'?precinct_number={ballot.precinct.number}')
+    @pytest.fixture
+    def url():
+        return '/api/ballots/'
+
+    def it_handles_ballots_without_websites(expect, client, url, ballot):
+        ballot.website = None
+        ballot.save()
+
+        response = client.get(url)
 
         expect(response.status_code) == 200
-        expect(response.data['results']) == [
-            {
-                'url': 'http://testserver/api/ballots/1/',
-                'id': 1,
-                'election': {
-                    'url': anything,
-                    'id': anything,
-                    'name': '',
-                    'date': '2018-08-07',
-                    'active': True,
-                    'reference_url': None,
-                },
-                'precinct': {
-                    'url': anything,
-                    'id': anything,
-                    'county': '',
-                    'jurisdiction': '',
-                    'ward': '1',
-                    'number': '1A',
-                },
-                'mi_sos_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
-            }
-        ]
+        expect(response.data['results'][0]['mi_sos_url']) == None
 
-    def filter_by_election_id(expect, client, url, ballot):
+    def it_can_be_filtered_by_election_id(expect, client, url, ballot):
         response = client.get(url + '?election_id=999')
 
         expect(response.status_code) == 200
@@ -57,3 +37,31 @@ def describe_list():
 
         expect(response.status_code) == 200
         expect(response.data['count']) == 1
+
+    def it_can_be_filtered_by_precinct_with_letter(expect, client, url, ballot):
+        response = client.get(url + f'?precinct_number={ballot.precinct.number}')
+
+        expect(response.status_code) == 200
+        expect(response.data['results']) == [
+            {
+                'url': f'http://testserver/api/ballots/{ballot.id}/',
+                'id': ballot.id,
+                'election': {
+                    'url': f'http://testserver/api/elections/{ballot.election.id}/',
+                    'id': ballot.election.id,
+                    'name': '',
+                    'date': '2018-08-07',
+                    'active': True,
+                    'reference_url': None,
+                },
+                'precinct': {
+                    'url': f'http://testserver/api/precincts/{ballot.precinct.id}/',
+                    'id': ballot.precinct.id,
+                    'county': '',
+                    'jurisdiction': '',
+                    'ward': ballot.precinct.ward,
+                    'number': ballot.precinct.number,
+                },
+                'mi_sos_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
+            }
+        ]

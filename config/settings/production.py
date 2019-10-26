@@ -5,7 +5,7 @@ from datetime import timedelta
 import dj_database_url
 import redis
 
-from .base import *
+from .default import *
 
 
 BASE_NAME = os.environ['HEROKU_APP_NAME']

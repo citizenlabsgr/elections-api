@@ -48,9 +48,7 @@ def precinct(district):
         name="City of Grand Rapids",
         category=models.DistrictCategory(name="Jurisdiction"),
     )
-    return models.Precinct(
-        county=county, jurisdiction=jurisdiction, ward=1, number='9', mi_sos_id=1828
-    )
+    return models.Precinct(county=county, jurisdiction=jurisdiction, ward=1, number='9')
 
 
 @pytest.fixture

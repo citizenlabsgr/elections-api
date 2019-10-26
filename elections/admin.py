@@ -65,23 +65,9 @@ class ElectionAdmin(admin.ModelAdmin):
 @admin.register(models.Precinct)
 class PrecinctAdmin(admin.ModelAdmin):
 
-    search_fields = [
-        'county__name',
-        'jurisdiction__name',
-        'ward',
-        'number',
-        'mi_sos_id',
-    ]
+    search_fields = ['county__name', 'jurisdiction__name', 'ward', 'number']
 
-    list_display = [
-        'id',
-        'county',
-        'jurisdiction',
-        'ward',
-        'number',
-        'mi_sos_id',
-        'modified',
-    ]
+    list_display = ['id', 'county', 'jurisdiction', 'ward', 'number', 'modified']
 
 
 @admin.register(models.BallotWebsite)
@@ -106,25 +92,25 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'last_fetch_with_precinct',
         'data_count',
         'last_fetch_with_ballot',
+        'ballot',
         'parsed',
         'last_parse',
-        'ballot',
     ]
 
     ordering = ['-last_fetch']
 
     readonly_fields = [
-        'ballot',
         'refetch_weight',
         'fetched',
         'last_fetch',
         'valid',
         'last_fetch_with_precinct',
+        'data',
         'data_count',
         'last_fetch_with_ballot',
+        'ballot',
         'parsed',
         'last_parse',
-        'data',
     ]
 
     def Link(self, website: models.BallotWebsite):

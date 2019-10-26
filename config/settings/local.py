@@ -4,12 +4,15 @@ import bugsnag
 import dj_database_url
 import redis
 
-from .base import *
+from .default import *
 
 
 BASE_NAME = 'localhost'
 BASE_DOMAIN = f"{BASE_NAME}:8000"
 BASE_URL = f"http://{BASE_DOMAIN}"
+
+DEFAULT_API_CACHE_SECONDS = 60
+REGISTRATION_API_CACHE_SECONDS = 60
 
 ###############################################################################
 # Core

@@ -6,11 +6,6 @@ from . import factories
 
 
 @pytest.fixture
-def url():
-    return '/api/precincts/'
-
-
-@pytest.fixture
 def precinct(db):
     precinct = factories.PrecinctFactory.create()
     precinct.county.name = "Marquette"
@@ -24,13 +19,17 @@ def precinct(db):
 
 
 def describe_detail():
-    def when_no_ward(expect, client, url, precinct, anything):
-        response = client.get(f'{url}{precinct.id}/')
+    @pytest.fixture
+    def url(precinct):
+        return f'/api/precincts/{precinct.id}/'
+
+    def it_handles_precincts_without_a_ward(expect, client, url, precinct):
+        response = client.get(url)
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            'url': anything,
-            'id': anything,
+            'url': f'http://testserver/api/precincts/{precinct.id}/',
+            'id': precinct.id,
             'county': 'Marquette',
             'jurisdiction': 'Forsyth Township',
             'ward': None,

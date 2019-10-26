@@ -7,11 +7,6 @@ from . import factories
 
 
 @pytest.fixture
-def url():
-    return '/api/elections/'
-
-
-@pytest.fixture
 def elections(db):
     factories.ElectionFactory.create(active=True)
     factories.ElectionFactory.create(
@@ -20,13 +15,17 @@ def elections(db):
 
 
 def describe_list():
-    def filter_by_active(expect, client, url, elections):
+    @pytest.fixture
+    def url():
+        return '/api/elections/'
+
+    def it_can_be_filtered_by_active(expect, client, url, elections):
         response = client.get(url + '?active=true')
 
         expect(response.status_code) == 200
         expect(response.data['count']) == 1
 
-    def filter_by_all(expect, client, url, elections):
+    def it_can_be_filtered_by_all(expect, client, url, elections):
         response = client.get(url + '?active=all')
 
         expect(response.status_code) == 200
