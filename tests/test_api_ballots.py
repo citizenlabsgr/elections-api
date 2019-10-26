@@ -10,14 +10,15 @@ def url():
     return '/api/ballots/'
 
 
-def describe_list():
-    @pytest.fixture
-    def ballot(db):
-        ballot = factories.BallotFactory.create()
-        ballot.precinct.number = '1A'
-        ballot.precinct.save()
-        return ballot
+@pytest.fixture
+def ballot(db):
+    ballot = factories.BallotFactory.create()
+    ballot.precinct.number = '1A'
+    ballot.precinct.save()
+    return ballot
 
+
+def describe_list():
     def filter_by_precinct_with_letter(expect, client, url, ballot, anything):
         response = client.get(url + f'?precinct_number={ballot.precinct.number}')
 

@@ -11,14 +11,15 @@ def url():
     return '/api/elections/'
 
 
-def describe_list():
-    @pytest.fixture
-    def elections(db):
-        factories.ElectionFactory.create(active=True)
-        factories.ElectionFactory.create(
-            active=False, date=pendulum.parse('2017-08-07', tz='America/Detroit')
-        )
+@pytest.fixture
+def elections(db):
+    factories.ElectionFactory.create(active=True)
+    factories.ElectionFactory.create(
+        active=False, date=pendulum.parse('2017-08-07', tz='America/Detroit')
+    )
 
+
+def describe_list():
     def filter_by_active(expect, client, url, elections):
         response = client.get(url + '?active=true')
 
