@@ -1,7 +1,7 @@
 import re
 import string
 from datetime import datetime
-from typing import Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import bugsnag
 import log
@@ -220,48 +220,50 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing item {index}: {item}')
+        log.debug(f'Parsing office item {index}: {item}')
 
         if "section" in item['class']:
-            section: Dict[str, Dict] = {}
-            division: Optional[Dict] = None
+            section: Dict[str, Any] = {}
+            division: Optional[List] = None
             office: Optional[Dict] = None
-            label = item.text
+            label = item.text.lower()
+            assert label not in data, f'Duplicate section: {label}'
             data[label] = section
 
         elif "division" in item['class']:
-            label = item.text.replace(' - Continued', '')
-
+            office = None
+            label = titleize(item.text.replace(' - Continued', ''))
             try:
                 division = section[label]
             except KeyError:
-                division = {}
-
+                division = []
             section[label] = division
             office = None
 
         elif "office" in item['class']:
-            label = item.text
+            label = titleize(item.text)
             assert division is not None, f'Division missing for office: {label}'
-
-            try:
-
-                office = division[label]
-            except KeyError:
-                office = {'term': [], 'candidates': []}
-
-            division[label] = office
+            office = {'name': label, 'term': None, 'seats': None, 'candidates': []}
+            division.append(office)
 
         elif "term" in item['class']:
             label = item.text
             assert office is not None, f'Office missing for term: {label}'
-            office['term'].append(label)
+            if "Term" in label:
+                office['term'] = label
+            elif "Vote for" in label:
+                office['seats'] = int(label.replace("Vote for not more than ", ""))
+            elif "WARD" in label:
+                office['term'] = titleize(label)
+            else:
+                raise ValueError(f"Unhandled term: {label}")
             count += 1
 
         elif "candidate" in item['class']:
             label = item.text
             assert office is not None, f'Office missing for candidate: {label}'
-            office['candidates'].append(item.text)
+            candidate = {'name': label}
+            office['candidates'].append(candidate)
             count += 1
 
     return count
@@ -281,39 +283,35 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing item {index}: {item}')
+        log.debug(f'Parsing proposal item {index}: {item}')
 
         if "section" in item['class']:
-            section: Dict[str, Dict] = {}
-            division: Optional[Dict] = None
-            label = item.text
+            section: Dict[str, Any] = {}
+            division: Optional[List] = None
+            proposal = None
+            label = item.text.lower()
             data[label] = section
 
         elif "division" in item['class']:
-            label = item.text.replace(' - Continued', '')
-
+            proposal = None
+            label = titleize(item.text).replace(" Proposals", "")
+            assert label and "Continued" not in label
             try:
                 division = section[label]
             except KeyError:
-                division = {}
-
+                division = []
             section[label] = division
 
         elif "proposalTitle" in item['class']:
             label = item.text
             assert division is not None, f'Division missing for proposal: {label}'
-
-            try:
-                proposal = division[label]
-            except KeyError:
-                proposal = {'text': None}
-
-            division[label] = proposal
+            proposal = {'title': label, 'text': None}
+            division.append(proposal)
 
         elif "proposalText" in item['class']:
             label = item.text
             assert proposal is not None, f'Proposal missing for text: {label}'
-            proposal['text'] = item.text
+            proposal['text'] = label
             count += 1
 
     return count

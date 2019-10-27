@@ -41,6 +41,7 @@ endif
 
 .PHONY: run
 run: install migrate
+	@ echo
 	poetry run python manage.py runserver
 
 ###############################################################################
