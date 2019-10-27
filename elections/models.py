@@ -444,7 +444,7 @@ class Ballot(TimeStampedModel):
                 district = self.precinct.jurisdiction
             else:
                 raise ValueError(
-                    f'Unknown category {category_name!r} on {self.website.mi_sos_url}'
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                 )
 
             for position_data in positions_data:
@@ -477,9 +477,12 @@ class Ballot(TimeStampedModel):
         for category_name, proposals_data in data.items():
             if category_name == 'City':
                 district = self.precinct.jurisdiction
+            elif category_name == 'Local School District':
+                # TODO: Verify this is the correct mapping
+                district = self.precinct.county
             else:
                 raise ValueError(
-                    f'Unknown category {category_name!r} on {self.website.mi_sos_url}'
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                 )
 
             for proposal_data in proposals_data:

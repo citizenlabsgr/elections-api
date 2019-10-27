@@ -7,7 +7,9 @@ from elections import defaults
 from elections.models import BallotWebsite
 
 
-@pytest.mark.parametrize('election_id, precinct_id, item_count', [(679, 1828, 12)])
+@pytest.mark.parametrize(
+    'election_id, precinct_id, item_count', [(679, 1828, 12), (679, 411, 2)]
+)
 def test_ballots(expect, db, election_id, precinct_id, item_count):
     defaults.initialize_districts()
     defaults.initialize_parties()
