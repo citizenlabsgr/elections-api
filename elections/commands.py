@@ -92,16 +92,7 @@ def parse_ballots(*, refetch: bool = False):
             mi_sos_election_id=election.mi_sos_id, valid=True
         ).order_by('-mi_sos_precinct_id'):
 
-            try:
-                ballot = website.convert()
-            except ValueError as e:
-                if refetch:
-                    website.fetch()
-                    website.validate()
-                    website.scrape()
-                    ballot = website.convert()
-                else:
-                    raise e from None
+            ballot = website.convert()
 
             if ballot.precinct in precincts:
                 log.warn(f'Duplicate website: {website}')
@@ -109,5 +100,17 @@ def parse_ballots(*, refetch: bool = False):
                 precincts.add(ballot.precinct)
 
                 ballot.website = website
-                ballot.parse()
+
+                try:
+                    ballot.parse()
+                except ValueError as e:
+                    if refetch:
+                        log.warning(str(e))
+                        ballot.website.fetch()
+                        ballot.website.validate()
+                        ballot.website.scrape()
+                        ballot.parse()
+                    else:
+                        raise e from None
+
                 ballot.save()
