@@ -23,6 +23,8 @@ install: .venv/flag
 	@ mkdir -p staticfiles
 	@ touch $@
 
+ifndef CI
+
 poetry.lock: pyproject.toml
 	poetry lock
 	@ touch $@
@@ -32,6 +34,8 @@ runtime.txt: .python-version
 
 requirements.txt: poetry.lock
 	poetry export --format requirements.txt --output $@ || echo "ERROR: Poetry 1.x required to export dependencies"
+
+endif
 
 ###############################################################################
 
