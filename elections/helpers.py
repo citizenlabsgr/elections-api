@@ -304,9 +304,13 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "proposalTitle" in item['class']:
             label = item.text.strip()
+            if label.isupper():
+                label = titleize(label)
             if '\n' in label:
-                # TODO: Verify this is the correct mapping
+                # TODO: Remove duplicate text in description?
                 log.warning(f'Newlines in proposal title: {label}')
+                if label.count('\n') == 1:
+                    label = label.replace('\n', ': ')
             assert division is not None, f'Division missing for proposal: {label}'
             proposal = {'title': label, 'text': None}
             division.append(proposal)

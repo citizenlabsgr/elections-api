@@ -475,7 +475,9 @@ class Ballot(TimeStampedModel):
 
     def _parse_proposal_section(self, data):
         for category_name, proposals_data in data.items():
-            if category_name == 'City':
+            if category_name == 'County':
+                district = self.precinct.county
+            elif category_name == 'City':
                 district = self.precinct.jurisdiction
             elif category_name == 'Local School District':
                 # TODO: Verify this is the correct mapping
