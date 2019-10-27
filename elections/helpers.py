@@ -201,6 +201,15 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     return county, jurisdiction, ward, precinct
 
 
+def parse_community_college(text: str) -> str:
+    match = re.search("(authorizes|the)(.+ Community College)", text)
+    if match:
+        name = match[2].strip()
+        if name[0].isupper():
+            return name
+    raise ValueError(f'Could not find community college: {text}')
+
+
 def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
     soup = BeautifulSoup(html, 'html.parser')

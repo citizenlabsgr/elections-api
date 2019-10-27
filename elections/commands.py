@@ -83,7 +83,7 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots():
+def parse_ballots(*, refetch: bool = False):
     for election in Election.objects.filter(active=True):
 
         precincts: Set[Precinct] = set()
@@ -92,7 +92,16 @@ def parse_ballots():
             mi_sos_election_id=election.mi_sos_id, valid=True
         ).order_by('-mi_sos_precinct_id'):
 
-            ballot = website.convert()
+            try:
+                ballot = website.convert()
+            except ValueError as e:
+                if refetch:
+                    website.fetch()
+                    website.validate()
+                    website.scrape()
+                    ballot = website.convert()
+                else:
+                    raise e from None
 
             if ballot.precinct in precincts:
                 log.warn(f'Duplicate website: {website}')

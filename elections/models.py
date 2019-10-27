@@ -462,6 +462,7 @@ class Ballot(TimeStampedModel):
                 yield position
 
                 for candidate_data in position_data['candidates']:
+                    assert candidate_data['party'], f'Expected party: {data}'
                     party = Party.objects.get(name=candidate_data['party'])
                     candidate, created = Candidate.objects.update_or_create(
                         position=position,
@@ -512,17 +513,38 @@ class Ballot(TimeStampedModel):
 
     def _parse_proposal_section(self, data):
         for category_name, proposals_data in data.items():
+
+            district = None
+
             if category_name in {'County', 'Local School District'}:
                 # TODO: Verify this is the correct mapping for 'Local School District'
                 district = self.precinct.county
             elif category_name in {'City', 'Township'}:
                 district = self.precinct.jurisdiction
+            elif category_name in {'Community College'}:
+                category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise ValueError(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                 )
 
             for proposal_data in proposals_data:
+
+                if district is None:
+                    if category.name == 'Community College':
+                        district_name = helpers.parse_community_college(
+                            proposal_data['text']
+                        )
+                        district, created = District.objects.get_or_create(
+                            category=category, name=district_name
+                        )
+                        if created:
+                            log.info(f'Created district: {district}')
+                    else:
+                        raise ValueError(
+                            f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                        )
+
                 proposal, created = Proposal.objects.update_or_create(
                     election=self.election,
                     district=district,

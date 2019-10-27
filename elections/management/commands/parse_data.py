@@ -13,10 +13,17 @@ from elections.commands import parse_ballots
 class Command(BaseCommand):
     help = "Convert fetched ballot data into database records"
 
-    def handle(self, verbosity: int, **_kwargs):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--refetch',
+            action='store_true',
+            help='Fetch, validate, and scrape ballots again if parsing fails.',
+        )
+
+    def handle(self, verbosity: int, refetch: bool, **_kwargs):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
 
-        parse_ballots()
+        parse_ballots(refetch=refetch)

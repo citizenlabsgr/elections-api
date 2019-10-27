@@ -18,5 +18,5 @@ def describe_initialize_districts():
         defaults.initialize_districts()
         defaults.initialize_districts()
 
-        expect(DistrictCategory.objects.count()) == 13
+        expect(DistrictCategory.objects.count()) == 14
         expect(District.objects.count()) == 1
