@@ -133,8 +133,8 @@ def _clean_district_name(text: str):
 # Ballot helpers
 
 
-def fetch(url: str) -> str:
-    log.info(f'Fetching {url}')
+def fetch_ballot(url: str) -> str:
+    log.info(f'Fetching ballot: {url}')
     response = requests.get(
         url,
         headers={
@@ -201,12 +201,12 @@ def parse_ballot(html: str, data: Dict) -> int:
         1
     ]
     count = 0
-    count += _parse_general_election_offices(ballot, data)
-    count += _parse_proposals(ballot, data)
+    count += parse_general_election_offices(ballot, data)
+    count += parse_proposals(ballot, data)
     return count
 
 
-def _parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
+def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts general election ballot data into the provided dictionary."""
     count = 0
 
@@ -267,7 +267,7 @@ def _parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     return count
 
 
-def _parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
+def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts proposal data into the provided dictionary."""
     count = 0
 

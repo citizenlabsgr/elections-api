@@ -242,8 +242,9 @@ class BallotWebsite(models.Model):
     refetch_weight = models.FloatField(default=1.0, editable=False)
 
     last_fetch = models.DateTimeField(null=True, editable=False)
-    last_fetch_with_precinct = models.DateTimeField(null=True, editable=False)
-    last_fetch_with_ballot = models.DateTimeField(null=True, editable=False)
+    last_validate = models.DateTimeField(null=True, editable=False)
+    last_scrape = models.DateTimeField(null=True, editable=False)
+    last_convert = models.DateTimeField(null=True, editable=False)
     last_parse = models.DateTimeField(null=True, editable=False)
 
     class Meta:
@@ -262,32 +263,40 @@ class BallotWebsite(models.Model):
     def stale(self) -> bool:
         return self.refetch_weight > random.random()
 
-    def fetch(self) -> bool:
+    def fetch(self) -> None:
         """Fetch ballot HTML from the URL."""
-        self.mi_sos_html = helpers.fetch(self.mi_sos_url)
+        self.mi_sos_html = helpers.fetch_ballot(self.mi_sos_url)
 
         self.fetched = True
         self.last_fetch = timezone.now()
+
+        self.save()
+
+    def validate(self) -> bool:
+        """Determine if fetched HTML contains ballot information."""
+        log.info(f'Validating ballot HTML: {self}')
+        assert self.mi_sos_html, 'Ballot has not been fetched'
 
         if (
             "not available at this time" in self.mi_sos_html
             or " County" not in self.mi_sos_html
         ):
-            log.warn('Ballot URL does not contain precinct information')
+            log.info('Ballot URL does not contain precinct information')
             self.valid = False
         else:
             assert "Sample Ballot" in self.mi_sos_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
-            self.last_fetch_with_precinct = timezone.now()
+            self.last_validate = timezone.now()
 
         self.save()
 
         return self.valid
 
-    def parse(self) -> int:
-        """Parse ballot data from the HTML."""
-        assert self.valid, 'Ballot has not been fetched'
+    def scrape(self) -> int:
+        """Scrape ballot data from the HTML."""
+        log.info(f'Scraping data from ballot: {self}')
+        assert self.valid, 'Ballot has not been validated'
         data: Dict[str, Any] = {}
 
         data['election'] = helpers.parse_election(self.mi_sos_html)
@@ -297,7 +306,7 @@ class BallotWebsite(models.Model):
         data_count = helpers.parse_ballot(self.mi_sos_html, data['ballot'])
         log.info(f'Ballot URL contains {data_count} parsed item(s)')
         if data_count:
-            self.last_fetch_with_ballot = timezone.now()
+            self.last_scrape = timezone.now()
             self.data = data
 
         if data_count == self.data_count:
@@ -319,12 +328,16 @@ class BallotWebsite(models.Model):
     def convert(self) -> Ballot:
         """Convert parsed ballot data into a ballot."""
         log.info(f'Converting to a ballot: {self}')
-        assert self.data, 'Data has not yet been extracted from HTML'
+        assert self.data, 'Ballot has not been scrapted'
 
         election = self._get_election()
         precinct = self._get_precinct()
+        ballot = self._get_ballot(election, precinct)
+        self.last_convert = timezone.now()
 
-        return self._get_ballot(election, precinct)
+        self.save()
+
+        return ballot
 
     def _get_election(self) -> Election:
         election_name, election_date = self.data['election']
@@ -355,7 +368,7 @@ class BallotWebsite(models.Model):
             category=DistrictCategory.objects.get(name="Jurisdiction"),
             name=jurisdiction_name,
         )
-        if jurisdiction:
+        if created:
             log.info(f'Created district: {jurisdiction}')
 
         assert self.mi_sos_precinct_id
@@ -375,12 +388,6 @@ class BallotWebsite(models.Model):
         if created:
             log.info(f'Created ballot: {ballot}')
         return ballot
-
-    def tbd_action(self):
-        # TODO: Parse ballot into models
-        self.parsed = True
-        self.last_parse = timezone.now()
-        self.save()
 
 
 class Ballot(TimeStampedModel):
@@ -413,6 +420,21 @@ class Ballot(TimeStampedModel):
         if self.website:
             return self.website.mi_sos_url
         return None
+
+    def parse(self) -> int:
+        log.info(f'Parsing ballot: {self}')
+        assert (
+            self.website and self.website.data
+        ), 'Ballot website has not been converted'
+
+        count = 0
+
+        # TODO: Parse ballot into models
+        # self.website.parsed = True
+        # self.website.last_parse = timezone.now()
+        # self.website.save()
+
+        return count
 
 
 class BallotItem(TimeStampedModel):
