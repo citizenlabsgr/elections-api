@@ -1,8 +1,6 @@
 import itertools
 from typing import Optional, Set
 
-from django.core.exceptions import ObjectDoesNotExist
-
 import log
 
 from .models import BallotWebsite, Election, Precinct
@@ -105,7 +103,7 @@ def parse_ballots(*, refetch: bool = False):
 
                 try:
                     ballot.parse()
-                except (ValueError, ObjectDoesNotExist) as e:
+                except Exception as e:  # pylint: disable=broad-except
                     if refetch:
                         log.warning(str(e))
                         ballot.website.fetch()
