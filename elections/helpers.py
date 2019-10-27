@@ -8,6 +8,7 @@ import log
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
+from nameparser import HumanName
 from rest_framework.exceptions import APIException
 
 
@@ -28,6 +29,12 @@ def titleize(text: str) -> str:
         .replace(" And ", " and ")
         .strip()
     )
+
+
+def humanize(text: str) -> str:
+    name = HumanName(text.strip())
+    name.capitalize()
+    return str(name)
 
 
 def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -216,7 +223,18 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
     for index, item in enumerate(
         offices.find_all(
-            'div', {"class": ["section", "division", "office", "term", "candidate"]}
+            'div',
+            {
+                "class": [
+                    "section",
+                    "division",
+                    "office",
+                    "term",
+                    "candidate",
+                    "financeLink",
+                    "party",
+                ]
+            },
         ),
         start=1,
     ):
@@ -260,11 +278,21 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             count += 1
 
         elif "candidate" in item['class']:
-            label = item.text
+            label = humanize(item.text)
             assert office is not None, f'Office missing for candidate: {label}'
-            candidate = {'name': label, 'party': None}
+            candidate = {'name': label, 'finance_link': None, 'party': None}
             office['candidates'].append(candidate)
             count += 1
+
+        elif "financeLink" in item['class']:
+            label = item.text.strip()
+            assert candidate is not None, f'Candidate missing for finance link: {label}'
+            candidate['finance_link'] = label or None
+
+        elif "party" in item['class']:
+            label = item.text.strip()
+            assert candidate is not None, f'Candidate missing for party: {label}'
+            candidate['party'] = label or None
 
     return count
 

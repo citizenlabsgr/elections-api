@@ -99,6 +99,9 @@ markupsafe==1.1.1 \
 minilog==1.2.5 \
     --hash=sha256:74b962be330c27cd5cd7f38bdfd8d98d58915a81b667d5bb488d4f1d68135a92 \
     --hash=sha256:81d356eaeb697444836a35aee104ac974b05e0d4a2faef306ba542e2fb21b8da
+nameparser==1.0.4 \
+    --hash=sha256:4850660cfd3dfb97fe2bd54df1cf095a3c1f8261c2d0f9f22ffe4ee151f9e117 \
+    --hash=sha256:cbb002df6e37a04b6e95806098c836b4e32f6ede0057386adc270bf119bc82cd
 packaging==19.2 \
     --hash=sha256:28b924174df7a2fa32c1953825ff29c61e2f5e082343165438812f00d3a7fc47 \
     --hash=sha256:d9551545c6d761f3def1677baf08ab2a3ca17c56879e70fecba2fc4dde4ed108

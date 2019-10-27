@@ -9,7 +9,7 @@ from elections.models import BallotWebsite
 
 @pytest.mark.parametrize(
     'election_id, precinct_id, item_count',
-    [(679, 1828, 12), (679, 411, 2), (679, 780, 1), (679, 716, 1)],
+    [(679, 1828, 12), (679, 411, 2), (679, 780, 1), (679, 716, 1), (679, 227, 5)],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
     defaults.initialize_districts()

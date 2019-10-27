@@ -438,6 +438,43 @@ class Ballot(TimeStampedModel):
 
         return count
 
+    def _parse_partisan_section(self, data):
+        for category_name, positions_data in data.items():
+            if category_name in {'City', 'Township'}:
+                district = self.precinct.jurisdiction
+            else:
+                raise ValueError(
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                )
+
+            for position_data in positions_data:
+                position, created = Position.objects.get_or_create(
+                    election=self.election,
+                    district=district,
+                    name=position_data['name'],
+                    term=position_data['term'] or "",
+                    seats=position_data['seats'],
+                )
+                if created:
+                    log.info(f'Created position: {position}')
+                position.precincts.add(self.precinct)
+                position.save()
+                yield position
+
+                for candidate_data in position_data['candidates']:
+                    party = Party.objects.get(name=candidate_data['party'])
+                    candidate, created = Candidate.objects.update_or_create(
+                        position=position,
+                        name=candidate_data['name'],
+                        defaults={
+                            'party': party,
+                            'reference_url': candidate_data['finance_link'],
+                        },
+                    )
+                    if created:
+                        log.info(f'Created candidate: {candidate}')
+                    yield candidate
+
     def _parse_nonpartisan_section(self, data):
         for category_name, positions_data in data.items():
             if category_name == 'City':
