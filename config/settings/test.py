@@ -8,6 +8,7 @@ from .default import *
 BASE_URL = 'http://example.com'
 
 DEFAULT_API_CACHE_SECONDS = 0
+REGISTRATION_API_CACHE_SECONDS = 0
 
 ###############################################################################
 # Core

@@ -65,7 +65,8 @@ def _scrape_ballots_for_election(
         if created:
             log.info(f'Discovered new website: {website}')
         if website.stale or limit:
-            website.fetch() and website.parse() and website.convert()
+            website.fetch()
+            website.validate() and website.scrape() and website.convert()
         if website.valid:
             ballot_count += 1
             error_count = 0
@@ -96,6 +97,8 @@ def parse_ballots():
             if ballot.precinct in precincts:
                 log.warn(f'Duplicate website: {website}')
             else:
-                ballot.website = website
-                ballot.save()
                 precincts.add(ballot.precinct)
+
+                ballot.website = website
+                ballot.parse()
+                ballot.save()
