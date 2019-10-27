@@ -462,8 +462,12 @@ class Ballot(TimeStampedModel):
                 yield position
 
                 for candidate_data in position_data['candidates']:
-                    candidate, created = Candidate.objects.get_or_create(
-                        position=position, name=candidate_data['name']
+                    assert candidate_data['party'] is None
+                    party = Party.objects.get(name="Nonpartisan")
+                    candidate, created = Candidate.objects.update_or_create(
+                        position=position,
+                        name=candidate_data['name'],
+                        defaults={'party': party},
                     )
                     if created:
                         log.info(f'Created candidate: {candidate}')

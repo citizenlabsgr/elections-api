@@ -10,6 +10,7 @@ from elections.models import BallotWebsite
 @pytest.mark.parametrize('election_id, precinct_id, item_count', [(679, 1828, 12)])
 def test_ballots(expect, db, election_id, precinct_id, item_count):
     defaults.initialize_districts()
+    defaults.initialize_parties()
 
     website = BallotWebsite.objects.create(
         mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id

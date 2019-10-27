@@ -57,6 +57,7 @@ def describe_parse_ballots():
 
     def with_active_election_and_one_scrapped_ballot(expect, active_election):
         defaults.initialize_districts()
+        defaults.initialize_parties()
 
         commands.scrape_ballots(start=1828, limit=1)
         commands.parse_ballots()

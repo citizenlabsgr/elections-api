@@ -95,7 +95,7 @@ data: migrate
 	@ echo
 	poetry run python manage.py scrape_data --start=1828 --limit=5
 	@ echo
-	poetry run python manage.py sync_data
+	poetry run python manage.py parse_data
 
 .PHONY: reset
 reset: install
