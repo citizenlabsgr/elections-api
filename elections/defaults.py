@@ -36,13 +36,14 @@ def initialize_districts():
         "Precinct",
         # Local
         "City",
-        "District Library",
-        "Local School",
-        "Intermediate School",
         "Township",
         "Metropolitan",
         "Village",
         "Authority",
+        "Community College",
+        "Intermediate School",
+        "Local School",
+        "District Library",
         "Library",
     ]:
         category, created = DistrictCategory.objects.get_or_create(name=name)

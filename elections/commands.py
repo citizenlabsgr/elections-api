@@ -1,6 +1,8 @@
 import itertools
 from typing import Optional, Set
 
+from django.core.exceptions import ObjectDoesNotExist
+
 import log
 
 from .models import BallotWebsite, Election, Precinct
@@ -83,7 +85,7 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots():
+def parse_ballots(*, refetch: bool = False):
     for election in Election.objects.filter(active=True):
 
         precincts: Set[Precinct] = set()
@@ -100,5 +102,17 @@ def parse_ballots():
                 precincts.add(ballot.precinct)
 
                 ballot.website = website
-                ballot.parse()
+
+                try:
+                    ballot.parse()
+                except (ValueError, ObjectDoesNotExist) as e:
+                    if refetch:
+                        log.warning(str(e))
+                        ballot.website.fetch()
+                        ballot.website.validate()
+                        ballot.website.scrape()
+                        ballot.parse()
+                    else:
+                        raise e from None
+
                 ballot.save()

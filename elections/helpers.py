@@ -1,13 +1,14 @@
 import re
 import string
 from datetime import datetime
-from typing import Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import bugsnag
 import log
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
+from nameparser import HumanName
 from rest_framework.exceptions import APIException
 
 
@@ -28,6 +29,12 @@ def titleize(text: str) -> str:
         .replace(" And ", " and ")
         .strip()
     )
+
+
+def humanize(text: str) -> str:
+    name = HumanName(text.strip())
+    name.capitalize()
+    return str(name)
 
 
 def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -194,6 +201,23 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     return county, jurisdiction, ward, precinct
 
 
+def parse_district_from_proposal(category: str, text: str) -> str:
+    for match in re.finditer(f'(the|authorizes) (.+? {category})', text):
+        log.debug(f'Matched district in proposal: {match.groups()}')
+        name = match[2].strip()
+        if name[0].isupper() and len(name) < 100:
+            return name
+
+    match = re.search('Shall (.+?), Michigan', text)  # type: ignore
+    if match:
+        log.debug(f'Matched district in proposal: {match.groups()}')
+        name = match[1].strip()
+        if name[0].isupper() and len(name) < 100:
+            return name
+
+    raise ValueError(f'Could not find {category}: {text}')
+
+
 def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
     soup = BeautifulSoup(html, 'html.parser')
@@ -216,53 +240,76 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
     for index, item in enumerate(
         offices.find_all(
-            'div', {"class": ["section", "division", "office", "term", "candidate"]}
+            'div',
+            {
+                "class": [
+                    "section",
+                    "division",
+                    "office",
+                    "term",
+                    "candidate",
+                    "financeLink",
+                    "party",
+                ]
+            },
         ),
         start=1,
     ):
-        log.debug(f'Parsing item {index}: {item}')
+        log.debug(f'Parsing office item {index}: {item}')
 
         if "section" in item['class']:
-            section: Dict[str, Dict] = {}
-            division: Optional[Dict] = None
+            section: Dict[str, Any] = {}
+            division: Optional[List] = None
             office: Optional[Dict] = None
-            label = item.text
+            label = item.text.lower()
+            assert label not in data, f'Duplicate section: {label}'
             data[label] = section
 
         elif "division" in item['class']:
-            label = item.text.replace(' - Continued', '')
-
+            office = None
+            label = titleize(item.text.replace(' - Continued', ''))
             try:
                 division = section[label]
             except KeyError:
-                division = {}
-
+                division = []
             section[label] = division
             office = None
 
         elif "office" in item['class']:
-            label = item.text
+            label = titleize(item.text)
             assert division is not None, f'Division missing for office: {label}'
-
-            try:
-
-                office = division[label]
-            except KeyError:
-                office = {'term': [], 'candidates': []}
-
-            division[label] = office
+            office = {'name': label, 'term': None, 'seats': None, 'candidates': []}
+            division.append(office)
 
         elif "term" in item['class']:
             label = item.text
             assert office is not None, f'Office missing for term: {label}'
-            office['term'].append(label)
+            if "Term" in label:
+                office['term'] = label
+            elif "Vote for" in label:
+                office['seats'] = int(label.replace("Vote for not more than ", ""))
+            elif "WARD" in label:
+                office['term'] = titleize(label)
+            else:
+                raise ValueError(f"Unhandled term: {label}")
             count += 1
 
         elif "candidate" in item['class']:
-            label = item.text
+            label = humanize(item.text)
             assert office is not None, f'Office missing for candidate: {label}'
-            office['candidates'].append(item.text)
+            candidate = {'name': label, 'finance_link': None, 'party': None}
+            office['candidates'].append(candidate)
             count += 1
+
+        elif "financeLink" in item['class']:
+            label = item.text.strip()
+            assert candidate is not None, f'Candidate missing for finance link: {label}'
+            candidate['finance_link'] = label or None
+
+        elif "party" in item['class']:
+            label = titleize(item.text)
+            assert candidate is not None, f'Candidate missing for party: {label}'
+            candidate['party'] = label or None
 
     return count
 
@@ -281,39 +328,44 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing item {index}: {item}')
+        log.debug(f'Parsing proposal item {index}: {item}')
 
         if "section" in item['class']:
-            section: Dict[str, Dict] = {}
-            division: Optional[Dict] = None
-            label = item.text
+            section: Dict[str, Any] = {}
+            division: Optional[List] = None
+            proposal = None
+            label = item.text.lower()
             data[label] = section
 
         elif "division" in item['class']:
-            label = item.text.replace(' - Continued', '')
-
+            proposal = None
+            label = (
+                titleize(item.text).replace(" Proposals", "").replace(" District", "")
+            )
+            assert label and "Continued" not in label
             try:
                 division = section[label]
             except KeyError:
-                division = {}
-
+                division = []
             section[label] = division
 
         elif "proposalTitle" in item['class']:
-            label = item.text
+            label = item.text.strip()
+            if label.isupper():
+                label = titleize(label)
+            if '\n' in label:
+                # TODO: Remove duplicate text in description?
+                log.warning(f'Newlines in proposal title: {label}')
+                if label.count('\n') == 1:
+                    label = label.replace('\n', ': ')
             assert division is not None, f'Division missing for proposal: {label}'
-
-            try:
-                proposal = division[label]
-            except KeyError:
-                proposal = {'text': None}
-
-            division[label] = proposal
+            proposal = {'title': label, 'text': None}
+            division.append(proposal)
 
         elif "proposalText" in item['class']:
-            label = item.text
+            label = item.text.strip()
             assert proposal is not None, f'Proposal missing for text: {label}'
-            proposal['text'] = item.text
+            proposal['text'] = label
             count += 1
 
     return count

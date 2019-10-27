@@ -428,13 +428,131 @@ class Ballot(TimeStampedModel):
         ), 'Ballot website has not been converted'
 
         count = 0
+        for section_name, section_data in self.website.data['ballot'].items():
+            section_parser = getattr(self, '_parse_' + section_name.replace(' ', '_'))
+            count += sum(1 for x in section_parser(section_data))
 
-        # TODO: Parse ballot into models
-        # self.website.parsed = True
-        # self.website.last_parse = timezone.now()
-        # self.website.save()
+        self.website.parsed = True
+        self.website.last_parse = timezone.now()
+        self.website.save()
 
         return count
+
+    def _parse_partisan_section(self, data):
+        for category_name, positions_data in data.items():
+            if category_name in {'City', 'Township'}:
+                district = self.precinct.jurisdiction
+            else:
+                raise ValueError(
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                )
+
+            for position_data in positions_data:
+                position, created = Position.objects.get_or_create(
+                    election=self.election,
+                    district=district,
+                    name=position_data['name'],
+                    term=position_data['term'] or "",
+                    seats=position_data['seats'],
+                )
+                if created:
+                    log.info(f'Created position: {position}')
+                position.precincts.add(self.precinct)
+                position.save()
+                yield position
+
+                for candidate_data in position_data['candidates']:
+                    assert candidate_data['party'], f'Expected party: {data}'
+                    party = Party.objects.get(name=candidate_data['party'])
+                    candidate, created = Candidate.objects.update_or_create(
+                        position=position,
+                        name=candidate_data['name'],
+                        defaults={
+                            'party': party,
+                            'reference_url': candidate_data['finance_link'],
+                        },
+                    )
+                    if created:
+                        log.info(f'Created candidate: {candidate}')
+                    yield candidate
+
+    def _parse_nonpartisan_section(self, data):
+        for category_name, positions_data in data.items():
+            if category_name == 'City':
+                district = self.precinct.jurisdiction
+            else:
+                raise ValueError(
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                )
+
+            for position_data in positions_data:
+                position, created = Position.objects.get_or_create(
+                    election=self.election,
+                    district=district,
+                    name=position_data['name'],
+                    term=position_data['term'] or "",
+                    seats=position_data['seats'],
+                )
+                if created:
+                    log.info(f'Created position: {position}')
+                position.precincts.add(self.precinct)
+                position.save()
+                yield position
+
+                for candidate_data in position_data['candidates']:
+                    assert candidate_data['party'] is None
+                    party = Party.objects.get(name="Nonpartisan")
+                    candidate, created = Candidate.objects.update_or_create(
+                        position=position,
+                        name=candidate_data['name'],
+                        defaults={'party': party},
+                    )
+                    if created:
+                        log.info(f'Created candidate: {candidate}')
+                    yield candidate
+
+    def _parse_proposal_section(self, data):
+        for category_name, proposals_data in data.items():
+
+            district = None
+
+            if category_name in {'County', 'Local School'}:
+                # TODO: Verify this is the correct mapping for 'Local School District'
+                district = self.precinct.county
+            elif category_name in {'City', 'Township'}:
+                district = self.precinct.jurisdiction
+            elif category_name in {
+                'Community College',
+                'Intermediate School',
+                'Authority',
+            }:
+                category = DistrictCategory.objects.get(name=category_name)
+            else:
+                raise ValueError(
+                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                )
+
+            for proposal_data in proposals_data:
+
+                if district is None:
+                    district_name = helpers.parse_district_from_proposal(
+                        category.name, proposal_data['text']
+                    )
+                    district, created = District.objects.get_or_create(
+                        category=category, name=district_name
+                    )
+                    if created:
+                        log.info(f'Created district: {district}')
+
+                proposal, created = Proposal.objects.update_or_create(
+                    election=self.election,
+                    district=district,
+                    name=proposal_data['title'],
+                    defaults={'description': proposal_data['text']},
+                )
+                if created:
+                    log.info(f'Created proposal: {[proposal]}')
+                yield proposal
 
 
 class BallotItem(TimeStampedModel):

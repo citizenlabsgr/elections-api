@@ -34,13 +34,14 @@ pymdown-extensions = "*"
 pygments = "*"
 
 # Utilities
-minilog = "^1.2.5"
-factory_boy = "*"
-pendulum = "*"
-requests_cache = "*"
 beautifulsoup4 = "^4.6"
+factory_boy = "*"
 fake-useragent = "~0.1.11"
+minilog = "^1.2.5"
+nameparser = "^1.0.4"
+pendulum = "*"
 requests = "^2.19"
+requests_cache = "*"
 
 # Production Server
 gunicorn = "^19.8"
