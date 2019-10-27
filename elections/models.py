@@ -516,12 +516,12 @@ class Ballot(TimeStampedModel):
 
             district = None
 
-            if category_name in {'County', 'Local School District'}:
+            if category_name in {'County', 'Local School'}:
                 # TODO: Verify this is the correct mapping for 'Local School District'
                 district = self.precinct.county
             elif category_name in {'City', 'Township'}:
                 district = self.precinct.jurisdiction
-            elif category_name in {'Community College'}:
+            elif category_name in {'Community College', 'Intermediate School'}:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise ValueError(
@@ -531,19 +531,14 @@ class Ballot(TimeStampedModel):
             for proposal_data in proposals_data:
 
                 if district is None:
-                    if category.name == 'Community College':
-                        district_name = helpers.parse_community_college(
-                            proposal_data['text']
-                        )
-                        district, created = District.objects.get_or_create(
-                            category=category, name=district_name
-                        )
-                        if created:
-                            log.info(f'Created district: {district}')
-                    else:
-                        raise ValueError(
-                            f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
-                        )
+                    district_name = helpers.parse_district_from_proposal(
+                        category.name, proposal_data['text']
+                    )
+                    district, created = District.objects.get_or_create(
+                        category=category, name=district_name
+                    )
+                    if created:
+                        log.info(f'Created district: {district}')
 
                 proposal, created = Proposal.objects.update_or_create(
                     election=self.election,

@@ -201,13 +201,13 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     return county, jurisdiction, ward, precinct
 
 
-def parse_community_college(text: str) -> str:
-    match = re.search("(authorizes|the)(.+ Community College)", text)
-    if match:
+def parse_district_from_proposal(category: str, text: str) -> str:
+    for match in re.finditer(f'(Shall|authorizes|the) (.+? {category})', text):
+        log.debug(f'Matched district in proposal: {match.groups()}')
         name = match[2].strip()
-        if name[0].isupper():
+        if name[0].isupper() and len(name) < 100:
             return name
-    raise ValueError(f'Could not find community college: {text}')
+    raise ValueError(f'Could not find {category}: {text}')
 
 
 def parse_ballot(html: str, data: Dict) -> int:
@@ -331,7 +331,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "division" in item['class']:
             proposal = None
-            label = titleize(item.text).replace(" Proposals", "")
+            label = (
+                titleize(item.text).replace(" Proposals", "").replace(" District", "")
+            )
             assert label and "Continued" not in label
             try:
                 division = section[label]
