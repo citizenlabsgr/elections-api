@@ -475,13 +475,11 @@ class Ballot(TimeStampedModel):
 
     def _parse_proposal_section(self, data):
         for category_name, proposals_data in data.items():
-            if category_name == 'County':
+            if category_name in {'County', 'Local School District'}:
+                # TODO: Verify this is the correct mapping for 'Local School District'
                 district = self.precinct.county
-            elif category_name == 'City':
+            elif category_name in {'City', 'Township'}:
                 district = self.precinct.jurisdiction
-            elif category_name == 'Local School District':
-                # TODO: Verify this is the correct mapping
-                district = self.precinct.county
             else:
                 raise ValueError(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'

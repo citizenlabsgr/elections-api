@@ -9,4 +9,6 @@ __pycache__/
 cache.sqlite
 htmlcov/
 
+/*.png
+
 *.ipynb_checkpoints
