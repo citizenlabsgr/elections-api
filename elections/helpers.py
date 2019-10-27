@@ -207,6 +207,14 @@ def parse_district_from_proposal(category: str, text: str) -> str:
         name = match[2].strip()
         if name[0].isupper() and len(name) < 100:
             return name
+
+    match = re.search('Shall (.+?), Michigan', text)  # type: ignore
+    if match:
+        log.debug(f'Matched district in proposal: {match.groups()}')
+        name = match[1].strip()
+        if name[0].isupper() and len(name) < 100:
+            return name
+
     raise ValueError(f'Could not find {category}: {text}')
 
 
