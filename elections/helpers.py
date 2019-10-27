@@ -307,7 +307,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             candidate['finance_link'] = label or None
 
         elif "party" in item['class']:
-            label = item.text.strip()
+            label = titleize(item.text)
             assert candidate is not None, f'Candidate missing for party: {label}'
             candidate['party'] = label or None
 
