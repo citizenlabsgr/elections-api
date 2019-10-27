@@ -23,6 +23,8 @@ install: .venv/flag
 	@ mkdir -p staticfiles
 	@ touch $@
 
+ifndef CI
+
 poetry.lock: pyproject.toml
 	poetry lock
 	@ touch $@
@@ -32,6 +34,8 @@ runtime.txt: .python-version
 
 requirements.txt: poetry.lock
 	poetry export --format requirements.txt --output $@ || echo "ERROR: Poetry 1.x required to export dependencies"
+
+endif
 
 ###############################################################################
 
@@ -100,7 +104,10 @@ reset: install
 
 .PHONY: uml
 uml: install
-	poetry run python manage.py graph_models elections --group-models --output=docs/ERD.png --exclude-models=TimeStampedModel
+	poetry run pyreverse elections -p elections -a 1 -f ALL -o png --ignore admin.py,migrations,management,tests
+	mv -f classes_elections.png docs/classes.png
+	mv -f packages_elections.png docs/packages.png
+	poetry run python manage.py graph_models elections --group-models --output=docs/tables.png --exclude-models=TimeStampedModel
 
 ###############################################################################
 
