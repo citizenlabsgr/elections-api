@@ -31,10 +31,18 @@ def titleize(text: str) -> str:
     )
 
 
-def humanize(text: str) -> str:
+def normalize_candidate(text: str) -> str:
     name = HumanName(text.strip())
     name.capitalize()
     return str(name)
+
+
+def normalize_jurisdiction(name: str) -> str:
+    name = titleize(name)
+    for kind in {'City', 'Township', 'Village'}:
+        if name.endswith(' ' + kind) and not name.startswith(kind):
+            return kind + ' of ' + name[: -len(kind) - 1]
+    return name
 
 
 def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
@@ -184,7 +192,7 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
         if match:
             break
     assert match, f'Unable to find precinct information: {url}'
-    jurisdiction = titleize(match.group('jurisdiction'))
+    jurisdiction = normalize_jurisdiction(match.group('jurisdiction'))
 
     # Parse ward
     try:
@@ -295,7 +303,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             count += 1
 
         elif "candidate" in item['class']:
-            label = humanize(item.text)
+            label = normalize_candidate(item.text)
             assert office is not None, f'Office missing for candidate: {label}'
             candidate = {'name': label, 'finance_link': None, 'party': None}
             office['candidates'].append(candidate)

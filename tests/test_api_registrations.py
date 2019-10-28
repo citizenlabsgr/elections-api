@@ -2,6 +2,8 @@
 
 import pytest
 
+from elections import defaults
+
 
 def describe_list():
     @pytest.fixture
@@ -9,6 +11,8 @@ def describe_list():
         return '/api/registrations/'
 
     def it_returns_data_for_a_registered_voter(expect, anything, client, url, db):
+        defaults.initialize_districts()
+
         response = client.get(
             url + '?first_name=Rosalynn'
             '&last_name=Bliss'

@@ -30,21 +30,28 @@ def initialize_districts():
         log.info(f'Added district category: {state}')
 
     for name in [
-        # State
-        "County",
-        "Jurisdiction",
-        "Precinct",
-        # Local
-        "City",
-        "Township",
-        "Metropolitan",
+        # Precinct
+        "County",  # e.g. Kent
+        "Jurisdiction",  # e.g. City of Grand Rapids
         "Village",
-        "Authority",
-        "Community College",
-        "Intermediate School",
-        "Local School",
-        "District Library",
+        "Metropolitan",
+        # Local
+        "School",  # e.g. Grand Rapids Public Schools
+        "Intermediate School",  # e.g. Kent ISD
+        "Community College",  # e.g. Grand Rapids Community College
         "Library",
+        # Congress
+        "County Commissioner",  # e.g. 15th District
+        "State House",  # e.g. 75th District
+        "State Senate",  # e.g. 29th District
+        "US Congress",  # e.g. 3rd District
+        # Courts
+        "Court of Appeals",  # e.g. 3rd District
+        "Circuit Court",  # e.g. 17th Circuit
+        "Probate Court",  # e.g. Kent County Probate Court
+        "Probate District Court",
+        "District Court",  # e.g. 61st District
+        "Municipal Court",
     ]:
         category, created = DistrictCategory.objects.get_or_create(name=name)
         if created:

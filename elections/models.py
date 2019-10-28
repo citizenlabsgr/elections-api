@@ -171,11 +171,7 @@ class Voter(models.Model):
                 log.debug(f"Skipped category: {category_name}")
                 continue
 
-            category, created = DistrictCategory.objects.get_or_create(
-                name=category_name
-            )
-            if created:
-                log.info(f"Created category: {category}")
+            category = DistrictCategory.objects.get(name=category_name)
 
             if category.name == "County":
                 district_name = district_name.replace(" County", "")
@@ -518,13 +514,9 @@ class Ballot(TimeStampedModel):
 
             if category_name == 'County':
                 district = self.precinct.county
-            elif category_name in {'City', 'Township'}:
+            elif category_name in {'City', 'Township', 'Authority'}:
                 district = self.precinct.jurisdiction
-            elif category_name in {
-                'Community College',
-                'Intermediate School',
-                'Authority',
-            }:
+            elif category_name in {'Community College', 'Intermediate School'}:
                 category = DistrictCategory.objects.get(name=category_name)
             elif category_name == 'Local School':
                 # TODO: Verify this is the correct mapping for 'Local School'
