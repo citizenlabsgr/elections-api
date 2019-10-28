@@ -5,9 +5,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(CONFIG_ROOT)
 
-DEFAULT_API_CACHE_SECONDS = 60 * 60
-REGISTRATION_API_CACHE_SECONDS = 60 * 30
-
 ###############################################################################
 # Core
 

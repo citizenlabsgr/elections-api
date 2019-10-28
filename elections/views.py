@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
@@ -6,12 +5,6 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
 from . import filters, models, serializers
-
-
-class CacheMixin:
-    @method_decorator(cache_page(settings.DEFAULT_API_CACHE_SECONDS))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)  # type: ignore
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -25,6 +18,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     pagination_class = None
 
+    @method_decorator(cache_page(60))
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
@@ -37,12 +31,8 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         )
         return Response(output_serializer.data)
 
-    @method_decorator(cache_page(settings.REGISTRATION_API_CACHE_SECONDS))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
-
-class ElectionViewSet(CacheMixin, viewsets.ModelViewSet):
+class ElectionViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Election](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html)
 
@@ -60,7 +50,7 @@ class ElectionViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.ElectionSerializer
 
 
-class DistrictCategoryViewSet(CacheMixin, viewsets.ModelViewSet):
+class DistrictCategoryViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: DistrictType](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html)
 
@@ -76,7 +66,7 @@ class DistrictCategoryViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.DistrictCategorySerializer
 
 
-class DistrictViewSet(CacheMixin, viewsets.ModelViewSet):
+class DistrictViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Locality](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html)
 
@@ -92,7 +82,7 @@ class DistrictViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.DistrictSerializer
 
 
-class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
+class PrecinctViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Precinct](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html)
 
@@ -110,7 +100,7 @@ class PrecinctViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.PrecinctSerializer
 
 
-class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
+class BallotViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: BallotStyle](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html)
 
@@ -130,7 +120,7 @@ class BallotViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.BallotSerializer
 
 
-class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
+class ProposalViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: BallotMeasureContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html)
 
@@ -150,7 +140,7 @@ class ProposalViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.ProposalSerializer
 
 
-class PartyViewSet(CacheMixin, viewsets.ModelViewSet):
+class PartyViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Party](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html)
 
@@ -166,7 +156,7 @@ class PartyViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.PartySerializer
 
 
-class CandidateViewSet(CacheMixin, viewsets.ModelViewSet):
+class CandidateViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Candidate](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html)
 
@@ -185,7 +175,7 @@ class CandidateViewSet(CacheMixin, viewsets.ModelViewSet):
     serializer_class = serializers.CandidateSerializer
 
 
-class PositionViewSet(CacheMixin, viewsets.ModelViewSet):
+class PositionViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: CandidateContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html)
 
