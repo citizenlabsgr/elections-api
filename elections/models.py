@@ -171,11 +171,7 @@ class Voter(models.Model):
                 log.debug(f"Skipped category: {category_name}")
                 continue
 
-            category, created = DistrictCategory.objects.get_or_create(
-                name=category_name
-            )
-            if created:
-                log.info(f"Created category: {category}")
+            category = DistrictCategory.objects.get(name=category_name)
 
             if category.name == "County":
                 district_name = district_name.replace(" County", "")
