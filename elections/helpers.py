@@ -39,9 +39,15 @@ def normalize_candidate(text: str) -> str:
 
 def normalize_jurisdiction(name: str) -> str:
     name = titleize(name)
+
     for kind in {'City', 'Township', 'Village'}:
-        if name.endswith(' ' + kind) and not name.startswith(kind):
+        if name.startswith(kind):
+            return name
+
+    for kind in {'City', 'Township', 'Village'}:
+        if name.endswith(' ' + kind):
             return kind + ' of ' + name[: -len(kind) - 1]
+
     return name
 
 
