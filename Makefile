@@ -88,6 +88,7 @@ migrate: install
 	poetry run python manage.py migrate
 	@ echo
 	poetry run python manage.py migrate_data
+	@ echo
 
 .PHONY: data
 data: migrate
