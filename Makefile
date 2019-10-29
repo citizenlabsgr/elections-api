@@ -94,7 +94,7 @@ migrate: install
 data: migrate
 	poetry run python manage.py seed_data
 	@ echo
-	poetry run python manage.py scrape_data --start=1828 --limit=5
+	poetry run python manage.py scrape_data --start=1792 --limit=5
 	@ echo
 	poetry run python manage.py parse_data
 
