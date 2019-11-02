@@ -4,13 +4,14 @@ import sys
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 from django.utils import timezone
 
 import log
 
 from elections import defaults
 from elections.helpers import normalize_jurisdiction
-from elections.models import District, DistrictCategory, Election
+from elections.models import District, DistrictCategory, Election, GlossaryTerm
 
 
 class Command(BaseCommand):
@@ -49,3 +50,11 @@ class Command(BaseCommand):
                     log.info(f'Renaming district {old!r} to {new!r}')
                     district.name = new
                     district.save()
+
+    def seed_glossary(self):
+        for m in GlossaryTerm.iter_seed_data():
+            try:
+                m.save()
+            except IntegrityError:
+                # Assuming the term is already in the database
+                pass
