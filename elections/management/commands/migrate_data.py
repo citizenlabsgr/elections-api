@@ -79,8 +79,6 @@ class Command(BaseCommand):
         self._write('positions', positions)
 
     def _write(self, name, data):
-        with Path(f'content/{name}.txt').open('w') as f:
-            for key, value in sorted(data.items()):
-                f.write(f'name: {key}\n')
-                f.write(f'description: {value}\n')
-                f.write('\n')
+        for key, value in sorted(data.items()):
+            with Path(f'content/{name}/{key}.md').open('w') as f:
+                f.write(value + '\n')
