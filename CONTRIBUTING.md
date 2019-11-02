@@ -12,7 +12,10 @@
 
   - `$ pyenv install`
 
-- Poetry (`$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python && source $HOME/.poetry/env`)
+- Poetry
+
+  - (`$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python && source $HOME/.poetry/env`)
+  - Add poetry to your .bashrc or equivalent configuration file `echo "export PATH=~/.poetry/bin:$PATH" >> ~/.baschrc`
 
 - direnv
 
@@ -29,16 +32,27 @@
   - `$ createdb elections_dev` (or your platform's equivalent)
 
 - Redis
+
   - `$ brew install redis` (or your platform's equivalent)
   - `$ brew services start redis` (or your platform's equivalent)
+
+- Other Dependencies
+  - `$ brew install graphviz` (or your platform's equivalent)
 
 ### Data
 
 Generate some representative sample data for manual test:
 
 ```
-$ make data
+ $ make data
 ```
+
+### Good to go
+
+Now you should be able to run the django client on your local machine. run `make run` in your terminal, then go to your browser and visit `http://localhost:8000/`,
+if everything is working correctly, you should be able to see the michigan elections API.
+
+## Advanced Cases
 
 If your database gets into a weird state, you can reset it from scratch:
 
