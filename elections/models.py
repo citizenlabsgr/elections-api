@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from django.contrib.postgres.fields import JSONField
 from django.db import models
+from django.template.defaultfilters import linebreaksbr
 from django.utils import timezone
 
 import log
@@ -632,5 +633,12 @@ class GlossaryTerm(models.Model):
                 continue
             stem, ext = os.path.splitext(name)
             contents = importlib.resources.read_text(PKG, name)
-            # TODO: Process ext
+            if ext == '.txt':
+                contents = linebreaksbr(contents)
+            elif ext == '.html':
+                pass
+            elif ext == '.md':
+                raise NotImplementedError("Unable to render markdown")
+            else:
+                raise ValueError(f"Do not know how to handle file {name}")
             yield cls(term=stem, description=contents)
