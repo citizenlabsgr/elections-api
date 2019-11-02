@@ -1,6 +1,6 @@
 name: 
-Established:
-Description: 
-Political Positioning:
-Ideology:
+**Established**:
+***Description***: 
+**Political Positioning**:
+**Ideology**:
 
