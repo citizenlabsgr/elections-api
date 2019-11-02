@@ -13,6 +13,8 @@ Quick links:
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
 - Contact the maintainers: https://citizenlabs.org/contact/
 
+---
+
 ## Overview
 
 These examples use [HTTPie](https://httpie.org/) for brevity, but the interactive documentation below shows how to do the same using raw `curl` requests.
@@ -69,3 +71,12 @@ Versions of the API are requested through content negotiation. Your client will 
 **Version 1.0**
 
 - Initial public release.
+
+---
+
+## Contributing
+
+- If you would like to contribute to this project, fork this rep, or ask to get access rights during one of our hackathon events.
+  - Once you have access rights or a fork, read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment.
+  - Create a branch for every issue you work on, and make a pull request to master with the corresponding issue attached.
+    If you would like to know more about us, visit our [github](https://github.com/citizenlabsgr/read-first) repository.
