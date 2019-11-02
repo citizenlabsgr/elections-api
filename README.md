@@ -32,20 +32,18 @@ http GET https://michiganelections.io/api/registrations/ \
 If you are registered to vote, this will return your voting precinct:
 
 ```
-...
 "precinct": {
     "county": "Kent",
     "jurisdiction": "City of Grand Rapids",
     "ward": "2"
     "number": "30",
     ...
-},
+}
 ```
 
 as well as a unique ID that identifies your precinct:
 
 ```
-...
 "precinct": {
     "id": 1173,
     ...
@@ -56,61 +54,57 @@ Using either of these pieces of information, you can fetch the details of your s
 
 ### Sample Ballots
 
-Get a link to the official sample ballot for upcoming elections:
+Get a link to the official sample ballot for upcoming elections, by precinct ID:
 
 ```
-# By precinct ID
-
 http GET https://michiganelections.io/api/ballots/ \
   "Accept: application/json; version=1" \
   precinct_id=1173
 ```
 
-```
-# By precinct name
+or by precinct name:
 
+```
 http GET https://michiganelections.io/api/ballots/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```
 
-### Ballot Details
+### Ballot Details: Positions
 
-Get more information about the specific proposals on your ballot:
+Get more information about the specific positions and candidates on your ballot, by precinct ID:
 
 ```
-# By precinct ID
-
-http GET https://michiganelections.io/api/proposals/ \
+http GET https://michiganelections.io/api/positions/ \
   "Accept: application/json; version=1" \
-  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_id=1173
 ```
 
-```
-# By precinct name
+or by precinct name:
 
-http GET https://michiganelections.io/api/proposals/ \
+```
+http GET https://michiganelections.io/api/positions/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```
 
-Get more information about the specific positions and candidates on your ballot:
+### Ballot Details: Proposals
+
+Get more information about the specific proposals on your ballot, by precinct ID:
 
 ```
-# by precinct ID
-
-http GET https://michiganelections.io/api/positions/ \
+http GET https://michiganelections.io/api/proposals/ \
   "Accept: application/json; version=1" \
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_id=1173
 ```
 
-```
-# By precinct name
+or by precinct name:
 
-http GET https://michiganelections.io/api/positions/ \
+```
+http GET https://michiganelections.io/api/proposals/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
