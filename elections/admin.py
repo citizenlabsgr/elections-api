@@ -217,3 +217,11 @@ class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     def Election(self, obj):
         return obj.position.election
+
+
+@admin.register(models.GlossaryTerm)
+class GlossaryTermAdmin(admin.ModelAdmin):
+
+    search_fields = ['term']
+
+    list_display = ['term', 'description']
