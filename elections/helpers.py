@@ -1,9 +1,9 @@
+import importlib.resources  # New in 3.7
 import re
 import string
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
-import importlib.resources  # New in 3.7
-from contextlib import contextmanager
 
 import bugsnag
 import log
@@ -64,7 +64,7 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 
 
 @contextmanager
-def _get_mvic_session(*, random_agent=True):
+def _get_mvic_session(*, random_agent: bool = True):
     """
     Get a Requests Session configured for talking with MVIC.
 
@@ -73,14 +73,12 @@ def _get_mvic_session(*, random_agent=True):
     with importlib.resources.path('elections', 'mvic.sos.state.mi.us.pem') as certpath:
         sess = requests.Session()
 
-        sess.verify = certpath
-        sess.headers = {
-            'User-Agent': (
-                useragent.random
-                if random_agent
-                else 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-            )
-        }
+        sess.verify = str(certpath)
+        sess.headers['User-Agent'] = (
+            useragent.random
+            if random_agent
+            else 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
+        )
 
         yield sess
 
