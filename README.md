@@ -97,7 +97,6 @@ Get more information about the specific proposals on your ballot, by precinct ID
 ```
 http GET https://michiganelections.io/api/proposals/ \
   "Accept: application/json; version=1" \
-  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_id=1173
 ```
 
