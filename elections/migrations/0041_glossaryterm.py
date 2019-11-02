@@ -5,17 +5,23 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('elections', '0040_ballotwebsite_last_convert'),
-    ]
+    dependencies = [('elections', '0040_ballotwebsite_last_convert')]
 
     operations = [
         migrations.CreateModel(
             name='GlossaryTerm',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('term', models.CharField(max_length=128, unique=True)),
                 ('description', models.TextField()),
             ],
-        ),
+        )
     ]
