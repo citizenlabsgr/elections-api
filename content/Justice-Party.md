@@ -1,1 +1,1 @@
-[Justice Party](https://en.wikipedia.org/wiki/Humane_Party)
+[Justice Party](https://en.wikipedia.org/wiki/Justice_Party_(United_States))
