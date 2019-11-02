@@ -1,10 +1,10 @@
 .PHONY: all
 all: install
 
-###############################################################################
+# SYSTEM DEPENENDENCIES #######################################################
 
 .PHONY: doctor
-doctor:
+doctor: ## System | Check for the required system dependencies
 	bin/verchew --exit-code
 
 .PHONY: .envrc
@@ -13,10 +13,10 @@ doctor:
 	echo >> $@
 	echo "export REDIS_URL=redis://localhost:6379" >> $@
 
-###############################################################################
+# PROJECT DEPENDENCIES ########################################################
 
 .PHONY: install
-install: .venv/flag
+install: .venv/flag ## Project | Install project dependencies
 .venv/flag: poetry.lock runtime.txt requirements.txt
 	@ poetry config virtualenvs.in-project true || poetry config settings.virtualenvs.in-project true
 	poetry install
@@ -37,28 +37,37 @@ requirements.txt: poetry.lock
 
 endif
 
-###############################################################################
+.PHONY: clean
+clean:
+	rm -rf .venv
+
+# LOCAL COMMANDS ##############################################################
 
 .PHONY: run
-run: install migrate
+run: install migrate ## Project | Run the development server
 	@ echo
 	poetry run python manage.py runserver
 
-###############################################################################
+.PHONY: shell
+shell: install migrate  ## Project | Open the Django shell
+	@ echo
+	poetry run python manage.py shell_plus
+
+# VALIDATION COMMANDS #########################################################
 
 PACKAGES := config elections tests
 
 .PHONY: ci
-ci: check test
+ci: check test ## CI | Run all validation targets
 
 .PHONY: format
-format: install
+format: install ## CI | Format the code
 	poetry run isort $(PACKAGES) --recursive --apply
 	poetry run black $(PACKAGES)
 	@ echo
 
 .PHONY: check
-check: format
+check: format ## CI | Run static analysis
 ifdef CI
 	git diff --exit-code
 endif
@@ -66,7 +75,7 @@ endif
 	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
 
 .PHONY: test
-test: install
+test: install ## CI | Run all tests
 	poetry run pytest elections tests
 
 .PHONY: watch
@@ -77,32 +86,38 @@ watch: install
 notebook: install
 	poetry run jupyter notebook --notebook-dir=notebooks --browser=safari
 
-###############################################################################
+# DATA COMMANDS ###############################################################
 
 .PHONY: migrations
-migrations: install
+migrations: install  ## Data | Generate database migrations
 	poetry run python manage.py makemigrations
 
 .PHONY: migrate
-migrate: install
+migrate: install ## Data | Run database migrations
 	poetry run python manage.py migrate
 	@ echo
 	poetry run python manage.py migrate_data
 	@ echo
 
 .PHONY: data
-data: migrate
+data: migrate ## Data | Seed data for manual testing
 	poetry run python manage.py seed_data
 	@ echo
 	poetry run python manage.py scrape_data --start=1792 --limit=5
 	@ echo
 	poetry run python manage.py parse_data
 
-.PHONY: reset
-reset: install
-	dropdb elections_dev; createdb elections_dev
+.PHONY: data/reset
+data/reset: install ## Data | Create a new database, migrate, and seed it
+	- dropdb elections_dev
+	createdb elections_dev
 	@ echo
 	@ make data
+
+.PHONY: data/production
+data/production: install ## Data | Pull data as it exists on production
+	- dropdb elections_dev
+	heroku pg:pull DATABASE_URL elections_dev
 
 .PHONY: uml
 uml: install
@@ -111,8 +126,10 @@ uml: install
 	mv -f packages_elections.png docs/packages.png
 	poetry run python manage.py graph_models elections --group-models --output=docs/tables.png --exclude-models=TimeStampedModel
 
-###############################################################################
+# HELP ########################################################################
 
-.PHONY: clean
-clean:
-	rm -rf .venv
+.PHONY: help
+help: all
+	@ grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.DEFAULT_GOAL := help
