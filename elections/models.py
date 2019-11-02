@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import importlib.resources
+import os.path
 import random
 from typing import Any, Dict, List, Optional
 
@@ -607,3 +609,28 @@ class Candidate(TimeStampedModel):
 
     def __str__(self) -> str:
         return f'{self.name} for {self.position}'
+
+
+class GlossaryTerm(models.Model):
+    """A term in the glossary"""
+
+    term = models.CharField(max_length=128, unique=True)
+    description = models.TextField()
+
+    @classmethod
+    def iter_seed_data(cls):
+        """
+        Runs over the seed data and produces unsaved models.
+
+        No checking with the database is performed.
+        """
+        PKG = "elections.glossary_terms"
+        for name in importlib.resources.contents(PKG):
+            if name.startswith('_'):
+                continue
+            if not importlib.resources.is_resource(PKG, name):
+                continue
+            stem, ext = os.path.splitext(name)
+            contents = importlib.resources.read_text(PKG, name)
+            # TODO: Process ext
+            yield cls(term=stem, description=contents)
