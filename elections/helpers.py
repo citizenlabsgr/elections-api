@@ -77,9 +77,9 @@ def _get_mvic_session(*, random_agent=True):
         sess.headers = {
             'User-Agent': (
                 useragent.random
-                if random_agent else
-                'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-            ),
+                if random_agent
+                else 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
+            )
         }
 
         yield sess
@@ -107,9 +107,7 @@ def fetch_registration_status_data(voter):
     with _get_mvic_session() as sess:
         response = sess.post(
             f'{MI_SOS_URL}/Voter/SearchByName',
-            headers={
-                'Content-Type': "application/x-www-form-urlencoded",
-            },
+            headers={'Content-Type': "application/x-www-form-urlencoded"},
             data={
                 'FirstName': voter.first_name,
                 'LastName': voter.last_name,
