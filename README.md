@@ -29,11 +29,46 @@ http GET https://michiganelections.io/api/registrations/ \
   first_name==Rosalynn last_name==Bliss birth_date==1975-08-03 zip_code==49503
 ```
 
+If you are registered to vote, this will return your voting precinct:
+
+```
+...
+"precinct": {
+    "county": "Kent",
+    "jurisdiction": "City of Grand Rapids",
+    "ward": "2"
+    "number": "30",
+    ...
+},
+```
+
+as well as a unique ID that identifies your precinct:
+
+```
+...
+"precinct": {
+    "id": 1173,
+    ...
+}
+```
+
+Using either of these pieces of information, you can fetch the details of your specific ballot.
+
 ### Sample Ballots
 
 Get a link to the official sample ballot for upcoming elections:
 
 ```
+# By precinct ID
+
+http GET https://michiganelections.io/api/ballots/ \
+  "Accept: application/json; version=1" \
+  precinct_id=1173
+```
+
+```
+# By precinct name
+
 http GET https://michiganelections.io/api/ballots/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
@@ -45,6 +80,17 @@ http GET https://michiganelections.io/api/ballots/ \
 Get more information about the specific proposals on your ballot:
 
 ```
+# By precinct ID
+
+http GET https://michiganelections.io/api/proposals/ \
+  "Accept: application/json; version=1" \
+  precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
+  precinct_id=1173
+```
+
+```
+# By precinct name
+
 http GET https://michiganelections.io/api/proposals/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
@@ -54,6 +100,16 @@ http GET https://michiganelections.io/api/proposals/ \
 Get more information about the specific positions and candidates on your ballot:
 
 ```
+# by precinct ID
+
+http GET https://michiganelections.io/api/positions/ \
+  "Accept: application/json; version=1" \
+  precinct_id=1173
+```
+
+```
+# By precinct name
+
 http GET https://michiganelections.io/api/positions/ \
   "Accept: application/json; version=1" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
