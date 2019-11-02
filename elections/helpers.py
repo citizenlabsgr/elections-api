@@ -2,6 +2,8 @@ import re
 import string
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
+import importlib.resources  # New in 3.7
+from contextlib import contextmanager
 
 import bugsnag
 import log
@@ -61,46 +63,79 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 # Registration helpers
 
 
+@contextmanager
+def _get_mvic_session(*, random_agent=True):
+    """
+    Get a Requests Session configured for talking with MVIC.
+
+    (Mostly, SSL settings.)
+    """
+    with importlib.resources.path('elections', 'mvic.sos.state.mi.us.pem') as certpath:
+        sess = requests.Session()
+
+        sess.verify = certpath
+        sess.headers = {
+            'User-Agent': (
+                useragent.random
+                if random_agent else
+                'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
+            ),
+        }
+
+        yield sess
+
+
 class ServiceUnavailable(APIException):
     status_code = 503
     default_code = 'service_unavailable'
     default_detail = f'The Michigan Secretary of State website ({MI_SOS_URL}) is temporarily unavailable, please try again later.'
 
 
-def fetch_registration_status_data(voter):
-    response = requests.post(
-        f'{MI_SOS_URL}/Voter/SearchByName',
-        headers={
-            'Content-Type': "application/x-www-form-urlencoded",
-            'User-Agent': useragent.random,
-        },
-        data={
-            'FirstName': voter.first_name,
-            'LastName': voter.last_name,
-            'NameBirthMonth': voter.birth_month,
-            'NameBirthYear': voter.birth_year,
-            'ZipCode': voter.zip_code,
-        },
-        verify=False,
-    )
-    _check_availability(response)
+def _check_availability(response):
+    if response.status_code >= 400:
+        log.error(f'MI SOS status code: {response.status_code}')
+        raise ServiceUnavailable()
 
-    # Handle recently moved voters
-    if "you have recently moved" in response.text:
-        # TODO: Figure out what a moved voter looks like
-        bugsnag.notify(
-            RuntimeError("Voter has moved"),
-            meta_data={"voter": repr(voter), "html": response.text},
+    html = BeautifulSoup(response.text, 'html.parser')
+    div = html.find(id='pollingLocationError')
+    if div:
+        if div['style'] != 'display:none;':
+            raise ServiceUnavailable()
+
+
+def fetch_registration_status_data(voter):
+    with _get_mvic_session() as sess:
+        response = sess.post(
+            f'{MI_SOS_URL}/Voter/SearchByName',
+            headers={
+                'Content-Type': "application/x-www-form-urlencoded",
+            },
+            data={
+                'FirstName': voter.first_name,
+                'LastName': voter.last_name,
+                'NameBirthMonth': voter.birth_month,
+                'NameBirthYear': voter.birth_year,
+                'ZipCode': voter.zip_code,
+            },
         )
-        log.warn(f"Handling recently moved voter: {voter}")
-        page = _find_or_abort(
-            r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",
-            response.text,
-        )
-        url = MI_SOS_URL + page
-        response = requests.get(url, headers={'User-Agent': useragent.random})
-        log.debug(f"Response from MI SOS:\n{response.text}")
         _check_availability(response)
+
+        # Handle recently moved voters
+        if "you have recently moved" in response.text:
+            # TODO: Figure out what a moved voter looks like
+            bugsnag.notify(
+                RuntimeError("Voter has moved"),
+                meta_data={"voter": repr(voter), "html": response.text},
+            )
+            log.warn(f"Handling recently moved voter: {voter}")
+            page = _find_or_abort(
+                r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",
+                response.text,
+            )
+            url = MI_SOS_URL + page
+            response = sess.get(url)
+            log.debug(f"Response from MI SOS:\n{response.text}")
+            _check_availability(response)
 
     # Parse registration
     registered = None
@@ -119,18 +154,6 @@ def fetch_registration_status_data(voter):
             districs[category] = _clean_district_name(match[1])
 
     return {"registered": registered, "districts": districs}
-
-
-def _check_availability(response):
-    if response.status_code >= 400:
-        log.error(f'MI SOS status code: {response.status_code}')
-        raise ServiceUnavailable()
-
-    html = BeautifulSoup(response.text, 'html.parser')
-    div = html.find(id='pollingLocationError')
-    if div:
-        if div['style'] != 'display:none;':
-            raise ServiceUnavailable()
 
 
 def _find_or_abort(pattern: str, text: str):
@@ -156,14 +179,9 @@ def _clean_district_name(text: str):
 
 def fetch_ballot(url: str) -> str:
     log.info(f'Fetching ballot: {url}')
-    response = requests.get(
-        url,
-        headers={
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-        },
-        verify=False,
-    )
-    response.raise_for_status()
+    with _get_mvic_session(random_agent=False) as sess:
+        response = sess.get(url)
+        response.raise_for_status()
     return response.text.strip()
 
 
