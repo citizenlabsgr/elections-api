@@ -1,6 +1,5 @@
 beautifulsoup4==4.8.1 \
     --hash=sha256:5279c36b4b2ec2cb4298d723791467e3000e5384a43ea0cdf5d45207c7e97169 \
-    --hash=sha256:6135db2ba678168c07950f9a16c4031822c6f4aec75a65e0a97bc5ca09789931 \
     --hash=sha256:dcdef580e18a76d54002088602eba453eec38ebbcafafeaabd8cab12b6155d57
 bugsnag==3.6.0 \
     --hash=sha256:5a7c996c799622ef1ed1f7f2360ed40b4c0152325de0487afb9af636c5a3df3a \
@@ -26,9 +25,7 @@ django==2.2.6 \
 django-cors-headers==2.5.3 \
     --hash=sha256:c7987faa9aaef7f6a802b0f354a719e80a9158c284f530265ac792f1ee725e52 \
     --hash=sha256:ceacbd60dd5a65c95e65e74b5559bd4161aa3fe5713c44e1f3417a12bd41e7ba
-django-filter==2.2.0 \
-    --hash=sha256:558c727bce3ffa89c4a7a0b13bc8976745d63e5fd576b3a9a851650ef11c401b \
-    --hash=sha256:c3deb57f0dd7ff94d7dce52a047516822013e2b441bed472b722a317658cfd14
+-e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.13.1 \
     --hash=sha256:8f3939a620aa2283f38b945b9963501b15c1b26abe03414fb48576765d59942d
 django-model-utils==3.2.0 \
@@ -198,9 +195,9 @@ ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_
 six==1.12.0 \
     --hash=sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c \
     --hash=sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73
-soupsieve==1.9.4 \
-    --hash=sha256:605f89ad5fdbfefe30cdc293303665eff2d188865d4dbe4eb510bba1edfbfce3 \
-    --hash=sha256:b91d676b330a0ebd5b21719cb6e9b57c57d433671f65b9c28dd3461d9a1ed0b6
+soupsieve==1.9.5 \
+    --hash=sha256:bdb0d917b03a1369ce964056fc195cfdff8819c40de04695a80bc813c3cfa1f5 \
+    --hash=sha256:e2c1c5dee4a1c36bcb790e0fabd5492d874b8ebd4617622c4f6a731701060dda
 sqlparse==0.3.0 \
     --hash=sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177 \
     --hash=sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873

@@ -64,10 +64,10 @@ ci: check test ## CI | Run all validation targets
 format: install ## CI | Format the code
 	poetry run isort $(PACKAGES) --recursive --apply
 	poetry run black $(PACKAGES)
-	@ echo
 
 .PHONY: check
 check: format ## CI | Run static analysis
+	@ echo
 ifdef CI
 	git diff --exit-code
 endif
@@ -97,7 +97,6 @@ migrate: install ## Data | Run database migrations
 	poetry run python manage.py migrate
 	@ echo
 	poetry run python manage.py migrate_data
-	@ echo
 
 .PHONY: data
 data: migrate ## Data | Seed data for manual testing
