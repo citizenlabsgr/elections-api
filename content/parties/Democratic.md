@@ -1,5 +1,4 @@
 ## [Democratic](https://democrats.org/)  
-
 **established**: 1792    
 ***description***:    
 The [U.S. Democratic Party](https://simple.m.wikipedia.org/wiki/Democratic_Party  ) is one of the two biggest political parties in the United States.   
