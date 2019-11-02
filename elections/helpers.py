@@ -149,7 +149,20 @@ def fetch_registration_status_data(voter):
         if category not in {'Phone'}:
             districs[category] = _clean_district_name(match[1])
 
-    return {"registered": registered, "districts": districs}
+    # Parse Polling Location
+    pollingloc = {"PollingLocation": "", "PollAddress": "", "PollCityStateZip": ""}
+    for key in pollingloc:
+        index = response.text.find(key)
+        if index == -1:
+            log.warn("Could not find polling location.")
+            break
+        else:
+            newstring = response.text[(index+len(key)+2):]
+            end = newstring.find('<')
+            breakpoint()
+            pollingloc[key] = newstring[0:end]
+
+    return {"registered": registered, "districts": districs, "pollingloc": pollingloc}
 
 
 def _find_or_abort(pattern: str, text: str):
