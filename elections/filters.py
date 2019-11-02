@@ -203,3 +203,10 @@ class PositionFilter(ProposalFilter):
     class Meta:
         model = models.Position
         fields = BallotFilter.Meta.fields
+
+
+class GlossaryFilter(filters.FilterSet):
+    term = filters.CharFilter(
+        field_name='term',
+        help_text="Term being defined",
+    )

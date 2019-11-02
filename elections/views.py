@@ -195,3 +195,19 @@ class PositionViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.PositionFilter
     serializer_class = serializers.PositionSerializer
+
+
+class GlossaryViewSet(viewsets.ModelViewSet):
+    """
+    list:
+    Return all glossary terms.
+
+    retrieve:
+    Return a specific glossary term.
+    """
+
+    http_method_names = ['options', 'get']
+    queryset = models.GlossaryTerm.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = filters.GlossaryFilter
+    serializer_class = serializers.GlossarySerializer

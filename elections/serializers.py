@@ -112,3 +112,9 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
+
+
+class GlossarySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.GlossaryTerm
+        fields = ['id', 'term', 'description']
