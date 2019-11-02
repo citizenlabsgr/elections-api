@@ -159,7 +159,6 @@ def fetch_registration_status_data(voter):
         else:
             newstring = response.text[(index+len(key)+2):]
             end = newstring.find('<')
-            breakpoint()
             pollingloc[key] = newstring[0:end]
 
     return {"registered": registered, "districts": districs, "pollingloc": pollingloc}
