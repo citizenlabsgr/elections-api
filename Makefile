@@ -48,6 +48,11 @@ run: install migrate ## Project | Run the development server
 	@ echo
 	poetry run python manage.py runserver
 
+.PHONY: shell
+shell: install migrate  ## Project | Open the Django shell
+	@ echo
+	poetry run python manage.py shell_plus
+
 # VALIDATION COMMANDS #########################################################
 
 PACKAGES := config elections tests
