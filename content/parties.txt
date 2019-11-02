@@ -1,27 +1,142 @@
-name: Democratic
-description: 
+Definitions:
+[left-wing:](https://simple.m.wikipedia.org/wiki/Left-wing)
+In politics, left-wing is a position that supports social equality and egalitarianism.
 
-name: Green
-description: 
+[Social democracy:](https://simple.m.wikipedia.org/wiki/Social_democracy)
+Social democracy is an ideology that has similar values to socialism, but within a capitalist framework. The ideology, named from democracy where people have a say in government actions, supports a competitive economy with money while also helping people whose jobs don't pay a lot.
+social democracy (do not confuse with democratic socialism)
 
-name: Libertarian
+[Democratic socialism](https://simple.m.wikipedia.org/wiki/Democratic_socialism)
+Democratic socialism is a socialism where government is organized by democracy.
+
+right-wing:
+
+Center-left:
+
+
+Ideologies:
+Social democracy
+Social liberalism
+Progressivism
+Democratic socialism
+Populism
+American libertarianism
+Classical liberalism
+Cultural liberalism
+Economic liberalism
+Fiscal conservatism
+Laissez-faire
+Non-interventionism
+Conservatism
+Paleoconservatism
+Social conservatism
+
+Major American Parties:
+
+name: [Democratic](https://democrats.org/)
+established: 1792
+description: https://simple.m.wikipedia.org/wiki/Democratic_Party_(United_States)
+he U.S. Democratic Party is one of the two biggest political parties in the United States. 
+Democrats, also sometimes called 'the left', 'liberals' or 'progressives' make up one of the two main political parties in the United States. A mostly Democratic state is sometimes called a 'blue state'. 
+This comes from the party’s main color, which is blue, referring to a state supporting ‘blue’ candidates.
+Political position: Center-left
+Ideology:
+Social democracy
+Social liberalism
+Progressivism
+Democratic socialism
+Populism
+Conservatism
+Centrism
+Fiscal conservatism
+Fusionism
+Libertarianism
+Neoconservatism
+Paleoconservatism
+Right-wing populism
+Economic nationalism
+Green politics
+Eco-socialism
+
+
+
+name: [Republican](https://www.gop.com/)
+established:1854
+description: https://simple.m.wikipedia.org/wiki/Republican_Party_(United_States
+The Republicans are often called "the right" or "conservatives". The Republican Party itself is also known as the GOP, which stands for "Grand Old Party." The symbol of the Republican party is the elephant. This symbol was first used in 1874 in a political cartoon (pictured), by Thomas Nast.
+Political position:Centre-right to right-wing
+Ideology:
+Majority:
+ • Conservatism
+ • Social conservatism
+ • Economic liberalism
+Factions:
+ • Centrism
+ • Fiscal conservatism
+ • Fusionism
+ • Libertarianism
+ • Neoconservatism
+ • Paleoconservatism
+ • Right-wing populism
+ • Economic nationalism
+
+
+[Minor American parties](https://simple.m.wikipedia.org/wiki/Third_party_(politics):
+In any two-party system of politics, a third party is a party other than the two main ones. While the term should be used only when discussing the third largest party, it is often used to describe any smaller party. 
+
+
+name: [Green](http://www.gp.org/)
+established:2001
+description: (https://simple.m.wikipedia.org/wiki/Green_Party_(United_States)
+The Green Party is a political party in the United States. 
+The Green Party nominated Dr. Jill Stein as its candidate for President of the United States in 2012, and again in 2016. 
+The party focuses on issues such as social justice and environmentalism. It is the fourth largest party, following the Libertarian Party.
+Political: position Left-wing
+Ideology:
+Green politics
+Eco-socialism
+
+name: [Libertarian](https://www.lp.org/)
+established:1971
+description: (https://simple.m.wikipedia.org/wiki/Libertarian_Party_(United_States)
+It is the third largest party in the United States in terms of the popular vote in the country's elections and number of candidates run per election, and it is also identified by many as the fastest growing political party in the United States.
+Ideology:
+American libertarianism
+Classical liberalism
+Cultural liberalism
+Economic liberalism
+Fiscal conservatism
+Laissez-faire
+Non-interventionism
+
+name: Constitution Party previously known as the U.S. Taxpayers (http://constitutionparty.com/)
+established:1991
 description: 
+The Constitution Party, previously known as the U.S. Taxpayers' Party, is a national political party in the United States. It promotes American nationalism, paleoconservatism, Christian values, the anti-abortion movement, and greater attention to the U.S. Constitution
+Ideology:
+Christian right
+Conservatism
+Fiscal conservatism
+Paleoconservatism
+Social conservatism
 
 name: Natural Law
+established:
 description: 
 
 name: No Party Affiliation
+established:
 description: 
 
 name: Nonpartisan
+established:
 description: 
 
-name: Republican
-description: 
 
-name: U.S. Taxpayers
-description: 
+
+
 
 name: Working Class
+established:
 description: 
 
