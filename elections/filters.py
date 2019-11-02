@@ -206,7 +206,4 @@ class PositionFilter(ProposalFilter):
 
 
 class GlossaryFilter(filters.FilterSet):
-    term = filters.CharFilter(
-        field_name='term',
-        help_text="Term being defined",
-    )
+    term = filters.CharFilter(field_name='term', help_text="Term being defined")
