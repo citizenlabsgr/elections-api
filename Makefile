@@ -33,7 +33,7 @@ runtime.txt: .python-version
 	echo "python-$(shell cat $<)" > $@
 
 requirements.txt: poetry.lock
-	poetry export --format requirements.txt --output $@ || echo "ERROR: Poetry 1.x required to export dependencies"
+	poetry export --format requirements.txt --output $@ --without-hashes || echo "ERROR: Poetry 1.x required to export dependencies"
 
 endif
 
