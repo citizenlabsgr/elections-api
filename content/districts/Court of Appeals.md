@@ -1,1 +1,1 @@
-
+The United States courts of appeals or circuit courts are the intermediate appellate courts (Appeals Court) of the United States federal court system.The courts are divided into 13 circuits, and each hears appeals from the district courts within its borders, or in some instances from other designated federal courts and administrative agencies. Appeals from the courts of appeals are taken to the U.S. Supreme Court.
