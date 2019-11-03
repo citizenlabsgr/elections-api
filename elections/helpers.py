@@ -356,6 +356,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "candidate" in item['class']:
             label = normalize_candidate(item.text)
             assert office is not None, f'Office missing for candidate: {label}'
+            if label == 'No candidates on ballot':
+                continue
             candidate = {'name': label, 'finance_link': None, 'party': None}
             office['candidates'].append(candidate)
             count += 1
