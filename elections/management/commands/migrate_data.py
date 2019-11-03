@@ -57,16 +57,36 @@ class Command(BaseCommand):
 
     def import_descriptions(self):
         for name, description in self._read_descriptions('elections'):
-            Election.objects.filter(name=name).update(description=description)
+            election = Election.objects.get(name=name)
+            if description and election.description != description:
+                log.info(f'Updating description for {name}')
+                election.description = description
+                election.save()
 
         for name, description in self._read_descriptions('districts'):
-            DistrictCategory.objects.filter(name=name).update(description=description)
+            category = DistrictCategory.objects.get(name=name)
+            if description and category.description != description:
+                log.info(f'Updating description for {name}')
+                category.description = description
+                category.save()
 
         for name, description in self._read_descriptions('parties'):
-            Party.objects.filter(name=name).update(description=description)
+            try:
+                party = Party.objects.get(name=name)
+            except Party.DoesNotExist:
+                log.warning(f'No such party: {name}')
+                continue
+            if description and party.description != description:
+                log.info(f'Updating description for {name}')
+                party.description = description
+                party.save()
 
         for name, description in self._read_descriptions('positions'):
-            Position.objects.filter(name=name).update(description=description)
+            for position in Position.objects.filter(name=name):
+                if description and position.description != description:
+                    log.info(f'Updating description for {name}')
+                    position.description = description
+                    position.save()
 
     def export_descriptions(self):
         elections = {}
@@ -93,12 +113,12 @@ class Command(BaseCommand):
         for path in Path(f'content/{name}').iterdir():
             if path.name.startswith('.'):
                 continue
-            log.info(f'Reading {path}')
+            log.debug(f'Reading {path}')
             yield path.stem, path.read_text().strip()
 
     def _write(self, name: str, data: Dict) -> None:
         for key, value in sorted(data.items()):
             path = Path(f'content/{name}/{key}.md')
             with path.open('w') as f:
-                log.info(f'Writing {path}')
+                log.debug(f'Writing {path}')
                 f.write(value + '\n')
