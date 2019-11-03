@@ -29,7 +29,7 @@ def active_election(db):
 
 def describe_scrape_ballots():
     def with_no_active_election(expect, db):
-        commands.scrape_ballots(limit=1)
+        commands.scrape_ballots(ballot_limit=1)
 
         expect(BallotWebsite.objects.count()) == 0
 
@@ -37,7 +37,7 @@ def describe_scrape_ballots():
         defaults.initialize_districts()
 
         commands.scrape_ballots(
-            limit=1, max_election_error_count=1, max_ballot_error_count=1
+            ballot_limit=1, max_election_error_count=1, max_ballot_error_count=1
         )
 
         expect(Election.objects.count()) == 2
@@ -59,7 +59,7 @@ def describe_parse_ballots():
         defaults.initialize_districts()
         defaults.initialize_parties()
 
-        commands.scrape_ballots(start=1828, limit=1)
+        commands.scrape_ballots(starting_precinct_id=1828, ballot_limit=1)
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 1
