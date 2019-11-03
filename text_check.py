@@ -27,6 +27,10 @@ def check_repeated(text):
         if(initial_tuple == None):
             initial_tuple = repeated_tuple 
             consecutive_count += 1
+            if (repeated_tuple[0][0] + 1 == repeated_tuple[1][0]):
+                print("same word twice in a row")
+                initial_tuple = None
+                consecutive_count = 0
         elif (len(repeated_list) > index + 1 and repeated_tuple[0][0] + 1 == repeated_list[index + 1][0][0]):
             consecutive_count += 1
         elif(consecutive_count> 0 and repeated_tuple[0][0] - 1 == repeated_list[index - 1][0][0]): 
