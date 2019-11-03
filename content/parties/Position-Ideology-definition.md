@@ -13,3 +13,5 @@ Direct democracy
 ________________
 
 Big tent  
+Right-wing
+Far-left
