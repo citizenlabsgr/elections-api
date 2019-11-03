@@ -529,7 +529,11 @@ class Ballot(TimeStampedModel):
             elif category_name in {'City', 'Township', 'Authority', 'Local School'}:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
-            elif category_name in {'Community College', 'Intermediate School'}:
+            elif category_name in {
+                'Community College',
+                'Intermediate School',
+                'District Library',
+            }:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise ValueError(
