@@ -3,6 +3,7 @@
 import sys
 from datetime import timedelta
 from pathlib import Path
+from typing import Dict, Generator, Tuple
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -55,7 +56,17 @@ class Command(BaseCommand):
                     district.save()
 
     def import_descriptions(self):
-        pass
+        for name, description in self._read_descriptions('elections'):
+            Election.objects.filter(name=name).update(description=description)
+
+        for name, description in self._read_descriptions('districts'):
+            DistrictCategory.objects.filter(name=name).update(description=description)
+
+        for name, description in self._read_descriptions('parties'):
+            Party.objects.filter(name=name).update(description=description)
+
+        for name, description in self._read_descriptions('positions'):
+            Position.objects.filter(name=name).update(description=description)
 
     def export_descriptions(self):
         elections = {}
@@ -78,7 +89,16 @@ class Command(BaseCommand):
             positions[position.name] = position.description
         self._write('positions', positions)
 
-    def _write(self, name, data):
+    def _read_descriptions(self, name: str) -> Generator[Tuple[str, str], None, None]:
+        for path in Path(f'content/{name}').iterdir():
+            if path.name.startswith('.'):
+                continue
+            log.debug(f'Reading {path}')
+            yield path.stem, path.read_text().strip()
+
+    def _write(self, name: str, data: Dict) -> None:
         for key, value in sorted(data.items()):
-            with Path(f'content/{name}/{key}.md').open('w') as f:
+            path = Path(f'content/{name}/{key}.md')
+            with path.open('w') as f:
+                log.debug(f'Writing {path}')
                 f.write(value + '\n')
