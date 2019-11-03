@@ -50,7 +50,15 @@ as well as a unique ID that identifies your precinct:
 }
 ```
 
-Using either of these pieces of information, you can fetch the details of your specific ballot.
+Using either of these pieces of information, you can fetch the details of your specific ballot. The response also includes the districts your address is located in as well as your polling location:
+
+```
+"polling_location": [
+    "Mayfair Christian Reformed Church",
+    "1736 Lyon Ne",
+    "Grand Rapids, Michigan 49503"
+]
+```
 
 ### Sample Ballots
 
@@ -128,3 +136,8 @@ You can also contribute content changes by editing [these files](https://github.
 **Version 1.0**
 
 - Initial public release.
+
+**Version 1.1**
+
+- Added `possing_location` to the registrations API.
+- Added `description` to the district category, election, and party APIs.

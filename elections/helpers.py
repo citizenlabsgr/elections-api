@@ -160,7 +160,11 @@ def fetch_registration_status_data(voter):
             end = newstring.find('<')
             pollingloc[key] = newstring[0:end]
 
-    return {"registered": registered, "districts": districs, "pollingloc": pollingloc}
+    return {
+        "registered": registered,
+        "districts": districs,
+        "polling_location": pollingloc,
+    }
 
 
 def _find_or_abort(pattern: str, text: str):

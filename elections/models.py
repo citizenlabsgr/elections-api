@@ -124,7 +124,9 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+    polling_location = JSONField(blank=True, null=True)
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
+
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
 
@@ -199,7 +201,11 @@ class Voter(models.Model):
         if created:
             log.info(f"Created precinct: {precinct}")
 
-        status = RegistrationStatus(registered=data['registered'], precinct=precinct)
+        status = RegistrationStatus(
+            registered=data['registered'],
+            polling_location=list(data['polling_location'].values()),
+            precinct=precinct,
+        )
         status.districts = districts
 
         return status

@@ -32,7 +32,7 @@ psycopg2-binary==2.8.4
 pygments==2.4.2
 pymdown-extensions==6.1
 pyparsing==2.4.2
-python-dateutil==2.8.0
+python-dateutil==2.8.1
 pytz==2019.3
 pytzdata==2019.3
 redis==3.3.11

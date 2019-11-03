@@ -23,6 +23,11 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
+            'polling_location': [
+                'Mayfair Christian Reformed Church',
+                '1736 Lyon Ne',
+                'Grand Rapids, Michigan 49503',
+            ],
             'precinct': {
                 'url': anything,
                 'id': anything,
@@ -119,6 +124,7 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': False,
+            'polling_location': None,
             'precinct': None,
             'districts': [],
         }
