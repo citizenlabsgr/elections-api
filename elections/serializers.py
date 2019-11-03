@@ -12,7 +12,7 @@ class VoterSerializer(serializers.ModelSerializer):
 class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.DistrictCategory
-        fields = ['url', 'id', 'name']
+        fields = ['url', 'id', 'name', 'description']
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,7 +27,7 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 class ElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
-        fields = ['url', 'id', 'name', 'date', 'active', 'reference_url']
+        fields = ['url', 'id', 'name', 'date', 'description', 'active', 'reference_url']
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
@@ -73,7 +73,7 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 class PartySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Party
-        fields = ['url', 'id', 'name', 'color']
+        fields = ['url', 'id', 'name', 'color', 'description']
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
