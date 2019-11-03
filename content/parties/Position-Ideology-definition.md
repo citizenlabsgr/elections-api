@@ -33,7 +33,8 @@ Populism
 Protectionism  
 Radical centrism  
 Electoral reform  
-Fiscal conservatism  
+Fiscal conservatism
+Democratic socialism    
 
 ## Political Positions
 ________________
