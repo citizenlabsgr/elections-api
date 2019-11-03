@@ -1,0 +1,1 @@
+Responsible for voting on various zoning matters, oversee city agencies and programs to determine if and how money is being budgeted optimally, and they vote to approve the budget created by the mayor as well.

@@ -1,2 +1,2 @@
-Approves budgets, oversee spending and hiring of county employees, responsible for setting pay rate for city employees, from public works laborers up to the city executive positions such a mayor.
+Council members vote on various zoning matters, oversee city agencies and programs to determine if and how money is being budgeted optimally, and they vote to approve the budget created by the mayor as well.
 By Ward - A ward is a local authority area, typically used for electoral purposes. Wards are usually named after neighbourhoods, thoroughfares, parishes, landmarks, geographical features and in some cases historical figures connected to the area. It is common in the United States for wards to simply be numbered.
