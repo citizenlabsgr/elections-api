@@ -115,17 +115,16 @@ Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/s
 
 Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
 
+## Contributing
+
+If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join_us/).
+
+Once you have access rights or a fork, please read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment. Create a branch for every issue you work on and make a pull request to `master` with the corresponding issue attached.
+
+You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/master/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
+
 ## History
 
 **Version 1.0**
 
 - Initial public release.
-
----
-
-## Contributing
-
-- If you would like to contribute to this project, fork this rep, or ask to get access rights during one of our hackathon events.
-  - Once you have access rights or a fork, read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment.
-  - Create a branch for every issue you work on, and make a pull request to master with the corresponding issue attached.
-    If you would like to know more about us, visit our [github](https://github.com/citizenlabsgr/read-first) repository.

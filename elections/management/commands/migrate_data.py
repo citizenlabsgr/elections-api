@@ -57,11 +57,15 @@ class Command(BaseCommand):
 
     def import_descriptions(self):
         for name, description in self._read_descriptions('elections'):
-            for election in Election.objects.filter(name=name):
-                if description and election.description != description:
-                    log.info(f'Updating description for {name}')
-                    election.description = description
-                    election.save()
+            elections = Election.objects.filter(name=name)
+            if elections:
+                for election in elections:
+                    if description and election.description != description:
+                        log.info(f'Updating description for {name}')
+                        election.description = description
+                        election.save()
+            else:
+                log.warning(f'Election not found in database: {name}')
 
         for name, description in self._read_descriptions('districts'):
             category = DistrictCategory.objects.get(name=name)
@@ -74,19 +78,23 @@ class Command(BaseCommand):
             try:
                 party = Party.objects.get(name=name)
             except Party.DoesNotExist:
-                log.warning(f'No such party: {name}')
-                continue
-            if description and party.description != description:
-                log.info(f'Updating description for {name}')
-                party.description = description
-                party.save()
+                log.warning(f'Party not found in database: {name}')
+            else:
+                if description and party.description != description:
+                    log.info(f'Updating description for {name}')
+                    party.description = description
+                    party.save()
 
         for name, description in self._read_descriptions('positions'):
-            for position in Position.objects.filter(name=name):
-                if description and position.description != description:
-                    log.info(f'Updating description for {name}')
-                    position.description = description
-                    position.save()
+            positions = Position.objects.filter(name=name)
+            if positions:
+                for position in positions:
+                    if description and position.description != description:
+                        log.info(f'Updating description for {name}')
+                        position.description = description
+                        position.save()
+            else:
+                log.warning(f'Position not found in database: {name}')
 
     def export_descriptions(self):
         elections = {}
@@ -106,7 +114,8 @@ class Command(BaseCommand):
 
         positions = {}
         for position in Position.objects.all():
-            positions[position.name] = position.description
+            name = position.name.split('(')[0].strip()
+            positions[name] = position.description
         self._write('positions', positions)
 
     def _read_descriptions(self, name: str) -> Generator[Tuple[str, str], None, None]:
