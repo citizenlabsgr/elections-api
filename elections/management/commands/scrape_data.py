@@ -17,23 +17,29 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--start',
+            '--start-precinct',
             metavar='MI_SOS_ID',
             type=int,
             default=1,
             help='Initial Michigan SOS precinct ID to start from.',
         )
         parser.add_argument(
-            '--limit',
+            '--ballot-limit',
             metavar='COUNT',
             type=int,
             help='Maximum number of fetches to perform before stopping.',
         )
 
-    def handle(self, verbosity: int, start: int, limit: Optional[int], **_kwargs):
+    def handle(
+        self,
+        verbosity: int,
+        start_precinct: int,
+        ballot_limit: Optional[int],
+        **_kwargs,
+    ):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
 
-        scrape_ballots(start=start, limit=limit)
+        scrape_ballots(start_precinct=start_precinct, ballot_limit=ballot_limit)

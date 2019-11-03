@@ -8,8 +8,8 @@ from .models import Ballot, BallotWebsite, Election, Precinct
 
 def scrape_ballots(
     *,
-    start: int = 1,
-    limit: Optional[int] = None,
+    start_precinct: int = 1,
+    ballot_limit: Optional[int] = None,
     max_election_error_count: int = 3,
     max_ballot_error_count: int = 100,
 ):
@@ -27,7 +27,7 @@ def scrape_ballots(
     error_count = 0
     for election_id in itertools.count(starting_election_id):
         ballot_count = _scrape_ballots_for_election(
-            election_id, start, limit, max_ballot_error_count
+            election_id, start_precinct, ballot_limit, max_ballot_error_count
         )
 
         if ballot_count:
@@ -39,7 +39,7 @@ def scrape_ballots(
             log.info(f'No more ballots to scrape')
             break
 
-        if limit and ballot_count >= limit:
+        if ballot_limit and ballot_count >= ballot_limit:
             log.info(f'Stopping after fetching {ballot_count} ballot(s)')
             break
 
