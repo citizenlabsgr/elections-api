@@ -13,6 +13,11 @@ Quick links:
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
 - Contact the maintainers: https://citizenlabs.org/contact/
 
+Sample clients:
+
+- https://explore.michiganelections.io/
+- https://vote.citizenlabs.org/
+
 ---
 
 ## Overview
@@ -119,7 +124,9 @@ http GET https://michiganelections.io/api/proposals/ \
 
 ## Documentation
 
-Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be viewed at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
+The browseable API powered by [Django REST Framework](https://www.django-rest-framework.org) can be found here: https://michiganelections.io/api/
+
+Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found here: https://michiganelections.io/docs/
 
 Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
 
