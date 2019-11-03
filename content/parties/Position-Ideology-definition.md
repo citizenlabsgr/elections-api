@@ -26,6 +26,9 @@ White nationalism
 Third Position  
 Anti-immigration  
 Right-wing populism 
+Communism  
+Marxism-Leninism  
+Revolutionary socialism  
 
 ## Political Positions
 ________________
