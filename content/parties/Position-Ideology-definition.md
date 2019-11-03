@@ -12,6 +12,7 @@ Communism
 Revolutionary socialism  
 Socialist feminism  
 Trotskyism  
+Green politics  
 
 ## Political Positions
 ________________
