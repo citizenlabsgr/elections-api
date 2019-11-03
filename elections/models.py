@@ -485,6 +485,9 @@ class Ballot(TimeStampedModel):
         for category_name, positions_data in data.items():
             if category_name == 'City':
                 district = self.precinct.jurisdiction
+            elif category_name in {'Judicial'}:
+                log.warning("TODO: Map 'Judictial' to appropriate district")
+                district = self.precinct.jurisdiction
             else:
                 raise ValueError(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'

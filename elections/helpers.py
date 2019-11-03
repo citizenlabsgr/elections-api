@@ -29,6 +29,7 @@ def titleize(text: str) -> str:
         .replace(" Of ", " of ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
+        .replace("U.s.", "U.S.")
         .strip()
     )
 
@@ -321,18 +322,32 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "office" in item['class']:
             label = titleize(item.text)
             assert division is not None, f'Division missing for office: {label}'
-            office = {'name': label, 'term': None, 'seats': None, 'candidates': []}
+            office = {
+                'name': label,
+                'district': None,
+                'type': None,
+                'term': None,
+                'seats': None,
+                'candidates': [],
+            }
             division.append(office)
 
         elif "term" in item['class']:
             label = item.text
             assert office is not None, f'Office missing for term: {label}'
-            if "Term" in label:
+            if "Incumbent" in label:
+                office['type'] = label
+            elif "Term" in label:
                 office['term'] = label
             elif "Vote for" in label:
                 office['seats'] = int(label.replace("Vote for not more than ", ""))
-            elif "WARD" in label:
-                office['term'] = titleize(label)
+            elif (
+                "WARD" in label
+                or "DISTRICT" in label
+                or "COURT" in label
+                or "COLLEGE" in label
+            ):
+                office['district'] = titleize(label)
             else:
                 raise ValueError(f"Unhandled term: {label}")
             count += 1
