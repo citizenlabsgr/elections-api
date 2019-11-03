@@ -93,12 +93,12 @@ class Command(BaseCommand):
         for path in Path(f'content/{name}').iterdir():
             if path.name.startswith('.'):
                 continue
-            log.debug(f'Reading {path}')
+            log.info(f'Reading {path}')
             yield path.stem, path.read_text().strip()
 
     def _write(self, name: str, data: Dict) -> None:
         for key, value in sorted(data.items()):
             path = Path(f'content/{name}/{key}.md')
             with path.open('w') as f:
-                log.debug(f'Writing {path}')
+                log.info(f'Writing {path}')
                 f.write(value + '\n')
