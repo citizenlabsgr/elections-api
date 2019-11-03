@@ -19,6 +19,13 @@ Environmentalism
 Progressivism  
 Social democracy  
 Social justice  
+American nationalism  
+Paleoconservatism  
+Social conservatism  
+White nationalism  
+Third Position  
+Anti-immigration  
+Right-wing populism 
 
 ## Political Positions
 ________________
