@@ -413,7 +413,7 @@ def check_repeated(text):
             initial_tuple = repeated_tuple
             consecutive_count += 1
             if (repeated_tuple[0][0] + 1 == repeated_tuple[1][0]):
-                #TODO: notify there was a duplicate found
+                bugsnag.notify(ValueError("duplicate value found"))
                 initial_tuple = None
                 consecutive_count = 0
         elif (len(repeated_list) > index + 1 and repeated_tuple[0][0] + 1 == repeated_list[index + 1][0][0]):
@@ -422,6 +422,7 @@ def check_repeated(text):
             consecutive_count += 1
         elif(initial_tuple[0][0] + consecutive_count == initial_tuple[1][0]):
             #TODO: notify there was a duplicate found
+            bugsnag.notify(ValueError("duplicate value found"))
             for index in range(initial_tuple[0][0], initial_tuple[0][0] + consecutive_count + 1):
                 print(list_of_words[index])
         else:
