@@ -17,6 +17,13 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '--start-election',
+            metavar='MI_SOS_ID',
+            type=int,
+            default=None,
+            help='Initial Michigan SOS election ID to start from.',
+        )
+        parser.add_argument(
             '--start-precinct',
             metavar='MI_SOS_ID',
             type=int,
@@ -33,6 +40,7 @@ class Command(BaseCommand):
     def handle(
         self,
         verbosity: int,
+        start_election: Optional[int],
         start_precinct: int,
         ballot_limit: Optional[int],
         **_kwargs,
@@ -42,4 +50,8 @@ class Command(BaseCommand):
         # https://github.com/citizenlabsgr/elections-api/issues/81
         warnings.simplefilter('once')
 
-        scrape_ballots(start_precinct=start_precinct, ballot_limit=ballot_limit)
+        scrape_ballots(
+            starting_election_id=start_election,
+            starting_precinct_id=start_precinct,
+            ballot_limit=ballot_limit,
+        )

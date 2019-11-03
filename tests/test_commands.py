@@ -59,7 +59,7 @@ def describe_parse_ballots():
         defaults.initialize_districts()
         defaults.initialize_parties()
 
-        commands.scrape_ballots(start_precinct=1828, ballot_limit=1)
+        commands.scrape_ballots(starting_precinct_id=1828, ballot_limit=1)
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 1
