@@ -483,7 +483,7 @@ class Ballot(TimeStampedModel):
 
     def _parse_nonpartisan_section(self, data):
         for category_name, positions_data in data.items():
-            if category_name == 'City':
+            if category_name in {'City', 'Township', 'Village'}:
                 district = self.precinct.jurisdiction
             elif category_name in {'Judicial'}:
                 log.warning("TODO: Map 'Judictial' to appropriate district")
