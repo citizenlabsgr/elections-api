@@ -1,5 +1,6 @@
 # pylint: disable=no-self-use
 
+import os
 import sys
 from datetime import timedelta
 from pathlib import Path
@@ -27,8 +28,9 @@ class Command(BaseCommand):
         self.update_elections()
         self.update_jurisdictions()
 
-        self.import_descriptions()
-        self.export_descriptions()
+        if 'HEROKU_APP_NAME' not in os.environ:
+            self.import_descriptions()
+            self.export_descriptions()
 
     def update_elections(self):
         for election in Election.objects.filter(active=True):
