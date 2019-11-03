@@ -1,6 +1,6 @@
-## [Alaskan Independence Party](https://en.wikipedia.org/wiki/Alaskan_Independence_Party)
- 
-**Established**:
-***Description***: 
-**Political Positioning**:
-**Ideology**:
+## [Alaskan Independence Party]   
+      
+**Established**:1983    
+***Description***: https://en.wikipedia.org/wiki/Alaskan_Independence_Party    
+**Political Positioning**:far-left    
+**Ideology**:  
