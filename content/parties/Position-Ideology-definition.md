@@ -28,7 +28,12 @@ Anti-immigration
 Right-wing populism 
 Communism  
 Marxism-Leninism  
-Revolutionary socialism  
+Revolutionary socialism
+Populism  
+Protectionism  
+Radical centrism  
+Electoral reform  
+Fiscal conservatism  
 
 ## Political Positions
 ________________
@@ -37,3 +42,5 @@ Big tent
 Right-wing
 Far-left
 Center-left to left-wing
+Center  
+
