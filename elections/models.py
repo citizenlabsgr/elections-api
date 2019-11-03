@@ -18,7 +18,7 @@ class DistrictCategory(TimeStampedModel):
     """Types of regions bound to ballot items."""
 
     name = models.CharField(max_length=50, unique=True)
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = "District Categories"
@@ -53,7 +53,7 @@ class Election(TimeStampedModel):
 
     name = models.CharField(max_length=100)
     date = models.DateField()
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     active = models.BooleanField(default=True)
     reference_url = models.URLField(blank=True, null=True)
@@ -214,7 +214,7 @@ class Party(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True, editable=False)
     color = models.CharField(max_length=7, blank=True, editable=False)
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = "Parties"
