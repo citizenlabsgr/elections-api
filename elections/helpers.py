@@ -413,7 +413,7 @@ def check_repeated(text):
             initial_tuple = repeated_tuple
             consecutive_count += 1
             if (repeated_tuple[0][0] + 1 == repeated_tuple[1][0]):
-                print("same word twice in a row")
+                #TODO: notify there was a duplicate found
                 initial_tuple = None
                 consecutive_count = 0
         elif (len(repeated_list) > index + 1 and repeated_tuple[0][0] + 1 == repeated_list[index + 1][0][0]):
@@ -421,11 +421,10 @@ def check_repeated(text):
         elif(consecutive_count> 0 and repeated_tuple[0][0] - 1 == repeated_list[index - 1][0][0]):
             consecutive_count += 1
         elif(initial_tuple[0][0] + consecutive_count == initial_tuple[1][0]):
-            print("repeated sentece")
+            #TODO: notify there was a duplicate found
             for index in range(initial_tuple[0][0], initial_tuple[0][0] + consecutive_count + 1):
                 print(list_of_words[index])
         else:
-            print(repeated_tuple, "nothing here")
             consecutive_count = 0
             initial_tuple = None
 
