@@ -368,8 +368,6 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             if label.isupper():
                 label = titleize(label)
             if '\n' in label:
-                breakpoint()
-                # TODO: Remove duplicate text in description?
                 check_repeated(label)
                 log.warning(f'Newlines in proposal title: {label}')
                 if label.count('\n') == 1:
