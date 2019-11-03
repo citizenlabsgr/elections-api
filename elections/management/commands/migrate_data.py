@@ -57,7 +57,11 @@ class Command(BaseCommand):
 
     def import_descriptions(self):
         for name, description in self._read_descriptions('elections'):
-            election = Election.objects.get(name=name)
+            try:
+                election = Election.objects.get(name=name)
+            except Election.DoesNotExist:
+                log.warning(f'No such election: {name}')
+                continue
             if description and election.description != description:
                 log.info(f'Updating description for {name}')
                 election.description = description
