@@ -108,7 +108,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RegistrationStatus
-        fields = ['registered', 'precinct', 'districts']
+        fields = ['registered', 'polling_location', 'precinct', 'districts']
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
