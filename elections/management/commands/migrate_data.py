@@ -68,7 +68,15 @@ class Command(BaseCommand):
                 log.warning(f'Election not found in database: {name}')
 
         for name, description in self._read_descriptions('districts'):
-            category = DistrictCategory.objects.get(name=name)
+            try:
+                category = DistrictCategory.objects.get(name=name)
+            except DistrictCategory.DoesNotExist as e:
+                message = f'District category not found in database: {name}'
+                if name in {'Precinct'}:
+                    log.warning(message)
+                else:
+                    log.error(message)
+                    raise e from None
             if description and category.description != description:
                 log.info(f'Updating description for {name}')
                 category.description = description
