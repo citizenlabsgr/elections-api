@@ -155,7 +155,6 @@ def fetch_registration_status_data(voter):
         index = response.text.find(key)
         if index == -1:
             log.warn("Could not find polling location.")
-            break
         else:
             newstring = response.text[(index + len(key) + 2) :]
             end = newstring.find('<')
