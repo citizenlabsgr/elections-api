@@ -7,7 +7,11 @@ Techno-progressivism
 Freedom of information    
 Civil libertarianism    
 Open government    
-Direct democracy   
+Direct democracy  
+Communism  
+Revolutionary socialism  
+Socialist feminism  
+Trotskyism  
 
 ## Political Positions
 ________________
