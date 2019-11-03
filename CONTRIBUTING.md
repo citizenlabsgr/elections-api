@@ -2,16 +2,27 @@
 
 ### Requirements
 
+Linux = Ubuntu/Debian
+
 - [pyenv](https://github.com/pyenv/pyenv)
 
   - MacOS: `$ brew install pyenv`
-  - Linux: `$ curl https://pyenv.run | bash`
+  - Linux: 
+    - `$ curl https://pyenv.run | bash`
+    - add the following to ~/.bashrc
+        - `export PATH="/home/scott/.pyenv/bin:$PATH"`
+        - `eval "$(pyenv init -)"`
+        - `eval "$(pyenv virtualenv-init -)"`
+    - `$ source ~/.bashrc`
   - Add `pyenv init` to your [shell config](https://github.com/pyenv/pyenv#installation)
   - Restart your terminal
-  - `$ pyenv install`
+  - Linux:
+    - `$ sudo apt install libbz2-dev libreadline-dev libsqlite3-dev`
+  - (inside elections-api/)`$ pyenv install`
   - Linux: 
     - `$ python3 -m venv .venv`
     - `$ source .venv/bin/activate`
+    - `$ pip install requirements.txt`
 
 - [Poetry](https://poetry.eustace.io/docs/)
 
@@ -38,6 +49,9 @@
     - `$ brew services start postgres` (or your platform's equivalent)
   - Linux:
     - `$ sudo apt install postresql`
+    - `$ sudo -u postgres -i createdb elections_dev`
+    - **use the docker method**
+        - `$ sudo apt install docker`
 
 - [Redis](https://redis.io/)
 
