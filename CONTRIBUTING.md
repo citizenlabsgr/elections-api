@@ -63,10 +63,11 @@ Or, Docker option:
 docker run --rm -e POSTGRES_PASSWORD -e POSTGRES_USER=$USER -e POSTGRES_DB=elections_dev -p 5432:5432 postgres
 ```
 
+The default Django admin credentials are `admin:password`.
+
 ### Get ready to contribute!
 
-Now you should be able to run the Django client on your local machine. Enter `$ make run` in your terminal, then go to your browser and visit `http://localhost:8000/`,
-if everything is working correctly, you should be able to see the Michigan elections API.
+Now you should be able to run the Django client on your local machine. Enter `$ make run` in your terminal, then go to your browser and visit `http://localhost:8000/`. If everything is working correctly, you should be able to see the Michigan Elections API.
 
 ---
 
