@@ -146,5 +146,5 @@ You can also contribute content changes by editing [these files](https://github.
 
 **Version 1.1**
 
-- Added `possing_location` to the registrations API.
+- Added `polling_location` to the registrations API.
 - Added `description` to the district category, election, and party APIs.
