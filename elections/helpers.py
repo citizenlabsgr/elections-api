@@ -331,7 +331,6 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts proposal data into the provided dictionary."""
     count = 0
-
     proposals = ballot.find(id='proposals')
     if not proposals:
         return count
@@ -342,6 +341,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
+        
         log.debug(f'Parsing proposal item {index}: {item}')
 
         if "section" in item['class']:
@@ -368,7 +368,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             if label.isupper():
                 label = titleize(label)
             if '\n' in label:
+                breakpoint()
                 # TODO: Remove duplicate text in description?
+                check_repeated(label)
                 log.warning(f'Newlines in proposal title: {label}')
                 if label.count('\n') == 1:
                     label = label.replace('\n', ': ')
@@ -382,4 +384,25 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             proposal['text'] = label
             count += 1
 
+
     return count
+def check_repeadted(text):
+    list_of_words = text.split()
+    repeated_list = []
+
+    for index, word in enumerate(list_of_words):
+        for other_index in range(index + 1, len(list_of_words)):
+            if(word == list_of_words[other_index]):
+                repeated_list.append((index,word),(other_index,list_of_words[other_index]))
+
+
+    initial_index = None
+    consecutive_count = 0
+    
+    for index, repeated_tuple in enumerate(repeated_list):
+        if(initial_index == None):
+            initial_index = (index,repeated_tupe[0][0])
+            count += 1
+        elif (len(repeated_list) > index + 1 and repeated[0][0] + 1 == repeated_list[index + 1][0][0]):
+            #TODO: check if the value of the next index would equals the value of the second pair for the tuple
+

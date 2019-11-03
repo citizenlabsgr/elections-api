@@ -34,3 +34,8 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
