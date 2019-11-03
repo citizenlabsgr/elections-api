@@ -543,9 +543,18 @@ class Ballot(TimeStampedModel):
             for proposal_data in proposals_data:
 
                 if district is None:
-                    district_name = helpers.parse_district_from_proposal(
-                        category.name, proposal_data['text']
-                    )
+                    try:
+                        district_name = helpers.parse_district_from_proposal(
+                            category.name, proposal_data['text']
+                        )
+                    except ValueError as e:
+                        if category.name == 'District Library':
+                            district_name = helpers.parse_district_from_proposal(
+                                'Public Library', proposal_data['text']
+                            )
+                        else:
+                            raise e from None
+
                     district, created = District.objects.get_or_create(
                         category=category, name=district_name
                     )

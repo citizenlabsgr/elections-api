@@ -25,6 +25,7 @@ from elections.models import BallotWebsite
         (679, 6348, 13),
         (679, 6495, 4),
         (679, 7629, 9),
+        (679, 7343, 5),
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
