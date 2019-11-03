@@ -34,7 +34,12 @@ Protectionism
 Radical centrism  
 Electoral reform  
 Fiscal conservatism
-Democratic socialism    
+Democratic socialism 
+
+Communism
+Marxism–Leninism
+Castroism (from 1959)
+Trotskyism (until 1982)   
 
 ## Political Positions
 ________________
