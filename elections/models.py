@@ -569,6 +569,8 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f'Created proposal: {[proposal]}')
+                proposal.precincts.add(self.precinct)
+                proposal.save()
                 yield proposal
 
 
