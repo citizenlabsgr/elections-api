@@ -15,7 +15,7 @@ Political position: Centre-right to right-wing
  • Social conservatism  
  • Economic liberalism    
 
-***Factions***:
+***Factions***:  
  • Centrism  
  • Fiscal conservatism  
  • Fusionism  

@@ -1,6 +1,17 @@
-[American Freedom Party](https://en.wikipedia.org/wiki/American_Freedom_Party)
+## [American Freedom Party](http://theamericanfreedomparty.us/)
 
-**Established**:
-***Description***: 
-**Political Positioning**:
+**Established**:2010  
+
+***Description***:https://en.wikipedia.org/wiki/American_Freedom_Party  
+
+**Political Positioning**:Far-right  
+
 **Ideology**:
+American nationalism  
+Paleoconservatism  
+Social conservatism  
+White nationalism  
+Third Position  
+Anti-immigration  
+Right-wing populism  
+
