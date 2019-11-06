@@ -30,4 +30,6 @@ router.register('parties', views.PartyViewSet)
 router.register('candidates', views.CandidateViewSet)
 router.register('positions', views.PositionViewSet)
 
+router.register('glossary', views.GlossaryViewSet, basename='glossary')
+
 urlpatterns = router.urls

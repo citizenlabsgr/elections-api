@@ -148,3 +148,7 @@ You can also contribute content changes by editing [these files](https://github.
 
 - Added `polling_location` to the registrations API.
 - Added `description` to the district category, election, and party APIs.
+
+**Version 1.2**
+
+- Added a glossary API to display descriptions for elections, districts, parties, and positions.
