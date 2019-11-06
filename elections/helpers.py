@@ -29,6 +29,7 @@ def titleize(text: str) -> str:
         .replace(" Of ", " of ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
+        .replace("U.s.", "U.S.")
         .strip()
     )
 
@@ -149,7 +150,22 @@ def fetch_registration_status_data(voter):
         if category not in {'Phone'}:
             districs[category] = _clean_district_name(match[1])
 
-    return {"registered": registered, "districts": districs}
+    # Parse Polling Location
+    pollingloc = {"PollingLocation": "", "PollAddress": "", "PollCityStateZip": ""}
+    for key in pollingloc:
+        index = response.text.find(key)
+        if index == -1:
+            log.warn("Could not find polling location.")
+        else:
+            newstring = response.text[(index + len(key) + 2) :]
+            end = newstring.find('<')
+            pollingloc[key] = newstring[0:end]
+
+    return {
+        "registered": registered,
+        "districts": districs,
+        "polling_location": pollingloc,
+    }
 
 
 def _find_or_abort(pattern: str, text: str):
@@ -306,18 +322,33 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "office" in item['class']:
             label = titleize(item.text)
             assert division is not None, f'Division missing for office: {label}'
-            office = {'name': label, 'term': None, 'seats': None, 'candidates': []}
+            office = {
+                'name': label,
+                'district': None,
+                'type': None,
+                'term': None,
+                'seats': None,
+                'candidates': [],
+            }
             division.append(office)
 
         elif "term" in item['class']:
             label = item.text
             assert office is not None, f'Office missing for term: {label}'
-            if "Term" in label:
+            if "Incumbent" in label:
+                office['type'] = label
+            elif "Term" in label:
                 office['term'] = label
             elif "Vote for" in label:
                 office['seats'] = int(label.replace("Vote for not more than ", ""))
-            elif "WARD" in label:
-                office['term'] = titleize(label)
+            elif (
+                "WARD" in label
+                or "DISTRICT" in label
+                or "COURT" in label
+                or "COLLEGE" in label
+                or "Village of " in label
+            ):
+                office['district'] = titleize(label)
             else:
                 raise ValueError(f"Unhandled term: {label}")
             count += 1
@@ -325,6 +356,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "candidate" in item['class']:
             label = normalize_candidate(item.text)
             assert office is not None, f'Office missing for candidate: {label}'
+            if label == 'No candidates on ballot':
+                continue
             candidate = {'name': label, 'finance_link': None, 'party': None}
             office['candidates'].append(candidate)
             count += 1

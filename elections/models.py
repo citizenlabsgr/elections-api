@@ -18,7 +18,7 @@ class DistrictCategory(TimeStampedModel):
     """Types of regions bound to ballot items."""
 
     name = models.CharField(max_length=50, unique=True)
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = "District Categories"
@@ -53,7 +53,7 @@ class Election(TimeStampedModel):
 
     name = models.CharField(max_length=100)
     date = models.DateField()
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     active = models.BooleanField(default=True)
     reference_url = models.URLField(blank=True, null=True)
@@ -124,7 +124,9 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+    polling_location = JSONField(blank=True, null=True)
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
+
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
 
@@ -199,7 +201,11 @@ class Voter(models.Model):
         if created:
             log.info(f"Created precinct: {precinct}")
 
-        status = RegistrationStatus(registered=data['registered'], precinct=precinct)
+        status = RegistrationStatus(
+            registered=data['registered'],
+            polling_location=list(data['polling_location'].values()),
+            precinct=precinct,
+        )
         status.districts = districts
 
         return status
@@ -214,7 +220,7 @@ class Party(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True, editable=False)
     color = models.CharField(max_length=7, blank=True, editable=False)
-    description = models.CharField(blank=True, max_length=500)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = "Parties"
@@ -477,7 +483,10 @@ class Ballot(TimeStampedModel):
 
     def _parse_nonpartisan_section(self, data):
         for category_name, positions_data in data.items():
-            if category_name == 'City':
+            if category_name in {'City', 'Township', 'Village'}:
+                district = self.precinct.jurisdiction
+            elif category_name in {'Judicial'}:
+                log.warning("TODO: Map 'Judictial' to appropriate district")
                 district = self.precinct.jurisdiction
             else:
                 raise ValueError(
@@ -520,7 +529,11 @@ class Ballot(TimeStampedModel):
             elif category_name in {'City', 'Township', 'Authority', 'Local School'}:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
-            elif category_name in {'Community College', 'Intermediate School'}:
+            elif category_name in {
+                'Community College',
+                'Intermediate School',
+                'District Library',
+            }:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise ValueError(
@@ -530,9 +543,18 @@ class Ballot(TimeStampedModel):
             for proposal_data in proposals_data:
 
                 if district is None:
-                    district_name = helpers.parse_district_from_proposal(
-                        category.name, proposal_data['text']
-                    )
+                    try:
+                        district_name = helpers.parse_district_from_proposal(
+                            category.name, proposal_data['text']
+                        )
+                    except ValueError as e:
+                        if category.name == 'District Library':
+                            district_name = helpers.parse_district_from_proposal(
+                                'Public Library', proposal_data['text']
+                            )
+                        else:
+                            raise e from None
+
                     district, created = District.objects.get_or_create(
                         category=category, name=district_name
                     )
@@ -547,6 +569,8 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f'Created proposal: {[proposal]}')
+                proposal.precincts.add(self.precinct)
+                proposal.save()
                 yield proposal
 
 

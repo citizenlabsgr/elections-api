@@ -46,4 +46,9 @@ def describe_fetch_registration_status_data():
                 "Village": "",
                 "Ward": "2",
             },
+            "polling_location": {
+                "PollingLocation": "Mayfair Christian Reformed Church",
+                "PollAddress": "1736 Lyon Ne",
+                "PollCityStateZip": "Grand Rapids, Michigan 49503",
+            },
         }

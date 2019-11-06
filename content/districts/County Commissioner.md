@@ -1,1 +1,1 @@
-
+The commission acts as the executive of the local government, levies local taxes, administers county governmental services such as prisons, courts, public health oversight, property registration, building code enforcement, and public works such as road maintenance.

@@ -23,4 +23,4 @@ Political position: Centre-right to right-wing
  • Neoconservatism  
  • Paleoconservatism  
  • Right-wing populism  
- • Economic nationalism  
+ • Economic nationalism

@@ -1,1 +1,1 @@
-
+Responsible for hiring and firing staff, may have veto power and is responsible for implementing legislation passed by the council. Responsible for ceremonial duties, some cities give the mayor legislative power as well.

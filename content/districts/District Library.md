@@ -1,0 +1,1 @@
+Generally supported by taxes (usually local, though any level of government can and may contribute); they are governed by a board to serve the public interest; they are open to all, and every community member can access the collection; they are entirely voluntary in that no one is ever forced to use the services provided; and they provide basic services without charge.

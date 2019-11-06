@@ -5,7 +5,7 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 dj-database-url==0.5.0
-django==2.2.6
+django==2.2.7
 django-cors-headers==2.5.3
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.13.1
@@ -31,8 +31,8 @@ pep562==1.0
 psycopg2-binary==2.8.4
 pygments==2.4.2
 pymdown-extensions==6.1
-pyparsing==2.4.2
-python-dateutil==2.8.0
+pyparsing==2.4.4
+python-dateutil==2.8.1
 pytz==2019.3
 pytzdata==2019.3
 redis==3.3.11
@@ -40,7 +40,7 @@ requests==2.22.0
 requests-cache==0.5.2
 ruamel.yaml==0.16.5
 ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_version < "3.8"
-six==1.12.0
+six==1.13.0
 soupsieve==1.9.5
 sqlparse==0.3.0
 text-unidecode==1.3

@@ -3,6 +3,7 @@
 import sys
 from datetime import timedelta
 from pathlib import Path
+from typing import Dict, Generator, Tuple
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -55,7 +56,53 @@ class Command(BaseCommand):
                     district.save()
 
     def import_descriptions(self):
-        pass
+        for name, description in self._read_descriptions('elections'):
+            elections = Election.objects.filter(name=name)
+            if elections:
+                for election in elections:
+                    if description and election.description != description:
+                        log.info(f'Updating description for {name}')
+                        election.description = description
+                        election.save()
+            else:
+                log.warning(f'Election not found in database: {name}')
+
+        for name, description in self._read_descriptions('districts'):
+            try:
+                category = DistrictCategory.objects.get(name=name)
+            except DistrictCategory.DoesNotExist as e:
+                message = f'District category not found in database: {name}'
+                if name in {'Precinct'}:
+                    log.warning(message)
+                else:
+                    log.error(message)
+                    raise e from None
+            if description and category.description != description:
+                log.info(f'Updating description for {name}')
+                category.description = description
+                category.save()
+
+        for name, description in self._read_descriptions('parties'):
+            try:
+                party = Party.objects.get(name=name)
+            except Party.DoesNotExist:
+                log.warning(f'Party not found in database: {name}')
+            else:
+                if description and party.description != description:
+                    log.info(f'Updating description for {name}')
+                    party.description = description
+                    party.save()
+
+        for name, description in self._read_descriptions('positions'):
+            positions = Position.objects.filter(name=name)
+            if positions:
+                for position in positions:
+                    if description and position.description != description:
+                        log.info(f'Updating description for {name}')
+                        position.description = description
+                        position.save()
+            else:
+                log.warning(f'Position not found in database: {name}')
 
     def export_descriptions(self):
         elections = {}
@@ -75,10 +122,20 @@ class Command(BaseCommand):
 
         positions = {}
         for position in Position.objects.all():
-            positions[position.name] = position.description
+            name = position.name.split('(')[0].strip()
+            positions[name] = position.description
         self._write('positions', positions)
 
-    def _write(self, name, data):
+    def _read_descriptions(self, name: str) -> Generator[Tuple[str, str], None, None]:
+        for path in Path(f'content/{name}').iterdir():
+            if path.name.startswith('.'):
+                continue
+            log.debug(f'Reading {path}')
+            yield path.stem, path.read_text().strip()
+
+    def _write(self, name: str, data: Dict) -> None:
         for key, value in sorted(data.items()):
-            with Path(f'content/{name}/{key}.md').open('w') as f:
+            path = Path(f'content/{name}/{key}.md')
+            with path.open('w') as f:
+                log.debug(f'Writing {path}')
                 f.write(value + '\n')

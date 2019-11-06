@@ -13,6 +13,11 @@ Quick links:
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
 - Contact the maintainers: https://citizenlabs.org/contact/
 
+Sample clients:
+
+- https://explore.michiganelections.io/
+- https://vote.citizenlabs.org/
+
 ---
 
 ## Overview
@@ -50,7 +55,15 @@ as well as a unique ID that identifies your precinct:
 }
 ```
 
-Using either of these pieces of information, you can fetch the details of your specific ballot.
+Using either of these pieces of information, you can fetch the details of your specific ballot. The response also includes the districts your address is located in as well as your polling location:
+
+```
+"polling_location": [
+    "Mayfair Christian Reformed Church",
+    "1736 Lyon Ne",
+    "Grand Rapids, Michigan 49503"
+]
+```
 
 ### Sample Ballots
 
@@ -111,9 +124,19 @@ http GET https://michiganelections.io/api/proposals/ \
 
 ## Documentation
 
-Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be viewed at <a href="https://michiganelections.io/docs/">michiganelections.io/docs/</a>.
+The browseable API powered by [Django REST Framework](https://www.django-rest-framework.org) can be found here: https://michiganelections.io/api/
+
+Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found here: https://michiganelections.io/docs/
 
 Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
+
+## Contributing
+
+If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join_us/).
+
+Once you have access rights or a fork, please read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment. Create a branch for every issue you work on and make a pull request to `master` with the corresponding issue attached.
+
+You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/master/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
 
@@ -121,11 +144,11 @@ Versions of the API are requested through content negotiation. Your client will 
 
 - Initial public release.
 
----
+**Version 1.1**
 
-## Contributing
+- Added `polling_location` to the registrations API.
+- Added `description` to the district category, election, and party APIs.
 
-- If you would like to contribute to this project, fork this rep, or ask to get access rights during one of our hackathon events.
-  - Once you have access rights or a fork, read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment.
-  - Create a branch for every issue you work on, and make a pull request to master with the corresponding issue attached.
-    If you would like to know more about us, visit our [github](https://github.com/citizenlabsgr/read-first) repository.
+**Version 1.2**
+
+- Added a glossary API to display descriptions for elections, districts, parties, and positions.

@@ -37,9 +37,16 @@ def initialize_districts():
         "Metropolitan",
         # Local
         "School",  # e.g. Grand Rapids Public Schools
+        "Local School",
         "Intermediate School",  # e.g. Kent ISD
         "Community College",  # e.g. Grand Rapids Community College
         "Library",
+        "District Library",
+        # Municipalities
+        "City",
+        "Township",
+        "Village",
+        "Authority",
         # Congress
         "County Commissioner",  # e.g. 15th District
         "State House",  # e.g. 75th District

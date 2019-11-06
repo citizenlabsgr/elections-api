@@ -50,6 +50,7 @@ def describe_list():
                     'url': f'http://testserver/api/elections/{ballot.election.id}/',
                     'id': ballot.election.id,
                     'name': '',
+                    'description': '',
                     'date': '2018-08-07',
                     'active': True,
                     'reference_url': None,

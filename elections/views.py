@@ -1,3 +1,5 @@
+from typing import List, Set
+
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
@@ -195,3 +197,29 @@ class PositionViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.PositionFilter
     serializer_class = serializers.PositionSerializer
+
+
+class GlossaryViewSet(viewsets.ViewSet):
+    """
+    list:
+    Return all glossary terms.
+    """
+
+    http_method_names = ['get']
+    serializer_class = serializers.GlossarySerializer
+
+    def list(self, request):
+        items: List = []
+
+        items.extend(models.DistrictCategory.objects.all())
+        items.extend(models.Election.objects.all())
+        items.extend(models.Party.objects.all())
+
+        positions: Set[str] = set()
+        for position in models.Position.objects.all():
+            if position.name not in positions:
+                positions.add(position.name)
+                items.append(position)
+
+        serializer = self.serializer_class(items, many=True)
+        return Response(serializer.data)
