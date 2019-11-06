@@ -112,3 +112,26 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
+
+
+class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-method
+
+    category = serializers.SerializerMethodField()
+    name = serializers.CharField()
+    description = serializers.CharField()
+    edit_url = serializers.SerializerMethodField()
+
+    def get_category(self, obj) -> str:  # pylint: disable=no-self-use
+        categories = {
+            'Party': 'parties',
+            'DistrictCategory': 'districts',
+            'Position': 'positions',
+            'Election': 'elections',
+        }
+        model = obj.__class__.__name__
+        return categories[model]
+
+    def get_edit_url(self, obj):
+        category = self.get_category(obj)
+        name = obj.name.replace(' ', '%20')
+        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
