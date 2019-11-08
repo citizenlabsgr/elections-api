@@ -354,6 +354,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                     or "COURT" in label
                     or "COLLEGE" in label
                     or "Village of " in label
+                    or label.endswith(" SCHOOL")
                     or label.endswith(" SCHOOLS")
                     or label.endswith(" ISD")
                 ), (
