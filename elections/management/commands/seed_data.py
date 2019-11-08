@@ -1,7 +1,6 @@
 # pylint: disable=no-self-use
 
 import sys
-import warnings
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -19,9 +18,6 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, **_kwargs):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
-
-        # https://github.com/citizenlabsgr/elections-api/issues/81
-        warnings.simplefilter('once')
 
         self.get_or_create_superuser()
         self.add_elections()
