@@ -445,14 +445,46 @@ class Ballot(TimeStampedModel):
 
     def _parse_partisan_section(self, data):
         for category_name, positions_data in data.items():
-            if category_name in {'City', 'Township'}:
+
+            district = None
+
+            if category_name in {'State', 'State Board'}:
+                district = District.objects.get(name='Michigan')
+            elif category_name in {'County'}:
+                district = self.precinct.county
+            elif category_name in {'Congressional', 'Legislative'}:
+                pass
+            elif category_name in {'City', 'Township'}:
                 district = self.precinct.jurisdiction
+
             else:
                 raise ValueError(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                 )
 
             for position_data in positions_data:
+
+                if district is None:
+                    position_name = position_data['name']
+                    if position_name in {'United States Senator'}:
+                        district = District.objects.get(name='Michigan')
+                    elif position_name in {'Representative in Congress'}:
+                        category = DistrictCategory.objects.get(name='US Congress')
+                        district = District.objects.get(
+                            category=category, name=position_data['district']
+                        )
+                    elif position_name in {'State Senator'}:
+                        category = DistrictCategory.objects.get(name='State Senate')
+                        district, created = District.objects.get_or_create(
+                            category=category, name=position_data['district']
+                        )
+                        if created:
+                            log.info(f'Created district: {district}')
+                    else:
+                        raise ValueError(
+                            f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
+                        )
+
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
@@ -483,7 +515,11 @@ class Ballot(TimeStampedModel):
 
     def _parse_nonpartisan_section(self, data):
         for category_name, positions_data in data.items():
-            if category_name in {'City', 'Township', 'Village'}:
+            if category_name in {'Community College'}:
+                # TODO: Verify this is the correct mapping for 'Community College'
+                district = self.precinct.county
+            elif category_name in {'City', 'Township', 'Village', 'Local School'}:
+                # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
             elif category_name in {'Judicial'}:
                 log.warning("TODO: Map 'Judictial' to appropriate district")
@@ -524,7 +560,9 @@ class Ballot(TimeStampedModel):
 
             district = None
 
-            if category_name == 'County':
+            if category_name in {'State'}:
+                district = District.objects.get(name='Michigan')
+            elif category_name in {'County'}:
                 district = self.precinct.county
             elif category_name in {'City', 'Township', 'Authority', 'Local School'}:
                 # TODO: Verify this is the correct mapping for 'Local School'

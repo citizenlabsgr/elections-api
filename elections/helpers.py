@@ -311,7 +311,9 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "division" in item['class']:
             office = None
-            label = titleize(item.text.replace(' - Continued', ''))
+            label = (
+                titleize(item.text).replace(" - Continued", "").replace(" District", "")
+            )
             try:
                 division = section[label]
             except KeyError:
@@ -349,6 +351,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 or "Village of " in label
             ):
                 office['district'] = titleize(label)
+            elif label in {"Incumbent Position", "New Judgeship"}:
+                log.warning(f'Skipped term: {label}')
             else:
                 raise ValueError(f"Unhandled term: {label}")
             count += 1
