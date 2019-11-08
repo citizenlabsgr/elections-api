@@ -11,6 +11,7 @@ from elections.models import BallotWebsite
     'election_id, precinct_id, item_count',
     [
         (676, 1, 128),
+        (676, 7, 122),
         (679, 1828, 12),
         (679, 411, 1),
         (679, 780, 1),

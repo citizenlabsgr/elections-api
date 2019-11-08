@@ -349,6 +349,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 or "COURT" in label
                 or "COLLEGE" in label
                 or "Village of " in label
+                or label.endswith(" SCHOOLS")
             ):
                 office['district'] = titleize(label)
             elif label in {"Incumbent Position", "New Judgeship"}:
