@@ -2,7 +2,6 @@
 
 
 import sys
-import warnings
 from typing import Optional
 
 from django.core.management.base import BaseCommand
@@ -46,9 +45,6 @@ class Command(BaseCommand):
         **_kwargs,
     ):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
-
-        # https://github.com/citizenlabsgr/elections-api/issues/81
-        warnings.simplefilter('once')
 
         scrape_ballots(
             starting_election_id=start_election,

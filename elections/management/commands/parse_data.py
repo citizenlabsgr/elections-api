@@ -1,7 +1,6 @@
 # pylint: disable=no-self-use
 
 import sys
-import warnings
 
 from django.core.management.base import BaseCommand
 
@@ -22,8 +21,5 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, refetch: bool, **_kwargs):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
-
-        # https://github.com/citizenlabsgr/elections-api/issues/81
-        warnings.simplefilter('once')
 
         parse_ballots(refetch=refetch)

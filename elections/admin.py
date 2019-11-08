@@ -85,7 +85,6 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     list_display = [
         'id',
         'Link',
-        'refetch_weight',
         'fetched',
         'last_fetch',
         'valid',
@@ -101,7 +100,6 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     ordering = ['-last_fetch']
 
     readonly_fields = [
-        'refetch_weight',
         'fetched',
         'last_fetch',
         'valid',

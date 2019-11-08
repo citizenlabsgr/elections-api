@@ -244,7 +244,6 @@ class BallotWebsite(models.Model):
 
     data = JSONField(null=True, editable=False)
     data_count = models.IntegerField(default=-1, editable=False)
-    refetch_weight = models.FloatField(default=1.0, editable=False)
 
     last_fetch = models.DateTimeField(null=True, editable=False)
     last_validate = models.DateTimeField(null=True, editable=False)
@@ -266,7 +265,20 @@ class BallotWebsite(models.Model):
 
     @property
     def stale(self) -> bool:
-        return self.refetch_weight > random.random()
+        if not self.last_fetch:
+            log.debug('Ballot has never been scraped')
+            return True
+
+        age = timezone.now() - self.last_fetch
+        if age < timezone.timedelta(minutes=61):
+            log.debug('Ballot was scraped in the last hour')
+            return False
+
+        age_in_days = age.total_seconds() / 3600 / 24
+        weight = age_in_days / 14  # fetch once per week on average
+        log.debug(f'Ballot was scraped {round(age_in_days, 1)} days ago')
+
+        return weight > random.random()
 
     def fetch(self) -> None:
         """Fetch ballot HTML from the URL."""
@@ -310,22 +322,13 @@ class BallotWebsite(models.Model):
 
         data_count = helpers.parse_ballot(self.mi_sos_html, data['ballot'])
         log.info(f'Ballot URL contains {data_count} parsed item(s)')
-        if data_count:
-            self.last_scrape = timezone.now()
+        if data_count > 0:
             self.data = data
-
-        if data_count == self.data_count:
-            min_weight = 1 / 14 if self.valid else 1 / 28
-            self.refetch_weight = max(min_weight, self.refetch_weight / 2)
-        elif self.data_count == -1:
-            self.refetch_weight = 0.5
-        else:
-            if self.parsed and data_count:
+            if data_count != self.data_count:
                 self.parsed = False
-            self.refetch_weight = (self.refetch_weight + 1.0) / 2
 
         self.data_count = data_count
-        self.refetch_weight = round(self.refetch_weight, 3)
+        self.last_scrape = timezone.now()
         self.save()
 
         return self.data_count

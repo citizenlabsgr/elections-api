@@ -18,7 +18,7 @@ def scrape_ballots(
     current_election = Election.objects.filter(active=True).first()
 
     if starting_election_id is not None:
-        pass
+        pass  # use the provided ID
     elif current_election:
         starting_election_id = current_election.mi_sos_id
     elif last_election:
