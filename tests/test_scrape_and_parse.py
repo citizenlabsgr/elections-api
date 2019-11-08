@@ -10,6 +10,11 @@ from elections.models import BallotWebsite
 @pytest.mark.parametrize(
     'election_id, precinct_id, item_count',
     [
+        (676, 1, 128),
+        (676, 7, 122),
+        (676, 295, 110),
+        (676, 605, 104),
+        (676, 2135, 117),
         (679, 1828, 12),
         (679, 411, 1),
         (679, 780, 1),

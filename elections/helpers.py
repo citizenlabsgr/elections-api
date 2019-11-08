@@ -311,7 +311,9 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "division" in item['class']:
             office = None
-            label = titleize(item.text.replace(' - Continued', ''))
+            label = (
+                titleize(item.text).replace(" - Continued", "").replace(" District", "")
+            )
             try:
                 division = section[label]
             except KeyError:
@@ -328,6 +330,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 'type': None,
                 'term': None,
                 'seats': None,
+                'incumbency': None,
                 'candidates': [],
             }
             division.append(office)
@@ -341,16 +344,24 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 office['term'] = label
             elif "Vote for" in label:
                 office['seats'] = int(label.replace("Vote for not more than ", ""))
-            elif (
-                "WARD" in label
-                or "DISTRICT" in label
-                or "COURT" in label
-                or "COLLEGE" in label
-                or "Village of " in label
-            ):
-                office['district'] = titleize(label)
+            elif label in {"Incumbent Position", "New Judgeship"}:
+                office['incumbency'] = label
             else:
-                raise ValueError(f"Unhandled term: {label}")
+                # TODO: Remove this assert after parsing an entire general election
+                assert (
+                    "WARD" in label
+                    or "DISTRICT" in label
+                    or "COURT" in label
+                    or "COLLEGE" in label
+                    or "Village of " in label
+                    or label.endswith(" SCHOOL")
+                    or label.endswith(" SCHOOLS")
+                    or label.endswith(" ISD")
+                    or label.endswith(" ESA")
+                ), (
+                    f'Unhandled term: {label}'
+                )  # pylint: disable=too-many-boolean-expressions
+                office['district'] = titleize(label)
             count += 1
 
         elif "candidate" in item['class']:

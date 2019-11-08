@@ -13,6 +13,8 @@ class Anything:
 def pytest_configure(config):
     """Disable verbose output when running tests."""
     log.init(debug=True)
+    log.silence('elections.defaults', allow_warning=True)
+    log.silence('elections.helpers', allow_info=True)
     log.silence('factory')
 
     terminal = config.pluginmanager.getplugin("terminal")
