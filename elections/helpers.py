@@ -306,8 +306,11 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             division: Optional[List] = None
             office: Optional[Dict] = None
             label = item.text.lower()
-            assert label not in data, f'Duplicate section: {label}'
-            data[label] = section
+            if label in data:
+                log.warning(f'Duplicate section on ballot: {label}')
+                section = data[label]
+            else:
+                data[label] = section
 
         elif "division" in item['class']:
             office = None
