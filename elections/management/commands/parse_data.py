@@ -1,6 +1,7 @@
 # pylint: disable=no-self-use
 
 import sys
+from typing import Optional
 
 from django.core.management.base import BaseCommand
 
@@ -14,12 +15,19 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '--election',
+            metavar='MI_SOS_ID',
+            type=int,
+            default=None,
+            help='Michigan SOS election ID to parse ballots for.',
+        )
+        parser.add_argument(
             '--refetch',
             action='store_true',
             help='Fetch, validate, and scrape ballots again if parsing fails.',
         )
 
-    def handle(self, verbosity: int, refetch: bool, **_kwargs):
+    def handle(self, verbosity: int, election: Optional[int], refetch: bool, **_kwargs):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
-        parse_ballots(refetch=refetch)
+        parse_ballots(election_id=election, refetch=refetch)

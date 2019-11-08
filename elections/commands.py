@@ -86,39 +86,49 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots(*, refetch: bool = False):
-    for election in Election.objects.filter(active=True):
+def parse_ballots(*, election_id: Optional[int] = None, refetch: bool = False):
+    if election_id:
+        elections = Election.objects.filter(mi_sos_id=election_id)
+    else:
+        elections = Election.objects.filter(active=True)
 
-        precincts: Set[Precinct] = set()
+    for election in elections:
+        _parse_ballots_for_election(election, refetch)
 
-        for ballot in Ballot.objects.filter(election=election):
-            if ballot.website:
-                ballot.website = None
-                ballot.save()
 
-        for website in BallotWebsite.objects.filter(
-            mi_sos_election_id=election.mi_sos_id, valid=True
-        ).order_by('-mi_sos_precinct_id'):
+def _parse_ballots_for_election(election: Election, refetch: bool):
+    log.info(f'Parsing ballots for election {election.mi_sos_id}')
 
-            ballot = website.convert()
+    precincts: Set[Precinct] = set()
 
-            if ballot.precinct in precincts:
-                log.warn(f'Duplicate website: {website}')
-            else:
-                precincts.add(ballot.precinct)
+    for ballot in Ballot.objects.filter(election=election):
+        if ballot.website:
+            ballot.website = None
+            ballot.save()
 
-                ballot.website = website
+    for website in BallotWebsite.objects.filter(
+        mi_sos_election_id=election.mi_sos_id, valid=True
+    ).order_by('-mi_sos_precinct_id'):
 
-                try:
+        ballot = website.convert()
+
+        if ballot.precinct in precincts:
+            log.warn(f'Duplicate website: {website}')
+        else:
+            precincts.add(ballot.precinct)
+
+            ballot.website = website
+
+            try:
+                ballot.parse()
+            except Exception as e:  # pylint: disable=broad-except
+                if refetch:
+                    log.warning(str(e))
+                    ballot.website.fetch()
+                    ballot.website.validate()
+                    ballot.website.scrape()
                     ballot.parse()
-                except Exception as e:  # pylint: disable=broad-except
-                    if refetch:
-                        log.warning(str(e))
-                        ballot.website.fetch()
-                        ballot.website.validate()
-                        ballot.website.scrape()
-                        ballot.parse()
-                    else:
-                        raise e from None
+                else:
+                    raise e from None
 
-                ballot.save()
+            ballot.save()
