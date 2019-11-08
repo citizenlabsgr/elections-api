@@ -520,7 +520,11 @@ class Ballot(TimeStampedModel):
 
             if category_name in {'City', 'Township', 'Village'}:
                 district = self.precinct.jurisdiction
-            elif category_name in {'Community College', 'Local School'}:
+            elif category_name in {
+                'Community College',
+                'Local School',
+                'Intermediate School',
+            }:
                 category = DistrictCategory.objects.get(name=category_name)
             elif category_name in {'Judicial'}:
                 pass
