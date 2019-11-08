@@ -213,7 +213,7 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     """Parse precinct information from ballot HTML."""
 
     # Parse county
-    match = re.search(r'(?P<county>[^>]+) County, Michigan', html)
+    match = re.search(r'(?P<county>[^>]+) County, Michigan', html, re.IGNORECASE)
     assert match, f'Unable to find county name: {url}'
     county = titleize(match.group('county'))
 
