@@ -30,6 +30,8 @@ def titleize(text: str) -> str:
         .replace(" To ", " to ")
         .replace(" And ", " and ")
         .replace("U.s.", "U.S.")
+        .replace("Ii.", "II.")
+        .replace("(r", "(R")
         .strip()
     )
 
@@ -249,6 +251,12 @@ def parse_district_from_proposal(category: str, text: str) -> str:
     for match in re.finditer(f'(the|authorizes) (.+? {category})', text):
         log.debug(f'Matched district in proposal: {match.groups()}')
         name = match[2].strip()
+        if name[0].isupper() and len(name) < 100:
+            return name
+
+    for match in re.finditer(f'in (.+? {category})', text):
+        log.debug(f'Matched district in proposal: {match.groups()}')
+        name = match[1].strip()
         if name[0].isupper() and len(name) < 100:
             return name
 
