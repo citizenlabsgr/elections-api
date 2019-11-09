@@ -599,7 +599,13 @@ class Ballot(TimeStampedModel):
                 district = District.objects.get(name='Michigan')
             elif category_name in {'County'}:
                 district = self.precinct.county
-            elif category_name in {'City', 'Township', 'Authority', 'Local School'}:
+            elif category_name in {
+                'City',
+                'Township',
+                'Village',
+                'Authority',
+                'Local School',
+            }:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
             elif category_name in {
