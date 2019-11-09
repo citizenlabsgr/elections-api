@@ -249,16 +249,19 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
 
 def parse_district_from_proposal(category: str, text: str) -> str:
     patterns = [
-        f'(?:the|authorizes) (.+? {category})',
-        f'in (.+? {category})',
         f'allocated to (.+? {category})',
+        f'authorizes (.+? {category})',
+        f'for the (.+? {category})',
+        f'allow (.+? {category})',
+        f'Shall the (.+? {category})',
+        f'in (.+? {category})',
         'Shall (.+?), Michigan',
     ]
 
     for pattern in patterns:
         for match in re.finditer(pattern, text):
-            log.debug(f'Matched district in proposal: {match.groups()}')
             name = match[1].strip()
+            log.debug(f'{pattern!r} matched: {name}')
             if name[0].isupper() and len(name) < 100:
                 return name
 

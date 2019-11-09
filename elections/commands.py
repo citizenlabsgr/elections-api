@@ -122,18 +122,17 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
             precincts.add(ballot.precinct)
 
             ballot.website = website
-
-            try:
-                if ballot.stale:
-                    ballot.parse()
-            except Exception as e:  # pylint: disable=broad-except
-                if refetch:
-                    log.warning(str(e))
-                    ballot.website.fetch()
-                    ballot.website.validate()
-                    ballot.website.scrape()
-                    ballot.parse()
-                else:
-                    raise e from None
-
             ballot.save()
+
+            if ballot.stale:
+                try:
+                    ballot.parse()
+                except Exception as e:  # pylint: disable=broad-except
+                    if refetch:
+                        log.warning(str(e))
+                        ballot.website.fetch()
+                        ballot.website.validate()
+                        ballot.website.scrape()
+                        ballot.parse()
+                    else:
+                        raise e from None
