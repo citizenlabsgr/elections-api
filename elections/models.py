@@ -623,26 +623,31 @@ class Ballot(TimeStampedModel):
 
                 if district is None:
                     assert category, f'Expected category: {proposals_data}'
-                    try:
-                        district_name = helpers.parse_district_from_proposal(
-                            category.name, proposal_data['text']
+
+                    possible_category_names = [category.name]
+                    if category.name == 'District Library':
+                        possible_category_names.append('Public Library')
+                        possible_category_names.append('Community Library')
+                    elif category.name == 'Community College':
+                        possible_category_names.append('College')
+                    elif category.name == 'Intermediate School':
+                        possible_category_names.append(
+                            'Regional Education Service Agency'
                         )
-                    except ValueError as e:
-                        if category.name == 'District Library':
+
+                    original_exception = None
+                    for category_name in possible_category_names:
+                        try:
                             district_name = helpers.parse_district_from_proposal(
-                                'Public Library', proposal_data['text']
+                                category_name, proposal_data['text']
                             )
-                        elif category.name == 'Community College':
-                            district_name = helpers.parse_district_from_proposal(
-                                'College', proposal_data['text']
-                            )
-                        elif category.name == 'Intermediate School':
-                            district_name = helpers.parse_district_from_proposal(
-                                'Regional Education Service Agency',
-                                proposal_data['text'],
-                            )
+                        except ValueError as e:
+                            if original_exception is None:
+                                original_exception = e
                         else:
-                            raise e from None
+                            break
+                    else:
+                        raise original_exception  # type: ignore
 
                     district, created = District.objects.get_or_create(
                         category=category, name=district_name
