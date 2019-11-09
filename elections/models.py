@@ -529,6 +529,7 @@ class Ballot(TimeStampedModel):
                 'Community College',
                 'Local School',
                 'Intermediate School',
+                'Library',
             }:
                 category = DistrictCategory.objects.get(name=category_name)
             elif category_name in {'Judicial'}:

@@ -362,6 +362,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                     or label.endswith(" ISD")
                     or label.endswith(" ESA")
                     or label.endswith(" COMMUNITY")
+                    or label.endswith(" LIBRARY")
                 ), (
                     f'Unhandled term: {label}'
                 )  # pylint: disable=too-many-boolean-expressions
