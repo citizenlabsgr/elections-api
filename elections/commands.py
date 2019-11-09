@@ -101,14 +101,18 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
 
     precincts: Set[Precinct] = set()
 
-    for ballot in Ballot.objects.filter(election=election):
+    ballots = Ballot.objects.filter(election=election)
+    log.info(f'Resetting websites for {ballots.count()} ballots')
+    for ballot in ballots:
         if ballot.website:
             ballot.website = None
             ballot.save()
 
-    for website in BallotWebsite.objects.filter(
+    websites = BallotWebsite.objects.filter(
         mi_sos_election_id=election.mi_sos_id, valid=True
-    ).order_by('-mi_sos_precinct_id'):
+    ).order_by('-mi_sos_precinct_id')
+    log.info(f'Mapping {websites.count()} websites to ballots')
+    for website in websites:
 
         ballot = website.convert()
 
