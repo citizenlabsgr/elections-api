@@ -626,6 +626,10 @@ class Ballot(TimeStampedModel):
                             district_name = helpers.parse_district_from_proposal(
                                 'Public Library', proposal_data['text']
                             )
+                        elif category.name == 'Community College':
+                            district_name = helpers.parse_district_from_proposal(
+                                'College', proposal_data['text']
+                            )
                         else:
                             raise e from None
 
