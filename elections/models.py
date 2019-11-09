@@ -639,13 +639,17 @@ class Ballot(TimeStampedModel):
 
                     possible_category_names = [category.name]
                     if category.name == 'District Library':
-                        possible_category_names.append('Public Library')
-                        possible_category_names.append('Community Library')
+                        possible_category_names.extend(
+                            ['Public Library', 'Community Library']
+                        )
                     elif category.name == 'Community College':
-                        possible_category_names.append('College')
+                        possible_category_names.extend(['College'])
                     elif category.name == 'Intermediate School':
-                        possible_category_names.append(
-                            'Regional Education Service Agency'
+                        possible_category_names.extend(
+                            [
+                                'Regional Education Service Agency',
+                                'Regional Educational Service Agency',
+                            ]
                         )
 
                     original_exception = None

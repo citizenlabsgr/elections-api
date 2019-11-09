@@ -136,3 +136,5 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
                         ballot.parse()
                     else:
                         raise e from None
+
+    log.info(f'Parsed ballots for {len(precincts)} precincts')
