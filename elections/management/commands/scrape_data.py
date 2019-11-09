@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use
 
-
+import os
 import sys
 from typing import Optional
 
@@ -54,4 +54,7 @@ class Command(BaseCommand):
                 ballot_limit=ballot_limit,
             )
         except (AssertionError, ValueError) as e:
-            bugsnag.notify(e)
+            if 'HEROKU_APP_NAME' in os.environ:
+                bugsnag.notify(e)
+            else:
+                raise e from None
