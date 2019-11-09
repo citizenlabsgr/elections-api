@@ -431,6 +431,19 @@ class Ballot(TimeStampedModel):
             return self.website.mi_sos_url
         return None
 
+    @property
+    def stale(self) -> bool:
+        if not self.website.last_parse:
+            log.debug('Ballot has never been parsed')
+            return True
+
+        age = timezone.now() - self.website.last_parse
+        if age < timezone.timedelta(minutes=61):
+            log.debug('Ballot was parsed in the last hour')
+            return False
+
+        return True
+
     def parse(self) -> int:
         log.info(f'Parsing ballot: {self}')
         assert (

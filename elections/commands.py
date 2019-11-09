@@ -124,7 +124,8 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
             ballot.website = website
 
             try:
-                ballot.parse()
+                if ballot.stale:
+                    ballot.parse()
             except Exception as e:  # pylint: disable=broad-except
                 if refetch:
                     log.warning(str(e))
