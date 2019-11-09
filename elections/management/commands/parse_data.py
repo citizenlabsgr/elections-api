@@ -5,6 +5,7 @@ from typing import Optional
 
 from django.core.management.base import BaseCommand
 
+import bugsnag
 import log
 
 from elections.commands import parse_ballots
@@ -30,4 +31,7 @@ class Command(BaseCommand):
     def handle(self, verbosity: int, election: Optional[int], refetch: bool, **_kwargs):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
-        parse_ballots(election_id=election, refetch=refetch)
+        try:
+            parse_ballots(election_id=election, refetch=refetch)
+        except (AssertionError, ValueError) as e:
+            bugsnag.notify(e)

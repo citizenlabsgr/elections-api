@@ -6,6 +6,7 @@ from typing import Optional
 
 from django.core.management.base import BaseCommand
 
+import bugsnag
 import log
 
 from elections.commands import scrape_ballots
@@ -46,8 +47,11 @@ class Command(BaseCommand):
     ):
         log.init(verbosity=verbosity if '-v' in sys.argv else 2)
 
-        scrape_ballots(
-            starting_election_id=start_election,
-            starting_precinct_id=start_precinct,
-            ballot_limit=ballot_limit,
-        )
+        try:
+            scrape_ballots(
+                starting_election_id=start_election,
+                starting_precinct_id=start_precinct,
+                ballot_limit=ballot_limit,
+            )
+        except (AssertionError, ValueError) as e:
+            bugsnag.notify(e)
