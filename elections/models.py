@@ -569,14 +569,20 @@ class Ballot(TimeStampedModel):
                             )
                         else:
                             raise ValueError(
-                                f'Unhandled position {position_name!r}  on {self.website.mi_sos_url}'
+                                f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
                             )
                     else:
-                        district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
-                        )
-                        if created:
-                            log.info(f'Created district: {district}')
+                        if position_data['district']:
+                            district, created = District.objects.get_or_create(
+                                category=category, name=position_data['district']
+                            )
+                            if created:
+                                log.info(f'Created district: {district}')
+                        else:
+                            log.warning(
+                                f'Ballot {self.website.mi_sos_url} missing district: {position_data}'
+                            )
+                            district = self.precinct.jurisdiction
 
                 position, created = Position.objects.get_or_create(
                     election=self.election,

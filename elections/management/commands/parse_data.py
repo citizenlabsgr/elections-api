@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use
+# pylint: disable=no-self-use,broad-except
 
 import os
 import sys
@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         try:
             parse_ballots(election_id=election, refetch=refetch)
-        except (AssertionError, ValueError) as e:
+        except Exception as e:
             if 'HEROKU_APP_NAME' in os.environ:
                 bugsnag.notify(e)
             else:

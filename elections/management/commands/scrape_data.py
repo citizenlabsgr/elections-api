@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use
+# pylint: disable=no-self-use,broad-except
 
 import os
 import sys
@@ -53,7 +53,7 @@ class Command(BaseCommand):
                 starting_precinct_id=start_precinct,
                 ballot_limit=ballot_limit,
             )
-        except (AssertionError, ValueError) as e:
+        except Exception as e:
             if 'HEROKU_APP_NAME' in os.environ:
                 bugsnag.notify(e)
             else:
