@@ -25,7 +25,7 @@ class DistrictCategory(TimeStampedModel):
         ordering = ['name']
 
     def __str__(self) -> str:
-        if self.name in {"County", "Jurisdiction", "City", "Township"}:
+        if self.name in {"County", "Jurisdiction", "City", "Township", "State"}:
             return self.name
         return f'{self.name} District'
 
