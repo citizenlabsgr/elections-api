@@ -431,6 +431,19 @@ class Ballot(TimeStampedModel):
             return self.website.mi_sos_url
         return None
 
+    @property
+    def stale(self) -> bool:
+        if not self.website.last_parse:
+            log.debug('Ballot has never been parsed')
+            return True
+
+        age = timezone.now() - self.website.last_parse
+        if age < timezone.timedelta(hours=23):
+            log.debug('Ballot was parsed in the last day')
+            return False
+
+        return True
+
     def parse(self) -> int:
         log.info(f'Parsing ballot: {self}')
         assert (
@@ -523,7 +536,13 @@ class Ballot(TimeStampedModel):
 
             category = district = None
 
-            if category_name in {'City', 'Township', 'Village'}:
+            if category_name in {
+                'City',
+                'Township',
+                'Village',
+                'Authority',
+                'Metropolitan',
+            }:
                 district = self.precinct.jurisdiction
             elif category_name in {
                 'Community College',
@@ -556,21 +575,27 @@ class Ballot(TimeStampedModel):
                             )
                         else:
                             raise ValueError(
-                                f'Unhandled position {position_name!r}  on {self.website.mi_sos_url}'
+                                f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
                             )
                     else:
-                        district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
-                        )
-                        if created:
-                            log.info(f'Created district: {district}')
+                        if position_data['district']:
+                            district, created = District.objects.get_or_create(
+                                category=category, name=position_data['district']
+                            )
+                            if created:
+                                log.info(f'Created district: {district}')
+                        else:
+                            log.warning(
+                                f'Ballot {self.website.mi_sos_url} missing district: {position_data}'
+                            )
+                            district = self.precinct.jurisdiction
 
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
                     name=position_data['name'],
                     term=position_data['term'] or "",
-                    seats=position_data['seats'],
+                    seats=position_data['seats'] or 0,
                 )
                 if created:
                     log.info(f'Created position: {position}')
@@ -599,7 +624,13 @@ class Ballot(TimeStampedModel):
                 district = District.objects.get(name='Michigan')
             elif category_name in {'County'}:
                 district = self.precinct.county
-            elif category_name in {'City', 'Township', 'Authority', 'Local School'}:
+            elif category_name in {
+                'City',
+                'Township',
+                'Village',
+                'Authority',
+                'Local School',
+            }:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
             elif category_name in {
@@ -617,17 +648,35 @@ class Ballot(TimeStampedModel):
 
                 if district is None:
                     assert category, f'Expected category: {proposals_data}'
-                    try:
-                        district_name = helpers.parse_district_from_proposal(
-                            category.name, proposal_data['text']
+
+                    possible_category_names = [category.name]
+                    if category.name == 'District Library':
+                        possible_category_names.extend(
+                            ['Public Library', 'Community Library']
                         )
-                    except ValueError as e:
-                        if category.name == 'District Library':
+                    elif category.name == 'Community College':
+                        possible_category_names.extend(['College'])
+                    elif category.name == 'Intermediate School':
+                        possible_category_names.extend(
+                            [
+                                'Regional Education Service Agency',
+                                'Regional Educational Service Agency',
+                            ]
+                        )
+
+                    original_exception = None
+                    for category_name in possible_category_names:
+                        try:
                             district_name = helpers.parse_district_from_proposal(
-                                'Public Library', proposal_data['text']
+                                category_name, proposal_data['text']
                             )
+                        except ValueError as e:
+                            if original_exception is None:
+                                original_exception = e
                         else:
-                            raise e from None
+                            break
+                    else:
+                        raise original_exception  # type: ignore
 
                     district, created = District.objects.get_or_create(
                         category=category, name=district_name

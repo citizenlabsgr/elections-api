@@ -80,6 +80,7 @@ test: install ## CI | Run all tests
 
 .PHONY: watch
 watch: install
+	@ rm -f .cache/v/cache/lastfailed
 	poetry run ptw
 
 .PHONY: notebook
