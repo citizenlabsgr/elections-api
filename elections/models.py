@@ -438,8 +438,8 @@ class Ballot(TimeStampedModel):
             return True
 
         age = timezone.now() - self.website.last_parse
-        if age < timezone.timedelta(minutes=61):
-            log.debug('Ballot was parsed in the last hour')
+        if age < timezone.timedelta(hours=23):
+            log.debug('Ballot was parsed in the last day')
             return False
 
         return True
@@ -536,7 +536,13 @@ class Ballot(TimeStampedModel):
 
             category = district = None
 
-            if category_name in {'City', 'Township', 'Village', 'Authority'}:
+            if category_name in {
+                'City',
+                'Township',
+                'Village',
+                'Authority',
+                'Metropolitan',
+            }:
                 district = self.precinct.jurisdiction
             elif category_name in {
                 'Community College',
@@ -589,7 +595,7 @@ class Ballot(TimeStampedModel):
                     district=district,
                     name=position_data['name'],
                     term=position_data['term'] or "",
-                    seats=position_data['seats'],
+                    seats=position_data['seats'] or 0,
                 )
                 if created:
                     log.info(f'Created position: {position}')

@@ -31,6 +31,8 @@ from elections.models import BallotWebsite
         (676, 6616, 123),
         (676, 7059, 127),
         (676, 6442, 122),
+        (676, 945, 103),
+        (676, 218, 120),
         # November 2019 Consolidated
         (679, 1828, 12),
         (679, 411, 1),

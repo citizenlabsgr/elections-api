@@ -114,6 +114,9 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
     log.info(f'Mapping {websites.count()} websites to ballots')
     for website in websites:
 
+        if not website.data:
+            website.scrape()
+
         ballot = website.convert()
 
         if ballot.precinct in precincts:
