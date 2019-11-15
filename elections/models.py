@@ -62,7 +62,7 @@ class Election(TimeStampedModel):
 
     class Meta:
         unique_together = ['date', 'name']
-        ordering = ['date']
+        ordering = ['-date']
 
     def __str__(self) -> str:
         return ' | '.join(self.mi_sos_name)
