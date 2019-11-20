@@ -29,6 +29,7 @@ def titleize(text: str) -> str:
         .replace(" Of ", " of ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
+        .replace(" In ", " in ")
         .replace("U.s.", "U.S.")
         .replace("Ii.", "II.")
         .replace("(r", "(R")
@@ -37,6 +38,15 @@ def titleize(text: str) -> str:
 
 
 def normalize_candidate(text: str) -> str:
+    if '\n' in text:
+        log.debug(f'Handling running mate: {text}')
+        text1, text2 = text.split('\n')
+        name1 = HumanName(text1.strip())
+        name2 = HumanName(text2.strip())
+        name1.capitalize()
+        name2.capitalize()
+        return str(name1) + ' & ' + str(name2)
+
     name = HumanName(text.strip())
     name.capitalize()
     return str(name)
@@ -368,7 +378,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             count += 1
 
         elif "candidate" in item['class']:
-            label = normalize_candidate(item.text)
+            label = normalize_candidate(item.get_text('\n'))
             assert office is not None, f'Office missing for candidate: {label}'
             if label == 'No candidates on ballot':
                 continue

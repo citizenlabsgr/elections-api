@@ -558,7 +558,7 @@ class Ballot(TimeStampedModel):
             }:
                 category = DistrictCategory.objects.get(name=category_name)
             elif category_name in {'Judicial'}:
-                pass
+                pass  # district parsed based on position name
             else:
                 raise ValueError(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
