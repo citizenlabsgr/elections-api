@@ -151,4 +151,8 @@ You can also contribute content changes by editing [these files](https://github.
 
 **Version 1.2**
 
-- Added a glossary API to display descriptions for elections, districts, parties, and positions.
+- Added a glossary API to display descriptions for elections, district categories, parties, and positions.
+
+**Version 1.3**
+
+- Added `description_edit_url` to responses for elections, district categories, parties, and positions.

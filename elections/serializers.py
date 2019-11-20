@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 from rest_framework import serializers
 
 from . import fields, models
@@ -10,9 +12,17 @@ class VoterSerializer(serializers.ModelSerializer):
 
 
 class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
+
+    description_edit_url = serializers.SerializerMethodField()
+
     class Meta:
         model = models.DistrictCategory
-        fields = ['url', 'id', 'name', 'description']
+        fields = ['url', 'id', 'name', 'description', 'description_edit_url']
+
+    def get_description_edit_url(self, obj):
+        category = 'districts'
+        name = obj.name.replace(' ', '%20')
+        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,9 +35,26 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ElectionSerializer(serializers.ModelSerializer):
+
+    description_edit_url = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Election
-        fields = ['url', 'id', 'name', 'date', 'description', 'active', 'reference_url']
+        fields = [
+            'url',
+            'id',
+            'name',
+            'date',
+            'description',
+            'description_edit_url',
+            'active',
+            'reference_url',
+        ]
+
+    def get_description_edit_url(self, obj):
+        category = 'elections'
+        name = obj.name.replace(' ', '%20')
+        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
@@ -71,12 +98,21 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PartySerializer(serializers.HyperlinkedModelSerializer):
+
+    description_edit_url = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Party
-        fields = ['url', 'id', 'name', 'color', 'description']
+        fields = ['url', 'id', 'name', 'color', 'description', 'description_edit_url']
+
+    def get_description_edit_url(self, obj):
+        category = 'parties'
+        name = obj.name.replace(' ', '%20')
+        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
+
     party = PartySerializer()
 
     class Meta:
@@ -89,6 +125,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     candidates = CandidateSerializer(many=True)
     election = ElectionSerializer()
     district = DistrictSerializer()
+    description_edit_url = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Position
@@ -97,6 +134,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'name',
             'description',
+            'description_edit_url',
             'reference_url',
             'seats',
             'candidates',
@@ -104,14 +142,20 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'district',
         ]
 
+    def get_description_edit_url(self, obj):
+        category = 'positions'
+        name = obj.name.replace(' ', '%20')
+        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+
 
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.RegistrationStatus
-        fields = ['registered', 'polling_location', 'precinct', 'districts']
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
+
+    class Meta:
+        model = models.RegistrationStatus
+        fields = ['registered', 'polling_location', 'precinct', 'districts']
 
 
 class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-method
@@ -121,7 +165,7 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
     description = serializers.CharField()
     edit_url = serializers.SerializerMethodField()
 
-    def get_category(self, obj) -> str:  # pylint: disable=no-self-use
+    def get_category(self, obj) -> str:
         categories = {
             'Party': 'parties',
             'DistrictCategory': 'districts',

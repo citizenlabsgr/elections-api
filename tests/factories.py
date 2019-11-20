@@ -37,6 +37,7 @@ class ElectionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Election
 
+    name = "General Election"
     date = pendulum.parse('2018-08-07', tz='America/Detroit')
     active = True
     mi_sos_id = 2222
