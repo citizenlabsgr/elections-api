@@ -175,7 +175,7 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['name', 'description', 'reference_url']
 
-    list_filter = ['election', 'term', 'seats']
+    list_filter = ['election', 'district', 'name', 'term', 'seats']
     default_filters = ['election__id__exact={election_id}']
 
     list_display = [
