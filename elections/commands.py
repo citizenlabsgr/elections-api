@@ -108,10 +108,13 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
             ballot.website = None
             ballot.save()
 
-    websites = BallotWebsite.objects.filter(
-        mi_sos_election_id=election.mi_sos_id, valid=True
-    ).order_by('-mi_sos_precinct_id')
+    websites = (
+        BallotWebsite.objects.filter(mi_sos_election_id=election.mi_sos_id, valid=True)
+        .order_by('-mi_sos_precinct_id')
+        .defer('mi_sos_html', 'data')
+    )
     log.info(f'Mapping {websites.count()} websites to ballots')
+
     for website in websites:
 
         if not website.data:
