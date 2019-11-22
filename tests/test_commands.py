@@ -63,4 +63,4 @@ def describe_parse_ballots():
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 1
-        expect(District.objects.count()) == 3
+        expect(District.objects.count()) == 4

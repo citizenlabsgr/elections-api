@@ -565,10 +565,10 @@ class Ballot(TimeStampedModel):
                 )
 
             for position_data in positions_data:
+                position_name = position_data['name']
 
                 if district is None:
                     if category is None:
-                        position_name = position_data['name']
                         if position_name in {'Justice of Supreme Court'}:
                             district = District.objects.get(name='Michigan')
                         elif position_name in {'Judge of Court of Appeals'}:
@@ -595,6 +595,15 @@ class Ballot(TimeStampedModel):
                                 f'Ballot {self.website.mi_sos_url} missing district: {position_data}'
                             )
                             district = self.precinct.jurisdiction
+
+                elif position_name in {'Commissioner by Ward'}:
+                    category = DistrictCategory.objects.get(name='Ward')
+                    district, created = District.objects.get_or_create(
+                        category=category,
+                        name=f"{self.precinct.jurisdiction}, {position_data['district']}",
+                    )
+                    if created:
+                        log.info(f'Created district: {district}')
 
                 position, created = Position.objects.get_or_create(
                     election=self.election,

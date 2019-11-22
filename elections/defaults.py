@@ -33,8 +33,7 @@ def initialize_districts():
         # Precinct
         "County",  # e.g. Kent
         "Jurisdiction",  # e.g. City of Grand Rapids
-        "Village",
-        "Metropolitan",
+        "Ward",  # e.g. City of Grand Rapids, Ward 3
         # Local
         "School",  # e.g. Grand Rapids Public Schools
         "Local School",
@@ -46,6 +45,7 @@ def initialize_districts():
         "City",
         "Township",
         "Village",
+        "Metropolitan",
         "Authority",
         # Congress
         "County Commissioner",  # e.g. 15th District
