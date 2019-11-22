@@ -30,6 +30,8 @@ def titleize(text: str) -> str:
         .replace(" To ", " to ")
         .replace(" And ", " and ")
         .replace(" In ", " in ")
+        .replace(" By ", " by ")
+        .replace(" At ", " at ")
         .replace("U.s.", "U.S.")
         .replace("Ii.", "II.")
         .replace("(r", "(R")

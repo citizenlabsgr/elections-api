@@ -4,7 +4,7 @@
 import pytest
 
 from elections import defaults
-from elections.models import BallotWebsite
+from elections.models import BallotWebsite, Position
 
 
 @pytest.mark.parametrize(
@@ -54,6 +54,17 @@ from elections.models import BallotWebsite
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
+    expect(parse_ballot(election_id, precinct_id)) == item_count
+
+
+def test_commissioner_by_ward(expect, db):
+    parse_ballot(679, 1828)
+
+    position = Position.objects.get(name='Commissioner by Ward')
+    expect(position.district.name) == 'City of Grand Rapids, Ward 1'
+
+
+def parse_ballot(election_id: int, precinct_id: int) -> int:
     defaults.initialize_districts()
     defaults.initialize_parties()
 
@@ -69,4 +80,4 @@ def test_ballots(expect, db, election_id, precinct_id, item_count):
     ballot = website.convert()
     ballot.website = website
 
-    expect(ballot.parse()) == item_count
+    return ballot.parse()
