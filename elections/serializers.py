@@ -155,7 +155,7 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.RegistrationStatus
-        fields = ['registered', 'polling_location', 'precinct', 'districts']
+        fields = ['registered', 'absentee', 'polling_location', 'precinct', 'districts']
 
 
 class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-method

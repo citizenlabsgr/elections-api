@@ -156,3 +156,7 @@ You can also contribute content changes by editing [these files](https://github.
 **Version 1.3**
 
 - Added `description_edit_url` to responses for elections, district categories, parties, and positions.
+
+**Version 1.4**
+
+- Added `absentee` to the response for registrations API.
