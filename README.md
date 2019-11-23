@@ -140,23 +140,23 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
-**Version 1.0**
+**Version 1.4**
 
-- Initial public release.
+- Added `absentee` to the response for registrations API.
+
+**Version 1.3**
+
+- Added `description_edit_url` to responses for elections, district categories, parties, and positions.
+
+**Version 1.2**
+
+- Added a glossary API to display descriptions for elections, district categories, parties, and positions.
 
 **Version 1.1**
 
 - Added `polling_location` to the registrations API.
 - Added `description` to the district category, election, and party APIs.
 
-**Version 1.2**
+**Version 1.0**
 
-- Added a glossary API to display descriptions for elections, district categories, parties, and positions.
-
-**Version 1.3**
-
-- Added `description_edit_url` to responses for elections, district categories, parties, and positions.
-
-**Version 1.4**
-
-- Added `absentee` to the response for registrations API.
+- Initial public release.
