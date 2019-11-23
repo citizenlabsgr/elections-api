@@ -159,6 +159,9 @@ def fetch_registration_status_data(voter):
     else:
         log.warn("Unable to determine registration status")
 
+    # Parse absentee status
+    absentee = "Application Received" in response.text
+
     # Parse districts
     districs = {}
     for match in re.findall(r'>([\w ]+):[\s\S]*?">([\w ]*)<', response.text):
@@ -179,6 +182,7 @@ def fetch_registration_status_data(voter):
 
     return {
         "registered": registered,
+        "absentee": absentee,
         "districts": districs,
         "polling_location": pollingloc,
     }

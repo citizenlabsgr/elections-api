@@ -24,6 +24,7 @@ def describe_fetch_registration_status_data():
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
             "registered": True,
+            "absentee": True,
             "districts": {
                 "Circuit Court": "17th Circuit",
                 "Community College": "Grand Rapids Community College",

@@ -124,6 +124,7 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+    absentee = models.BooleanField(default=False)
     polling_location = JSONField(blank=True, null=True)
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
@@ -203,6 +204,7 @@ class Voter(models.Model):
 
         status = RegistrationStatus(
             registered=data['registered'],
+            absentee=data['absentee'],
             polling_location=list(data['polling_location'].values()),
             precinct=precinct,
         )
@@ -478,9 +480,9 @@ class Ballot(TimeStampedModel):
                 )
 
             for position_data in positions_data:
+                position_name = position_data['name']
 
                 if district is None:
-                    position_name = position_data['name']
                     if position_name in {'United States Senator'}:
                         district = District.objects.get(name='Michigan')
                     elif position_name in {'Representative in Congress'}:
