@@ -194,7 +194,14 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['name', 'description', 'reference_url']
 
-    list_filter = ['election', 'district', 'name', 'term', 'seats']
+    list_filter = [
+        'election',
+        'district__category',
+        'district',
+        'name',
+        'term',
+        'seats',
+    ]
     default_filters = ['election__id__exact={election_id}']
 
     list_display = [
