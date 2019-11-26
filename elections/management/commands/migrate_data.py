@@ -25,7 +25,6 @@ class Command(BaseCommand):
 
         self.update_elections()
         self.update_jurisdictions()
-        self.update_positions()
 
         self.import_descriptions()
         self.export_descriptions()
@@ -51,15 +50,6 @@ class Command(BaseCommand):
                     log.info(f'Renaming district {old!r} to {new!r}')
                     district.name = new
                     district.save()
-
-    def update_positions(self):
-        for position in Position.objects.all():
-            old = position.name
-            new = helpers.titleize(old)
-            if new != old:
-                log.info(f'Renaming position {old!r} to {new!r}')
-                position.name = new
-                position.save()
 
     def import_descriptions(self):
         for name, description in self._read_descriptions('elections'):
