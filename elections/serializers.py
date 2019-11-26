@@ -137,6 +137,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'description_edit_url',
             'reference_url',
             'seats',
+            'term',
             'candidates',
             'election',
             'district',
