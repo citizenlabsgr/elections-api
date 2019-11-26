@@ -27,7 +27,10 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 
-    list_display = ['id', 'name', 'modified']
+    list_display = ['id', 'name', 'display_name', 'modified']
+
+    def display_name(self, category: models.DistrictCategory) -> str:
+        return str(category)
 
 
 @admin.register(models.District)
@@ -98,7 +101,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     list_display = [
         'id',
-        'Link',
+        'link',
         'fetched',
         'last_fetch',
         'valid',
@@ -127,7 +130,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'last_parse',
     ]
 
-    def Link(self, website: models.BallotWebsite):
+    def link(self, website: models.BallotWebsite):
         return format_html(
             '<a href={url!r}>MI SOS: election={eid} precinct={pid}</a>',
             url=website.mi_sos_url,
@@ -221,13 +224,13 @@ class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'position',
         'description',
         'reference_url',
-        'District',
-        'Election',
+        'district',
+        'election',
         'modified',
     ]
 
-    def District(self, obj):
+    def district(self, obj):
         return obj.position.district
 
-    def Election(self, obj):
+    def election(self, obj):
         return obj.position.election
