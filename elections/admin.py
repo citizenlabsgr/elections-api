@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use
+# pylint: disable=no-self-use,unused-argument
 
 from django.contrib import admin
 from django.shortcuts import redirect
@@ -70,6 +70,20 @@ class PrecinctAdmin(admin.ModelAdmin):
     list_display = ['id', 'county', 'jurisdiction', 'ward', 'number', 'modified']
 
 
+def scrape_selected_ballots(modeladmin, request, queryset):
+    for website in queryset:
+        website.fetch()
+        website.validate()
+        website.scrape()
+        website.convert()
+
+
+def parse_selected_ballots(modeladmin, request, queryset):
+    for website in queryset:
+        ballot = website.convert()
+        ballot.parse()
+
+
 @admin.register(models.BallotWebsite)
 class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
@@ -121,13 +135,15 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
             pid=website.mi_sos_precinct_id,
         )
 
+    actions = [scrape_selected_ballots, parse_selected_ballots]
+
 
 @admin.register(models.Ballot)
 class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ['precinct__county__name', 'precinct__jurisdiction__name']
 
-    list_filter = ['election', 'precinct__county']
+    list_filter = ['election', 'precinct__county', 'precinct__jurisdiction']
     default_filters = ['election__id__exact={election_id}']
 
     list_display = ['id', 'election', 'precinct', 'website', 'modified']
