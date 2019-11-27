@@ -12,10 +12,20 @@ class DefaultFiltersMixin(admin.ModelAdmin):
         default_filters = getattr(self, 'default_filters', [])
         query_string = request.META['QUERY_STRING']
         http_referer = request.META.get('HTTP_REFERER', "")
-        if all([default_filters, not query_string, request.path not in http_referer]):
-            election = models.Election.objects.filter(active=True).first()
+        active_election = models.Election.objects.filter(active=True).first()
+        if all(
+            [
+                default_filters,
+                not query_string,
+                request.path not in http_referer,
+                active_election,
+            ]
+        ):
             params = [
-                f.format(election_id=election.id, mi_sos_election_id=election.mi_sos_id)
+                f.format(
+                    election_id=active_election.id,
+                    mi_sos_election_id=active_election.mi_sos_id,
+                )
                 for f in default_filters
             ]
             return redirect(request.path + '?' + '&'.join(params))
