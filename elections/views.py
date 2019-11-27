@@ -1,8 +1,5 @@
 from typing import List, Set
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
@@ -20,7 +17,6 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     pagination_class = None
 
-    @method_decorator(cache_page(60))
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
