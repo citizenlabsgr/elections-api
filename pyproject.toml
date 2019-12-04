@@ -11,15 +11,15 @@ authors = ["Citizen Labs <info@citizenlabs.com>"]
 python = "^3.7"
 
 # Django
-django = "~2.2.6"
+django = "~3.0"
 django-grappelli = "^2.11"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
-django-model-utils = "^3.1"
+django-model-utils = { git = "https://github.com/jazzband/django-model-utils", rev = "ffa1a85dc7fe3fa8a56e8735b4ac881092abf216" }
 
 # Django REST Framework
 djangorestframework = "^3.8"
 drf-yasg = "^1.9"
-django-cors-headers = "^2.4"
+django-cors-headers = "^3.2.0"
 
 # Databases
 dj-database-url = "^0.5.0"
