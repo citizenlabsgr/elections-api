@@ -17,10 +17,6 @@ jobs:
       - checkout
 
       - run:
-          name: Installing system dependencies
-          command: sudo pip install poetry
-
-      - run:
           name: Checking system dependencies
           command: make doctor
 

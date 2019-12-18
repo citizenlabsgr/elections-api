@@ -18,7 +18,7 @@ doctor: ## System | Check for the required system dependencies
 .PHONY: install
 install: .venv/flag ## Project | Install project dependencies
 .venv/flag: poetry.lock runtime.txt requirements.txt
-	@ poetry config virtualenvs.in-project true || poetry config settings.virtualenvs.in-project true
+	@ poetry config virtualenvs.in-project true
 	poetry install
 	@ mkdir -p staticfiles
 	@ touch $@
@@ -33,7 +33,7 @@ runtime.txt: .python-version
 	echo "python-$(shell cat $<)" > $@
 
 requirements.txt: poetry.lock
-	poetry export --format requirements.txt --output $@ --without-hashes || echo "ERROR: Poetry 1.x required to export dependencies"
+	poetry export --format requirements.txt --output $@ --without-hashes
 
 endif
 
