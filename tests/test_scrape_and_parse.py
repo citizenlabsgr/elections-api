@@ -4,41 +4,7 @@
 import pytest
 
 from elections import defaults
-from elections.models import BallotWebsite, Position
-
-
-@pytest.mark.parametrize(
-    'election_id, precinct_id, item_count',
-    [
-        # November 2019 Consolidated
-        (679, 1828, 12),
-        (679, 411, 1),
-        (679, 780, 1),
-        (679, 716, 1),
-        (679, 227, 5),
-        (679, 208, 1),
-        (679, 2974, 1),
-        (679, 2971, 1),
-        (679, 2932, 11),
-        (679, 1020, 1),
-        (679, 1652, 1),
-        (679, 4561, 8),
-        (679, 6348, 13),
-        (679, 6495, 4),
-        (679, 7629, 9),
-        (679, 7343, 5),
-        (679, 4193, 5),
-    ],
-)
-def test_ballots(expect, db, election_id, precinct_id, item_count):
-    expect(parse_ballot(election_id, precinct_id)) == item_count
-
-
-def test_commissioner_by_ward(expect, db):
-    parse_ballot(679, 1828)
-
-    position = Position.objects.get(name='Commissioner by Ward')
-    expect(position.district.name) == 'City of Grand Rapids, Ward 1'
+from elections.models import BallotWebsite, Candidate, Position
 
 
 def parse_ballot(election_id: int, precinct_id: int) -> int:
@@ -58,3 +24,46 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     ballot.website = website
 
     return ballot.parse()
+
+
+@pytest.mark.parametrize(
+    'election_id, precinct_id, item_count',
+    [
+        # 2019 November Consolidated
+        (679, 1828, 12),
+        (679, 411, 1),
+        (679, 780, 1),
+        (679, 716, 1),
+        (679, 227, 5),
+        (679, 208, 1),
+        (679, 2974, 1),
+        (679, 2971, 1),
+        (679, 2932, 11),
+        (679, 1020, 1),
+        (679, 1652, 1),
+        (679, 4561, 8),
+        (679, 6348, 13),
+        (679, 6495, 4),
+        (679, 7629, 9),
+        (679, 7343, 5),
+        (679, 4193, 5),
+        # 2020 Presidential Primary
+        (680, 2985, 20),
+    ],
+)
+def test_ballots(expect, db, election_id, precinct_id, item_count):
+    expect(parse_ballot(election_id, precinct_id)) == item_count
+
+
+def test_commissioner_by_ward(expect, db):
+    parse_ballot(679, 1828)
+
+    position = Position.objects.get(name='Commissioner by Ward')
+    expect(position.district.name) == 'City of Grand Rapids, Ward 1'
+
+
+def test_presidential_primary(expect, db):
+    parse_ballot(680, 2985)
+
+    candidate = Candidate.objects.get(name='Elizabeth Warren')
+    expect(candidate.party.name) == 'Democratic'
