@@ -98,17 +98,9 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PartySerializer(serializers.HyperlinkedModelSerializer):
-
-    description_edit_url = serializers.SerializerMethodField()
-
     class Meta:
         model = models.Party
-        fields = ['url', 'id', 'name', 'color', 'description', 'description_edit_url']
-
-    def get_description_edit_url(self, obj):
-        category = 'parties'
-        name = obj.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+        fields = ['url', 'id', 'name', 'color']
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):

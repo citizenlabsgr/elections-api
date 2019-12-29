@@ -2,7 +2,7 @@
 
 import pytest
 
-from elections.models import Party
+from elections.models import DistrictCategory
 
 
 def describe_list():
@@ -11,15 +11,15 @@ def describe_list():
         return '/api/glossary/'
 
     def it_includes_edit_links(expect, client, url, db):
-        Party.objects.create(name="Foobar", description="TBD")
+        DistrictCategory.objects.create(name="Foobar", description="TBD")
 
         response = client.get(url)
 
         expect(response.data) == [
             {
-                'category': 'parties',
+                'category': 'districts',
                 'name': 'Foobar',
                 'description': 'TBD',
-                'edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/master/content/parties/Foobar.md',
+                'edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/master/content/districts/Foobar.md',
             }
         ]

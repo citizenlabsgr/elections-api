@@ -1,7 +1,0 @@
-
-name: 
-**Established**:
-***Description***: 
-**Political Positioning**:
-**Ideology**:
-[Citizens Party of the United States](https://en.wikipedia.org/wiki/Citizens_Party_of_the_United_States)
