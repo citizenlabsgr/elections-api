@@ -230,7 +230,6 @@ class Party(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True, editable=False)
     color = models.CharField(max_length=7, blank=True, editable=False)
-    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name_plural = "Parties"

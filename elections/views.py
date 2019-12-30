@@ -209,7 +209,6 @@ class GlossaryViewSet(viewsets.ViewSet):
 
         items.extend(models.DistrictCategory.objects.all())
         items.extend(models.Election.objects.all())
-        items.extend(models.Party.objects.all())
 
         positions: Set[str] = set()
         for position in models.Position.objects.all():

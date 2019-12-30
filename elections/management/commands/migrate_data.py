@@ -11,7 +11,7 @@ from django.utils import timezone
 import log
 
 from elections import defaults, helpers
-from elections.models import District, DistrictCategory, Election, Party, Position
+from elections.models import District, DistrictCategory, Election, Position
 
 
 class Command(BaseCommand):
@@ -78,17 +78,6 @@ class Command(BaseCommand):
                 category.description = description
                 category.save()
 
-        for name, description in self._read_descriptions('parties'):
-            try:
-                party = Party.objects.get(name=name)
-            except Party.DoesNotExist:
-                log.warning(f'Party not found in database: {name}')
-            else:
-                if description and party.description != description:
-                    log.info(f'Updating description for {name}')
-                    party.description = description
-                    party.save()
-
         for name, description in self._read_descriptions('positions'):
             positions = Position.objects.filter(name=name)
             if positions:
@@ -110,11 +99,6 @@ class Command(BaseCommand):
         for category in DistrictCategory.objects.all():
             districts[category.name] = category.description
         self._write('districts', districts)
-
-        parties = {}
-        for party in Party.objects.all():
-            parties[party.name] = party.description
-        self._write('parties', parties)
 
         positions = {}
         for position in Position.objects.all():
