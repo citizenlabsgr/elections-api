@@ -275,19 +275,17 @@ class BallotWebsite(models.Model):
     @property
     def stale(self) -> bool:
         if not self.last_fetch:
-            log.debug('Ballot has never been scraped')
+            log.debug(f'Ballot has never been scraped: {self}')
             return True
 
         age = timezone.now() - self.last_fetch
         if age < timezone.timedelta(minutes=61):
-            if self.data_count > 0:
-                log.debug('Ballot was scraped in the last hour')
-                return False
-            return True
+            log.debug(f'Ballot was scraped in the last hour: {self}')
+            return False
 
         age_in_days = age.total_seconds() / 3600 / 24
         weight = age_in_days / 14  # fetch once per week on average
-        log.debug(f'Ballot was scraped {round(age_in_days, 1)} days ago')
+        log.debug(f'Ballot was scraped {round(age_in_days, 1)} days ago: {self}')
 
         return weight > random.random()
 
