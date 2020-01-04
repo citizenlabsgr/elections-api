@@ -379,9 +379,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                     or label.endswith(" ESA")
                     or label.endswith(" COMMUNITY")
                     or label.endswith(" LIBRARY")
-                ), (
-                    f'Unhandled term: {label}'
-                )  # pylint: disable=too-many-boolean-expressions
+                ), f'Unhandled term: {label}'  # pylint: disable=too-many-boolean-expressions
                 office['district'] = titleize(label)
             count += 1
 
