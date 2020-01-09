@@ -301,7 +301,7 @@ class BallotWebsite(models.Model):
     def validate(self) -> bool:
         """Determine if fetched HTML contains ballot information."""
         log.info(f'Validating ballot HTML: {self}')
-        assert self.mi_sos_html, 'Ballot has not been fetched'
+        assert self.mi_sos_html, f'Ballot has not been fetched: {self}'
 
         if (
             "not available at this time" in self.mi_sos_html
@@ -322,7 +322,7 @@ class BallotWebsite(models.Model):
     def scrape(self) -> int:
         """Scrape ballot data from the HTML."""
         log.info(f'Scraping data from ballot: {self}')
-        assert self.valid, 'Ballot has not been validated'
+        assert self.valid, f'Ballot has not been validated: {self}'
         data: Dict[str, Any] = {}
 
         data['election'] = helpers.parse_election(self.mi_sos_html)
@@ -345,7 +345,7 @@ class BallotWebsite(models.Model):
     def convert(self) -> Ballot:
         """Convert parsed ballot data into a ballot."""
         log.info(f'Converting to a ballot: {self}')
-        assert self.data, 'Ballot has not been scrapted'
+        assert self.data, f'Ballot has not been scrapted: {self}'
 
         election = self._get_election()
         precinct = self._get_precinct()
@@ -455,7 +455,7 @@ class Ballot(TimeStampedModel):
         log.info(f'Parsing ballot: {self}')
         assert (
             self.website and self.website.data
-        ), 'Ballot website has not been converted'
+        ), 'Ballot website has not been converted: {self}'
 
         count = 0
         for section_name, section_data in self.website.data['ballot'].items():
