@@ -705,6 +705,7 @@ class Ballot(TimeStampedModel):
                             [
                                 'Regional Education Service Agency',
                                 'Regional Educational Service Agency',
+                                'Regional Education Service',
                             ]
                         )
 
@@ -712,7 +713,9 @@ class Ballot(TimeStampedModel):
                     for category_name in possible_category_names:
                         try:
                             district_name = helpers.parse_district_from_proposal(
-                                category_name, proposal_data['text']
+                                category_name,
+                                proposal_data['text'],
+                                self.website.mi_sos_url,
                             )
                         except ValueError as e:
                             if original_exception is None:

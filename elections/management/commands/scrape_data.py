@@ -55,6 +55,7 @@ class Command(BaseCommand):
             )
         except Exception as e:
             if 'HEROKU_APP_NAME' in os.environ:
+                log.error("Unable to finish scraping data", exc_info=e)
                 bugsnag.notify(e)
             else:
                 raise e from None

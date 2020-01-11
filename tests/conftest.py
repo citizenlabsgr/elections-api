@@ -15,7 +15,7 @@ def pytest_configure(config):
     log.init(debug=True)
     log.silence('elections.defaults', allow_warning=True)
     log.silence('elections.helpers', allow_info=True)
-    log.silence('factory', 'urllib3')
+    log.silence('asyncio', 'factory', 'urllib3')
 
     terminal = config.pluginmanager.getplugin("terminal")
     terminal.TerminalReporter.showfspath = False
