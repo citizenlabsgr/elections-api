@@ -285,8 +285,120 @@ def parse_ballot(html: str, data: Dict) -> int:
         1
     ]
     count = 0
+    count += parse_primary_election_offices(ballot, data)
     count += parse_general_election_offices(ballot, data)
     count += parse_proposals(ballot, data)
+    return count
+
+
+def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
+    """Inserts general election ballot data into the provided dictionary."""
+    count = 0
+
+    offices = ballot.find(id='twoPartyPrimaryElectionOffices')
+    if not offices:
+        return count
+
+    section: Dict[str, Any] = {}
+    division: Optional[List] = None
+    label = 'partisan section'
+    data[label] = section
+
+    for index, item in enumerate(
+        offices.find_all(
+            'div',
+            {
+                "class": [
+                    "division",
+                    "office",
+                    "term",
+                    "candidate",
+                    "financeLink",
+                    "party",
+                ]
+            },
+        ),
+        start=1,
+    ):
+        log.debug(f'Parsing office item {index}: {item}')
+
+        if "division" in item['class']:
+            label = (
+                titleize(item.text).replace(" - Continued", "").replace(" District", "")
+            )
+            try:
+                division = section[label]
+            except KeyError:
+                division = []
+            section[label] = division
+            office = None
+
+        elif "office" in item['class']:
+            label = titleize(item.text)
+            assert division is not None, f'Division missing for office: {label}'
+            office = {
+                'name': label,
+                'district': None,
+                'type': None,
+                'term': None,
+                'seats': None,
+                'incumbency': None,
+                'candidates': [],
+            }
+            division.append(office)
+
+        elif "term" in item['class']:
+            label = item.text
+            assert office is not None, f'Office missing for term: {label}'
+            if "Incumbent" in label:
+                office['type'] = label
+            elif "Term" in label:
+                office['term'] = label
+            elif "Vote for" in label:
+                office['seats'] = int(label.replace("Vote for not more than ", ""))
+            elif label in {"Incumbent Position", "New Judgeship"}:
+                office['incumbency'] = label
+            else:
+                # TODO: Remove this assert after parsing an entire general election
+                assert (
+                    "WARD" in label
+                    or "DISTRICT" in label
+                    or "COURT" in label
+                    or "COLLEGE" in label
+                    or "Village of " in label
+                    or label.endswith(" SCHOOL")
+                    or label.endswith(" SCHOOLS")
+                    or label.endswith(" ISD")
+                    or label.endswith(" ESA")
+                    or label.endswith(" COMMUNITY")
+                    or label.endswith(" LIBRARY")
+                ), f'Unhandled term: {label}'  # pylint: disable=too-many-boolean-expressions
+                office['district'] = titleize(label)
+            count += 1
+
+        elif "candidate" in item['class']:
+            label = normalize_candidate(item.get_text('\n'))
+            assert office is not None, f'Office missing for candidate: {label}'
+            if label == 'No candidates on ballot':
+                continue
+            candidate: Dict[str, Any] = {
+                'name': label,
+                'finance_link': None,
+                'party': None,
+            }
+            office['candidates'].append(candidate)
+            count += 1
+
+        elif "financeLink" in item['class']:
+            label = item.text.strip()
+            assert candidate is not None, f'Candidate missing for finance link: {label}'
+            candidate['finance_link'] = label or None
+
+        elif "party" in item['class']:
+            label = titleize(item.text)
+            assert candidate is not None, f'Candidate missing for party: {label}'
+            candidate['party'] = label or None
+
     return count
 
 
