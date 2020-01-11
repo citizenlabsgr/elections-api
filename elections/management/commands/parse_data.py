@@ -36,6 +36,7 @@ class Command(BaseCommand):
             parse_ballots(election_id=election, refetch=refetch)
         except Exception as e:
             if 'HEROKU_APP_NAME' in os.environ:
+                log.error("Unable to finish parsing data", exc_info=e)
                 bugsnag.notify(e)
             else:
                 raise e from None
