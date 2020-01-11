@@ -265,8 +265,9 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     return county, jurisdiction, ward, precinct
 
 
-def parse_district_from_proposal(category: str, text: str) -> str:
-    patterns = [f'[a-z] ((?:[A-Z][a-z.]+ )+{category})']
+def parse_district_from_proposal(category: str, text: str, mi_sos_url: str) -> str:
+    patterns = [f'[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})']
+    print(patterns)
 
     for pattern in patterns:
         for match in re.finditer(pattern, text):
@@ -275,7 +276,7 @@ def parse_district_from_proposal(category: str, text: str) -> str:
             if len(name) < 100:
                 return name
 
-    raise ValueError(f'Could not find {category}: {text}')
+    raise ValueError(f'Could not find {category!r} in {text!r} on {mi_sos_url}')
 
 
 def parse_ballot(html: str, data: Dict) -> int:
