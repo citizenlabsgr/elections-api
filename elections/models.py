@@ -540,11 +540,21 @@ class Ballot(TimeStampedModel):
                 yield position
 
                 for candidate_data in position_data['candidates']:
-                    assert candidate_data['party'], f'Expected party: {data}'
+                    candidate_name = candidate_data['name']
+
+                    if candidate_name in {"Uncommitted"}:
+                        log.debug(f'Skipped placeholder candidate: {candidate_name}')
+                        continue
+
+                    if candidate_data['party'] is None:
+                        raise ValueError(
+                            f'Expected party for {candidate_name!r} on {self.website.mi_sos_url}'
+                        )
+
                     party = Party.objects.get(name=candidate_data['party'])
                     candidate, created = Candidate.objects.update_or_create(
                         position=position,
-                        name=candidate_data['name'],
+                        name=candidate_name,
                         defaults={
                             'party': party,
                             'reference_url': candidate_data['finance_link'],
