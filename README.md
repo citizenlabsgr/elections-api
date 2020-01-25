@@ -13,11 +13,11 @@ APIs to check voter registration status and view ballots for all elections in Mi
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
 - Contact the maintainers: https://citizenlabs.org/contact/
 
-| Sample Client                                         | Purpose               |
-| ----------------------------------------------------- | --------------------- |
-| https://github.com/citizenlabsgr/mittens              | Registration chat bot |
-| https://github.com/citizenlabsgr/ballotshare          | Ballot previews       |
-| https://github.com/citizenlabsgr/elections-app &nbsp; | Election advocacy     |
+| Sample Client                                                           | Purpose                                        | Status       |
+| ----------------------------------------------------------------------- | ---------------------------------------------- | ------------ |
+| https://github.com/citizenlabsgr/mittens                                | Registration chat bot &nbsp;&nbsp;&nbsp;&nbsp; | `production` |
+| https://github.com/citizenlabsgr/ballotshare                            | Ballot previews                                | `alpha`      |
+| https://github.com/citizenlabsgr/elections-app &nbsp;&nbsp;&nbsp;&nbsp; | Election advocacy                              | `planning`   |
 
 ---
 
