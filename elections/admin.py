@@ -12,7 +12,7 @@ class DefaultFiltersMixin(admin.ModelAdmin):
         default_filters = getattr(self, 'default_filters', [])
         query_string = request.META['QUERY_STRING']
         http_referer = request.META.get('HTTP_REFERER', "")
-        active_election = models.Election.objects.filter(active=True).first()
+        active_election = models.Election.objects.filter(active=True).last()
         if all(
             [
                 default_filters,
