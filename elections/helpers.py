@@ -11,7 +11,8 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from nameparser import HumanName
-from rest_framework.exceptions import APIException
+
+from . import exceptions
 
 
 MI_SOS_URL = "https://mvic.sos.state.mi.us"
@@ -100,22 +101,16 @@ def _get_mvic_session(*, random_agent: bool = True):
         yield sess
 
 
-class ServiceUnavailable(APIException):
-    status_code = 503
-    default_code = 'service_unavailable'
-    default_detail = f'The Michigan Secretary of State website ({MI_SOS_URL}) is temporarily unavailable, please try again later.'
-
-
 def _check_availability(response):
     if response.status_code >= 400:
         log.error(f'MI SOS status code: {response.status_code}')
-        raise ServiceUnavailable()
+        raise exceptions.ServiceUnavailable()
 
     html = BeautifulSoup(response.text, 'html.parser')
     div = html.find(id='pollingLocationError')
     if div:
         if div['style'] != 'display:none;':
-            raise ServiceUnavailable()
+            raise exceptions.ServiceUnavailable()
 
 
 def fetch_registration_status_data(voter):
@@ -137,7 +132,7 @@ def fetch_registration_status_data(voter):
         if "you have recently moved" in response.text:
             # TODO: Figure out what a moved voter looks like
             bugsnag.notify(
-                RuntimeError("Voter has moved"),
+                exceptions.UnhandledData("Voter has moved"),
                 meta_data={"voter": repr(voter), "html": response.text},
             )
             log.warn(f"Handling recently moved voter: {voter}")
