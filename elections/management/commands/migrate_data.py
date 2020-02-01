@@ -18,7 +18,8 @@ class Command(BaseCommand):
     help = "Initialize contants and migrate data between existing models"
 
     def handle(self, verbosity: int, **_kwargs):
-        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
+        log.reset()
+        log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         defaults.initialize_parties()
         defaults.initialize_districts()

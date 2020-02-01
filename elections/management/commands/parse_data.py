@@ -30,7 +30,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, verbosity: int, election: Optional[int], refetch: bool, **_kwargs):
-        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
+        log.reset()
+        log.init(reset=True, verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         try:
             parse_ballots(election_id=election, refetch=refetch)

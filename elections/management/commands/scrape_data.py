@@ -45,7 +45,8 @@ class Command(BaseCommand):
         ballot_limit: Optional[int],
         **_kwargs,
     ):
-        log.init(verbosity=verbosity if '-v' in sys.argv else 2)
+        log.reset()
+        log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         try:
             scrape_ballots(
