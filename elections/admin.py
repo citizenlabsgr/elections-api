@@ -154,7 +154,12 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 @admin.register(models.Ballot)
 class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
-    search_fields = ['precinct__county__name', 'precinct__jurisdiction__name']
+    search_fields = [
+        'website__mi_sos_election_id',
+        'website__mi_sos_precinct_id',
+        'precinct__county__name',
+        'precinct__jurisdiction__name',
+    ]
 
     list_filter = ['election', 'precinct__county', 'precinct__jurisdiction']
     default_filters = ['election__id__exact={election_id}']
