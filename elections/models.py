@@ -7,11 +7,12 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
+import bugsnag
 import log
 import pendulum
 from model_utils.models import TimeStampedModel
 
-from . import helpers
+from . import exceptions, helpers
 
 
 class DistrictCategory(TimeStampedModel):
@@ -192,7 +193,9 @@ class Voter(models.Model):
                 category=category, name=district_name
             )
             if created:
-                log.info(f"Created district: {district}")
+                message = f"Created district: {district}"
+                log.info(message)
+                bugsnag.notify(exceptions.MissingData(message))
 
             districts.append(district)
 
@@ -208,7 +211,9 @@ class Voter(models.Model):
             number=data['districts']['Precinct'],
         )
         if created:
-            log.info(f"Created precinct: {precinct}")
+            message = f"Created precinct: {precinct}"
+            log.info(message)
+            bugsnag.notify(exceptions.MissingData(message))
 
         status = RegistrationStatus(
             registered=data['registered'],
@@ -481,7 +486,7 @@ class Ballot(TimeStampedModel):
                 elif category_name in {'Congressional', 'Legislative', 'County'}:
                     pass  # district parsed based on position name
                 else:
-                    raise ValueError(
+                    raise exceptions.UnhandledData(
                         f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                     )
 
@@ -522,7 +527,7 @@ class Ballot(TimeStampedModel):
                     elif category_name in {'County'}:
                         district = self.precinct.county
                     else:
-                        raise ValueError(
+                        raise exceptions.UnhandledData(
                             f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
                         )
 
@@ -547,7 +552,7 @@ class Ballot(TimeStampedModel):
                         continue
 
                     if candidate_data['party'] is None:
-                        raise ValueError(
+                        raise exceptions.UnhandledData(
                             f'Expected party for {candidate_name!r} on {self.website.mi_sos_url}'
                         )
 
@@ -588,7 +593,7 @@ class Ballot(TimeStampedModel):
                 elif category_name in {'Judicial'}:
                     pass  # district parsed based on position name
                 else:
-                    raise ValueError(
+                    raise exceptions.UnhandledData(
                         f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                     )
 
@@ -619,7 +624,7 @@ class Ballot(TimeStampedModel):
                                 name='District Court'
                             )
                         else:
-                            raise ValueError(
+                            raise exceptions.UnhandledData(
                                 f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
                             )
 
@@ -694,7 +699,7 @@ class Ballot(TimeStampedModel):
             }:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
-                raise ValueError(
+                raise exceptions.UnhandledData(
                     f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
                 )
 
