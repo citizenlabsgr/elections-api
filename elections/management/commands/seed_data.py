@@ -54,4 +54,4 @@ class Command(BaseCommand):
             birth_date=pendulum.parse("1975-08-03"),
             zip_code="49503",
         )
-        voter.fetch_registration_status()
+        voter.fetch_registration_status(track_missing_data=False)

@@ -167,7 +167,9 @@ class Voter(models.Model):
     def birth_year(self) -> int:
         return self.birth_date.year
 
-    def fetch_registration_status(self) -> RegistrationStatus:
+    def fetch_registration_status(
+        self, *, track_missing_data: bool = True
+    ) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
 
         if not data['registered']:
@@ -195,7 +197,8 @@ class Voter(models.Model):
             if created:
                 message = f"Created district: {district}"
                 log.info(message)
-                bugsnag.notify(exceptions.MissingData(message))
+                if track_missing_data:
+                    bugsnag.notify(exceptions.MissingData(message))
 
             districts.append(district)
 
@@ -213,7 +216,8 @@ class Voter(models.Model):
         if created:
             message = f"Created precinct: {precinct}"
             log.info(message)
-            bugsnag.notify(exceptions.MissingData(message))
+            if track_missing_data:
+                bugsnag.notify(exceptions.MissingData(message))
 
         status = RegistrationStatus(
             registered=data['registered'],
