@@ -6,7 +6,7 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 dj-database-url==0.5.0
-django==3.0.2
+django==3.0.3
 django-cors-headers==3.2.1
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.13.3
@@ -36,7 +36,7 @@ pyparsing==2.4.6
 python-dateutil==2.8.1
 pytz==2019.3
 pytzdata==2019.3
-redis==3.4.0
+redis==3.4.1
 requests==2.22.0
 requests-cache==0.5.2
 ruamel.yaml==0.16.7

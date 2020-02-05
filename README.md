@@ -141,6 +141,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 1.5**
+
+- Added `date_humanized` field to elections API responses.
+
 **Version 1.4**
 
 - Added `absentee` to the response for registrations API.
