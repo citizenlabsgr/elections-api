@@ -36,6 +36,7 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
 class ElectionSerializer(serializers.ModelSerializer):
 
+    date_humanized = serializers.SerializerMethodField()
     description_edit_url = serializers.SerializerMethodField()
 
     class Meta:
@@ -45,13 +46,17 @@ class ElectionSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'date',
+            'date_humanized',
             'description',
             'description_edit_url',
             'active',
             'reference_url',
         ]
 
-    def get_description_edit_url(self, obj):
+    def get_date_humanized(self, obj) -> str:
+        return obj.date.strftime('%A, %B %-d, %Y')
+
+    def get_description_edit_url(self, obj) -> str:
         category = 'elections'
         name = obj.name.replace(' ', '%20')
         return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
