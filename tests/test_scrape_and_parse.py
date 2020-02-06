@@ -4,7 +4,7 @@
 import pytest
 
 from elections import defaults
-from elections.models import BallotWebsite, Candidate, Position
+from elections.models import BallotWebsite, Candidate, Position, Precinct
 
 
 def parse_ballot(election_id: int, precinct_id: int) -> int:
@@ -68,3 +68,13 @@ def test_presidential_primary(expect, db):
 
     candidate = Candidate.objects.get(name='Elizabeth Warren')
     expect(candidate.party.name) == 'Democratic'
+
+
+def test_alternate_city_names(expect, db):
+    parse_ballot(680, 3295)
+
+    precinct = Precinct.objects.first()
+    expect(precinct.county.name) == 'Wayne'
+    expect(precinct.jurisdiction.name) == 'City of Detroit'
+    expect(precinct.ward) == '6'
+    expect(precinct.number) == '157'

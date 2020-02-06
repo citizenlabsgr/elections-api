@@ -197,8 +197,6 @@ class Voter(models.Model):
             if created:
                 message = f"Created district: {district}"
                 log.info(message)
-                if track_missing_data:
-                    bugsnag.notify(exceptions.MissingData(message))
 
             districts.append(district)
 
@@ -207,17 +205,34 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        precinct, created = Precinct.objects.get_or_create(
-            county=county,
-            jurisdiction=jurisdiction,
-            ward=data['districts']['Ward'],
-            number=data['districts']['Precinct'],
-        )
+        if data['districts']['Ward']:
+            precinct, created = Precinct.objects.get_or_create(
+                county=county,
+                jurisdiction=jurisdiction,
+                ward=data['districts']['Ward'],
+                number=data['districts']['Precinct'],
+            )
+        else:
+            precinct, created = Precinct.objects.get_or_create(
+                county=county,
+                jurisdiction=jurisdiction,
+                number=data['districts']['Precinct'],
+            )
         if created:
             message = f"Created precinct: {precinct}"
             log.info(message)
             if track_missing_data:
-                bugsnag.notify(exceptions.MissingData(message))
+                bugsnag.notify(
+                    exceptions.MissingData(message),
+                    meta_data={
+                        'voter': {
+                            'first_name': self.first_name,
+                            'last_name': self.last_name,
+                            'birth_data': self.birth_date,
+                            'zip_code': self.zip_code,
+                        }
+                    },
+                )
 
         status = RegistrationStatus(
             registered=data['registered'],
