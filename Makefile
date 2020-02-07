@@ -77,6 +77,7 @@ endif
 .PHONY: test
 test: install ## CI | Run all tests
 	poetry run pytest elections tests
+	poetry run coveragespace citizenlabsgr/elections-api overall --exit-code
 
 .PHONY: watch
 watch: install

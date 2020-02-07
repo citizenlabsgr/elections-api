@@ -1,7 +1,7 @@
 # pylint: disable=no-self-use,unused-argument
 
 from django.contrib import admin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.utils.html import format_html
 
 from . import models
@@ -159,14 +159,49 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'website__mi_sos_precinct_id',
         'precinct__county__name',
         'precinct__jurisdiction__name',
+        'precinct__ward',
+        'precinct__number',
     ]
 
     list_filter = ['election', 'precinct__county', 'precinct__jurisdiction']
     default_filters = ['election__id__exact={election_id}']
 
-    list_display = ['id', 'election', 'precinct', 'website', 'modified']
+    list_display = [
+        'id',
+        'Election',
+        'Precinct',
+        'Website',
+        'modified',
+    ]
 
     ordering = ['-modified']
+
+    def Election(self, obj):
+        url = reverse("admin:elections_election_change", args=[obj.election.pk])
+        return format_html(
+            '<a href="{href}" target="_blank">{pk}: {label}</a>',
+            href=url,
+            pk=obj.election.pk,
+            label=obj.election,
+        )
+
+    def Precinct(self, obj):
+        url = reverse("admin:elections_precinct_change", args=[obj.precinct.pk])
+        return format_html(
+            '<a href="{href}" target="_blank">{pk}: {label}</a>',
+            href=url,
+            pk=obj.precinct.pk,
+            label=obj.precinct,
+        )
+
+    def Website(self, obj):
+        url = reverse("admin:elections_ballotwebsite_change", args=[obj.website.pk])
+        return format_html(
+            '<a href="{href}" target="_blank">{pk}: {label}</a>',
+            href=url,
+            pk=obj.website.pk,
+            label=obj.website,
+        )
 
 
 @admin.register(models.Party)
