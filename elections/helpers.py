@@ -62,11 +62,12 @@ def normalize_jurisdiction(name: str) -> str:
 
     for kind in {'City', 'Township', 'Village'}:
         if name.startswith(kind):
-            return name
+            return name.replace(" Charter", "")
 
     for kind in {'City', 'Township', 'Village'}:
         if name.endswith(' ' + kind):
-            return kind + ' of ' + name[: -len(kind) - 1]
+            name = kind + ' of ' + name[: -len(kind) - 1]
+            return name.replace(" Charter", "")
 
     return name
 
