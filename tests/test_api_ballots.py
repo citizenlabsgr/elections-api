@@ -53,7 +53,7 @@ def describe_list():
                     'description': '',
                     'description_edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/master/content/elections/General%20Election.md',
                     'date': '2018-08-07',
-                    'date_humanized': 'Tuesday, August 7, 2018',
+                    'date_humanized': 'Tuesday, August 7th',
                     'active': True,
                     'reference_url': None,
                 },
