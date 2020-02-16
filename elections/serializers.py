@@ -1,5 +1,6 @@
 # pylint: disable=no-self-use
 
+import pendulum
 from rest_framework import serializers
 
 from . import fields, models
@@ -54,7 +55,8 @@ class ElectionSerializer(serializers.ModelSerializer):
         ]
 
     def get_date_humanized(self, obj) -> str:
-        return obj.date.strftime('%A, %B %-d, %Y')
+        dt = pendulum.datetime(obj.date.year, obj.date.month, obj.date.day)
+        return dt.format('dddd, MMMM Do')
 
     def get_description_edit_url(self, obj) -> str:
         category = 'elections'
