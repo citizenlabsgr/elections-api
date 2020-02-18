@@ -9,29 +9,28 @@ dj-database-url==0.5.0
 django==3.0.3
 django-cors-headers==3.2.1
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
-django-grappelli==2.13.3
+django-grappelli==2.14.1
 -e git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216#egg=django-model-utils
 django-redis-cache==2.1.0
 djangorestframework==3.11.0
-drf-yasg==1.17.0
+drf-yasg==1.17.1
 factory-boy==2.12.0
 fake-useragent==0.1.11
-faker==4.0.0
+faker==4.0.1
 gunicorn==19.10.0
 idna==2.8
 inflection==0.3.1
 itypes==1.1.0
 jinja2==2.11.1
-markdown==3.2
+markdown==3.2.1
 markupsafe==1.1.1
 minilog==1.4b2
-nameparser==1.0.5
+nameparser==1.0.6
 packaging==20.1
 pendulum==2.0.5
-pep562==1.0
 psycopg2-binary==2.8.4
 pygments==2.5.2
-pymdown-extensions==6.2.1
+pymdown-extensions==6.3
 pyparsing==2.4.6
 python-dateutil==2.8.1
 pytz==2019.3
@@ -39,8 +38,8 @@ pytzdata==2019.3
 redis==3.4.1
 requests==2.22.0
 requests-cache==0.5.2
-ruamel.yaml==0.16.7
-ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_version < "3.8"
+ruamel.yaml==0.16.10
+ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_version < "3.9"
 six==1.14.0
 soupsieve==1.9.5
 sqlparse==0.3.0

@@ -29,6 +29,7 @@ def describe_list():
                 '1736 Lyon Ne',
                 'Grand Rapids, Michigan 49503',
             ],
+            'recently_moved': False,
             'precinct': {
                 'url': anything,
                 'id': anything,
@@ -127,6 +128,7 @@ def describe_list():
             'registered': False,
             'absentee': False,
             'polling_location': None,
+            'recently_moved': False,
             'precinct': None,
             'districts': [],
         }

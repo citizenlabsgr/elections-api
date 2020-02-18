@@ -141,13 +141,17 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 1.6**
+
+- Added `recently_moved` to registrations API responses to indicate that precinct information may not currently be accurate.
+
 **Version 1.5**
 
 - Added `date_humanized` field to elections API responses.
 
 **Version 1.4**
 
-- Added `absentee` to the response for registrations API.
+- Added `absentee` to the registrations API responses to indicate that a voter has absentee status.
 
 **Version 1.3**
 

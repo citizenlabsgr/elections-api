@@ -130,21 +130,6 @@ def fetch_registration_status_data(voter):
         _check_availability(response)
 
         # Handle recently moved voters
-        if "you have recently moved" in response.text:
-            # TODO: Figure out what a moved voter looks like
-            bugsnag.notify(
-                exceptions.UnhandledData("Voter has moved"),
-                meta_data={"voter": repr(voter), "html": response.text},
-            )
-            log.warn(f"Handling recently moved voter: {voter}")
-            page = _find_or_abort(
-                r"<a href='(registeredvoter\.aspx\?vid=\d+)' class=VITlinks>Begin",
-                response.text,
-            )
-            url = MI_SOS_URL + page
-            response = sess.get(url)
-            log.debug(f"Response from MI SOS:\n{response.text}")
-            _check_availability(response)
 
     # Parse registration
     registered = None
@@ -155,34 +140,48 @@ def fetch_registration_status_data(voter):
     else:
         log.warn("Unable to determine registration status")
 
+    # Parse moved status
+    recently_moved = "you have recently moved" in response.text
+    if recently_moved:
+        # TODO: Figure out how to request the new records
+        bugsnag.notify(
+            exceptions.UnhandledData("Voter has moved"),
+            meta_data={"voter": repr(voter), "html": response.text},
+        )
+
     # Parse absentee status
     absentee = "Application Received" in response.text
 
     # Parse districts
-    districs = {}
+    districts = {}
     for match in re.findall(r'>([\w ]+):[\s\S]*?">([\w ]*)<', response.text):
         category = _clean_district_category(match[0])
         if category == "Jurisdiction":
-            districs[category] = normalize_jurisdiction(match[1])
+            districts[category] = normalize_jurisdiction(match[1])
         elif category not in {'Phone'}:
-            districs[category] = _clean_district_name(match[1])
+            districts[category] = _clean_district_name(match[1])
 
     # Parse Polling Location
-    pollingloc = {"PollingLocation": "", "PollAddress": "", "PollCityStateZip": ""}
-    for key in pollingloc:
+    polling_location = {
+        "PollingLocation": "",
+        "PollAddress": "",
+        "PollCityStateZip": "",
+    }
+    for key in polling_location:
         index = response.text.find(key)
         if index == -1:
             log.warn("Could not find polling location.")
         else:
             newstring = response.text[(index + len(key) + 2) :]
             end = newstring.find('<')
-            pollingloc[key] = newstring[0:end]
+            polling_location[key] = newstring[0:end]
 
     return {
         "registered": registered,
         "absentee": absentee,
-        "districts": districs,
-        "polling_location": pollingloc,
+        "districts": districts,
+        "polling_location": polling_location,
+        "recently_moved": recently_moved,
     }
 
 

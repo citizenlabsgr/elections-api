@@ -135,6 +135,7 @@ class RegistrationStatus(models.Model):
     registered = models.BooleanField()
     absentee = models.BooleanField(default=False)
     polling_location = JSONField(blank=True, null=True)
+    recently_moved = models.BooleanField(default=False)
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
     # We can't use 'ManytoManyField' because this model is never saved
@@ -238,6 +239,7 @@ class Voter(models.Model):
             registered=data['registered'],
             absentee=data['absentee'],
             polling_location=list(data['polling_location'].values()),
+            recently_moved=data['recently_moved'],
             precinct=precinct,
         )
         status.districts = districts
