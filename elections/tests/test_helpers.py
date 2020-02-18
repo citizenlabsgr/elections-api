@@ -52,4 +52,5 @@ def describe_fetch_registration_status_data():
                 "PollAddress": "1736 Lyon Ne",
                 "PollCityStateZip": "Grand Rapids, Michigan 49503",
             },
+            "recently_moved": False,
         }
