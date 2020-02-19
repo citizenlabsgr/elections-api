@@ -263,8 +263,10 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
 
 
 def parse_district_from_proposal(category: str, text: str, mi_sos_url: str) -> str:
-    patterns = [f'[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})']
-    print(patterns)
+    patterns = [
+        f'[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})',
+        f'\n((?:[A-Z][A-Za-z.-]+ )+{category})',
+    ]
 
     for pattern in patterns:
         for match in re.finditer(pattern, text):
