@@ -135,7 +135,7 @@ Versions of the API are requested through content negotiation. Your client will 
 
 ## Contributing
 
-If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join_us/).
+If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join/).
 
 Once you have access rights or a fork, please read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment. Create a branch for every issue you work on and make a pull request to `master` with the corresponding issue attached.
 
