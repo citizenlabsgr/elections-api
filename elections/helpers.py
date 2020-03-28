@@ -168,11 +168,11 @@ def fetch_registration_status_data(voter):
         "PollCityStateZip": "",
     }
     for key in polling_location:
-        index = response.text.find(key)
+        index = response.text.find('lbl' + key)
         if index == -1:
             log.warn("Could not find polling location.")
         else:
-            newstring = response.text[(index + len(key) + 2) :]
+            newstring = response.text[(index + len(key) + 5) :]
             end = newstring.find('<')
             polling_location[key] = newstring[0:end]
 

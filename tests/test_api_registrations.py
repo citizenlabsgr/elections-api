@@ -23,7 +23,7 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
-            'absentee': True,
+            'absentee': False,
             'polling_location': [
                 'Mayfair Christian Reformed Church',
                 '1736 Lyon Ne',
