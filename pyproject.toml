@@ -12,7 +12,7 @@ license = "GPLv3"
 python = "^3.7"
 
 # Django
-django = "~3.0.1"
+django = "~3.0.4"
 django-grappelli = "^2.11"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
 django-model-utils = { git = "https://github.com/jazzband/django-model-utils", rev = "ffa1a85dc7fe3fa8a56e8735b4ac881092abf216" }
@@ -38,7 +38,7 @@ pygments = "*"
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
 fake-useragent = "~0.1.11"
-minilog = "=1.4b2"
+minilog = "^1.5"
 nameparser = "^1.0.4"
 pendulum = "*"
 requests = "^2.19"
@@ -61,10 +61,10 @@ pylint-django = "*"
 mypy = "*"
 
 # Testing
-pytest = "^5.2.1"
+pytest = "<5.4"
 pytest-django = "*"
 pytest-describe = "*"
-pytest-expecter = "^2.0"
+pytest-expecter = "^2.1"
 pytest-vcr = "*"
 pytest-cov = "^2.8.1"
 pytest-watch = "*"
