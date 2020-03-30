@@ -1,4 +1,4 @@
-asgiref==3.2.3
+asgiref==3.2.7
 beautifulsoup4==4.8.2
 bugsnag==3.6.0
 certifi==2019.11.28
@@ -6,7 +6,7 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 dj-database-url==0.5.0
-django==3.0.3
+django==3.0.4
 django-cors-headers==3.2.1
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.14.1
@@ -16,33 +16,33 @@ djangorestframework==3.11.0
 drf-yasg==1.17.1
 factory-boy==2.12.0
 fake-useragent==0.1.11
-faker==4.0.1
+faker==4.0.2
 gunicorn==19.10.0
-idna==2.8
+idna==2.9
 inflection==0.3.1
 itypes==1.1.0
 jinja2==2.11.1
 markdown==3.2.1
 markupsafe==1.1.1
-minilog==1.4b2
+minilog==1.5
 nameparser==1.0.6
-packaging==20.1
-pendulum==2.0.5
+packaging==20.3
+pendulum==2.1.0
 psycopg2-binary==2.8.4
-pygments==2.5.2
+pygments==2.6.1
 pymdown-extensions==6.3
 pyparsing==2.4.6
 python-dateutil==2.8.1
 pytz==2019.3
 pytzdata==2019.3
 redis==3.4.1
-requests==2.22.0
+requests==2.23.0
 requests-cache==0.5.2
 ruamel.yaml==0.16.10
 ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_version < "3.9"
 six==1.14.0
-soupsieve==1.9.5
-sqlparse==0.3.0
+soupsieve==2.0
+sqlparse==0.3.1
 text-unidecode==1.3
 uritemplate==3.0.1
 urllib3==1.25.8
