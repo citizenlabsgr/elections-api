@@ -150,7 +150,7 @@ def fetch_registration_status_data(voter):
         )
 
     # Parse absentee status
-    absentee = "Application Received" in response.text
+    absentee = "You are on the permanent absentee voter list" in response.text
 
     # Parse districts
     districts = {}
