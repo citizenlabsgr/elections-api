@@ -502,6 +502,8 @@ class Ballot(TimeStampedModel):
 
                 if category_name in {'Presidential', 'State', 'State Board'}:
                     district = District.objects.get(name='Michigan')
+                elif category_name in {'Delegate'}:
+                    district = self.precinct.county
                 elif category_name in {'City', 'Township'}:
                     district = self.precinct.jurisdiction
                 elif category_name in {'Congressional', 'Legislative', 'County'}:
