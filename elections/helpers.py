@@ -410,6 +410,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     if not offices:
         return count
 
+    section: Dict[str, Any] = {}
     for index, item in enumerate(
         offices.find_all(
             'div',
@@ -430,7 +431,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         log.debug(f'Parsing office item {index}: {item}')
 
         if "section" in item['class']:
-            section: Dict[str, Any] = {}
+            section = {}
             division: Optional[List] = None
             office: Optional[Dict] = None
             label = item.text.lower()
