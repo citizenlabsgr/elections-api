@@ -331,6 +331,7 @@ class BallotWebsite(models.Model):
 
         if (
             "not available at this time" in self.mi_sos_html
+            or "currently no items for this ballot" in self.mi_sos_html
             or " County" not in self.mi_sos_html
         ):
             log.info('Ballot URL does not contain precinct information')
