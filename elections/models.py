@@ -745,6 +745,7 @@ class Ballot(TimeStampedModel):
                                 'Regional Education Service Agency',
                                 'Regional Educational Service Agency',
                                 'Regional Education Service',
+                                'Area Educational Service Agency',
                             ]
                         )
 
