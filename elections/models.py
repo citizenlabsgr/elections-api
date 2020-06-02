@@ -487,7 +487,9 @@ class Ballot(TimeStampedModel):
         count = 0
         for section_name, section_data in self.website.data['ballot'].items():
             section_parser = getattr(self, '_parse_' + section_name.replace(' ', '_'))
-            count += sum(1 for x in section_parser(section_data))
+            for item in section_parser(section_data):
+                if isinstance(item, (Candidate, Proposal)):
+                    count += 1
 
         self.website.parsed = True
         self.website.last_parse = timezone.now()
