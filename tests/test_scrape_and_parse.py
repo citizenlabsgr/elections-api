@@ -36,6 +36,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (682, 911, 24),  # TODO: parse township, this should be 29
         (682, 7608, 20),
         (682, 1828, 13),
+        (682, 7489, 17),
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
