@@ -14,15 +14,12 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     website = BallotWebsite.objects.create(
         mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
     )
-
     website.fetch()
     website.validate()
     website.scrape()
-    website.convert()
 
     ballot = website.convert()
     ballot.website = website
-
     return ballot.parse()
 
 
