@@ -195,13 +195,15 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         )
 
     def Website(self, obj):
-        url = reverse("admin:elections_ballotwebsite_change", args=[obj.website.pk])
-        return format_html(
-            '<a href="{href}" target="_blank">{pk}: {label}</a>',
-            href=url,
-            pk=obj.website.pk,
-            label=obj.website,
-        )
+        if obj.website:
+            url = reverse("admin:elections_ballotwebsite_change", args=[obj.website.pk])
+            return format_html(
+                '<a href="{href}" target="_blank">{pk}: {label}</a>',
+                href=url,
+                pk=obj.website.pk,
+                label=obj.website,
+            )
+        return None
 
 
 @admin.register(models.Party)
