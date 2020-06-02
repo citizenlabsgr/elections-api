@@ -715,6 +715,7 @@ class Ballot(TimeStampedModel):
                 'Village',
                 'Authority',
                 'Local School',
+                'Metropolitan',
             }:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
