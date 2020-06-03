@@ -123,6 +123,21 @@ class Precinct(TimeStampedModel):
             f"{self.jurisdiction}, {ward_precinct}",
         ]
 
+    def get_county_district_label(self, district: str) -> str:
+        return f"{self.county.name} County, {district}"
+
+    def get_ward_label(self, district: str) -> str:
+        return f"{self.jurisdiction}, {district}"
+
+    def get_precinct_label(self) -> str:
+        if self.ward and self.number:
+            ward_precinct = f"Ward {self.ward}, Precinct {self.number}"
+        elif self.ward:
+            ward_precinct = f"Ward {self.ward}"
+        else:
+            ward_precinct = f"Precinct {self.number}"
+        return f"{self.jurisdiction}, {ward_precinct}"
+
     def save(self, *args, **kwargs):
         self.ward = self.ward if self.ward.strip('0') else ''
         self.number = self.number if self.number.strip('0') else ''
@@ -550,15 +565,17 @@ class Ballot(TimeStampedModel):
                     elif position_name in {'County Commissioner'}:
                         category = DistrictCategory.objects.get(name=position_name)
                         district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
+                            category=category,
+                            name=self.precinct.get_county_district_label(
+                                position_data['district']
+                            ),
                         )
                         if created:
                             log.info(f'Created district: {district}')
                     elif position_name in {'Delegate to County Convention'}:
                         category = DistrictCategory.objects.get(name='Precinct')
-                        name = self.precinct.mi_sos_name[-1].replace('  ', ' ')
                         district, created = District.objects.get_or_create(
-                            category=category, name=name
+                            category=category, name=self.precinct.get_precinct_label(),
                         )
                         if created:
                             log.info(f'Created district: {district}')
@@ -682,7 +699,7 @@ class Ballot(TimeStampedModel):
                     category = DistrictCategory.objects.get(name='Ward')
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=f"{self.precinct.jurisdiction}, {position_data['district']}",
+                        name=self.precinct.get_ward_label(position_data['district']),
                     )
                     if created:
                         log.info(f'Created district: {district}')

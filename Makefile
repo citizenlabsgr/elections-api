@@ -105,7 +105,7 @@ data: migrate ## Data | Seed data for manual testing
 	@ echo
 	poetry run python manage.py seed_data
 	@ echo
-	poetry run python manage.py scrape_data --start-precinct=1792 --ballot-limit=5
+	poetry run python manage.py scrape_data --start-precinct=1828 --ballot-limit=5
 	@ echo
 	poetry run python manage.py parse_data
 
