@@ -34,6 +34,7 @@ class DistrictCategory(TimeStampedModel):
             "Township",
             "Village",
             "Ward",
+            "Precinct",
         }:
             return self.name
         return f'{self.name} District'
