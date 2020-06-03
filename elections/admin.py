@@ -151,6 +151,46 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     actions = [scrape_selected_ballots, parse_selected_ballots]
 
 
+class PrecinctCountyListFilter(admin.SimpleListFilter):
+    title = "County"
+    parameter_name = 'precinct__county'
+
+    def lookups(self, request, model_admin):
+        queryset = (
+            model_admin.model.objects.filter(precinct__county__category__name="County")
+            .order_by('precinct__county__name')
+            .distinct('precinct__county__name')
+        )
+        return [(o.precinct.county.pk, o.precinct.county.name) for o in queryset]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(precinct__county=self.value())
+        return queryset
+
+
+class PrecinctJurisdictionListFilter(admin.SimpleListFilter):
+    title = "Jurisdiction"
+    parameter_name = 'precinct__jurisdiction'
+
+    def lookups(self, request, model_admin):
+        queryset = (
+            model_admin.model.objects.filter(
+                precinct__jurisdiction__category__name="Jurisdiction"
+            )
+            .order_by('precinct__jurisdiction__name')
+            .distinct('precinct__jurisdiction__name')
+        )
+        return [
+            (o.precinct.jurisdiction.pk, o.precinct.jurisdiction.name) for o in queryset
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(precinct__jurisdiction=self.value())
+        return queryset
+
+
 @admin.register(models.Ballot)
 class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
@@ -163,7 +203,11 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'precinct__number',
     ]
 
-    list_filter = ['election', 'precinct__county', 'precinct__jurisdiction']
+    list_filter = [
+        'election',
+        PrecinctCountyListFilter,
+        PrecinctJurisdictionListFilter,
+    ]
     default_filters = ['election__id__exact={election_id}']
 
     list_display = [
