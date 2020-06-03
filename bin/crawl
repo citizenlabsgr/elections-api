@@ -1,0 +1,1 @@
+python manage.py scrape_data && python manage.py parse_data
