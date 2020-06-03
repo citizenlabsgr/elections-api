@@ -34,6 +34,7 @@ def initialize_districts():
         "County",  # e.g. Kent
         "Jurisdiction",  # e.g. City of Grand Rapids
         "Ward",  # e.g. City of Grand Rapids, Ward 3
+        "Precinct",  # e.g. City of Grand Rapids, Ward 3, Precinct 2
         # Local
         "School",  # e.g. Grand Rapids Public Schools
         "Local School",
