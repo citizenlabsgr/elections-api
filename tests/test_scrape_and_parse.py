@@ -30,9 +30,9 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (681, 6712, 2),
         # 2020 State Primary
         (682, 160, 1),
-        (682, 911, 32),  # TODO: parse township, this should be 37
+        (682, 911, 37),
         (682, 7608, 29),
-        (682, 1828, 23),
+        (682, 1828, 25),
         (682, 7489, 25),
         (682, 6911, 37),
     ],
