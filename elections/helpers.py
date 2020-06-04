@@ -410,7 +410,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     if not offices:
         return count
 
-    section: Dict[str, Any] = {}
+    section: Optional[Dict] = None
     for index, item in enumerate(
         offices.find_all(
             'div',
@@ -446,6 +446,11 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             label = (
                 titleize(item.text).replace(" - Continued", "").replace(" District", "")
             )
+            if section is None:
+                log.warn(f"Section missing for division: {label}")
+                assert list(data.keys()) == ['partisan section']
+                section = {}
+                data['nonpartisan section'] = section
             try:
                 division = section[label]
             except KeyError:
