@@ -61,16 +61,17 @@ pylint-django = "*"
 mypy = "*"
 
 # Testing
-pytest = "<5.4"
+pytest = "^4.5"
 pytest-django = "*"
-pytest-describe = "*"
+pytest-describe = "^1.0"
 pytest-expecter = "^2.1"
 pytest-vcr = "*"
-pytest-cov = "^2.8.1"
-pytest-watch = "*"
+pytest-cov = "^2.7"
+pytest-watch = "^4.2"
+coverage = "<5"
 
 # Reports
-coveragespace = "^3.1.1"
+coveragespace = "^3.1"
 
 # Utilities
 ipdb = "~0.12.2"  # export PYTHONBREAKPOINT=ipdb.set_trace
