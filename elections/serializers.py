@@ -20,9 +20,9 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
         model = models.DistrictCategory
         fields = ['url', 'id', 'name', 'description', 'description_edit_url']
 
-    def get_description_edit_url(self, obj):
+    def get_description_edit_url(self, instance):
         category = 'districts'
-        name = obj.name.replace(' ', '%20')
+        name = instance.name.replace(' ', '%20')
         return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
@@ -54,13 +54,15 @@ class ElectionSerializer(serializers.ModelSerializer):
             'reference_url',
         ]
 
-    def get_date_humanized(self, obj) -> str:
-        dt = pendulum.datetime(obj.date.year, obj.date.month, obj.date.day)
+    def get_date_humanized(self, instance) -> str:
+        dt = pendulum.datetime(
+            instance.date.year, instance.date.month, instance.date.day
+        )
         return dt.format('dddd, MMMM Do')
 
-    def get_description_edit_url(self, obj) -> str:
+    def get_description_edit_url(self, instance) -> str:
         category = 'elections'
-        name = obj.name.replace(' ', '%20')
+        name = instance.name.replace(' ', '%20')
         return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
@@ -135,6 +137,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'description_edit_url',
             'reference_url',
+            'section',
             'seats',
             'term',
             'candidates',
@@ -142,9 +145,9 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             'district',
         ]
 
-    def get_description_edit_url(self, obj):
+    def get_description_edit_url(self, instance):
         category = 'positions'
-        name = obj.name.replace(' ', '%20')
+        name = instance.name.replace(' ', '%20')
         return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
 
 
@@ -172,17 +175,17 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
     description = serializers.CharField()
     edit_url = serializers.SerializerMethodField()
 
-    def get_category(self, obj) -> str:
+    def get_category(self, instance) -> str:
         categories = {
             'Party': 'parties',
             'DistrictCategory': 'districts',
             'Position': 'positions',
             'Election': 'elections',
         }
-        model = obj.__class__.__name__
+        model = instance.__class__.__name__
         return categories[model]
 
-    def get_edit_url(self, obj):
-        category = self.get_category(obj)
-        name = obj.name.replace(' ', '%20')
+    def get_edit_url(self, instance):
+        category = self.get_category(instance)
+        name = instance.name.replace(' ', '%20')
         return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
