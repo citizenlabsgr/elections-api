@@ -13,12 +13,10 @@ from fake_useragent import UserAgent
 from nameparser import HumanName
 
 from . import exceptions
+from .constants import MI_SOS_URL
 
-
-MI_SOS_URL = "https://mvic.sos.state.mi.us"
 
 useragent = UserAgent()
-
 
 ###############################################################################
 # Shared helpers
