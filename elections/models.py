@@ -846,9 +846,17 @@ class Position(BallotItem):
 
     term = models.CharField(max_length=200)
     seats = models.PositiveIntegerField(default=1)
+    section = models.CharField(max_length=50, blank=True)
 
     class Meta:
-        unique_together = ['election', 'district', 'name', 'term', 'seats']
+        unique_together = [
+            'election',
+            'section',
+            'district',
+            'name',
+            'term',
+            'seats',
+        ]
         ordering = ['name', 'seats']
 
     def __str__(self):
