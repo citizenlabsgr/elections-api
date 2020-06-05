@@ -844,8 +844,8 @@ class Proposal(BallotItem):
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
 
-    term = models.CharField(max_length=200)
-    seats = models.PositiveIntegerField(default=1)
+    term = models.CharField(max_length=200, blank=True)
+    seats = models.PositiveIntegerField(default=1, blank=True)
     section = models.CharField(max_length=50, blank=True)
 
     class Meta:
