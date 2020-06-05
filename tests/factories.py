@@ -59,3 +59,10 @@ class BallotFactory(factory.django.DjangoModelFactory):
     precinct = factory.SubFactory(PrecinctFactory)
 
     website = factory.SubFactory(BallotWebsiteFactory)
+
+
+class PositionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Position
+
+    election = factory.SubFactory(ElectionFactory)

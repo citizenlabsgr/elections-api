@@ -194,6 +194,12 @@ class PositionViewSet(viewsets.ModelViewSet):
     filterset_class = filters.PositionFilter
     serializer_class = serializers.PositionSerializer
 
+    def get_queryset(self):
+        section = self.request.query_params.get('section')
+        if section:
+            return self.queryset.filter(section__in={section, 'Nonpartisan', ''})
+        return self.queryset
+
 
 class GlossaryViewSet(viewsets.ViewSet):
     """

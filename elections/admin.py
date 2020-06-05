@@ -292,6 +292,7 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     list_filter = [
         'election',
+        'section',
         'district__category',
         'district',
         'name',
@@ -306,6 +307,7 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'description',
         'district',
         'election',
+        'section',
         'term',
         'seats',
         'reference_url',
