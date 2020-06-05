@@ -513,7 +513,11 @@ class Ballot(TimeStampedModel):
 
         return count
 
-    def _parse_partisan_section(self, data):
+    def _parse_primary_section(self, data):
+        for section_name, section_data in data.items():
+            yield from self._parse_partisan_section(section_data, section_name)
+
+    def _parse_partisan_section(self, data, section=''):
         for category_name, positions_data in data.items():
             for position_data in positions_data:
 
@@ -592,9 +596,14 @@ class Ballot(TimeStampedModel):
                     name=position_data['name'],
                     term=position_data['term'] or "",
                     seats=position_data['seats'],
+                    section=section,
                 )
                 if created:
                     log.info(f'Created position: {position}')
+                if not section:
+                    # TODO: default to general section
+                    # position.section = "General"
+                    log.warn(f"Position missing section: {position}")
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
@@ -713,6 +722,7 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f'Created position: {position}')
+                position.section = "Nonpartisan"
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position

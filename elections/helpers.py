@@ -292,17 +292,40 @@ def parse_ballot(html: str, data: Dict) -> int:
 
 
 def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
-    """Inserts general election ballot data into the provided dictionary."""
+    """Inserts primary election ballot data into the provided dictionary."""
     count = 0
 
     offices = ballot.find(id='twoPartyPrimaryElectionOffices')
     if not offices:
         return count
 
+    assert ballot.find(id='primaryColumnHeading1').text.strip() == 'DEMOCRATIC PARTY'
+    assert ballot.find(id='primaryColumnHeading2').text.strip() == 'REPUBLICAN PARTY'
+
+    section: Dict = {}
+    label = 'primary section'
+    data[label] = section
+
+    count += _parse_primary_election_offices("Democratic", ballot, section)
+    count += _parse_primary_election_offices("Republican", ballot, section)
+    return count
+
+
+def _parse_primary_election_offices(
+    party: str, ballot: BeautifulSoup, data: Dict
+) -> int:
+    """Inserts primary election ballot data into the provided dictionary."""
+    count = 0
+
+    offices = ballot.find(
+        id='columnOnePrimary' if party == 'Democratic' else 'columnTwoPrimary'
+    )
+    if not offices:
+        return count
+
     section: Dict[str, Any] = {}
     division: Optional[List] = None
-    label = 'partisan section'
-    data[label] = section
+    data[party] = section
 
     for index, item in enumerate(
         offices.find_all(
@@ -448,7 +471,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             )
             if section is None:
                 log.warn(f"Section missing for division: {label}")
-                assert list(data.keys()) == ['partisan section']
+                assert list(data.keys()) == ['primary section']
                 section = {}
                 data['nonpartisan section'] = section
             try:
