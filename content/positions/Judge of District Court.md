@@ -1,1 +1,1 @@
-
+Hears cases involving less serious criminal offenses. District courts are trial courts of limited jurisdiction, handling most traffic violations, small claims, misdemeanors, and civil suits where the amount contended is below $25,000. District courts are often responsible for handling the preliminary examination and for setting bail in felony cases.
