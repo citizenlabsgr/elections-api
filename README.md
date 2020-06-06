@@ -143,6 +143,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 1.7**
+
+- Added `section` to ballot positions API responses to filter primary ballot selection.
+
 **Version 1.6**
 
 - Added `recently_moved` to registrations API responses to indicate that precinct information may not currently be accurate.
