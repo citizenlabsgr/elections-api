@@ -1,1 +1,1 @@
-
+Works alongside the governor of Michigan to create laws and establish a state budget. Responsibilities of the Michigan State Senate of Representatives include passing bills on public policy matters, setting levels for state spending, and raising and lowering taxes.

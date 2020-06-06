@@ -1,1 +1,1 @@
-
+Approves of treaties, and the confirmation of Cabinet secretaries, Supreme Court justices, federal judges, regulatory officials, ambassadors, other federal executive officials. Furthermore, the Senate has the responsibility of conducting the trials of those impeached by the House.
