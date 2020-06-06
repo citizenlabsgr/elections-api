@@ -1,1 +1,1 @@
-
+The legal party responsible for presenting the case against an individual or a corporation suspected of breaking the law, initiating and directing further criminal investigations, guiding and recommending the sentencing of offenders, and are the only attorneys allowed to participate in grand jury proceedings.
