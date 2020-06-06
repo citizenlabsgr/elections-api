@@ -1,1 +1,1 @@
-Hear the more serious criminal cases. Circuit courts are also the appellate court for cases heard in the district courts. They have original jurisdiction over all civil suits where the amount contended in the case exceeds $25,000 and all criminal cases involving felonies.
+Hears the more serious criminal cases. Circuit courts are also the appellate court for cases heard in the district courts. They have original jurisdiction over all civil suits where the amount contended in the case exceeds $25,000 and all criminal cases involving felonies.
