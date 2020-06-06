@@ -156,7 +156,7 @@ def fetch_registration_status_data(voter):
         category = _clean_district_category(match[0])
         if category == "Jurisdiction":
             districts[category] = normalize_jurisdiction(match[1])
-        elif category not in {'Phone'}:
+        elif category not in {'Phone', 'Mailing Address', 'Open'}:
             districts[category] = _clean_district_name(match[1])
 
     # Parse Polling Location
