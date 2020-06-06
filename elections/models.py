@@ -12,7 +12,7 @@ import log
 import pendulum
 from model_utils.models import TimeStampedModel
 
-from . import exceptions, helpers
+from . import constants, exceptions, helpers
 
 
 class DistrictCategory(TimeStampedModel):
@@ -325,6 +325,10 @@ class BallotWebsite(models.Model):
             log.debug(f'Ballot was scraped in the last hour: {self}')
             return False
 
+        if self.last_fetch < constants.SCRAPER_LAST_UPDATED:
+            log.info(f'Scraping logic is newer than last scrape: {self}')
+            return True
+
         age_in_days = age.total_seconds() / 3600 / 24
         weight = age_in_days / 14  # fetch once per week on average
         log.debug(f'Ballot was scraped {round(age_in_days, 1)} days ago: {self}')
@@ -485,6 +489,10 @@ class Ballot(TimeStampedModel):
     def stale(self) -> bool:
         if not self.website.last_parse:
             log.debug('Ballot has never been parsed')
+            return True
+
+        if self.website.last_parse < constants.PARSER_LAST_UPDATED:
+            log.info(f'Parsing logic is newer than last scrape: {self.website}')
             return True
 
         age = timezone.now() - self.website.last_parse

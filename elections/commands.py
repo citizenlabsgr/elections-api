@@ -86,17 +86,17 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots(*, election_id: Optional[int] = None, refetch: bool = False):
+def parse_ballots(*, election_id: Optional[int] = None):
     if election_id:
         elections = Election.objects.filter(mi_sos_id=election_id)
     else:
         elections = Election.objects.filter(active=True)
 
     for election in elections:
-        _parse_ballots_for_election(election, refetch)
+        _parse_ballots_for_election(election)
 
 
-def _parse_ballots_for_election(election: Election, refetch: bool):
+def _parse_ballots_for_election(election: Election):
     log.info(f'Parsing ballots for election {election.mi_sos_id}')
 
     precincts: Set[Precinct] = set()
@@ -131,16 +131,6 @@ def _parse_ballots_for_election(election: Election, refetch: bool):
             ballot.save()
 
             if ballot.stale:
-                try:
-                    ballot.parse()
-                except Exception as e:  # pylint: disable=broad-except
-                    if refetch:
-                        log.warning(str(e))
-                        ballot.website.fetch()
-                        ballot.website.validate()
-                        ballot.website.scrape()
-                        ballot.parse()
-                    else:
-                        raise e from None
+                ballot.parse()
 
     log.info(f'Parsed ballots for {len(precincts)} precincts')
