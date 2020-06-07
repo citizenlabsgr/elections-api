@@ -20,6 +20,7 @@ class DistrictCategory(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
+    rank = models.IntegerField(default=0, help_text="Controls ballot item ordering")
 
     class Meta:
         verbose_name_plural = "District Categories"

@@ -37,7 +37,7 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ['name']
 
-    list_display = ['id', 'name', 'display_name', 'modified']
+    list_display = ['id', 'name', 'display_name', 'rank', 'modified']
 
     def display_name(self, category: models.DistrictCategory) -> str:
         return str(category)
