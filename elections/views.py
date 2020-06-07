@@ -132,7 +132,7 @@ class ProposalViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
     queryset = (
         models.Proposal.objects.select_related('election', 'district__category')
-        .order_by('district__category__rank')
+        .order_by('district__category__rank', 'name')
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
@@ -190,7 +190,7 @@ class PositionViewSet(viewsets.ModelViewSet):
     queryset = (
         models.Position.objects.select_related('election', 'district__category')
         .prefetch_related('candidates__party')
-        .order_by('district__category__rank')
+        .order_by('district__category__rank', 'name')
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
