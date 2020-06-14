@@ -4,7 +4,7 @@
 import pytest
 
 from elections import defaults
-from elections.models import BallotWebsite
+from elections.models import BallotWebsite, Candidate
 
 
 def parse_ballot(election_id: int, precinct_id: int) -> int:
@@ -39,3 +39,9 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
     expect(parse_ballot(election_id, precinct_id)) == item_count
+
+
+def test_reference_url(expect, db):
+    parse_ballot(682, 1828)
+    candidate = Candidate.objects.get(name="David LaGrand")
+    expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/517249'
