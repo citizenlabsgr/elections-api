@@ -411,9 +411,8 @@ def _parse_primary_election_offices(
             count += 1
 
         elif "financeLink" in item['class']:
-            label = item.text.strip()
-            assert candidate is not None, f'Candidate missing for finance link: {label}'
-            candidate['finance_link'] = label or None
+            if item.a:
+                candidate['finance_link'] = item.a['href']
 
         elif "party" in item['class']:
             label = titleize(item.text)
@@ -532,9 +531,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             count += 1
 
         elif "financeLink" in item['class']:
-            label = item.text.strip()
-            assert candidate is not None, f'Candidate missing for finance link: {label}'
-            candidate['finance_link'] = label or None
+            if item.a:
+                candidate['finance_link'] = item.a['href']
 
         elif "party" in item['class']:
             label = titleize(item.text)
