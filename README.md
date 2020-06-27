@@ -7,6 +7,8 @@
 
 APIs to check voter registration status and view ballots for all elections in Michigan.
 
+<button onclick="location.href='https://share.michiganelections.io'">Find Your Ballot</button>
+
 ### Quick Links
 
 - Browse the source: https://github.com/citizenlabsgr/elections-api/
