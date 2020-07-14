@@ -23,7 +23,7 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
     def get_description_edit_url(self, instance):
         category = 'districts'
         name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
@@ -63,7 +63,7 @@ class ElectionSerializer(serializers.ModelSerializer):
     def get_description_edit_url(self, instance) -> str:
         category = 'elections'
         name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
@@ -148,7 +148,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     def get_description_edit_url(self, instance):
         category = 'positions'
         name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
 
 
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
@@ -188,4 +188,4 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
     def get_edit_url(self, instance):
         category = self.get_category(instance)
         name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/master/content/{category}/{name}.md'
+        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'

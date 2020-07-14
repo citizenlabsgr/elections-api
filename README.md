@@ -15,11 +15,11 @@ APIs to check voter registration status and view ballots for all elections in Mi
 
 ### Sample Projects
 
-| Website                                                       | Purpose                                        | Status                                                             |
-| ------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
-| https://share.michiganelections.io                            | Ballot previews                                | [Live](https://github.com/citizenlabsgr/ballotshare) |
-| https://vote.citizenlabs.org                                  | Registration chat bot &nbsp;&nbsp;&nbsp;&nbsp; | [Live](https://github.com/citizenlabsgr/mittens)                   |
-| https://explore.michiganelections.io &nbsp;&nbsp;&nbsp;&nbsp; | Election advocacy                              | [Discovery](https://github.com/citizenlabsgr/elections-app)        |
+| Website                                                       | Purpose                                        | Status                                                      |
+| ------------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| https://share.michiganelections.io                            | Ballot previews                                | [Live](https://github.com/citizenlabsgr/ballotshare)        |
+| https://vote.citizenlabs.org                                  | Registration chat bot &nbsp;&nbsp;&nbsp;&nbsp; | [Live](https://github.com/citizenlabsgr/mittens)            |
+| https://explore.michiganelections.io &nbsp;&nbsp;&nbsp;&nbsp; | Election advocacy                              | [Discovery](https://github.com/citizenlabsgr/elections-app) |
 
 ---
 
@@ -137,9 +137,9 @@ Versions of the API are requested through content negotiation. Your client will 
 
 If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join/).
 
-Once you have access rights or a fork, please read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/master/CONTRIBUTING.md) file to set up your local environment. Create a branch for every issue you work on and make a pull request to `master` with the corresponding issue attached.
+Once you have access rights or a fork, please read the [CONTRIBUTING.md](https://github.com/citizenlabsgr/elections-api/blob/main/CONTRIBUTING.md) file to set up your local environment. Create a branch for every issue you work on and make a pull request to `main` with the corresponding issue attached.
 
-You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/master/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
+You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/main/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
 

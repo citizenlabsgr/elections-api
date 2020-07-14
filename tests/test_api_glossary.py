@@ -20,6 +20,6 @@ def describe_list():
                 'category': 'districts',
                 'name': 'Foobar',
                 'description': 'TBD',
-                'edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/master/content/districts/Foobar.md',
+                'edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/main/content/districts/Foobar.md',
             }
         ]
