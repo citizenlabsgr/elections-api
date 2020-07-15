@@ -12,8 +12,8 @@ from elections.models import Ballot, BallotWebsite, District, Election
 def past_election(db):
     return Election.objects.create(
         name="Unknown Election",
-        date=pendulum.parse("2019-10-26", tz='America/Detroit'),
-        mi_sos_id=678,
+        date=pendulum.parse("2020-06-06", tz='America/Detroit'),
+        mi_sos_id=681,
         active=False,
     )
 
@@ -21,18 +21,20 @@ def past_election(db):
 @pytest.fixture
 def active_election(db):
     return Election.objects.create(
-        name="November Consolidated",
-        date=pendulum.parse("2019-11-05", tz='America/Detroit'),
-        mi_sos_id=679,
+        name="State Primary",
+        date=pendulum.parse("2020-08-04", tz='America/Detroit'),
+        mi_sos_id=682,
     )
 
 
 def describe_scrape_ballots():
+    @pytest.mark.vcr
     def with_no_active_election(expect, db):
         commands.scrape_ballots(ballot_limit=1)
 
         expect(BallotWebsite.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_past_election(expect, past_election):
         defaults.initialize_districts()
 
@@ -45,16 +47,19 @@ def describe_scrape_ballots():
 
 
 def describe_parse_ballots():
+    @pytest.mark.vcr
     def with_no_active_election(expect, db):
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_active_election_and_no_scrapped_ballots(expect, active_election):
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_active_election_and_one_scrapped_ballot(expect, active_election):
         defaults.initialize_districts()
         defaults.initialize_parties()
@@ -63,4 +68,4 @@ def describe_parse_ballots():
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 1
-        expect(District.objects.count()) == 4
+        expect(District.objects.count()) == 7
