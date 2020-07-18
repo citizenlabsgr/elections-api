@@ -23,7 +23,6 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     return ballot.parse()
 
 
-@pytest.mark.xfail(reason='https://github.com/citizenlabsgr/elections-api/issues/181')
 @pytest.mark.parametrize(
     'election_id, precinct_id, item_count',
     [
@@ -48,9 +47,8 @@ def test_reference_url(expect, db):
     expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/517249'
 
 
-@pytest.mark.xfail(reason='https://github.com/citizenlabsgr/elections-api/issues/181')
 def test_proposal_description(expect, db):
     parse_ballot(682, 6911)
     proposal = Proposal.objects.first()
-    expect(proposal.description).startswith("Shall the increase")
-    expect(proposal.description).endswith("an estimated $975,000.00?")
+    expect(proposal.description).startswith("Shall the limitation")
+    expect(proposal.description).endswith("an estimated $175,000.00?")
