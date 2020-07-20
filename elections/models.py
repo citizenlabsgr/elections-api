@@ -822,6 +822,11 @@ class Ballot(TimeStampedModel):
                     if created:
                         log.info(f'Created district: {district}')
 
+                if proposal_data['text'] is None:
+                    raise exceptions.MissingData(
+                        f'Proposal text missing on {self.website.mi_sos_url}'
+                    )
+
                 proposal, created = Proposal.objects.update_or_create(
                     election=self.election,
                     district=district,
