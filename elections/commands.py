@@ -3,7 +3,7 @@ from typing import Optional, Set
 
 import log
 
-from .models import Ballot, BallotWebsite, Election, Precinct
+from .models import BallotWebsite, Election, Precinct
 
 
 def scrape_ballots(
@@ -100,13 +100,6 @@ def _parse_ballots_for_election(election: Election):
     log.info(f'Parsing ballots for election {election.mi_sos_id}')
 
     precincts: Set[Precinct] = set()
-
-    ballots = Ballot.objects.filter(election=election)
-    log.info(f'Resetting websites for {ballots.count()} ballots')
-    for ballot in ballots:
-        if ballot.website:
-            ballot.website = None
-            ballot.save()
 
     websites = (
         BallotWebsite.objects.filter(mi_sos_election_id=election.mi_sos_id, valid=True)
