@@ -592,7 +592,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
             # Handle proposal text missing a class
             item2 = item.parent.next_sibling
-            if 'text-align' in item2['style']:
+            if 'text-align' in item2.get('style', ""):
                 label = item2.text.strip()
                 assert label
                 assert proposal is not None, f'Proposal missing for text: {label}'
