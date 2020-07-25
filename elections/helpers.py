@@ -341,7 +341,7 @@ def _parse_primary_election_offices(
         ),
         start=1,
     ):
-        log.debug(f'Parsing office item {index}: {item}')
+        log.debug(f'Parsing office element {index}: {item}')
 
         if "division" in item['class']:
             label = (
@@ -448,7 +448,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing office item {index}: {item}')
+        log.debug(f'Parsing office element {index}: {item}')
 
         if "section" in item['class']:
             section = {}
@@ -556,7 +556,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing proposal item {index}: {item}')
+        log.debug(f'Parsing proposal element {index}: {item}')
 
         if "section" in item['class']:
             section: Dict[str, Any] = {}
@@ -592,9 +592,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
             # Handle proposal text missing a class
             item2 = item.parent.next_sibling
-            if 'text-align' in item2.get('style', ""):
-                label = item2.text.strip()
-                assert label
+            label = item2.text.strip()
+            if label:
+                log.debug("Parsing proposal text as sibling of proposal title")
                 assert proposal is not None, f'Proposal missing for text: {label}'
                 proposal['text'] = label
                 count += 1
