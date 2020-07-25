@@ -249,6 +249,8 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
             )
         return None
 
+    readonly_fields = ('election', 'precinct', 'website')
+
 
 @admin.register(models.Party)
 class PartyAdmin(admin.ModelAdmin):
