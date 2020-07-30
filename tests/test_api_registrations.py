@@ -10,7 +10,7 @@ def describe_list():
     def url():
         return '/api/registrations/'
 
-    def it_returns_data_for_a_registered_voter(expect, anything, client, url, db):
+    def it_returns_data_for_a_registered_voter(expect, client, url, db):
         defaults.initialize_districts()
 
         response = client.get(
@@ -25,14 +25,14 @@ def describe_list():
             'registered': True,
             'absentee': True,
             'polling_location': [
-                'Mayfair Christian Reformed Church',
+                'Encounter Church',
                 '1736 Lyon Ne',
                 'Grand Rapids, Michigan 49503',
             ],
             'recently_moved': False,
             'precinct': {
-                'url': anything,
-                'id': anything,
+                'url': expect.anything,
+                'id': expect.anything,
                 'county': 'Kent',
                 'jurisdiction': 'City of Grand Rapids',
                 'ward': '2',
@@ -40,75 +40,80 @@ def describe_list():
             },
             'districts': [
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Circuit Court District',
                     'name': '17th Circuit',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Community College District',
                     'name': 'Grand Rapids Community College',
                 },
-                {'url': anything, 'id': anything, 'category': 'County', 'name': 'Kent'},
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'County',
+                    'name': 'Kent',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'County Commissioner District',
                     'name': '18th District',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Court of Appeals District',
                     'name': '3rd District',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'District Court District',
                     'name': '61st District',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Intermediate School District',
                     'name': 'Kent ISD',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Jurisdiction',
                     'name': 'City of Grand Rapids',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'Probate Court District',
                     'name': 'Kent County Probate Court',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'School District',
                     'name': 'Grand Rapids Public Schools',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'State House District',
                     'name': '75th District',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'State Senate District',
                     'name': '29th District',
                 },
                 {
-                    'url': anything,
-                    'id': anything,
+                    'url': expect.anything,
+                    'id': expect.anything,
                     'category': 'US Congress District',
                     'name': '3rd District',
                 },
