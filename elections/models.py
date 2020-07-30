@@ -80,9 +80,11 @@ class Election(TimeStampedModel):
 
     @property
     def mi_sos_name(self) -> List[str]:
+        dt = pendulum.parse(self.date.isoformat())
+        assert isinstance(dt, pendulum.DateTime)
         return [
             self.name,
-            pendulum.parse(self.date.isoformat()).format("dddd, MMMM D, YYYY"),
+            dt.format("dddd, MMMM D, YYYY"),
         ]
 
 
@@ -171,7 +173,9 @@ class Voter(models.Model):
     zip_code = models.CharField(max_length=10)
 
     def __repr__(self) -> str:
-        birth = pendulum.parse(str(self.birth_date)).format("YYYY-MM-DD")
+        dt = pendulum.parse(str(self.birth_date))
+        assert isinstance(dt, pendulum.Date)
+        birth = dt.format("YYYY-MM-DD")
         return f"<voter: {self}, birth={birth}, zip={self.zip_code}>"
 
     def __str__(self) -> str:
