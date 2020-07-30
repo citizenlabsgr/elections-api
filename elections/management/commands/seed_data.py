@@ -3,7 +3,7 @@
 import sys
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
@@ -25,6 +25,7 @@ class Command(BaseCommand):
         self.fetch_districts()
 
     def get_or_create_superuser(self, username="admin", password="password"):
+        User = get_user_model()
         try:
             user = User.objects.create_superuser(
                 username=username,
