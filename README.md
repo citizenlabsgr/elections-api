@@ -68,6 +68,21 @@ Using either of these pieces of information, you can fetch the details of your s
 ]
 ```
 
+### Absentee Status
+
+The above payload also includes fields indicating the voter's absentee status and progress of their ballot:
+
+| Field                                                    | Type                                        | Description                                             |
+| -------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------- |
+| `registered`                                             | `boolean`                                   | Voter can participate in the upcoming election          |
+| `absentee_application_received` &nbsp;&nbsp;&nbsp;&nbsp; | `string` or `null` &nbsp;&nbsp;&nbsp;&nbsp; | Date (`YYYY-MM-DD`) clerk received absentee application |
+| `absentee`                                               | `boolean`                                   | Voter will receive an absentee ballot in the mail       |
+| `absentee_ballot_sent`                                   | `string` or `null`                          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
+| `absentee_ballot_received`                               | `string` or `null`                          | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
+
+<br>
+These dates reset after each election.
+
 ### Sample Ballots
 
 Get a link to the official sample ballot for upcoming elections, by precinct ID:
@@ -142,6 +157,10 @@ Once you have access rights or a fork, please read the [CONTRIBUTING.md](https:/
 You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/main/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
+
+**Version 1.8**
+
+- Added `absentee_application_received`, `absentee_ballot_sent`, and `absentee_ballot_received` dates to the registrations API responses to track the progress of each voter's absentee balllot.
 
 **Version 1.7**
 
