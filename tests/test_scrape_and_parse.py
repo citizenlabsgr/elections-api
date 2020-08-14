@@ -37,6 +37,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (682, 6911, 37),
         # 2020 State General
         (683, 901, 20),
+        (683, 133, 14),
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
