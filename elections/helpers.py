@@ -591,13 +591,16 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             division.append(proposal)
 
             # Handle proposal text missing a class
-            item2 = item.parent.next_sibling
-            label = item2.text.strip()
-            if label:
-                log.debug("Parsing proposal text as sibling of proposal title")
-                assert proposal is not None, f'Proposal missing for text: {label}'
-                proposal['text'] = label
-                count += 1
+            for label in [
+                item.parent.next_sibling.text,
+                item.parent.next_sibling.next_sibling,
+            ]:
+                if label and label.strip():
+                    log.debug("Parsing proposal text as sibling of proposal title")
+                    assert proposal is not None, f'Proposal missing for text: {label}'
+                    proposal['text'] = label.strip()
+                    count += 1
+                    break
 
         elif "proposalText" in item['class']:
             label = item.text.strip()
