@@ -2,7 +2,7 @@ import importlib.resources  # New in 3.7
 import re
 import string
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Tuple
 
 import bugsnag
@@ -150,7 +150,7 @@ def fetch_registration_status_data(voter):
     absentee = "You are on the permanent absentee voter list" in response.text
 
     # Parse absentee dates
-    absentee_dates: Dict[str, Optional[datetime]] = {
+    absentee_dates: Dict[str, Optional[date]] = {
         "Application Received": None,
         "Ballot Sent": None,
         "Ballot Received": None,
@@ -160,7 +160,7 @@ def fetch_registration_status_data(voter):
         if element:
             text = element.text.strip()
             if text:
-                absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y')
+                absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y').date()
 
     # Parse districts
     districts = {}

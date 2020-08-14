@@ -27,7 +27,7 @@ def describe_fetch_registration_status_data():
             "registered": True,
             "absentee": True,
             "absentee_dates": {
-                'Application Received': datetime.datetime(2020, 6, 6, 0, 0),
+                'Application Received': datetime.date(2020, 6, 6),
                 'Ballot Received': None,
                 'Ballot Sent': None,
             },

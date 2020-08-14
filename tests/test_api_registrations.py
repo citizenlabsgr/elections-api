@@ -24,6 +24,9 @@ def describe_list():
         expect(response.data) == {
             'registered': True,
             'absentee': True,
+            'absentee_application_received': '2020-06-06',
+            'absentee_ballot_sent': None,
+            'absentee_ballot_received': None,
             'polling_location': [
                 'Encounter Church',
                 '1736 Lyon Ne',
@@ -132,6 +135,9 @@ def describe_list():
         expect(response.data) == {
             'registered': False,
             'absentee': False,
+            'absentee_application_received': None,
+            'absentee_ballot_sent': None,
+            'absentee_ballot_received': None,
             'polling_location': None,
             'recently_moved': False,
             'precinct': None,
