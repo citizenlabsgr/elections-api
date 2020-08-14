@@ -161,6 +161,9 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             'registered',
             'absentee',
+            'absentee_application_received',
+            'absentee_ballot_sent',
+            'absentee_ballot_received',
             'polling_location',
             'recently_moved',
             'precinct',

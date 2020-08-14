@@ -6,15 +6,15 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 dj-database-url==0.5.0
-django==3.0.8
+django==3.0.9
 django-cors-headers==3.4.0
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.14.2
 -e git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216#egg=django-model-utils
 django-redis-cache==2.1.1
-djangorestframework==3.11.0
+djangorestframework==3.11.1
 drf-yasg==1.17.1
-factory-boy==2.12.0
+factory-boy==3.0.1
 fake-useragent==0.1.11
 faker==4.1.1
 gunicorn==19.10.0
@@ -31,7 +31,7 @@ packaging==20.4
 pendulum==2.1.2
 psycopg2-binary==2.8.4
 pygments==2.6.1
-pymdown-extensions==7.1
+pymdown-extensions==8.0
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2020.1

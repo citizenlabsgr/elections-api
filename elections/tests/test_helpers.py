@@ -1,5 +1,6 @@
 # pylint: disable=unused-variable
 
+import datetime
 import os
 
 import pendulum
@@ -25,6 +26,11 @@ def describe_fetch_registration_status_data():
         expect(data) == {
             "registered": True,
             "absentee": True,
+            "absentee_dates": {
+                'Application Received': datetime.date(2020, 6, 6),
+                'Ballot Received': None,
+                'Ballot Sent': None,
+            },
             "districts": {
                 "Circuit Court": "17th Circuit",
                 "Community College": "Grand Rapids Community College",
@@ -48,7 +54,7 @@ def describe_fetch_registration_status_data():
                 "Ward": "2",
             },
             "polling_location": {
-                "PollingLocation": "Mayfair Christian Reformed Church",
+                "PollingLocation": "Encounter Church",
                 "PollAddress": "1736 Lyon Ne",
                 "PollCityStateZip": "Grand Rapids, Michigan 49503",
             },

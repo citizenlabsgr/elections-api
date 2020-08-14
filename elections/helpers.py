@@ -2,7 +2,7 @@ import importlib.resources  # New in 3.7
 import re
 import string
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Tuple
 
 import bugsnag
@@ -126,8 +126,7 @@ def fetch_registration_status_data(voter):
             },
         )
         _check_availability(response)
-
-        # Handle recently moved voters
+        html = BeautifulSoup(response.text, 'html.parser')
 
     # Parse registration
     registered = None
@@ -149,6 +148,19 @@ def fetch_registration_status_data(voter):
 
     # Parse absentee status
     absentee = "You are on the permanent absentee voter list" in response.text
+
+    # Parse absentee dates
+    absentee_dates: Dict[str, Optional[date]] = {
+        "Application Received": None,
+        "Ballot Sent": None,
+        "Ballot Received": None,
+    }
+    for key in absentee_dates:
+        element = html.find('td', {'data-label': "  " + key})
+        if element:
+            text = element.text.strip()
+            if text:
+                absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y').date()
 
     # Parse districts
     districts = {}
@@ -177,6 +189,7 @@ def fetch_registration_status_data(voter):
     return {
         "registered": registered,
         "absentee": absentee,
+        "absentee_dates": absentee_dates,
         "districts": districts,
         "polling_location": polling_location,
         "recently_moved": recently_moved,

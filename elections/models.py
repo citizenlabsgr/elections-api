@@ -152,9 +152,15 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+
     absentee = models.BooleanField(default=False)
+    absentee_application_received = models.DateField(null=True)
+    absentee_ballot_sent = models.DateField(null=True)
+    absentee_ballot_received = models.DateField(null=True)
+
     polling_location = JSONField(blank=True, null=True)
     recently_moved = models.BooleanField(default=False)
+
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
     # We can't use 'ManytoManyField' because this model is never saved
@@ -259,6 +265,11 @@ class Voter(models.Model):
         status = RegistrationStatus(
             registered=data['registered'],
             absentee=data['absentee'],
+            absentee_application_received=data['absentee_dates'][
+                'Application Received'
+            ],
+            absentee_ballot_sent=data['absentee_dates']['Ballot Sent'],
+            absentee_ballot_received=data['absentee_dates']['Ballot Received'],
             polling_location=list(data['polling_location'].values()),
             recently_moved=data['recently_moved'],
             precinct=precinct,
