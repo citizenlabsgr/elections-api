@@ -19,7 +19,7 @@ django-model-utils = { git = "https://github.com/jazzband/django-model-utils", r
 
 # Django REST Framework
 djangorestframework = "^3.8"
-drf-yasg = "^1.9"
+drf-yasg = "^1.17"
 django-cors-headers = "^3.2.0"
 
 # Databases
