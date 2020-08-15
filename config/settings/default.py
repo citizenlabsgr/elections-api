@@ -141,6 +141,6 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {},
-    'DOC_EXPANSION': 'list',
+    'DOC_EXPANSION': 'none',
     'DEFAULT_MODEL_RENDERING': 'example',
 }
