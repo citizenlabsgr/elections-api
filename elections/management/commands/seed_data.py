@@ -18,6 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, **_kwargs):
         log.reset()
+        log.silence('datafiles')
         log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         self.get_or_create_superuser()
@@ -41,9 +42,9 @@ class Command(BaseCommand):
 
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
-            name="May Consolidated",
-            date=pendulum.parse("2020-05-05", tz='America/Detroit'),
-            defaults=dict(active=False, mi_sos_id=681),
+            name="State Primary",
+            date=pendulum.parse("2020-08-04", tz='America/Detroit'),
+            defaults=dict(active=False, mi_sos_id=682),
         )
         if created:
             log.info(f"Added election: {election}")

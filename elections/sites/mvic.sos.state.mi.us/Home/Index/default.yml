@@ -1,0 +1,33 @@
+active_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+inactive_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+actions:
+  - verb: ''
+    name: ''
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.5
+  - verb: click
+    name: registered
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.125
+      - mode: text
+        value: Am I registered?
+        index: 0
+        score: 1.0
+      - mode: text
+        value: Registered
+        index: 0
+        score: 0.25
