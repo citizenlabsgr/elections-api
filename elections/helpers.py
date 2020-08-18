@@ -1,25 +1,29 @@
-import importlib.resources  # New in 3.7
 import re
 import string
-from contextlib import contextmanager
+import time
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Tuple
 
 import bugsnag
 import log
-import requests
+import pomace
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 from nameparser import HumanName
 
 from . import exceptions
 from .constants import MI_SOS_URL
 
 
-useragent = UserAgent()
-
 ###############################################################################
 # Shared helpers
+
+
+def visit(url: str) -> pomace.Page:
+    page = pomace.visit(url, browser='chrome', headless=True)
+    if page.url != url:
+        log.info(f"Revisiting {url} with session cookies")
+        page = pomace.visit(url, browser='chrome', headless=True)
+    return page
 
 
 def titleize(text: str) -> str:
@@ -80,74 +84,43 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 # Registration helpers
 
 
-@contextmanager
-def _get_mvic_session(*, random_agent: bool = True):
-    """
-    Get a Requests Session configured for talking with MVIC.
-
-    (Mostly, SSL settings.)
-    """
-    with importlib.resources.path('elections', 'mvic.sos.state.mi.us.pem') as certpath:
-        sess = requests.Session()
-
-        sess.verify = str(certpath)
-        sess.headers['User-Agent'] = (
-            useragent.random
-            if random_agent
-            else 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-        )
-
-        yield sess
-
-
-def _check_availability(response):
-    if response.status_code >= 400:
-        log.error(f'MI SOS status code: {response.status_code}')
-        raise exceptions.ServiceUnavailable()
-
-    html = BeautifulSoup(response.text, 'html.parser')
-    div = html.find(id='pollingLocationError')
-    if div:
-        if div['style'] != 'display:none;':
-            raise exceptions.ServiceUnavailable()
-
-
 def fetch_registration_status_data(voter):
-    with _get_mvic_session() as sess:
-        response = sess.post(
-            f'{MI_SOS_URL}/Voter/SearchByName',
-            headers={'Content-Type': "application/x-www-form-urlencoded"},
-            data={
-                'FirstName': voter.first_name,
-                'LastName': voter.last_name,
-                'NameBirthMonth': voter.birth_month,
-                'NameBirthYear': voter.birth_year,
-                'ZipCode': voter.zip_code,
-            },
-        )
-        _check_availability(response)
-        html = BeautifulSoup(response.text, 'html.parser')
+    url = f'{MI_SOS_URL}/Voter/Index'
+    log.info(f"Submitting form on {url}")
+    page = visit(url)
+    assert "your voter information" in page, f"Invalid voter information: {url}"
+
+    # Submit voter information
+    page.fill_first_name(voter.first_name)
+    page.fill_last_name(voter.last_name)
+    page.select_birth_month(voter.birth_month)
+    page.fill_birth_year(voter.birth_year)
+    page.fill_zip_code(voter.zip_code)
+    page = page.click_search()
 
     # Parse registration
     registered = None
-    if "Yes! You Are Registered" in response.text:
-        registered = True
-    elif "No voter record matched your search criteria" in response.text:
-        registered = False
-    else:
+    for delay in [0, 1]:
+        time.sleep(delay)
+        if "Yes, you are registered!" in page.text:
+            registered = True
+            break
+        if "No voter record matched your search criteria" in page.text:
+            registered = False
+            break
         log.warn("Unable to determine registration status")
 
     # Parse moved status
-    recently_moved = "you have recently moved" in response.text
+    recently_moved = "you have recently moved" in page.text
     if recently_moved:
         # TODO: Figure out how to request the new records
         bugsnag.notify(
             exceptions.UnhandledData("Voter has moved"),
-            meta_data={"voter": repr(voter), "html": response.text},
+            meta_data={"voter": repr(voter), "html": page.text},
         )
 
     # Parse absentee status
-    absentee = "You are on the permanent absentee voter list" in response.text
+    absentee = "You are on the permanent absentee voter list" in page.text
 
     # Parse absentee dates
     absentee_dates: Dict[str, Optional[date]] = {
@@ -155,21 +128,31 @@ def fetch_registration_status_data(voter):
         "Ballot Sent": None,
         "Ballot Received": None,
     }
-    for key in absentee_dates:
-        element = html.find('td', {'data-label': "  " + key})
-        if element:
-            text = element.text.strip()
+    element = page.html.find(id='lblAbsenteeVoterInformation')
+    if element:
+        strings = list(element.strings) + [""] * 20
+        for index, key in enumerate(absentee_dates):
+            text = strings[4 + index * 2].strip()
             if text:
                 absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y').date()
+    else:
+        log.warn("Unable to determin absentee status")
 
     # Parse districts
-    districts = {}
-    for match in re.findall(r'>([\w ]+):[\s\S]*?">([\w ]*)<', response.text):
-        category = _clean_district_category(match[0])
-        if category == "Jurisdiction":
-            districts[category] = normalize_jurisdiction(match[1])
-        elif category not in {'Phone', 'Mailing Address', 'Open'}:
-            districts[category] = _clean_district_name(match[1])
+    districts: Dict = {}
+    element = page.html.find(id='lblCountyName')
+    if element:
+        districts['County'] = _clean_district_name(element.text)
+    element = page.html.find(id='lblJurisdName')
+    if element:
+        districts['Jurisdiction'] = normalize_jurisdiction(element.text)
+    element = page.html.find(id='lblWardNumber')
+    if element:
+        districts['Ward'] = element.text.strip()
+    element = page.html.find(id='lblPrecinctNumber')
+    if element:
+        districts['Precinct'] = element.text.strip()
+    # TODO: Parse all districts
 
     # Parse Polling Location
     polling_location = {
@@ -178,13 +161,13 @@ def fetch_registration_status_data(voter):
         "PollCityStateZip": "",
     }
     for key in polling_location:
-        index = response.text.find('lbl' + key)
+        index = page.text.find('lbl' + key)
         if index == -1:
-            log.warn("Could not find polling location.")
-        else:
-            newstring = response.text[(index + len(key) + 5) :]
-            end = newstring.find('<')
-            polling_location[key] = newstring[0:end]
+            log.warn("Unable to determine polling location")
+            break
+        newstring = page.text[(index + len(key) + 5) :]
+        end = newstring.find('<')
+        polling_location[key] = newstring[0:end]
 
     return {
         "registered": registered,
@@ -219,10 +202,10 @@ def _clean_district_name(text: str):
 
 def fetch_ballot(url: str) -> str:
     log.info(f'Fetching ballot: {url}')
-    with _get_mvic_session(random_agent=False) as sess:
-        response = sess.get(url)
-        response.raise_for_status()
-    return response.text.strip()
+    page = visit(url)
+    text = page.text.strip()
+    assert "Sample Ballot" in text, f"Invalid sample ballot: {url}"
+    return text
 
 
 def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:

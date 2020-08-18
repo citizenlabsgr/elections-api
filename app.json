@@ -2,6 +2,12 @@
   "addons": ["heroku-postgresql", "heroku-redis"],
   "buildpacks": [
     {
+      "url": "heroku/google-chrome"
+    },
+    {
+      "url": "heroku/chromedriver"
+    },
+    {
       "url": "heroku/python"
     }
   ],

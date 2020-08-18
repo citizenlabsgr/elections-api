@@ -1,0 +1,18 @@
+active_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+inactive_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+actions:
+  - verb: ''
+    name: ''
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.5

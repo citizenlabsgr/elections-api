@@ -1,0 +1,179 @@
+active_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+inactive_locators:
+  - mode: ''
+    value: ''
+    index: 0
+    score: 0.5
+actions:
+  - verb: ''
+    name: ''
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.5
+  - verb: fill
+    name: first_name
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.125
+      - mode: name
+        value: first_name
+        index: 0
+        score: 0.125
+      - mode: name
+        value: first-name
+        index: 0
+        score: 0.125
+      - mode: id
+        value: FirstName
+        index: 0
+        score: 1.0
+      - mode: id
+        value: first-name
+        index: 0
+        score: 0.25
+      - mode: css
+        value: '[aria-label="First Name"]'
+        index: 0
+        score: 0.25
+  - verb: fill
+    name: last_name
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.125
+      - mode: name
+        value: last_name
+        index: 0
+        score: 0.125
+      - mode: name
+        value: last-name
+        index: 0
+        score: 0.125
+      - mode: id
+        value: LastName
+        index: 0
+        score: 1.0
+      - mode: id
+        value: last-name
+        index: 0
+        score: 0.25
+      - mode: css
+        value: '[aria-label="Last Name"]'
+        index: 0
+        score: 0.25
+  - verb: select
+    name: birth_month
+    locators:
+      - mode: id
+        value: NameBirthMonth
+        index: 0
+        score: 1.0
+  - verb: fill
+    name: birth_year
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.125
+      - mode: name
+        value: birth_year
+        index: 0
+        score: 0.125
+      - mode: name
+        value: birth-year
+        index: 0
+        score: 0.125
+      - mode: id
+        value: NameBirthYear
+        index: 0
+        score: 1.0
+      - mode: id
+        value: birth-year
+        index: 0
+        score: 0.25
+      - mode: css
+        value: '[aria-label="Birth Year"]'
+        index: 0
+        score: 0.25
+  - verb: fill
+    name: zip_code
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.125
+      - mode: name
+        value: zip_code
+        index: 0
+        score: 0.125
+      - mode: name
+        value: zip-code
+        index: 0
+        score: 0.125
+      - mode: id
+        value: ZipCode
+        index: 0
+        score: 1.0
+      - mode: id
+        value: zip-code
+        index: 0
+        score: 0.25
+      - mode: css
+        value: '[aria-label="Zip Code"]'
+        index: 0
+        score: 0.25
+  - verb: click
+    name: search
+    locators:
+      - mode: id
+        value: btnSearchName
+        index: 0
+        score: 0.0
+      - mode: text
+        value: Search By Name
+        index: 0
+        score: 0.25
+      - mode: text
+        value: Search by name
+        index: 0
+        score: 1.0
+  - verb: fill
+    name: birth_month
+    locators:
+      - mode: ''
+        value: ''
+        index: 0
+        score: 0.0156
+      - mode: name
+        value: birth_month
+        index: 0
+        score: 0.0156
+      - mode: name
+        value: birth-month
+        index: 0
+        score: 0.0156
+      - mode: id
+        value: birth_month
+        index: 0
+        score: 0.0156
+      - mode: id
+        value: birth-month
+        index: 0
+        score: 0.0156
+      - mode: css
+        value: '[aria-label="Birth Month"]'
+        index: 0
+        score: 0.0156
+      - mode: id
+        value: BirthMonth
+        index: 0
+        score: 0.0156
