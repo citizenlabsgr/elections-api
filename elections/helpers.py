@@ -475,7 +475,13 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "office" in item['class']:
             label = titleize(item.text)
-            assert division is not None, f'Division missing for office: {label}'
+            if division is None:
+                assert (
+                    label == "Library Board Director"
+                ), f'Division missing for office: {label}'
+                division = []
+                assert isinstance(section, dict), f'Section missing for office: {label}'
+                section["Library"] = division
             office = {
                 'name': label,
                 'district': None,
