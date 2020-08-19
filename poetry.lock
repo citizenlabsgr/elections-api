@@ -1107,7 +1107,7 @@ description = "Dynamic page objects for browser automation."
 name = "pomace"
 optional = false
 python-versions = ">=3.7,<4.0"
-version = "0.3b4"
+version = "0.3b6"
 
 [package.dependencies]
 beautifulsoup4 = ">=4.8.2,<5.0.0"
@@ -1789,7 +1789,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "71b9754e7f7538e35f204c3a9d07c503cec6d57328a4eaf2f541c6c92df3dd3b"
+content-hash = "c048c56ad3f9dc1005b4615bc286661d238b8ddd7a41e0c280dde5bb65abd6e8"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -2288,8 +2288,8 @@ pluggy = [
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
 pomace = [
-    {file = "pomace-0.3b4-py3-none-any.whl", hash = "sha256:630789a0e01ffd1aa67c3f14fb0306f3a43816d79589d34b48641cb69770b01d"},
-    {file = "pomace-0.3b4.tar.gz", hash = "sha256:fdebed3aa42a14957ea7fd26e6eb97aca7d4afa29c97a12fbc552e8aabd7bc1f"},
+    {file = "pomace-0.3b6-py3-none-any.whl", hash = "sha256:ab46dd91b440b35afbcce9c394d6ad0058b6328fbe78a81f50ab3d017dea6b57"},
+    {file = "pomace-0.3b6.tar.gz", hash = "sha256:6209c5f056bb76f5f7f6420e74cedfa4a1823b3d1e050587be3eafc9cfea6fe4"},
 ]
 prometheus-client = [
     {file = "prometheus_client-0.8.0-py2.py3-none-any.whl", hash = "sha256:983c7ac4b47478720db338f1491ef67a100b474e3bc7dafcbaefb7d0b8f9b01c"},

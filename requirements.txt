@@ -48,7 +48,7 @@ pastel==0.2.0
 pendulum==2.1.2
 pexpect==4.8.0; python_version >= "3.4" and sys_platform != "win32" or sys_platform != "win32" or python_version >= "3.3" and sys_platform != "win32"
 pickleshare==0.7.5
-pomace==0.3b4
+pomace==0.3b6
 prompt-toolkit==3.0.6
 psycopg2-binary==2.8.4
 ptyprocess==0.6.0; python_version >= "3.4" and sys_platform != "win32" or sys_platform != "win32" or os_name != "nt" or python_version >= "3.3" and sys_platform != "win32"

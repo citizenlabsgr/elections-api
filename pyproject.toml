@@ -40,7 +40,7 @@ factory_boy = "*"
 minilog = "^1.6"
 nameparser = "^1.0.4"
 pendulum = "*"
-pomace = "=0.3b4"
+pomace = "=0.3b6"
 
 # Production Server
 gunicorn = "^19.8"
