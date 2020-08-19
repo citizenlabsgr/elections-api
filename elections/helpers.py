@@ -476,6 +476,10 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "office" in item['class']:
             label = titleize(item.text)
             if division is None:
+                if label == "Board Member":
+                    # TODO: https://mvic.sos.state.mi.us/Voter/GetMvicBallot/256/683/
+                    log.error(f'Section missing for office: {label}')
+                    return count
                 assert (
                     label == "Library Board Director"
                 ), f'Division missing for office: {label}'
