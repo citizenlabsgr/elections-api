@@ -136,7 +136,7 @@ def fetch_registration_status_data(voter):
             if text:
                 absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y').date()
     else:
-        log.warn("Unable to determin absentee status")
+        log.warn("Unable to determine absentee status")
 
     # Parse districts
     districts: Dict = {}
@@ -154,20 +154,19 @@ def fetch_registration_status_data(voter):
         districts['Precinct'] = element.text.strip()
     # TODO: Parse all districts
 
-    # Parse Polling Location
-    polling_location = {
-        "PollingLocation": "",
-        "PollAddress": "",
-        "PollCityStateZip": "",
-    }
-    for key in polling_location:
-        index = page.text.find('lbl' + key)
-        if index == -1:
-            log.warn("Unable to determine polling location")
-            break
-        newstring = page.text[(index + len(key) + 5) :]
-        end = newstring.find('<')
-        polling_location[key] = newstring[0:end]
+    # Parse polling location
+    polling_location: Dict = {}
+    element = page.html.find(id='lblPollingLocation')
+    if element:
+        polling_location['PollingLocation'] = element.text.strip()
+    element = page.html.find(id='lblPollAddress')
+    if element:
+        polling_location['PollAddress'] = element.text.strip()
+    element = page.html.find(id='lblPollCityStateZip')
+    if element:
+        polling_location['PollCityStateZip'] = element.text.strip()
+    else:
+        log.warn("Unable to determine polling location")
 
     return {
         "registered": registered,
