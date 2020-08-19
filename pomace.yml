@@ -1,0 +1,8 @@
+browser:
+  name: "chrome"
+  width: 1920
+  height: 1080
+  headless: true
+url: "https://mvic.sos.state.mi.us/Voter/Index"
+secrets:
+  -

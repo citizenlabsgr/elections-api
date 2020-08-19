@@ -19,10 +19,10 @@ from .constants import MI_SOS_URL
 
 
 def visit(url: str) -> pomace.Page:
-    page = pomace.visit(url, browser='chrome', headless=True)
+    page = pomace.visit(url)
     if page.url != url:
         log.info(f"Revisiting {url} with session cookies")
-        page = pomace.visit(url, browser='chrome', headless=True)
+        page = pomace.visit(url)
     return page
 
 
