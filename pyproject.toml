@@ -80,7 +80,7 @@ django-debug-toolbar = "*"
 django-livereload-server = "*"
 
 # Notebooks
-jupyter = "^1.0.0"
+jupyter = "^1.0"
 
 [tool.black]
 
