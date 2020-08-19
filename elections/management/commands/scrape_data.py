@@ -46,6 +46,7 @@ class Command(BaseCommand):
         **_kwargs,
     ):
         log.reset()
+        log.silence('datafiles')
         log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         try:

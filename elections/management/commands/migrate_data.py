@@ -19,6 +19,7 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, **_kwargs):
         log.reset()
+        log.silence('datafiles')
         log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         defaults.initialize_parties()

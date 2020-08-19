@@ -26,6 +26,7 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, election: Optional[int], **_kwargs):
         log.reset()
+        log.silence('datafiles')
         log.init(reset=True, verbosity=verbosity if '-v' in sys.argv[-1] else 2)
 
         try:
