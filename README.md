@@ -72,13 +72,13 @@ Using either of these pieces of information, you can fetch the details of your s
 
 The above payload also includes fields indicating the voter's absentee status and progress of their ballot:
 
-| Field                                                    | Type                                        | Description                                             |
-| -------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------- |
-| `registered`                                             | `boolean`                                   | Voter can participate in the upcoming election          |
-| `absentee_application_received` &nbsp;&nbsp;&nbsp;&nbsp; | `string` or `null` &nbsp;&nbsp;&nbsp;&nbsp; | Date (`YYYY-MM-DD`) clerk received absentee application |
-| `absentee`                                               | `boolean`                                   | Voter will receive an absentee ballot in the mail       |
-| `absentee_ballot_sent`                                   | `string` or `null`                          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
-| `absentee_ballot_received`                               | `string` or `null`                          | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
+| Field                                                    | Description                                             |
+| -------------------------------------------------------- | ------------------------------------------------------- |
+| `registered`                                             | Voter can participate in the upcoming election          |
+| `absentee_application_received` &nbsp;&nbsp;&nbsp;&nbsp; | Date (`YYYY-MM-DD`) clerk received absentee application |
+| `absentee`                                               | Voter will receive an absentee ballot in the mail       |
+| `absentee_ballot_sent`                                   | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
+| `absentee_ballot_received`                               | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
 
 <br>
 These dates reset after each election.
