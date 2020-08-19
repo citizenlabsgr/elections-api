@@ -11,6 +11,4 @@ htmlcov/
 
 /*.png
 *.ipynb_checkpoints
-
-pomace.yml
 *.log
