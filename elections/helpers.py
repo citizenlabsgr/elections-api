@@ -18,11 +18,12 @@ from .constants import MI_SOS_URL
 # Shared helpers
 
 
-def visit(url: str) -> pomace.Page:
+def visit(url: str, expected_text: str) -> pomace.Page:
     page = pomace.visit(url)
-    if page.url != url:
+    if expected_text not in page:
         log.info(f"Revisiting {url} with session cookies")
         page = pomace.visit(url)
+    assert expected_text in page, f'{expected_text!r} not found on {url}'
     return page
 
 
@@ -87,8 +88,7 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 def fetch_registration_status_data(voter):
     url = f'{MI_SOS_URL}/Voter/Index'
     log.info(f"Submitting form on {url}")
-    page = visit(url)
-    assert "your voter information" in page, f"Invalid voter information: {url}"
+    page = visit(url, "Search for your voter information")
 
     # Submit voter information
     page.fill_first_name(voter.first_name)
@@ -201,10 +201,8 @@ def _clean_district_name(text: str):
 
 def fetch_ballot(url: str) -> str:
     log.info(f'Fetching ballot: {url}')
-    page = visit(url)
-    text = page.text.strip()
-    assert "Sample Ballot" in text, f"Invalid sample ballot: {url}"
-    return text
+    page = visit(url, "Sample Ballot")
+    return page.text.strip()
 
 
 def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
