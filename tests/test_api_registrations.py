@@ -23,9 +23,7 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
-            # TODO: Update test when dates reappear on the MVIC
-            # 'absentee_application_received': '2020-06-06',
-            'absentee_application_received': None,
+            'absentee_application_received': '2020-06-06',
             'absentee': True,
             'absentee_ballot_sent': None,
             'absentee_ballot_received': None,

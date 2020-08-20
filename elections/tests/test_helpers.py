@@ -1,6 +1,8 @@
 # pylint: disable=unused-variable
 
 
+import datetime
+
 import pendulum
 import pytest
 
@@ -24,9 +26,7 @@ def describe_fetch_registration_status_data():
             "registered": True,
             "absentee": True,
             "absentee_dates": {
-                # TODO: Update test when dates reappear on the MVIC
-                # 'Application Received': datetime.date(2020, 6, 6),
-                'Application Received': None,
+                'Application Received': datetime.date(2020, 6, 6),
                 'Ballot Received': None,
                 'Ballot Sent': None,
             },
