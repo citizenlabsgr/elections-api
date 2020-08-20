@@ -861,7 +861,7 @@ class BallotItem(TimeStampedModel):
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     precincts = models.ManyToManyField(Precinct)
 
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True)
 
