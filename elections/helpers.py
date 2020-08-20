@@ -597,6 +597,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             for element in [
                 item.parent.next_sibling,
                 item.parent.next_sibling.next_sibling,
+                item.parent.next_sibling.next_sibling.next_sibling
+                if item.parent.next_sibling.next_sibling
+                else "",
             ]:
                 label = (
                     element.strip()
