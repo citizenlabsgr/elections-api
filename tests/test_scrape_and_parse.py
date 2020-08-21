@@ -36,7 +36,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (682, 7489, 25),
         (682, 6911, 37),
         # 2020 State General
-        (683, 901, 17),
+        (683, 901, 21),
         (683, 133, 18),
         (683, 268, 12),
         (683, 256, 3),  # TODO: handle divisionless board members
