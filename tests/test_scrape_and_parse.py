@@ -42,6 +42,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (683, 256, 3),  # TODO: handle divisionless board members
         (683, 7558, 28),
         (683, 7222, 14),
+        (683, 412, 15),
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
