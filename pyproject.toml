@@ -37,6 +37,7 @@ pygments = "*"
 # Utilities
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
+fake-useragent = "~0.1.11"
 minilog = "^1.6"
 nameparser = "^1.0.4"
 pendulum = "*"

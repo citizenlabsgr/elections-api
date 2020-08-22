@@ -1,21 +1,49 @@
 import re
 import string
 import time
+from contextlib import contextmanager
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional, Tuple
+from importlib import resources
+from typing import Any, Dict, Generator, List, Optional, Tuple
 
 import bugsnag
 import log
 import pomace
+import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 from nameparser import HumanName
 
 from . import exceptions
 from .constants import MI_SOS_URL
 
 
+useragent = UserAgent()
+
 ###############################################################################
 # Shared helpers
+
+
+@contextmanager
+def mvic_session() -> Generator[requests.Session, None, None]:
+    with resources.path('config', 'mvic.sos.state.mi.us.pem') as path:
+        session = requests.Session()
+        session.verify = str(path)
+        session.headers['User-Agent'] = useragent.random
+        yield session
+
+
+def fetch(url: str, expected_text: str) -> str:
+    with mvic_session() as session:
+        response = session.get(url)
+
+    if response.status_code >= 400:
+        log.error(f'MVIC status code: {response.status_code}')
+        raise exceptions.ServiceUnavailable()
+
+    text = response.text.strip()
+    assert expected_text in text, f'{expected_text!r} not found on {url}'
+    return text
 
 
 def visit(url: str, expected_text: str) -> pomace.Page:
@@ -201,8 +229,7 @@ def _clean_district_name(text: str):
 
 def fetch_ballot(url: str) -> str:
     log.info(f'Fetching ballot: {url}')
-    page = visit(url, "Sample Ballot")
-    return page.text.strip()
+    return fetch(url, "Sample Ballot")
 
 
 def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
