@@ -128,6 +128,18 @@ uml: install
 	mv -f packages_elections.png docs/packages.png
 	poetry run python manage.py graph_models elections --group-models --output=docs/tables.png --exclude-models=TimeStampedModel
 
+# DELIVERY TASKS ##############################################################
+
+.PHONY: promote
+promote: install
+	SITE=https://staging.michiganelections.io poetry run pytest tests/test_deployment.py --verbose --no-cov
+	heroku pipelines:promote --app mi-elections-staging --to mi-elections
+	SITE=https://michiganelections.io poetry run pytest tests/test_deployment.py --verbose --no-cov
+
+.PHONY: crawl
+crawl:
+	heroku run bin/crawl
+
 # HELP ########################################################################
 
 .PHONY: help
