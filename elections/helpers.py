@@ -565,6 +565,9 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             label = normalize_candidate(item.get_text('\n'))
             assert office is not None, f'Office missing for candidate: {label}'
             if label == 'No candidates on ballot':
+                if office['seats'] is None:
+                    log.warn(f"No seats for offce: {office}")
+                    office['seats'] = 1
                 continue
             candidate = {'name': label, 'finance_link': None, 'party': None}
             office['candidates'].append(candidate)

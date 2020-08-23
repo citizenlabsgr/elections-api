@@ -541,7 +541,7 @@ class Ballot(TimeStampedModel):
         for section_name, section_data in data.items():
             yield from self._parse_partisan_section(section_data, section_name)
 
-    def _parse_partisan_section(self, data: Dict, section: str = "Partisan"):
+    def _parse_partisan_section(self, data, section=''):
         for category_name, positions_data in data.items():
             for position_data in positions_data:
 
@@ -666,7 +666,10 @@ class Ballot(TimeStampedModel):
                     'Authority',
                     'Metropolitan',
                 }:
-                    district = self.precinct.jurisdiction
+                    if position_data['district']:
+                        category = self.precinct.jurisdiction.category
+                    else:
+                        district = self.precinct.jurisdiction
                 elif category_name in {
                     'Community College',
                     'Local School',
@@ -675,7 +678,7 @@ class Ballot(TimeStampedModel):
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
                 elif category_name in {'Judicial'}:
-                    pass  # district parsed based on position name
+                    pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
                         f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
@@ -797,7 +800,12 @@ class Ballot(TimeStampedModel):
                     possible_category_names = [category.name]
                     if category.name == 'District Library':
                         possible_category_names.extend(
-                            ['Public Library', 'Community Library', 'Library District']
+                            [
+                                'Public Library',
+                                'Community Library',
+                                'Library District',
+                                'Library',
+                            ]
                         )
                     elif category.name == 'Community College':
                         possible_category_names.extend(['College'])

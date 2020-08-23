@@ -8,7 +8,7 @@ import requests
 def url():
     site = os.getenv("SITE")
     if not site:
-        pytest.skip('${SITE} not set')
+        pytest.skip('$SITE not set')
     return site
 
 

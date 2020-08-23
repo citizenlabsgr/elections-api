@@ -44,7 +44,9 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (683, 7222, 14),
         (683, 412, 15),
         (683, 7159, 21),
-        (683, 6555, 37),
+        (683, 6477, 33),
+        (683, 4279, 22),
+        (683, 4258, 24),
     ],
 )
 def test_ballots(expect, db, election_id, precinct_id, item_count):
