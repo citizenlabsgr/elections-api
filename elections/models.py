@@ -624,10 +624,6 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f'Created position: {position}')
-                if not section:
-                    # TODO: default to general section
-                    # position.section = "General"
-                    log.warn(f"Position missing section: {position}")
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
@@ -670,7 +666,10 @@ class Ballot(TimeStampedModel):
                     'Authority',
                     'Metropolitan',
                 }:
-                    district = self.precinct.jurisdiction
+                    if position_data['district']:
+                        category = self.precinct.jurisdiction.category
+                    else:
+                        district = self.precinct.jurisdiction
                 elif category_name in {
                     'Community College',
                     'Local School',
@@ -679,7 +678,7 @@ class Ballot(TimeStampedModel):
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
                 elif category_name in {'Judicial'}:
-                    pass  # district parsed based on position name
+                    pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
                         f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
