@@ -800,7 +800,12 @@ class Ballot(TimeStampedModel):
                     possible_category_names = [category.name]
                     if category.name == 'District Library':
                         possible_category_names.extend(
-                            ['Public Library', 'Community Library', 'Library District']
+                            [
+                                'Public Library',
+                                'Community Library',
+                                'Library District',
+                                'Library',
+                            ]
                         )
                     elif category.name == 'Community College':
                         possible_category_names.extend(['College'])
