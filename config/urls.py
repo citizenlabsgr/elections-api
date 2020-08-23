@@ -36,6 +36,7 @@ def index(request):
         text, extensions=['pymdownx.magiclink', 'markdown.extensions.tables']
     )
     html = html.replace(' \\', ' \\<br>&nbsp;')
+    html = html.replace('</td>\n<td>', ' &nbsp; &nbsp; &nbsp; &nbsp; </td>\n<td>')
 
     return render(request, 'index.html', {'body': html})
 

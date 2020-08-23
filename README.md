@@ -15,11 +15,11 @@ APIs to check voter registration status and view ballots for all elections in Mi
 
 ### Sample Projects
 
-| Website                                                       | Purpose                                        | Status                                                      |
-| ------------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
-| https://share.michiganelections.io                            | Ballot previews                                | [Live](https://github.com/citizenlabsgr/ballotshare)        |
-| https://vote.citizenlabs.org                                  | Registration chat bot &nbsp;&nbsp;&nbsp;&nbsp; | [Live](https://github.com/citizenlabsgr/mittens)            |
-| https://explore.michiganelections.io &nbsp;&nbsp;&nbsp;&nbsp; | Election advocacy                              | [Discovery](https://github.com/citizenlabsgr/elections-app) |
+| Website                              | Purpose               | Status                                                      |
+| ------------------------------------ | --------------------- | ----------------------------------------------------------- |
+| https://share.michiganelections.io   | Ballot previews       | [Live](https://github.com/citizenlabsgr/ballotshare)        |
+| https://vote.citizenlabs.org         | Registration chat bot | [Live](https://github.com/citizenlabsgr/mittens)            |
+| https://explore.michiganelections.io | Election advocacy     | [Discovery](https://github.com/citizenlabsgr/elections-app) |
 
 ---
 
@@ -72,13 +72,13 @@ Using either of these pieces of information, you can fetch the details of your s
 
 The above payload also includes fields indicating the voter's absentee status and progress of their ballot:
 
-| Field                                                    | Description                                             |
-| -------------------------------------------------------- | ------------------------------------------------------- |
-| `registered`                                             | Voter can participate in the upcoming election          |
-| `absentee_application_received` &nbsp;&nbsp;&nbsp;&nbsp; | Date (`YYYY-MM-DD`) clerk received absentee application |
-| `absentee`                                               | Voter will receive an absentee ballot in the mail       |
-| `absentee_ballot_sent`                                   | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
-| `absentee_ballot_received`                               | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
+| Field                           | Description                                             |
+| ------------------------------- | ------------------------------------------------------- |
+| `registered`                    | Voter can participate in the upcoming election          |
+| `absentee_application_received` | Date (`YYYY-MM-DD`) clerk received absentee application |
+| `absentee`                      | Voter will receive an absentee ballot in the mail       |
+| `absentee_ballot_sent`          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
+| `absentee_ballot_received`      | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
 
 <br>
 These dates reset after each election.
