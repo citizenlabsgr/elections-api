@@ -1,7 +1,7 @@
 # Elections API
 
-[![CircleCI](https://img.shields.io/circleci/build/github/citizenlabsgr/elections-api)](https://circleci.com/gh/citizenlabsgr/elections-api)
-[![Coveralls](https://img.shields.io/coveralls/github/citizenlabsgr/elections-api)](https://coveralls.io/github/citizenlabsgr/elections-api)
+[![CircleCI](https://img.shields.io/circleci/build/github/citizenlabsgr/elections-api/main)](https://circleci.com/gh/citizenlabsgr/elections-api)
+[![Coveralls](https://img.shields.io/coveralls/github/citizenlabsgr/elections-api/main)](https://coveralls.io/github/citizenlabsgr/elections-api)
 
 <!-- content -->
 
