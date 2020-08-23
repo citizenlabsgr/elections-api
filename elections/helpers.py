@@ -114,41 +114,50 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 
 
 def fetch_registration_status_data(voter):
-    url = f'{MI_SOS_URL}/Voter/Index'
+    url = f'{MI_SOS_URL}/Voter/SearchByName'
     log.info(f"Submitting form on {url}")
-    page = visit(url, "Search for your voter information")
+    with mvic_session() as session:
+        response = session.post(
+            url,
+            headers={'Content-Type': "application/x-www-form-urlencoded"},
+            data={
+                'FirstName': voter.first_name,
+                'LastName': voter.last_name,
+                'NameBirthMonth': voter.birth_month,
+                'NameBirthYear': voter.birth_year,
+                'ZipCode': voter.zip_code,
+            },
+        )
 
-    # Submit voter information
-    page.fill_first_name(voter.first_name)
-    page.fill_last_name(voter.last_name)
-    page.select_birth_month(voter.birth_month)
-    page.fill_birth_year(voter.birth_year)
-    page.fill_zip_code(voter.zip_code)
-    page = page.click_search()
+    if response.status_code >= 400:
+        log.error(f'MVIC status code: {response.status_code}')
+        raise exceptions.ServiceUnavailable()
+
+    html = BeautifulSoup(response.text, 'html.parser')
 
     # Parse registration
     registered = None
     for delay in [0, 1]:
         time.sleep(delay)
-        if "Yes, you are registered!" in page.text:
+        if "Yes, you are registered!" in response.text:
             registered = True
             break
-        if "No voter record matched your search criteria" in page.text:
+        if "No voter record matched your search criteria" in response.text:
             registered = False
             break
         log.warn("Unable to determine registration status")
 
     # Parse moved status
-    recently_moved = "you have recently moved" in page.text
+    recently_moved = "you have recently moved" in response.text
     if recently_moved:
         # TODO: Figure out how to request the new records
         bugsnag.notify(
             exceptions.UnhandledData("Voter has moved"),
-            meta_data={"voter": repr(voter), "html": page.text},
+            meta_data={"voter": repr(voter), "html": response.text},
         )
 
     # Parse absentee status
-    absentee = "You are on the permanent absentee voter list" in page.text
+    absentee = "You are on the permanent absentee voter list" in response.text
 
     # Parse absentee dates
     absentee_dates: Dict[str, Optional[date]] = {
@@ -156,7 +165,7 @@ def fetch_registration_status_data(voter):
         "Ballot Sent": None,
         "Ballot Received": None,
     }
-    element = page.html.find(id='lblAbsenteeVoterInformation')
+    element = html.find(id='lblAbsenteeVoterInformation')
     if element:
         strings = list(element.strings) + [""] * 20
         for index, key in enumerate(absentee_dates):
@@ -168,29 +177,29 @@ def fetch_registration_status_data(voter):
 
     # Parse districts
     districts: Dict = {}
-    element = page.html.find(id='lblCountyName')
+    element = html.find(id='lblCountyName')
     if element:
         districts['County'] = _clean_district_name(element.text)
-    element = page.html.find(id='lblJurisdName')
+    element = html.find(id='lblJurisdName')
     if element:
         districts['Jurisdiction'] = normalize_jurisdiction(element.text)
-    element = page.html.find(id='lblWardNumber')
+    element = html.find(id='lblWardNumber')
     if element:
         districts['Ward'] = element.text.strip()
-    element = page.html.find(id='lblPrecinctNumber')
+    element = html.find(id='lblPrecinctNumber')
     if element:
         districts['Precinct'] = element.text.strip()
     # TODO: Parse all districts
 
     # Parse polling location
     polling_location: Dict = {}
-    element = page.html.find(id='lblPollingLocation')
+    element = html.find(id='lblPollingLocation')
     if element:
         polling_location['PollingLocation'] = element.text.strip()
-    element = page.html.find(id='lblPollAddress')
+    element = html.find(id='lblPollAddress')
     if element:
         polling_location['PollAddress'] = element.text.strip()
-    element = page.html.find(id='lblPollCityStateZip')
+    element = html.find(id='lblPollCityStateZip')
     if element:
         polling_location['PollCityStateZip'] = element.text.strip()
     else:
