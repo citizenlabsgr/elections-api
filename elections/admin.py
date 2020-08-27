@@ -111,14 +111,14 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     list_display = [
         'id',
-        'link',
+        'Link',
         'fetched',
         'last_fetch',
         'valid',
         'last_validate',
         'data_count',
         'last_scrape',
-        'ballot',
+        'Ballot',
         'last_convert',
         'parsed',
         'last_parse',
@@ -127,6 +127,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     ordering = ['-last_fetch']
 
     readonly_fields = [
+        'Link',
         'fetched',
         'last_fetch',
         'valid',
@@ -134,19 +135,29 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'data',
         'data_count',
         'last_scrape',
-        'ballot',
+        'Ballot',
         'last_convert',
         'parsed',
         'last_parse',
     ]
 
-    def link(self, website: models.BallotWebsite):
+    def Link(self, website: models.BallotWebsite):
         return format_html(
-            '<a href={url!r}>MI SOS: election={eid} precinct={pid}</a>',
+            '<a href={url!r}>MVIC: election={eid} precinct={pid}</a>',
             url=website.mi_sos_url,
             eid=website.mi_sos_election_id,
             pid=website.mi_sos_precinct_id,
         )
+
+    def Ballot(self, website: models.BallotWebsite):
+        if website.ballot:
+            return format_html(
+                '<a href={url!r} target="_blank">API: election={eid} precinct={pid}</a>',
+                url=reverse("admin:elections_ballot_change", args=[website.ballot.id]),
+                eid=website.ballot.election.id,
+                pid=website.ballot.precinct.id,
+            )
+        return None
 
     actions = [scrape_selected_ballots, parse_selected_ballots]
 
