@@ -66,6 +66,8 @@ def titleize(text: str) -> str:
         .replace(" At ", " at ")
         .replace("U.s.", "U.S.")
         .replace("Ii.", "II.")
+        .replace("Iii.", "III.")
+        .replace("Iv.", "IV.")
         .replace("(d", "(D")
         .replace("(l", "(L")
         .replace("(r", "(R")
