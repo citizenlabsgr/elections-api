@@ -907,6 +907,13 @@ class Position(BallotItem):
             return f'{self.name} ({self.term})'
         return self.name
 
+    def update_term(self):
+        self.term = self.term or constants.TERMS.get(self.name, "")
+
+    def save(self, *args, **kwargs):
+        self.update_term()
+        super().save(*args, **kwargs)
+
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
 class Candidate(TimeStampedModel):

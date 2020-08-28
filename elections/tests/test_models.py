@@ -126,3 +126,11 @@ def describe_ballot():
             expect(
                 str(ballot)
             ) == "State Primary | Tuesday, August 7, 2018 | Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
+
+
+def describe_position():
+    def describe_update_term():
+        def it_sets_term_for_known_positions(expect, election):
+            position = models.Position(name="United States Senator", election=election)
+            position.update_term()
+            expect(position.term) == "6 Year Term"
