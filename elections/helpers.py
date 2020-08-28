@@ -619,31 +619,32 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "proposalTitle" in item['class']:
             label = item.text.strip()
+            if '\n' in label and len(label) > 200:
+                log.debug("Parsing proposal text as part of proposal title")
+                label, text = label.split('\n', 1)
+            else:
+                text = None
             if label.isupper():
                 label = titleize(label)
-            if '\n' in label:
-                # TODO: Remove duplicate text in description?
-                log.warning(f'Newlines in proposal title: {label}')
-                if label.count('\n') == 1:
-                    label = label.replace('\n', ': ')
             assert division is not None, f'Division missing for proposal: {label}'
-            proposal = {'title': label, 'text': None}
+            proposal = {'title': label, 'text': text}
             division.append(proposal)
 
             # Handle proposal text missing a class
-            label = ""
-            element = item.parent.next_sibling
-            while element is not None:
-                try:
-                    label += element.text.strip()
-                except AttributeError:
-                    label += element.strip()
-                element = element.next_sibling
-            if label:
-                log.debug("Parsing proposal text as sibling of proposal title")
-                assert proposal is not None, f'Proposal missing for text: {label}'
-                proposal['text'] = label
-                count += 1
+            if not proposal['text']:
+                label = ""
+                element = item.parent.next_sibling
+                while element is not None:
+                    try:
+                        label += element.text.strip()
+                    except AttributeError:
+                        label += element.strip()
+                    element = element.next_sibling
+                if label:
+                    log.debug("Parsing proposal text as sibling of proposal title")
+                    assert proposal is not None, f'Proposal missing for text: {label}'
+                    proposal['text'] = label
+                    count += 1
 
         elif "proposalText" in item['class']:
             label = item.text.strip()
