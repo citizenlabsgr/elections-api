@@ -161,6 +161,10 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     actions = [scrape_selected_ballots, parse_selected_ballots]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('ballot__election', 'ballot__precinct')
+
 
 class PrecinctCountyListFilter(admin.SimpleListFilter):
     title = "County"
@@ -169,6 +173,7 @@ class PrecinctCountyListFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         queryset = (
             model_admin.model.objects.filter(precinct__county__category__name="County")
+            .select_related('precinct', 'precinct__county')
             .order_by('precinct__county__name')
             .distinct('precinct__county__name')
         )
@@ -189,6 +194,7 @@ class PrecinctJurisdictionListFilter(admin.SimpleListFilter):
             model_admin.model.objects.filter(
                 precinct__jurisdiction__category__name="Jurisdiction"
             )
+            .select_related('precinct', 'precinct__jurisdiction')
             .order_by('precinct__jurisdiction__name')
             .distinct('precinct__jurisdiction__name')
         )
@@ -262,6 +268,16 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     readonly_fields = ('election', 'precinct', 'website')
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related(
+            'election',
+            'precinct',
+            'precinct__county',
+            'precinct__jurisdiction',
+            'website',
+        )
+
 
 @admin.register(models.Party)
 class PartyAdmin(admin.ModelAdmin):
@@ -297,6 +313,10 @@ class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'reference_url',
     ]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('district', 'election')
+
 
 @admin.register(models.Position)
 class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
@@ -326,6 +346,10 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'reference_url',
     ]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('district', 'election')
+
 
 @admin.register(models.Candidate)
 class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
@@ -342,13 +366,19 @@ class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         'position',
         'description',
         'reference_url',
-        'district',
-        'election',
+        'District',
+        'Election',
         'modified',
     ]
 
-    def district(self, obj):
+    def District(self, obj):
         return obj.position.district
 
-    def election(self, obj):
+    def Election(self, obj):
         return obj.position.election
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related(
+            'party', 'position', 'position__election', 'position__district'
+        )
