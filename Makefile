@@ -110,9 +110,9 @@ data: migrate ## Data | Seed data for manual testing
 	poetry run python manage.py parse_data
 
 .PHONY: data/crawl
-data/crawl: migrate ## Data | Run crawler to scrape and parse all ballots
+data/crawl: install ## Data | Run crawler to scrape and parse all ballots
 	@ echo
-	# poetry run python manage.py scrape_data
+	poetry run python manage.py scrape_data
 	@ echo
 	poetry run python manage.py parse_data
 
