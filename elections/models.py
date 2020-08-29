@@ -614,11 +614,12 @@ class Ballot(TimeStampedModel):
                             f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
                         )
 
+                default_term = constants.TERMS.get(position_data['name'], "")
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
                     name=position_data['name'],
-                    term=position_data['term'] or "",
+                    term=position_data['term'] or default_term,
                     seats=position_data['seats'],
                     section=section,
                 )

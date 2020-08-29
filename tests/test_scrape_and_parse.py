@@ -4,14 +4,14 @@
 import pytest
 
 from elections import defaults
-from elections.models import BallotWebsite, Candidate, Proposal
+from elections.models import BallotWebsite, Candidate, Position, Proposal
 
 
 def parse_ballot(election_id: int, precinct_id: int) -> int:
     defaults.initialize_districts()
     defaults.initialize_parties()
 
-    website = BallotWebsite.objects.create(
+    website, _ = BallotWebsite.objects.get_or_create(
         mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
     )
     website.fetch()
@@ -63,3 +63,12 @@ def test_proposal_description(expect, db):
     proposal = Proposal.objects.first()
     expect(proposal.description).startswith("Shall the limitation")
     expect(proposal.description).endswith("an estimated $175,000.00?")
+
+
+def test_default_term(expect, db):
+    parse_ballot(682, 6911)
+    position = Position.objects.filter(
+        name="Representative in State Legislature"
+    ).first()
+    expect(position.term) == "2 Year Term"
+    parse_ballot(682, 6911)
