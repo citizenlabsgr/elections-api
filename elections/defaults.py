@@ -12,7 +12,7 @@ def initialize_parties():
         ("Democratic", '#3333FF'),
         ("Green", '#00A95C'),
         ("Libertarian", '#ECC850'),
-        ("Natural Law", '#FFF7D6'),
+        ("Natural Law", '#CA0F67'),
         ("Republican", '#E81B23'),
         ("U.S. Taxpayers", '#A356DE'),
         ("Working Class", '#A30000'),

@@ -295,6 +295,11 @@ class PartyAdmin(admin.ModelAdmin):
             color=obj.color,
         )
 
+    readonly_fields = (
+        'name',
+        'Color',
+    )
+
 
 @admin.register(models.Proposal)
 class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
