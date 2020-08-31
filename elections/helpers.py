@@ -86,6 +86,11 @@ def normalize_candidate(text: str) -> str:
         name2 = HumanName(text2.strip())
         name1.capitalize()
         name2.capitalize()
+
+        if str(name2).startswith("Judge of"):
+            log.warn("Invalid running mate")
+            return str(name1)
+
         return str(name1) + ' & ' + str(name2)
 
     name = HumanName(text.strip())

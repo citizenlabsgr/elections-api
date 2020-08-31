@@ -66,9 +66,16 @@ def test_proposal_description(expect, db):
 
 
 def test_default_term(expect, db):
-    parse_ballot(682, 6911)
+    parse_ballot(683, 6911)
     position = Position.objects.filter(
         name="Representative in State Legislature"
     ).first()
     expect(position.term) == "2 Year Term"
-    parse_ballot(682, 6911)
+    parse_ballot(683, 6911)
+
+
+def test_judge_finance_links(expect, db):
+    parse_ballot(683, 1828)
+    candidate = Candidate.objects.get(name="Mark Thomas Boonstra")
+    # TODO: parse finance links for judges
+    # expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'
