@@ -53,9 +53,11 @@ def test_ballots(expect, db, election_id, precinct_id, item_count):
 
 
 def test_reference_url(expect, db):
-    parse_ballot(682, 1828)
+    parse_ballot(683, 1828)
     candidate = Candidate.objects.get(name="David LaGrand")
     expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/517249'
+    candidate = Candidate.objects.get(name="Mark Thomas Boonstra")
+    expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'
 
 
 def test_proposal_description(expect, db):
@@ -72,10 +74,3 @@ def test_default_term(expect, db):
     ).first()
     expect(position.term) == "2 Year Term"
     parse_ballot(683, 6911)
-
-
-def test_judge_finance_links(expect, db):
-    parse_ballot(683, 1828)
-    candidate = Candidate.objects.get(name="Mark Thomas Boonstra")
-    # TODO: parse finance links for judges
-    # expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'

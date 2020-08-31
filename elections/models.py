@@ -757,7 +757,10 @@ class Ballot(TimeStampedModel):
                     candidate, created = Candidate.objects.update_or_create(
                         position=position,
                         name=candidate_data['name'],
-                        defaults={'party': party},
+                        defaults={
+                            'party': party,
+                            'reference_url': candidate_data['finance_link'],
+                        },
                     )
                     if created:
                         log.info(f'Created candidate: {candidate}')
