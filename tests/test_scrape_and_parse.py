@@ -60,11 +60,21 @@ def test_reference_url(expect, db):
     expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'
 
 
-def test_proposal_description(expect, db):
+def test_proposal_description_primary(expect, db):
     parse_ballot(682, 6911)
-    proposal = Proposal.objects.first()
-    expect(proposal.description).startswith("Shall the limitation")
-    expect(proposal.description).endswith("an estimated $175,000.00?")
+    proposal = Proposal.objects.get(name="Millage Renewal to Original Levy")
+    expect(proposal.description).startswith("Shall the increase")
+    expect(proposal.description).endswith("an estimated $975,000.00?")
+
+
+def test_proposal_description_general(expect, db):
+    parse_ballot(683, 1828)
+    proposal = Proposal.objects.get(name="Proposal 20-1")
+    expect(proposal.description).startswith("A proposed constitutional amendment")
+    expect(proposal.description).endswith("Should this proposal be adopted?")
+    expect(proposal.description).excludes("unreasonable searches")
+    proposal = Proposal.objects.get(name="Proposal 20-2")
+    expect(proposal.description).contains("unreasonable searches")
 
 
 def test_default_term(expect, db):

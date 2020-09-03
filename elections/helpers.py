@@ -11,6 +11,7 @@ import log
 import pomace
 import requests
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 from fake_useragent import UserAgent
 from nameparser import HumanName
 
@@ -88,7 +89,7 @@ def normalize_candidate(text: str) -> str:
         name2.capitalize()
 
         if str(name2).startswith("Judge of"):
-            log.warn("Invalid running mate")
+            log.warn(f"Invalid running mate: {name2}")
             return str(name1)
 
         return str(name1) + ' & ' + str(name2)
@@ -650,6 +651,11 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                     except AttributeError:
                         label += element.strip()
                     element = element.next_sibling
+                    if isinstance(element, Tag):
+                        if element.find('div', {'class': 'proposalTitle'}):
+                            break
+                        if element.find('div', {'class': 'division'}):
+                            break
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
                     assert proposal is not None, f'Proposal missing for text: {label}'
