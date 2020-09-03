@@ -195,7 +195,9 @@ def fetch_registration_status_data(voter):
         districts['Jurisdiction'] = normalize_jurisdiction(element.text)
     element = html.find(id='lblWardNumber')
     if element:
-        districts['Ward'] = element.text.strip()
+        districts['Ward'] = (
+            element.text.strip().strip(",").replace("Not applicable", "")
+        )
     element = html.find(id='lblPrecinctNumber')
     if element:
         districts['Precinct'] = element.text.strip()
