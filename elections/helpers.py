@@ -439,20 +439,6 @@ def _parse_primary_election_offices(
             elif label in {"Incumbent Position", "New Judgeship"}:
                 office['incumbency'] = label
             else:
-                # TODO: Remove this assert after parsing an entire general election
-                assert (
-                    "WARD" in label
-                    or "DISTRICT" in label
-                    or "COURT" in label
-                    or "COLLEGE" in label
-                    or "Village of " in label
-                    or label.endswith(" SCHOOL")
-                    or label.endswith(" SCHOOLS")
-                    or label.endswith(" ISD")
-                    or label.endswith(" ESA")
-                    or label.endswith(" COMMUNITY")
-                    or label.endswith(" LIBRARY")
-                ), f'Unhandled term: {label}'  # pylint: disable=too-many-boolean-expressions
                 office['district'] = titleize(label)
             count += 1
 
@@ -569,20 +555,6 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             elif label in {"Incumbent Position", "New Judgeship"}:
                 office['incumbency'] = label
             else:
-                # TODO: Remove this assert after parsing an entire general election
-                assert (
-                    "WARD" in label
-                    or "DISTRICT" in label
-                    or "COURT" in label
-                    or "COLLEGE" in label
-                    or "Village of " in label
-                    or label.endswith(" SCHOOL")
-                    or label.endswith(" SCHOOLS")
-                    or label.endswith(" ISD")
-                    or label.endswith(" ESA")
-                    or label.endswith(" COMMUNITY")
-                    or label.endswith(" LIBRARY")
-                ), f'Unhandled term: {label}'  # pylint: disable=too-many-boolean-expressions
                 office['district'] = titleize(label)
             count += 1
 
