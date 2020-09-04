@@ -18,14 +18,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--start-election',
-            metavar='MI_SOS_ID',
+            metavar='MVIC_ID',
             type=int,
             default=None,
             help='Initial Michigan SOS election ID to start from.',
         )
         parser.add_argument(
             '--start-precinct',
-            metavar='MI_SOS_ID',
+            metavar='MVIC_ID',
             type=int,
             default=1,
             help='Initial Michigan SOS precinct ID to start from.',

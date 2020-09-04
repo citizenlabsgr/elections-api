@@ -25,7 +25,7 @@ def describe_list():
         response = client.get(url)
 
         expect(response.status_code) == 200
-        expect(response.data['results'][0]['mi_sos_url']) == None
+        expect(response.data['results'][0]['mvic_url']) == None
 
     def it_can_be_filtered_by_election_id(expect, client, url, ballot):
         response = client.get(url + '?election_id=999')
@@ -65,6 +65,6 @@ def describe_list():
                     'ward': ballot.precinct.ward,
                     'number': ballot.precinct.number,
                 },
-                'mi_sos_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
+                'mvic_url': 'https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/',
             }
         ]

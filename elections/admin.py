@@ -24,7 +24,7 @@ class DefaultFiltersMixin(admin.ModelAdmin):
             params = [
                 f.format(
                     election_id=active_election.id,
-                    mi_sos_election_id=active_election.mi_sos_id,
+                    mvic_election_id=active_election.mvic_id,
                 )
                 for f in default_filters
             ]
@@ -58,14 +58,14 @@ class DistrictAdmin(admin.ModelAdmin):
 @admin.register(models.Election)
 class ElectionAdmin(admin.ModelAdmin):
 
-    search_fields = ['name', 'mi_sos_id']
+    search_fields = ['name', 'mvic_id']
 
     list_filter = ['active']
 
     list_display = [
         'id',
         'name',
-        'mi_sos_id',
+        'mvic_id',
         'date',
         'active',
         'reference_url',
@@ -100,11 +100,11 @@ def parse_selected_ballots(modeladmin, request, queryset):
 @admin.register(models.BallotWebsite)
 class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
-    search_fields = ['mi_sos_election_id', 'mi_sos_precinct_id', 'mi_sos_html']
+    search_fields = ['mvic_election_id', 'mvic_precinct_id', 'mvic_html']
 
-    list_filter = ['mi_sos_election_id', 'fetched', 'valid', 'parsed']
+    list_filter = ['mvic_election_id', 'fetched', 'valid', 'parsed']
     default_filters = [
-        'mi_sos_election_id={mi_sos_election_id}',
+        'mvic_election_id={mvic_election_id}',
         'fetched__exact=1',
         'valid__exact=1',
     ]
@@ -144,9 +144,9 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     def Link(self, website: models.BallotWebsite):
         return format_html(
             '<a href={url!r}>MVIC: election={eid} precinct={pid}</a>',
-            url=website.mi_sos_url,
-            eid=website.mi_sos_election_id,
-            pid=website.mi_sos_precinct_id,
+            url=website.mvic_url,
+            eid=website.mvic_election_id,
+            pid=website.mvic_precinct_id,
         )
 
     def Ballot(self, website: models.BallotWebsite):
@@ -212,8 +212,8 @@ class PrecinctJurisdictionListFilter(admin.SimpleListFilter):
 class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = [
-        'website__mi_sos_election_id',
-        'website__mi_sos_precinct_id',
+        'website__mvic_election_id',
+        'website__mvic_precinct_id',
         'precinct__county__name',
         'precinct__jurisdiction__name',
         'precinct__ward',

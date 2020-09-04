@@ -85,7 +85,7 @@ class BallotSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Ballot
-        fields = ['url', 'id', 'election', 'precinct', 'mi_sos_url']
+        fields = ['url', 'id', 'election', 'precinct', 'mvic_url']
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):

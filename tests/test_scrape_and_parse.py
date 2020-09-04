@@ -12,7 +12,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     defaults.initialize_parties()
 
     website, _ = BallotWebsite.objects.get_or_create(
-        mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
+        mvic_election_id=election_id, mvic_precinct_id=precinct_id
     )
     website.fetch()
     website.validate()

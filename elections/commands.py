@@ -20,9 +20,9 @@ def scrape_ballots(
     if starting_election_id is not None:
         pass  # use the provided ID
     elif current_election:
-        starting_election_id = current_election.mi_sos_id
+        starting_election_id = current_election.mvic_id
     elif last_election:
-        starting_election_id = last_election.mi_sos_id + 1
+        starting_election_id = last_election.mvic_id + 1
     else:
         log.warning("No active elections")
         return
@@ -63,7 +63,7 @@ def _scrape_ballots_for_election(
 
     for precinct_id in itertools.count(starting_precinct_id):
         website, created = BallotWebsite.objects.get_or_create(
-            mi_sos_election_id=election_id, mi_sos_precinct_id=precinct_id
+            mvic_election_id=election_id, mvic_precinct_id=precinct_id
         )
         if created:
             log.info(f'Discovered new website: {website}')
@@ -88,7 +88,7 @@ def _scrape_ballots_for_election(
 
 def parse_ballots(*, election_id: Optional[int] = None):
     if election_id:
-        elections = Election.objects.filter(mi_sos_id=election_id)
+        elections = Election.objects.filter(mvic_id=election_id)
     else:
         elections = Election.objects.filter(active=True)
 
@@ -97,14 +97,14 @@ def parse_ballots(*, election_id: Optional[int] = None):
 
 
 def _parse_ballots_for_election(election: Election):
-    log.info(f'Parsing ballots for election {election.mi_sos_id}')
+    log.info(f'Parsing ballots for election {election.mvic_id}')
 
     precincts: Set[Precinct] = set()
 
     websites = (
-        BallotWebsite.objects.filter(mi_sos_election_id=election.mi_sos_id, valid=True)
-        .order_by('-mi_sos_precinct_id')
-        .defer('mi_sos_html', 'data')
+        BallotWebsite.objects.filter(mvic_election_id=election.mvic_id, valid=True)
+        .order_by('-mvic_precinct_id')
+        .defer('mvic_html', 'data')
     )
     log.info(f'Mapping {websites.count()} websites to ballots')
 
