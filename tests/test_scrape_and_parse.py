@@ -69,12 +69,18 @@ def test_proposal_description_primary(expect, db):
 
 def test_proposal_description_general(expect, db):
     parse_ballot(683, 1828)
+
     proposal = Proposal.objects.get(name="Proposal 20-1")
     expect(proposal.description).startswith("A proposed constitutional amendment")
     expect(proposal.description).endswith("Should this proposal be adopted?")
     expect(proposal.description).excludes("unreasonable searches")
+
     proposal = Proposal.objects.get(name="Proposal 20-2")
     expect(proposal.description).contains("unreasonable searches")
+
+    proposal = Proposal.objects.get(name__startswith="I. Proposed Amendment")
+    expect(proposal.description).contains("City Charter Title II, Section 9")
+    expect(proposal.description).excludes("winning a certain percentage")
 
 
 def test_default_term(expect, db):
