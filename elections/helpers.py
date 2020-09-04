@@ -99,6 +99,10 @@ def normalize_candidate(text: str) -> str:
     return str(name)
 
 
+def normalize_district(text: str) -> str:
+    return text.replace("District District", "District").replace(" Isd", " ISD").strip()
+
+
 def normalize_jurisdiction(name: str) -> str:
     name = titleize(name)
 
@@ -190,19 +194,36 @@ def fetch_registration_status_data(voter):
     districts: Dict = {}
     element = html.find(id='lblCountyName')
     if element:
-        districts['County'] = _clean_district_name(element.text)
+        districts['County'] = normalize_district(element.text)
     element = html.find(id='lblJurisdName')
     if element:
         districts['Jurisdiction'] = normalize_jurisdiction(element.text)
-    element = html.find(id='lblWardNumber')
-    if element:
-        districts['Ward'] = (
-            element.text.strip().strip(",").replace("Not applicable", "")
-        )
-    element = html.find(id='lblPrecinctNumber')
-    if element:
-        districts['Precinct'] = element.text.strip()
-    # TODO: Parse all districts
+    for category_name, element_id in [
+        ('Circuit Court', 'lblCircuitName'),
+        ('Community College', 'lblCommCollegeName'),
+        ('County Commissioner', 'lblCountyCommDistrict'),
+        ('Court of Appeals', 'lblAppealsName'),
+        ('District Court', 'lblDistCourtName'),
+        ('Intermediate School', 'lblIsdName'),
+        ('Library', 'lblLibraryName'),
+        ('Metropolitan', 'lblMetroName'),
+        ('Municipal Court', 'lblMuniCourtName'),
+        ('Precinct', 'lblPrecinctNumber'),
+        ('Probate Court', 'lblProbateName'),
+        ('Probate Court', 'lblProbateName'),
+        ('Probate District Court', 'lblProbateDistName'),
+        ('School', 'lblSchoolDistrict'),
+        ('State House', 'lblHouseDistrict'),
+        ('State Senate', 'lblSenateDistrict'),
+        ('US Congress', 'lblCongressDistrict'),
+        ('Village', 'lblVillageName'),
+        ('Ward', 'lblWardNumber'),
+    ]:
+        element = html.find(id=element_id)
+        if element:
+            districts[category_name] = normalize_district(
+                element.text.strip().strip(",").replace("Not applicable", "")
+            )
 
     # Parse polling location
     polling_location: Dict = {}
@@ -239,10 +260,6 @@ def _clean_district_category(text: str):
     while words and words[-1] == "District":
         words.pop()
     return " ".join(words)
-
-
-def _clean_district_name(text: str):
-    return text.replace("District District", "District").strip()
 
 
 ###############################################################################
