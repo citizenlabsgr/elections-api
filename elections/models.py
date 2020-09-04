@@ -115,11 +115,11 @@ class Precinct(TimeStampedModel):
         if self.ward and self.number:
             ward_precinct = f"Ward {self.ward} Precinct {self.number}"
         elif self.ward:
-            # Extra space is intentional to match the MI SOS website format
+            # Extra space is intentional to match the MVIC website format
             ward_precinct = f"Ward {self.ward} "
         else:
             assert self.number, f"Ward and precinct are missing: pk={self.id}"
-            # Extra space is intentional to match the MI SOS website format
+            # Extra space is intentional to match the MVIC website format
             ward_precinct = f" Precinct {self.number}"
         return [
             f"{self.county} County, Michigan",
@@ -298,7 +298,7 @@ class Party(TimeStampedModel):
 
 
 class BallotWebsite(models.Model):
-    """Raw HTML of potential ballot from the MI SOS website."""
+    """Raw HTML of potential ballot from the MVIC website."""
 
     mvic_election_id = models.PositiveIntegerField(verbose_name="MVIC Election ID")
     mvic_precinct_id = models.PositiveIntegerField(verbose_name="MVIC Precinct ID")

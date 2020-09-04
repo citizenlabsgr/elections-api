@@ -115,8 +115,8 @@ def normalize_jurisdiction(name: str) -> str:
 
 
 def build_mvic_url(election_id: int, precinct_id: int) -> str:
-    assert election_id, "MI SOS election ID is missing"
-    assert precinct_id, "MI SOS precinct ID is missing"
+    assert election_id, "MVIC election ID is missing"
+    assert precinct_id, "MVIC precinct ID is missing"
     return f'{MVIC_URL}/Voter/GetMvicBallot/{precinct_id}/{election_id}/'
 
 
