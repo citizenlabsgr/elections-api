@@ -84,6 +84,7 @@ def test_proposal_description_general(expect, db):
     proposal = Proposal.objects.get(name__startswith="I. Proposed Amendment")
     expect(proposal.description).contains("City Charter Title II, Section 9")
     expect(proposal.description).excludes("winning a certain percentage")
+    expect(proposal.description).endswith("years.\n\nShall this amendment be adopted?")
 
 
 def test_default_term(expect, db):
