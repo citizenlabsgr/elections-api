@@ -72,11 +72,14 @@ def test_proposal_description_general(expect, db):
 
     proposal = Proposal.objects.get(name="Proposal 20-1")
     expect(proposal.description).startswith("A proposed constitutional amendment")
-    expect(proposal.description).endswith("Should this proposal be adopted?")
+    expect(proposal.description).endswith(
+        "conservation.\n\nShould this proposal be adopted?"
+    )
     expect(proposal.description).excludes("unreasonable searches")
 
     proposal = Proposal.objects.get(name="Proposal 20-2")
     expect(proposal.description).contains("unreasonable searches")
+    expect(proposal.description).endswith("things.\n\nShould this proposal be adopted?")
 
     proposal = Proposal.objects.get(name__startswith="I. Proposed Amendment")
     expect(proposal.description).contains("City Charter Title II, Section 9")
