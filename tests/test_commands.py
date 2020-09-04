@@ -13,7 +13,7 @@ def past_election(db):
     return Election.objects.create(
         name="Unknown Election",
         date=pendulum.parse("2020-06-06", tz='America/Detroit'),
-        mi_sos_id=681,
+        mvic_id=681,
         active=False,
     )
 
@@ -23,7 +23,7 @@ def active_election(db):
     return Election.objects.create(
         name="State Primary",
         date=pendulum.parse("2020-08-04", tz='America/Detroit'),
-        mi_sos_id=682,
+        mvic_id=682,
     )
 
 

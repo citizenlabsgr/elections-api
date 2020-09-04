@@ -40,15 +40,15 @@ class ElectionFactory(factory.django.DjangoModelFactory):
     name = "General Election"
     date = pendulum.parse('2018-08-07', tz='America/Detroit')
     active = True
-    mi_sos_id = 2222
+    mvic_id = 2222
 
 
 class BallotWebsiteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.BallotWebsite
 
-    mi_sos_election_id = 2222
-    mi_sos_precinct_id = 1111
+    mvic_election_id = 2222
+    mvic_precinct_id = 1111
 
 
 class BallotFactory(factory.django.DjangoModelFactory):

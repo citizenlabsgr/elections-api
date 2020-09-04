@@ -67,19 +67,19 @@ class Election(TimeStampedModel):
     description = models.TextField(blank=True)
 
     active = models.BooleanField(default=True)
-    reference_url = models.URLField(blank=True, null=True)
+    reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
-    mi_sos_id = models.PositiveIntegerField()
+    mvic_id = models.PositiveIntegerField(verbose_name="MVIC ID")
 
     class Meta:
         unique_together = ['date', 'name']
         ordering = ['-date']
 
     def __str__(self) -> str:
-        return ' | '.join(self.mi_sos_name)
+        return ' | '.join(self.mvic_name)
 
     @property
-    def mi_sos_name(self) -> List[str]:
+    def mvic_name(self) -> List[str]:
         dt = pendulum.parse(self.date.isoformat())
         assert isinstance(dt, pendulum.DateTime)
         return [
@@ -108,10 +108,10 @@ class Precinct(TimeStampedModel):
         unique_together = ['county', 'jurisdiction', 'ward', 'number']
 
     def __str__(self) -> str:
-        return ' | '.join(self.mi_sos_name)
+        return ' | '.join(self.mvic_name)
 
     @property
-    def mi_sos_name(self) -> List[str]:
+    def mvic_name(self) -> List[str]:
         if self.ward and self.number:
             ward_precinct = f"Ward {self.ward} Precinct {self.number}"
         elif self.ward:
@@ -144,7 +144,7 @@ class Precinct(TimeStampedModel):
     def save(self, *args, **kwargs):
         self.ward = self.ward if self.ward.strip('0') else ''
         self.number = self.number if self.number.strip('0') else ''
-        assert self.mi_sos_name
+        assert self.mvic_name
         super().save(*args, **kwargs)
 
 
@@ -300,10 +300,10 @@ class Party(TimeStampedModel):
 class BallotWebsite(models.Model):
     """Raw HTML of potential ballot from the MI SOS website."""
 
-    mi_sos_election_id = models.PositiveIntegerField()
-    mi_sos_precinct_id = models.PositiveIntegerField()
+    mvic_election_id = models.PositiveIntegerField(verbose_name="MVIC Election ID")
+    mvic_precinct_id = models.PositiveIntegerField(verbose_name="MVIC Precinct ID")
 
-    mi_sos_html = models.TextField(blank=True, editable=False)
+    mvic_html = models.TextField(blank=True, editable=False)
 
     fetched = models.BooleanField(default=False, editable=False)
     valid = models.NullBooleanField(editable=False)
@@ -319,15 +319,15 @@ class BallotWebsite(models.Model):
     last_parse = models.DateTimeField(null=True, editable=False)
 
     class Meta:
-        unique_together = ['mi_sos_election_id', 'mi_sos_precinct_id']
+        unique_together = ['mvic_election_id', 'mvic_precinct_id']
 
     def __str__(self) -> str:
-        return self.mi_sos_url
+        return self.mvic_url
 
     @property
-    def mi_sos_url(self) -> str:
-        return helpers.build_mi_sos_url(
-            election_id=self.mi_sos_election_id, precinct_id=self.mi_sos_precinct_id
+    def mvic_url(self) -> str:
+        return helpers.build_mvic_url(
+            election_id=self.mvic_election_id, precinct_id=self.mvic_precinct_id
         )
 
     @property
@@ -353,7 +353,7 @@ class BallotWebsite(models.Model):
 
     def fetch(self) -> None:
         """Fetch ballot HTML from the URL."""
-        self.mi_sos_html = helpers.fetch_ballot(self.mi_sos_url)
+        self.mvic_html = helpers.fetch_ballot(self.mvic_url)
 
         self.fetched = True
         self.last_fetch = timezone.now()
@@ -363,17 +363,17 @@ class BallotWebsite(models.Model):
     def validate(self) -> bool:
         """Determine if fetched HTML contains ballot information."""
         log.info(f'Validating ballot HTML: {self}')
-        assert self.mi_sos_html, f'Ballot has not been fetched: {self}'
+        assert self.mvic_html, f'Ballot has not been fetched: {self}'
 
         if (
-            "not available at this time" in self.mi_sos_html
-            or "currently no items for this ballot" in self.mi_sos_html
-            or " County" not in self.mi_sos_html
+            "not available at this time" in self.mvic_html
+            or "currently no items for this ballot" in self.mvic_html
+            or " County" not in self.mvic_html
         ):
             log.info('Ballot URL does not contain precinct information')
             self.valid = False
         else:
-            assert "Sample Ballot" in self.mi_sos_html
+            assert "Sample Ballot" in self.mvic_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_validate = timezone.now()
@@ -388,11 +388,11 @@ class BallotWebsite(models.Model):
         assert self.valid, f'Ballot has not been validated: {self}'
         data: Dict[str, Any] = {}
 
-        data['election'] = helpers.parse_election(self.mi_sos_html)
-        data['precinct'] = helpers.parse_precinct(self.mi_sos_html, self.mi_sos_url)
+        data['election'] = helpers.parse_election(self.mvic_html)
+        data['precinct'] = helpers.parse_precinct(self.mvic_html, self.mvic_url)
         data['ballot'] = {}
 
-        data_count = helpers.parse_ballot(self.mi_sos_html, data['ballot'])
+        data_count = helpers.parse_ballot(self.mvic_html, data['ballot'])
         log.info(f'Ballot URL contains {data_count} parsed item(s)')
         if data_count > 0:
             self.data = data
@@ -423,7 +423,7 @@ class BallotWebsite(models.Model):
         election_name, election_date = self.data['election']
 
         election, created = Election.objects.get_or_create(
-            mi_sos_id=self.mi_sos_election_id,
+            mvic_id=self.mvic_election_id,
             defaults={'name': election_name, 'date': pendulum.date(*election_date)},
         )
         if created:
@@ -431,7 +431,7 @@ class BallotWebsite(models.Model):
 
         assert (
             election.name == election_name
-        ), f'Election {election.mi_sos_id} name changed: {election_name}'
+        ), f'Election {election.mvic_id} name changed: {election_name}'
 
         return election
 
@@ -451,7 +451,7 @@ class BallotWebsite(models.Model):
         if created:
             log.info(f'Created district: {jurisdiction}')
 
-        assert self.mi_sos_precinct_id
+        assert self.mvic_precinct_id
         precinct, created = Precinct.objects.get_or_create(
             county=county, jurisdiction=jurisdiction, ward=ward, number=number
         )
@@ -489,16 +489,16 @@ class Ballot(TimeStampedModel):
         ordering = ['election__date']
 
     def __str__(self) -> str:
-        return ' | '.join(self.mi_sos_name)
+        return ' | '.join(self.mvic_name)
 
     @property
-    def mi_sos_name(self) -> List[str]:
-        return self.election.mi_sos_name + self.precinct.mi_sos_name
+    def mvic_name(self) -> List[str]:
+        return self.election.mvic_name + self.precinct.mvic_name
 
     @property
-    def mi_sos_url(self) -> Optional[str]:
+    def mvic_url(self) -> Optional[str]:
         if self.website:
-            return self.website.mi_sos_url
+            return self.website.mvic_url
         return None
 
     @property
@@ -560,7 +560,7 @@ class Ballot(TimeStampedModel):
                     pass  # district parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
-                        f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                        f'Unhandled category {category_name!r} on {self.website.mvic_url}'
                     )
 
                 position_name = position_data['name']
@@ -611,7 +611,7 @@ class Ballot(TimeStampedModel):
                         district = self.precinct.county
                     else:
                         raise exceptions.UnhandledData(
-                            f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
+                            f'Unhandled position {position_name!r} on {self.website.mvic_url}'
                         )
 
                 default_term = constants.TERMS.get(position_data['name'], "")
@@ -638,7 +638,7 @@ class Ballot(TimeStampedModel):
 
                     if candidate_data['party'] is None:
                         raise exceptions.UnhandledData(
-                            f'Expected party for {candidate_name!r} on {self.website.mi_sos_url}'
+                            f'Expected party for {candidate_name!r} on {self.website.mvic_url}'
                         )
 
                     party = Party.objects.get(name=candidate_data['party'])
@@ -682,7 +682,7 @@ class Ballot(TimeStampedModel):
                     pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
-                        f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                        f'Unhandled category {category_name!r} on {self.website.mvic_url}'
                     )
 
                 position_name = position_data['name']
@@ -713,7 +713,7 @@ class Ballot(TimeStampedModel):
                             )
                         else:
                             raise exceptions.UnhandledData(
-                                f'Unhandled position {position_name!r} on {self.website.mi_sos_url}'
+                                f'Unhandled position {position_name!r} on {self.website.mvic_url}'
                             )
 
                     if position_data['district']:
@@ -724,7 +724,7 @@ class Ballot(TimeStampedModel):
                             log.info(f'Created district: {district}')
                     else:
                         log.warning(
-                            f'Ballot {self.website.mi_sos_url} missing district: {position_data}'
+                            f'Ballot {self.website.mvic_url} missing district: {position_data}'
                         )
                         district = self.precinct.jurisdiction
 
@@ -793,7 +793,7 @@ class Ballot(TimeStampedModel):
                 category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise exceptions.UnhandledData(
-                    f'Unhandled category {category_name!r} on {self.website.mi_sos_url}'
+                    f'Unhandled category {category_name!r} on {self.website.mvic_url}'
                 )
 
             for proposal_data in proposals_data:
@@ -829,7 +829,7 @@ class Ballot(TimeStampedModel):
                             district_name = helpers.parse_district_from_proposal(
                                 category_name,
                                 proposal_data['text'],
-                                self.website.mi_sos_url,
+                                self.website.mvic_url,
                             )
                         except ValueError as e:
                             if original_exception is None:
@@ -847,7 +847,7 @@ class Ballot(TimeStampedModel):
 
                 if proposal_data['text'] is None:
                     raise exceptions.MissingData(
-                        f'Proposal text missing on {self.website.mi_sos_url}'
+                        f'Proposal text missing on {self.website.mvic_url}'
                     )
 
                 proposal, created = Proposal.objects.update_or_create(
@@ -871,7 +871,7 @@ class BallotItem(TimeStampedModel):
 
     name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
-    reference_url = models.URLField(blank=True, null=True)
+    reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
     class Meta:
         abstract = True
@@ -929,7 +929,7 @@ class Candidate(TimeStampedModel):
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    reference_url = models.URLField(blank=True, null=True)
+    reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
     party = models.ForeignKey(Party, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:

@@ -3,7 +3,7 @@ from django.conf import settings
 from pendulum import datetime
 
 
-MI_SOS_URL = "https://mvic.sos.state.mi.us"
+MVIC_URL = "https://mvic.sos.state.mi.us"
 
 TERMS = {
     "United States Senator": "6 Year Term",

@@ -18,7 +18,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--election',
-            metavar='MI_SOS_ID',
+            metavar='MVIC_ID',
             type=int,
             default=None,
             help='Michigan SOS election ID to parse ballots for.',

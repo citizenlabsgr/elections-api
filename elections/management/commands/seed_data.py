@@ -44,7 +44,7 @@ class Command(BaseCommand):
         election, created = models.Election.objects.get_or_create(
             name="State Primary",
             date=pendulum.parse("2020-08-04", tz='America/Detroit'),
-            defaults=dict(active=False, mi_sos_id=682),
+            defaults=dict(active=False, mvic_id=682),
         )
         if created:
             log.info(f"Added election: {election}")

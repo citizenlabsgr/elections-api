@@ -16,7 +16,7 @@ from fake_useragent import UserAgent
 from nameparser import HumanName
 
 from . import exceptions
-from .constants import MI_SOS_URL
+from .constants import MVIC_URL
 
 
 useragent = UserAgent()
@@ -114,10 +114,10 @@ def normalize_jurisdiction(name: str) -> str:
     return name
 
 
-def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
+def build_mvic_url(election_id: int, precinct_id: int) -> str:
     assert election_id, "MI SOS election ID is missing"
     assert precinct_id, "MI SOS precinct ID is missing"
-    return f'{MI_SOS_URL}/Voter/GetMvicBallot/{precinct_id}/{election_id}/'
+    return f'{MVIC_URL}/Voter/GetMvicBallot/{precinct_id}/{election_id}/'
 
 
 ###############################################################################
@@ -125,7 +125,7 @@ def build_mi_sos_url(election_id: int, precinct_id: int) -> str:
 
 
 def fetch_registration_status_data(voter):
-    url = f'{MI_SOS_URL}/Voter/SearchByName'
+    url = f'{MVIC_URL}/Voter/SearchByName'
     log.info(f"Submitting form on {url}")
     with mvic_session() as session:
         response = session.post(
@@ -302,7 +302,7 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     return county, jurisdiction, ward, precinct
 
 
-def parse_district_from_proposal(category: str, text: str, mi_sos_url: str) -> str:
+def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str:
     patterns = [
         f'[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})',
         f'\n((?:[A-Z][A-Za-z.-]+ )+{category})',
@@ -315,7 +315,7 @@ def parse_district_from_proposal(category: str, text: str, mi_sos_url: str) -> s
             if len(name) < 100:
                 return name
 
-    raise ValueError(f'Could not find {category!r} in {text!r} on {mi_sos_url}')
+    raise ValueError(f'Could not find {category!r} in {text!r} on {mvic_url}')
 
 
 def parse_ballot(html: str, data: Dict) -> int:
