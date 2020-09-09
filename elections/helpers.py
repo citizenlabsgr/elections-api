@@ -75,7 +75,7 @@ def titleize(text: str) -> str:
         .replace("(d", "(D")
         .replace("(l", "(L")
         .replace("(r", "(R")
-        .replace("Vice-president", "Vice President")
+        .replace("Vice-president", "Vice-President")
         .strip()
     )
 
