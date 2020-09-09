@@ -322,6 +322,8 @@ class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.select_related('district', 'election')
 
+    exclude = ['precincts']
+
 
 @admin.register(models.Position)
 class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
@@ -354,6 +356,8 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.select_related('district', 'election')
+
+    exclude = ['precincts']
 
 
 @admin.register(models.Candidate)
