@@ -94,3 +94,9 @@ def test_default_term(expect, db):
     ).first()
     expect(position.term) == "2 Year Term"
     parse_ballot(683, 6911)
+
+
+def test_justices(expect, db):
+    parse_ballot(683, 1828)
+    candidate = Candidate.objects.filter(name__startswith="Bridget").first()
+    expect(candidate.name) == "Bridget Mary McCormack"

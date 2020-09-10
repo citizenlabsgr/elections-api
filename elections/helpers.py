@@ -89,8 +89,8 @@ def normalize_candidate(text: str) -> str:
         name1.capitalize()
         name2.capitalize()
 
-        if str(name2).startswith("Judge of"):
-            log.warn(f"Invalid running mate: {name2}")
+        if " of " in str(name2):
+            log.debug(f"Skipped non-person running mate: {name2}")
             return str(name1)
 
         return str(name1) + ' & ' + str(name2)

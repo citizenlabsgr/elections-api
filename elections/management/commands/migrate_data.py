@@ -11,7 +11,7 @@ from django.utils import timezone
 import log
 
 from elections import defaults, helpers
-from elections.models import District, DistrictCategory, Election, Position
+from elections.models import District, DistrictCategory, Election, Position, Candidate
 
 
 class Command(BaseCommand):
@@ -28,6 +28,7 @@ class Command(BaseCommand):
         self.update_elections()
         self.update_jurisdictions()
         self.update_positions()
+        self.update_candidates()
 
         self.import_descriptions()
         self.export_descriptions()
@@ -59,6 +60,13 @@ class Command(BaseCommand):
             position.save()
             if position.term:
                 log.info(f"Updated term: {position}")
+
+    def update_candidates(self):
+        justice = " & Justice "
+        for candidate in Candidate.objects.filter(name__contains=justice):
+            log.info(f"Fixing candidate name: {candidate.name}")
+            candidate.name = candidate.name.split(justice)[0]
+            candidate.save()
 
     def import_descriptions(self):
         for name, description in self._read_descriptions('elections'):
