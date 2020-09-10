@@ -11,7 +11,7 @@ from django.utils import timezone
 import log
 
 from elections import defaults, helpers
-from elections.models import District, DistrictCategory, Election, Position, Candidate
+from elections.models import Candidate, District, DistrictCategory, Election, Position
 
 
 class Command(BaseCommand):
