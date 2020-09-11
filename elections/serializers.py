@@ -160,8 +160,8 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
         model = models.RegistrationStatus
         fields = [
             'registered',
-            'absentee_application_received',
             'absentee',
+            'absentee_application_received',
             'absentee_ballot_sent',
             'absentee_ballot_received',
             'polling_location',

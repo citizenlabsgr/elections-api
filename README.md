@@ -75,8 +75,8 @@ The above payload also includes fields indicating the voter's absentee status an
 | Field                           | Description                                             |
 | ------------------------------- | ------------------------------------------------------- |
 | `registered`                    | Voter can participate in the upcoming election          |
+| `absentee`                      | Voter has requested to vote by mail for all elections   |
 | `absentee_application_received` | Date (`YYYY-MM-DD`) clerk received absentee application |
-| `absentee`                      | Voter will receive an absentee ballot in the mail       |
 | `absentee_ballot_sent`          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
 | `absentee_ballot_received`      | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
 
