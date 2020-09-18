@@ -23,9 +23,9 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
-            'absentee_application_received': '2020-06-06',
             'absentee': True,
-            'absentee_ballot_sent': None,
+            'absentee_application_received': '2020-06-06',
+            'absentee_ballot_sent': '2020-09-24',
             'absentee_ballot_received': None,
             'polling_location': [
                 'Encounter Church',

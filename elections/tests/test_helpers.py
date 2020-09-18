@@ -27,8 +27,8 @@ def describe_fetch_registration_status_data():
             "absentee": True,
             "absentee_dates": {
                 'Application Received': datetime.date(2020, 6, 6),
+                'Ballot Sent': datetime.date(2020, 9, 24),
                 'Ballot Received': None,
-                'Ballot Sent': None,
             },
             "districts": {
                 "Circuit Court": "17th Circuit",
