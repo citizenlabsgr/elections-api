@@ -165,6 +165,7 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
             'absentee_ballot_sent',
             'absentee_ballot_received',
             'polling_location',
+            'dropbox_location',
             'recently_moved',
             'precinct',
             'districts',

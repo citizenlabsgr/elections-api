@@ -58,5 +58,6 @@ def describe_fetch_registration_status_data():
                 "PollAddress": "1736 Lyon Ne",
                 "PollCityStateZip": "Grand Rapids, Michigan 49503",
             },
+            "dropbox_location": ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan'],
             "recently_moved": False,
         }
