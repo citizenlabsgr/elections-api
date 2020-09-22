@@ -58,7 +58,11 @@ as well as a unique ID that identifies your precinct:
 }
 ```
 
-Using either of these pieces of information, you can fetch the details of your specific ballot. The response also includes the districts your address is located in as well as your polling location:
+Using either of these pieces of information, you can fetch the details of your specific ballot.
+
+#### Voting Locations
+
+The registrations payload also includes your polling location:
 
 ```
 "polling_location": [
@@ -68,9 +72,18 @@ Using either of these pieces of information, you can fetch the details of your s
 ]
 ```
 
-### Absentee Status
+And the address where you can drop off your signed absentee ballot:
 
-The above payload also includes fields indicating the voter's absentee status and progress of their ballot:
+```
+"dropbox_location": [
+    "300 Ottawa Ave Nw",
+    "Grand Rapids, Michigan"
+]
+```
+
+#### Absentee Information
+
+The registrations payload also includes fields indicating the voter's absentee status and progress of their ballot:
 
 | Field                           | Description                                             |
 | ------------------------------- | ------------------------------------------------------- |
