@@ -2,9 +2,9 @@ appnope==0.1.0; python_version >= "3.4" and sys_platform == "darwin" or sys_plat
 asgiref==3.2.10
 backcall==0.2.0
 beautifulsoup4==4.9.1
-bugsnag==3.8.0
+bugsnag==3.9.0
 bullet==2.2.0
-cached-property==1.5.1
+cached-property==1.5.2
 certifi==2020.6.20
 chardet==3.0.4
 classproperties==0.1.3
@@ -14,12 +14,12 @@ colorama==0.3.9
 configparser==5.0.0
 coreapi==2.3.3
 coreschema==0.0.4
-crayons==0.3.1
+crayons==0.4.0
 datafiles==0.10
 decorator==4.4.2
 dj-database-url==0.5.0
-django==3.0.9
-django-cors-headers==3.4.0
+django==3.0.10
+django-cors-headers==3.5.0
 -e git+https://github.com/citizenlabsgr/django-filter@7e228f52d300558c2c939a2ea09cf04f307a236e#egg=django-filter
 django-grappelli==2.14.2
 -e git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216#egg=django-model-utils
@@ -28,12 +28,12 @@ djangorestframework==3.11.1
 drf-yasg==1.17.1
 factory-boy==3.0.1
 fake-useragent==0.1.11
-faker==4.1.2
+faker==4.1.3
 gunicorn==19.10.0
 idna==2.10
 importlib-metadata==1.7.0; python_version < "3.8"
 inflection==0.4.0
-ipython==7.17.0
+ipython==7.18.1
 ipython-genutils==0.2.0
 itypes==1.2.0
 jedi==0.17.2
@@ -43,17 +43,17 @@ markupsafe==1.1.1
 minilog==1.6
 nameparser==1.0.6
 packaging==20.4
-parse==1.16.0
+parse==1.18.0
 parso==0.7.1
-pastel==0.2.0
+pastel==0.2.1
 pendulum==2.1.2
 pexpect==4.8.0; python_version >= "3.4" and sys_platform != "win32" or sys_platform != "win32" or python_version >= "3.3" and sys_platform != "win32"
 pickleshare==0.7.5
 pomace==0.3b6
-prompt-toolkit==3.0.6
+prompt-toolkit==3.0.7
 psycopg2-binary==2.8.4
 ptyprocess==0.6.0; python_version >= "3.4" and sys_platform != "win32" or sys_platform != "win32" or os_name != "nt" or python_version >= "3.3" and sys_platform != "win32"
-pygments==2.6.1
+pygments==2.7.1
 pylev==1.3.0
 pymdown-extensions==8.0
 pyparsing==2.4.7
@@ -63,8 +63,8 @@ pytzdata==2020.1
 pyyaml==5.3.1
 redis==3.5.3
 requests==2.24.0
-ruamel.yaml==0.16.10
-ruamel.yaml.clib==0.2.0; platform_python_implementation == "CPython" and python_version < "3.9"
+ruamel.yaml==0.16.12
+ruamel.yaml.clib==0.2.2; platform_python_implementation == "CPython" and python_version < "3.9"
 selenium==3.141.0
 six==1.15.0
 soupsieve==1.9.6
@@ -72,12 +72,12 @@ splinter==0.12.0
 sqlparse==0.3.1
 text-unidecode==1.3
 tomlkit==0.5.11
-traitlets==4.3.3
-typing-extensions==3.7.4.2
+traitlets==5.0.4
+typing-extensions==3.7.4.3
 uritemplate==3.0.1
 urllib3==1.25.10
 wcwidth==0.2.5
 webdriver-manager==2.5.3
 webob==1.8.6
 whitenoise==4.1.4
-zipp==3.1.0; python_version < "3.8"
+zipp==3.2.0; python_version < "3.8"

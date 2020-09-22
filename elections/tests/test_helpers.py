@@ -20,6 +20,7 @@ def voter():
 
 
 def describe_fetch_registration_status_data():
+    @pytest.mark.vcr
     def with_known_voter(expect, voter):
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
@@ -27,7 +28,7 @@ def describe_fetch_registration_status_data():
             "absentee": True,
             "absentee_dates": {
                 'Application Received': datetime.date(2020, 6, 6),
-                'Ballot Sent': datetime.date(2020, 9, 24),
+                'Ballot Sent': None,
                 'Ballot Received': None,
             },
             "districts": {

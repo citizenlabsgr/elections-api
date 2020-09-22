@@ -10,6 +10,7 @@ def describe_list():
     def url():
         return '/api/registrations/'
 
+    @pytest.mark.vcr
     def it_returns_data_for_a_registered_voter(expect, client, url, db):
         defaults.initialize_districts()
 
@@ -25,7 +26,7 @@ def describe_list():
             'registered': True,
             'absentee': True,
             'absentee_application_received': '2020-06-06',
-            'absentee_ballot_sent': '2020-09-24',
+            'absentee_ballot_sent': None,
             'absentee_ballot_received': None,
             'polling_location': [
                 'Encounter Church',
