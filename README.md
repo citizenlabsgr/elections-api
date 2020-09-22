@@ -5,7 +5,7 @@
 
 <!-- content -->
 
-APIs to check voter registration status and view ballots for all elections in Michigan.
+APIs to check voter registration status and view sample ballots for elections in Michigan.
 
 ### Quick Links
 
