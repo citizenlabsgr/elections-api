@@ -159,6 +159,7 @@ class RegistrationStatus(models.Model):
     absentee_ballot_received = models.DateField(null=True)
 
     polling_location = JSONField(blank=True, null=True)
+    dropbox_location = JSONField(blank=True, null=True)
     recently_moved = models.BooleanField(default=False)
 
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
@@ -271,6 +272,7 @@ class Voter(models.Model):
             absentee_ballot_sent=data['absentee_dates']['Ballot Sent'],
             absentee_ballot_received=data['absentee_dates']['Ballot Received'],
             polling_location=list(data['polling_location'].values()),
+            dropbox_location=data['dropbox_location'],
             recently_moved=data['recently_moved'],
             precinct=precinct,
         )

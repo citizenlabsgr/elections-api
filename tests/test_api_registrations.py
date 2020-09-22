@@ -33,6 +33,7 @@ def describe_list():
                 '1736 Lyon Ne',
                 'Grand Rapids, Michigan 49503',
             ],
+            'dropbox_location': ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan',],
             'recently_moved': False,
             'precinct': {
                 'url': expect.anything,
@@ -140,6 +141,7 @@ def describe_list():
             'absentee_ballot_sent': None,
             'absentee_ballot_received': None,
             'polling_location': None,
+            'dropbox_location': None,
             'recently_moved': False,
             'precinct': None,
             'districts': [],

@@ -158,6 +158,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 1.9**
+
+- Added `dropbox_location` to registrations API responses.
+
 **Version 1.8**
 
 - Added `absentee_application_received`, `absentee_ballot_sent`, and `absentee_ballot_received` dates to the registrations API responses to track the progress of each voter's absentee balllot.

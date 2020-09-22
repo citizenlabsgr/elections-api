@@ -240,12 +240,26 @@ def fetch_registration_status_data(voter):
     else:
         log.warn("Unable to determine polling location")
 
+    # Parse dropbox location
+    element = html.find('span', {'class': 'additional-location-badge'})
+    if element:
+        dropbox_location = (
+            element.parent.get_text('\n')
+            .split('\n\n\n\n\n', 1)[-1]
+            .split(' Michigan', 1)[0]
+            + " Michigan"
+        ).split('\n')
+    else:
+        log.warn("Unable to determine drobox location")
+        dropbox_location = None
+
     return {
         "registered": registered,
         "absentee": absentee,
         "absentee_dates": absentee_dates,
         "districts": districts,
         "polling_location": polling_location,
+        'dropbox_location': dropbox_location,
         "recently_moved": recently_moved,
     }
 
