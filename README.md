@@ -29,7 +29,7 @@ These examples use [HTTPie](https://httpie.org/) for brevity, but the interactiv
 
 ### Registration Status
 
-Check your registration status and fetch your voting precinct:
+Check your registration status and fetch your voting precinct with an [API call](https://michiganelections.io/api/registrations/?first_name=Rosalynn&last_name=Bliss&birth_date=1975-08-03&zip_code=49503) like this:
 
 ```
 http GET https://michiganelections.io/api/registrations/ \
@@ -85,15 +85,15 @@ These dates reset after each election.
 
 ### Sample Ballots
 
-Get a link to the official sample ballot for upcoming elections, by precinct ID:
+Get a link to the official sample ballot for upcoming elections, by precinct ID with an [API call](https://michiganelections.io/api/ballots/?precinct_id=1173) like this:
 
 ```
 http GET https://michiganelections.io/api/ballots/ \
   "Accept: application/json; version=1" \
-  precinct_id=1173
+  precinct_id==1173
 ```
 
-or by precinct name:
+or by precinct name with an [API call](https://michiganelections.io/api/ballots/?precinct_county=Kent&precinct_jurisdiction=City%20of%20Grand%20Rapids&precinct_ward=2&precinct_number=30) like this:
 
 ```
 http GET https://michiganelections.io/api/ballots/ \
@@ -104,15 +104,15 @@ http GET https://michiganelections.io/api/ballots/ \
 
 ### Ballot Details: Positions
 
-Get more information about the specific positions and candidates on your ballot, by precinct ID:
+Get more information about the specific positions and candidates on your ballot, by precinct ID with an [API call](https://michiganelections.io/api/positions/?precinct_id=1173) like this:
 
 ```
 http GET https://michiganelections.io/api/positions/ \
   "Accept: application/json; version=1" \
-  precinct_id=1173
+  precinct_id==1173
 ```
 
-or by precinct name:
+or by precinct name with an [API call](https://michiganelections.io/api/positions/?precinct_county=Kent&precinct_jurisdiction=City%20of%20Grand%20Rapids&precinct_ward=2&precinct_number=30) like this:
 
 ```
 http GET https://michiganelections.io/api/positions/ \
@@ -123,7 +123,7 @@ http GET https://michiganelections.io/api/positions/ \
 
 ### Ballot Details: Proposals
 
-Get more information about the specific proposals on your ballot, by precinct ID:
+Get more information about the specific proposals on your ballot, by precinct ID with an [API call](https://michiganelections.io/api/proposals/?precinct_id=1173) like this:
 
 ```
 http GET https://michiganelections.io/api/proposals/ \
@@ -131,7 +131,7 @@ http GET https://michiganelections.io/api/proposals/ \
   precinct_id=1173
 ```
 
-or by precinct name:
+or by precinct name with an [API call](https://michiganelections.io/api/proposals/?precinct_county=Kent&precinct_jurisdiction=City%20of%20Grand%20Rapids&precinct_ward=2&precinct_number=30) like this:
 
 ```
 http GET https://michiganelections.io/api/proposals/ \
