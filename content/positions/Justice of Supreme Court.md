@@ -1,1 +1,1 @@
-
+Hears cases appealed to them from the Court of Appeals. As a justice on highest court in the state, they are responsible for the general administrative supervision of all courts in the state and establishe rules for practice and procedure in all courts.
