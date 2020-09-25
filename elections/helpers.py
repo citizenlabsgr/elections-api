@@ -60,6 +60,7 @@ def titleize(text: str) -> str:
     return (
         string.capwords(text)
         .replace(" Of ", " of ")
+        .replace(" of The ", " of the ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
         .replace(" In ", " in ")
