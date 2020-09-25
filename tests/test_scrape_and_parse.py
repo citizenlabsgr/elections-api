@@ -100,3 +100,4 @@ def test_justices(expect, db):
     parse_ballot(683, 1828)
     candidate = Candidate.objects.filter(name__startswith="Bridget").first()
     expect(candidate.name) == "Bridget Mary McCormack"
+    expect(candidate.position.district.name) == "Michigan"

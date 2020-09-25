@@ -724,7 +724,7 @@ class Ballot(TimeStampedModel):
                         )
                         if created:
                             log.info(f'Created district: {district}')
-                    else:
+                    elif district is None:
                         log.warning(
                             f'Ballot {self.website.mvic_url} missing district: {position_data}'
                         )
