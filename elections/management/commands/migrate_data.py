@@ -60,9 +60,6 @@ class Command(BaseCommand):
             position.save()
             if position.term:
                 log.info(f"Updated term: {position}")
-        for position in Position.objects.filter(name__contains=" of The "):
-            position.name = position.name.replace(" of The ", " of the ")
-            position.save()
 
     def update_candidates(self):
         justice = " & Justice "
