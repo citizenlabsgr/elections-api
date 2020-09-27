@@ -101,3 +101,9 @@ def test_justices(expect, db):
     candidate = Candidate.objects.filter(name__startswith="Bridget").first()
     expect(candidate.name) == "Bridget Mary McCormack"
     expect(candidate.position.district.name) == "Michigan"
+
+
+def test_capitalization(expect, db):
+    parse_ballot(683, 1828)
+    expect(Position.objects.filter(name__contains="of The").count()) == 0
+    expect(Position.objects.filter(name__contains="of the").count()) == 3
