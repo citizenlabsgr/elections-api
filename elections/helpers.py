@@ -60,12 +60,12 @@ def titleize(text: str) -> str:
     return (
         string.capwords(text)
         .replace(" Of ", " of ")
-        .replace(" of The ", " of the ")
         .replace(" To ", " to ")
         .replace(" And ", " and ")
         .replace(" In ", " in ")
         .replace(" By ", " by ")
         .replace(" At ", " at ")
+        .replace(" The ", " the ")
         .replace("U.s.", "U.S.")
         .replace("Ii.", "II.")
         .replace("Iii.", "III.")
