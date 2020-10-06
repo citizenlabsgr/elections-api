@@ -28,8 +28,8 @@ def describe_fetch_registration_status_data():
             "absentee": True,
             "absentee_dates": {
                 'Application Received': datetime.date(2020, 6, 6),
-                'Ballot Sent': None,
-                'Ballot Received': None,
+                'Ballot Sent': datetime.date(2020, 9, 24),
+                'Ballot Received': datetime.date(2020, 9, 29),
             },
             "districts": {
                 "Circuit Court": "17th Circuit",
@@ -58,6 +58,10 @@ def describe_fetch_registration_status_data():
                 "PollAddress": "1736 Lyon Ne",
                 "PollCityStateZip": "Grand Rapids, Michigan 49503",
             },
-            "dropbox_location": ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan'],
+            "dropbox_location": [
+                'Election Central',
+                '201 Market',
+                'Grand Rapids, Michigan',
+            ],
             "recently_moved": False,
         }

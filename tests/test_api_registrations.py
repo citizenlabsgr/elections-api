@@ -26,14 +26,18 @@ def describe_list():
             'registered': True,
             'absentee': True,
             'absentee_application_received': '2020-06-06',
-            'absentee_ballot_sent': None,
-            'absentee_ballot_received': None,
+            'absentee_ballot_sent': '2020-09-24',
+            'absentee_ballot_received': '2020-09-29',
             'polling_location': [
                 'Encounter Church',
                 '1736 Lyon Ne',
                 'Grand Rapids, Michigan 49503',
             ],
-            'dropbox_location': ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan',],
+            'dropbox_location': [
+                'Election Central',
+                '201 Market',
+                'Grand Rapids, Michigan',
+            ],
             'recently_moved': False,
             'precinct': {
                 'url': expect.anything,
@@ -125,6 +129,7 @@ def describe_list():
             ],
         }
 
+    @pytest.mark.vcr
     def it_handles_unknown_voters(expect, client, url):
         response = client.get(
             url + '?first_name=Jane'
