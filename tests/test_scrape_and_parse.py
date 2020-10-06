@@ -23,35 +23,45 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     return ballot.parse()
 
 
+@pytest.mark.vcr
 @pytest.mark.parametrize(
-    'election_id, precinct_id, item_count',
+    'precinct_id, item_count',
     [
-        # 2020 State Primary
-        (682, 160, 1),
-        # (682, 911, 37), # TODO: Handle ballots with "no candidates" followed by some
-        (682, 7608, 29),
-        (682, 1828, 25),
-        (682, 7489, 25),
-        (682, 6911, 37),
-        # 2020 State General
-        (683, 901, 90),
-        (683, 133, 84),
-        (683, 268, 93),
-        (683, 256, 94),
-        (683, 7558, 101),
-        (683, 7222, 84),
-        (683, 412, 94),
-        (683, 7159, 88),
-        (683, 6477, 109),
-        (683, 4279, 93),
-        (683, 4258, 97),
-        (683, 1633, 86),
+        (160, 1),
+        # (911, 37), # TODO: Handle ballots with "no candidates" followed by some
+        (7608, 29),
+        (1828, 25),
+        (7489, 25),
+        (6911, 37),
     ],
 )
-def test_ballots(expect, db, election_id, precinct_id, item_count):
-    expect(parse_ballot(election_id, precinct_id)) == item_count
+def test_2020_primary_ballots(expect, db, precinct_id, item_count):
+    expect(parse_ballot(682, precinct_id)) == item_count
 
 
+@pytest.mark.vcr
+@pytest.mark.parametrize(
+    'precinct_id, item_count',
+    [
+        (901, 90),
+        (133, 84),
+        (268, 93),
+        (256, 94),
+        (7558, 101),
+        (7222, 84),
+        (412, 94),
+        (7159, 88),
+        (6477, 109),
+        (4279, 93),
+        (4258, 97),
+        (1633, 86),
+    ],
+)
+def test_2020_general_ballots(expect, db, precinct_id, item_count):
+    expect(parse_ballot(683, precinct_id)) == item_count
+
+
+@pytest.mark.vcr
 def test_reference_url(expect, db):
     parse_ballot(683, 1828)
     candidate = Candidate.objects.get(name="David LaGrand")
@@ -60,6 +70,7 @@ def test_reference_url(expect, db):
     expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'
 
 
+@pytest.mark.vcr
 def test_proposal_description_primary(expect, db):
     parse_ballot(682, 6911)
     proposal = Proposal.objects.get(name="Millage Renewal to Original Levy")
@@ -67,6 +78,7 @@ def test_proposal_description_primary(expect, db):
     expect(proposal.description).endswith("an estimated $975,000.00?")
 
 
+@pytest.mark.vcr
 def test_proposal_description_general(expect, db):
     parse_ballot(683, 1828)
 
@@ -87,6 +99,7 @@ def test_proposal_description_general(expect, db):
     expect(proposal.description).endswith("years.\n\nShall this amendment be adopted?")
 
 
+@pytest.mark.vcr
 def test_default_term(expect, db):
     parse_ballot(683, 6911)
     position = Position.objects.filter(
@@ -96,6 +109,7 @@ def test_default_term(expect, db):
     parse_ballot(683, 6911)
 
 
+@pytest.mark.vcr
 def test_justices(expect, db):
     parse_ballot(683, 1828)
     candidate = Candidate.objects.filter(name__startswith="Bridget").first()
@@ -103,6 +117,7 @@ def test_justices(expect, db):
     expect(candidate.position.district.name) == "Michigan"
 
 
+@pytest.mark.vcr
 def test_capitalization(expect, db):
     parse_ballot(683, 1828)
     expect(Position.objects.filter(name__contains="of The").count()) == 0

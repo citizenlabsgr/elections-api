@@ -28,11 +28,13 @@ def active_election(db):
 
 
 def describe_scrape_ballots():
+    @pytest.mark.vcr
     def with_no_active_election(expect, db):
         commands.scrape_ballots(ballot_limit=1)
 
         expect(BallotWebsite.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_past_election(expect, past_election):
         defaults.initialize_districts()
 
@@ -45,16 +47,19 @@ def describe_scrape_ballots():
 
 
 def describe_parse_ballots():
+    @pytest.mark.vcr
     def with_no_active_election(expect, db):
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_active_election_and_no_scrapped_ballots(expect, active_election):
         commands.parse_ballots()
 
         expect(Ballot.objects.count()) == 0
 
+    @pytest.mark.vcr
     def with_active_election_and_one_scrapped_ballot(expect, active_election):
         defaults.initialize_districts()
         defaults.initialize_parties()
