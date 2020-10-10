@@ -6,7 +6,6 @@ from datetime import date, datetime
 from importlib import resources
 from typing import Any, Dict, Generator, List, Optional, Tuple
 
-import bugsnag
 import log
 import pomace
 import requests
@@ -166,12 +165,6 @@ def fetch_registration_status_data(voter):
 
     # Parse moved status
     recently_moved = "you have recently moved" in response.text
-    if recently_moved:
-        # TODO: Figure out how to request the new records
-        bugsnag.notify(
-            exceptions.UnhandledData("Voter has moved"),
-            meta_data={"voter": repr(voter), "html": response.text},
-        )
 
     # Parse absentee status
     absentee = "You are on the permanent absentee voter list" in response.text
