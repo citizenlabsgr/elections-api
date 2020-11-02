@@ -15,14 +15,13 @@ APIs to check voter registration status and view sample ballots for elections in
 
 ### Sample Projects
 
-| Website                              | Purpose               | Status                                                      |
-| ------------------------------------ | --------------------- | ----------------------------------------------------------- |
-| https://share.michiganelections.io   | Ballot previews       | [Live](https://github.com/citizenlabsgr/ballotshare)        |
-| https://vote.citizenlabs.org         | Registration chat bot | [Live](https://github.com/citizenlabsgr/mittens)            |
-| https://explore.michiganelections.io | Election advocacy     | [Discovery](https://github.com/citizenlabsgr/elections-app) |
-| https://github.com/MI-Vote/mivote-android | Mobile voter app | [Development](https://github.com/MI-Vote/mivote-android) |
-
----
+| Website                                   | Purpose               | Status                                                      |
+| ----------------------------------------- | --------------------- | ----------------------------------------------------------- |
+| https://share.michiganelections.io        | Ballot previews       | [Live](https://github.com/citizenlabsgr/ballotshare)        |
+| https://vote.citizenlabs.org              | Registration chat bot | [Live](https://github.com/citizenlabsgr/mittens)            |
+| https://explore.michiganelections.io      | Election advocacy     | [Discovery](https://github.com/citizenlabsgr/elections-app) |
+| https://github.com/MI-Vote/mivote-android | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
+| https://github.com/MI-Vote/mivote-ios     | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
 
 ## Overview
 
