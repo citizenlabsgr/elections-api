@@ -23,6 +23,8 @@ APIs to check voter registration status and view sample ballots for elections in
 | https://github.com/MI-Vote/mivote-android | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
 | https://github.com/MI-Vote/mivote-ios     | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
 
+---
+
 ## Overview
 
 These examples use [HTTPie](https://httpie.org/) for brevity, but the interactive documentation below shows how to do the same using raw `curl` requests.
