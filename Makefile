@@ -139,8 +139,11 @@ uml: install
 
 .PHONY: promote
 promote: install
+	@ echo
 	SITE=https://staging.michiganelections.io poetry run pytest tests/test_deployment.py --verbose --no-cov
+	@ echo
 	heroku pipelines:promote --app mi-elections-staging --to mi-elections
+	@ echo
 	SITE=https://michiganelections.io poetry run pytest tests/test_deployment.py --verbose --no-cov
 
 .PHONY: crawl
