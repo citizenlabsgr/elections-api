@@ -26,7 +26,7 @@ install: .venv/flag ## Project | Install project dependencies
 ifndef CI
 
 poetry.lock: pyproject.toml
-	poetry lock
+	poetry lock --no-update
 	@ touch $@
 
 runtime.txt: .python-version
