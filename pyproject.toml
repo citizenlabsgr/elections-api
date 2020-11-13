@@ -42,6 +42,7 @@ minilog = "^1.6"
 nameparser = "^1.0.4"
 pendulum = "*"
 pomace = "=0.3b6"
+requests = "^2.25"
 
 # Production Server
 gunicorn = "^19.8"

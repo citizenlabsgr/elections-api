@@ -133,17 +133,22 @@ def fetch_registration_status_data(voter):
     url = f'{MVIC_URL}/Voter/SearchByName'
     log.info(f"Submitting form on {url}")
     with mvic_session() as session:
-        response = session.post(
-            url,
-            headers={'Content-Type': "application/x-www-form-urlencoded"},
-            data={
-                'FirstName': voter.first_name,
-                'LastName': voter.last_name,
-                'NameBirthMonth': voter.birth_month,
-                'NameBirthYear': voter.birth_year,
-                'ZipCode': voter.zip_code,
-            },
-        )
+        try:
+            response = session.post(
+                url,
+                headers={'Content-Type': "application/x-www-form-urlencoded"},
+                data={
+                    'FirstName': voter.first_name,
+                    'LastName': voter.last_name,
+                    'NameBirthMonth': voter.birth_month,
+                    'NameBirthYear': voter.birth_year,
+                    'ZipCode': voter.zip_code,
+                },
+                timeout=10,
+            )
+        except requests.exceptions.ConnectionError as e:
+            log.error(f'MVIC connection error: {e}')
+            raise exceptions.ServiceUnavailable()
 
     if response.status_code >= 400:
         log.error(f'MVIC status code: {response.status_code}')
