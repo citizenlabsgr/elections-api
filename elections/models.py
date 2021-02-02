@@ -605,7 +605,8 @@ class Ballot(TimeStampedModel):
                     elif position_name in {'Delegate to County Convention'}:
                         category = DistrictCategory.objects.get(name='Precinct')
                         district, created = District.objects.get_or_create(
-                            category=category, name=self.precinct.get_precinct_label(),
+                            category=category,
+                            name=self.precinct.get_precinct_label(),
                         )
                         if created:
                             log.info(f'Created district: {district}')
@@ -822,6 +823,7 @@ class Ballot(TimeStampedModel):
                                 'Regional Educational Service Agency',
                                 'Regional Education Service',
                                 'Area Educational Service Agency',
+                                'Educational Service',
                             ]
                         )
 

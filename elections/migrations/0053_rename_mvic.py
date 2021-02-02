@@ -16,7 +16,9 @@ class Migration(migrations.Migration):
             new_name='mvic_election_id',
         ),
         migrations.RenameField(
-            model_name='ballotwebsite', old_name='mi_sos_html', new_name='mvic_html',
+            model_name='ballotwebsite',
+            old_name='mi_sos_html',
+            new_name='mvic_html',
         ),
         migrations.RenameField(
             model_name='ballotwebsite',
@@ -24,7 +26,9 @@ class Migration(migrations.Migration):
             new_name='mvic_precinct_id',
         ),
         migrations.RenameField(
-            model_name='election', old_name='mi_sos_id', new_name='mvic_id',
+            model_name='election',
+            old_name='mi_sos_id',
+            new_name='mvic_id',
         ),
         migrations.AlterUniqueTogether(
             name='ballotwebsite',
