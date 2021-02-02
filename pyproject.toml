@@ -53,7 +53,7 @@ bugsnag = "^3.4"
 
 # Formatting
 isort = "4.3.21"
-black = "19.10b0"
+black = "20.8b1"
 
 # Linters
 pylint = "~2.4.4"

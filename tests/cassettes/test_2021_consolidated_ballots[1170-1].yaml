@@ -1,0 +1,129 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Opera/9.80 (Windows NT 5.2; U; ru) Presto/2.7.62 Version/11.01
+    method: GET
+    uri: https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1170/685/
+  response:
+    body:
+      string: !!binary |
+        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
+        Kvj1l78Bxny4s2sgAAA=
+    headers:
+      Cache-Control:
+      - no-cache, no-store,no-store
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '2864'
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'self'; connect-src 'self' https://dc.services.visualstudio.com
+        https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov; form-action 'self'; frame-ancestors
+        'none'; img-src 'self' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://www.michigan.gov/favicon.ico data:; style-src 'self' 'unsafe-inline'
+        https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov/cdn/2.0.1/som-components.css; script-src
+        'self' 'unsafe-inline'  https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/;
+        font-src 'self' https://digitalguidelines.michigan.gov/cdn/2.0.1/fonts/ data:;
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Tue, 02 Feb 2021 20:16:40 GMT
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache,no-cache
+      Referrer-Policy:
+      - no-referrer
+      Set-Cookie:
+      - dtCookie=v_4_srv_2_sn_A6967B8B1C36EF42BE0C057B52DF379D_perc_100000_ol_0_mul_1;
+        Path=/; Domain=.state.mi.us
+      - TS01311c7e=0120f338939f89d1dfd2de44f63ff11b9bbb953685de70a2fa9dbc335b087f1a71d0e9cb229c96115d86cbd59719c62ba6329ad25f;
+        Path=/; Secure
+      - TS019f5f43=0120f33893c8444f2dc4404a2c67f8327151c6d746de70a2fa9dbc335b087f1a71d0e9cb225700c8ebda8c1cce9f168df23694731d10006374caf28093fa8c640d2109e0c0;
+        path=/; domain=.state.mi.us; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-OneAgent-JS-Injection:
+      - 'true'
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-UA-Compatible:
+      - IE=edge
+      X-Xss-Protection:
+      - 1; mode=block
+      X-ruxit-JS-Agent:
+      - 'true'
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -662,7 +662,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
                     assert proposal is not None, f'Proposal missing for text: {label}'
-                    proposal['text'] = label.strip()
+                    proposal['text'] = label.strip().replace('\xa0', '')
                     count += 1
 
         elif "proposalText" in item['class']:
