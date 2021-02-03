@@ -38,10 +38,10 @@ pygments = "*"
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
 fake-useragent = "~0.1.11"
-minilog = "^1.6"
+minilog = "^2.0"
 nameparser = "^1.0.4"
 pendulum = "*"
-pomace = "=0.3b6"
+pomace = "~0.6.12"
 requests = "^2.25"
 
 # Production Server
