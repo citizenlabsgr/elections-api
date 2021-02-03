@@ -25,7 +25,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    'precinct_id, item_count',
+    ('precinct_id', 'item_count'),
     [
         (160, 1),
         # (911, 37), # TODO: Handle ballots with "no candidates" followed by some
@@ -41,7 +41,7 @@ def test_2020_primary_ballots(expect, db, precinct_id, item_count):
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    'precinct_id, item_count',
+    ('precinct_id', 'item_count'),
     [
         (901, 90),
         (133, 84),
