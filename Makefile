@@ -18,10 +18,10 @@ doctor: ## System | Check for the required system dependencies
 .PHONY: install
 install: .venv/flag ## Project | Install project dependencies
 .venv/flag: poetry.lock runtime.txt requirements.txt
-	@ poetry config virtualenvs.in-project true
 ifdef CI
-	poetry run pip install --upgrade pip
+	@ rm -rf .venv
 endif
+	@ poetry config virtualenvs.in-project true
 	poetry install
 	@ mkdir -p staticfiles
 	@ touch $@
