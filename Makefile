@@ -19,6 +19,7 @@ doctor: ## System | Check for the required system dependencies
 install: .venv/flag ## Project | Install project dependencies
 .venv/flag: poetry.lock runtime.txt requirements.txt
 	@ poetry config virtualenvs.in-project true
+	@ poetry run pip install --upgrade pip --quiet
 	poetry install
 	@ mkdir -p staticfiles
 	@ touch $@
