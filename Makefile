@@ -27,7 +27,6 @@ endif
 	@ touch $@
 
 ifndef CI
-
 poetry.lock: pyproject.toml
 	poetry lock --no-update
 	@ touch $@
@@ -37,7 +36,6 @@ runtime.txt: .python-version
 
 requirements.txt: poetry.lock
 	poetry export --format requirements.txt --output $@ --without-hashes
-
 endif
 
 .PHONY: clean
