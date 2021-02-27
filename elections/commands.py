@@ -3,7 +3,7 @@ from typing import Optional, Set
 
 import log
 
-from .models import BallotWebsite, Election, Precinct
+from .models import Ballot, BallotWebsite, Election, Precinct
 
 
 def scrape_ballots(
@@ -119,6 +119,11 @@ def _parse_ballots_for_election(election: Election):
             log.warn(f'Duplicate website: {website}')
         else:
             precincts.add(ballot.precinct)
+
+            previous = Ballot.objects.filter(website=website).exclude(pk=ballot.pk)
+            if previous:
+                log.warn(f'Clearing website on previous ballot: {previous}')
+                previous.update(website=None)
 
             ballot.website = website
             ballot.save()
