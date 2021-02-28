@@ -128,6 +128,8 @@ data/reset: install ## Data | Create a new database, migrate, and seed it
 data/production: install ## Data | Pull data as it exists on production
 	- dropdb elections_dev
 	heroku pg:pull DATABASE_URL elections_dev
+	psql elections_dev -c 'TRUNCATE auth_user CASCADE'
+	poetry run python manage.py seed_data
 
 .PHONY: uml
 uml: install
