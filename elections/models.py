@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Optional
 
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
@@ -197,7 +198,7 @@ class Voter(models.Model):
         return self.birth_date.year
 
     def fetch_registration_status(
-        self, *, track_missing_data: bool = True
+        self, *, track_missing_data: bool = 'staging' not in settings.BASE_URL
     ) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
 
