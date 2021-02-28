@@ -80,6 +80,19 @@ def titleize(text: str) -> str:
     )
 
 
+def normalize_position(text: str) -> str:
+    text = text.split(' (')[0].split(' - ')[0]
+    if text.startswith("Alderman"):
+        text = "Alderman"
+    elif text == "Board Member Bath Township Library":
+        text = "Township Library Board Member"
+    elif text.startswith("Delta College Board of Trustees Member"):
+        text = "Delta College Board of Trustees Member"
+    elif text.endswith("Village Charter Commission"):
+        text = "Village Charter Commission"
+    return titleize(text)
+
+
 def normalize_candidate(text: str) -> str:
     if '\n' in text:
         log.debug(f'Handling running mate: {text}')
@@ -428,7 +441,7 @@ def _parse_primary_election_offices(
             office = None
 
         elif "office" in item['class']:
-            label = titleize(item.text)
+            label = normalize_position(item.text)
             assert division is not None, f'Division missing for office: {label}'
             office = {
                 'name': label,
@@ -538,7 +551,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             office = None
 
         elif "office" in item['class']:
-            label = titleize(item.text)
+            label = normalize_position(item.text)
             if division is None:
                 assert (
                     label == "Library Board Director"

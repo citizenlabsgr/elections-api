@@ -96,6 +96,7 @@ class Command(BaseCommand):
                 category.save()
 
         for name, description in self._read_descriptions('positions'):
+            name = helpers.normalize_position(name)
             positions = Position.objects.filter(name=name)
             if positions:
                 for position in positions:
@@ -119,7 +120,7 @@ class Command(BaseCommand):
 
         positions = {}
         for position in Position.objects.all():
-            name = position.name.split('(')[0].strip()
+            name = helpers.normalize_position(position.name)
             positions[name] = position.description
         self._write('positions', positions)
 
