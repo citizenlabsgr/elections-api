@@ -18,7 +18,7 @@ django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch
 django-model-utils = { git = "https://github.com/jazzband/django-model-utils", rev = "ffa1a85dc7fe3fa8a56e8735b4ac881092abf216" }
 
 # Django REST Framework
-djangorestframework = "^3.8"
+djangorestframework = "^3.11"
 drf-yasg = "^1.17"
 django-cors-headers = "^3.2.0"
 
