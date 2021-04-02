@@ -20,7 +20,7 @@ def index(request):
         """
         Michigan.
         <br>
-        <button class="btn btn-primary mt-3" onclick="location.href='https://share.michiganelections.io'">
+        <button class="btn btn-primary mt-3" onclick="location.href='https://share.michiganelections.io/elections/'">
             Find Your Ballot
         </button>
         <button class="btn btn-secondary mt-3" onclick="location.href='https://absentee.michiganelections.io'">

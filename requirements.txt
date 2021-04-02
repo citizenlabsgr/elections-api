@@ -24,13 +24,13 @@ django-filter @ git+https://github.com/citizenlabsgr/django-filter@combine-filte
 django-grappelli==2.14.2
 django-model-utils @ git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216
 django-redis-cache==2.1.1
-django==3.0.11; python_version >= "3.6"
-djangorestframework==3.11.1; python_version >= "3.5"
+django==3.1.6; python_version >= "3.6"
+djangorestframework==3.11.2; python_version >= "3.5"
 drf-yasg==1.17.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 factory-boy==3.0.1; python_version >= "3.5"
 fake-useragent==0.1.11
 faker==4.1.3; python_version >= "3.7" and python_version < "4.0"
-gitman==2.3b2; python_version >= "3.7" and python_version < "4.0"
+gitman==2.3.1; python_version >= "3.7" and python_version < "4.0"
 gunicorn==19.10.0; (python_version >= "2.6" and python_full_version < "3.0.0") or (python_full_version >= "3.2.0")
 idna==2.10; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 importlib-metadata==1.7.0; python_version >= "3.5" and python_full_version < "3.0.0" and python_version < "3.8" and (python_version >= "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.5") or python_version < "3.8" and python_version >= "3.5" and python_full_version >= "3.5.0" and (python_version >= "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.5")
@@ -39,7 +39,7 @@ ipython-genutils==0.2.0; python_version >= "3.7" and python_version < "4.0"
 ipython==7.20.0; python_version >= "3.7" and python_version < "4.0"
 itypes==1.2.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 jedi==0.17.2; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.5.0"
-jinja2==2.11.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
+jinja2==2.11.3; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 markdown==3.2.2; python_version >= "3.5"
 markupsafe==1.1.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 minilog==2.0; python_version >= "3.6" and python_version < "4.0"
@@ -55,14 +55,14 @@ pomace==0.6.12; python_version >= "3.7" and python_version < "4.0"
 prompt-toolkit==3.0.7; python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.6.1"
 psycopg2-binary==2.8.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
 ptyprocess==0.6.0; python_version >= "3.7" and python_version < "4.0" and sys_platform != "win32"
-pygments==2.7.1; python_version >= "3.5"
+pygments==2.7.4; python_version >= "3.5"
 pylev==1.3.0; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.4.0"
 pymdown-extensions==8.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 pyparsing==2.4.7; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 python-dateutil==2.8.1; python_version >= "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.5"
 pytz==2020.1; python_version >= "3.6"
 pytzdata==2020.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
-pyyaml==5.3.1; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.5.0"
+pyyaml==5.4; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.6.0"
 redis==3.5.3; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 requests==2.25.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 ruamel.yaml.clib==0.2.2; platform_python_implementation == "CPython" and python_version < "3.9" and (python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0")
