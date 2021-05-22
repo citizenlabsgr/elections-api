@@ -4,7 +4,6 @@ import random
 from typing import Any, Dict, List, Optional
 
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
@@ -159,8 +158,8 @@ class RegistrationStatus(models.Model):
     absentee_ballot_sent = models.DateField(null=True)
     absentee_ballot_received = models.DateField(null=True)
 
-    polling_location = JSONField(blank=True, null=True)
-    dropbox_location = JSONField(blank=True, null=True)
+    polling_location = models.JSONField(blank=True, null=True)
+    dropbox_location = models.JSONField(blank=True, null=True)
     recently_moved = models.BooleanField(default=False)
 
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
@@ -309,10 +308,10 @@ class BallotWebsite(models.Model):
     mvic_html = models.TextField(blank=True, editable=False)
 
     fetched = models.BooleanField(default=False, editable=False)
-    valid = models.NullBooleanField(editable=False)
+    valid = models.BooleanField(null=True, editable=False)
     parsed = models.BooleanField(default=False, editable=False)
 
-    data = JSONField(null=True, editable=False)
+    data = models.JSONField(null=True, editable=False)
     data_count = models.IntegerField(default=-1, editable=False)
 
     last_fetch = models.DateTimeField(null=True, editable=False)
