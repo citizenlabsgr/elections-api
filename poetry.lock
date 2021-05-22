@@ -442,7 +442,7 @@ resolved_reference = "7e228f52d300558c2c939a2ea09cf04f307a236e"
 
 [[package]]
 name = "django-grappelli"
-version = "2.14.2"
+version = "2.15.1"
 description = "A jazzy skin for the Django Admin-Interface."
 category = "main"
 optional = false
@@ -1891,7 +1891,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "b2cca6ee17997da839f284e844ae311c2de29dcfeeb51c79659caad48847def3"
+content-hash = "cc959b09011cef7bb2a2ce079aaf67e3cc7c1b767a423a0bf180c2282874bdbc"
 
 [metadata.files]
 appdirs = [
@@ -2127,8 +2127,8 @@ django-extensions = [
 ]
 django-filter = []
 django-grappelli = [
-    {file = "django-grappelli-2.14.2.tar.gz", hash = "sha256:206d34525007e996dc989f1a0deef653b1fae5e0972a1fb24a59a3ad7e67141a"},
-    {file = "django_grappelli-2.14.2-py2.py3-none-any.whl", hash = "sha256:faf353625bd9089ad3ad855a960701a062c2dea0a773ec218a47bbff8426c27a"},
+    {file = "django-grappelli-2.15.1.tar.gz", hash = "sha256:bc38e7c2585c20b6c8c6a4d984beb4c0fe62ae13421d1fe6614d04dda2096014"},
+    {file = "django_grappelli-2.15.1-py2.py3-none-any.whl", hash = "sha256:b9aa386d63a95c37f3741aac98bd545c70ff51cf9104a1419dd6568d2e2cf2ea"},
 ]
 django-livereload-server = [
     {file = "django-livereload-server-0.3.2.tar.gz", hash = "sha256:6c8da1cb356d9a7fd044d0a50342574aad168522d5d8d25bbdc4ddd9fd196eab"},
