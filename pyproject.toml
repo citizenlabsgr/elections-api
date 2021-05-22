@@ -13,13 +13,13 @@ python = "^3.7"
 
 # Django
 django = "~3.1.6"
-django-grappelli = "^2.11"
+django-grappelli = "^2.15.1"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
 django-model-utils = { git = "https://github.com/jazzband/django-model-utils", rev = "ffa1a85dc7fe3fa8a56e8735b4ac881092abf216" }
 
 # Django REST Framework
-djangorestframework = "^3.11"
-drf-yasg = "^1.17"
+djangorestframework = "^3.12.4"
+drf-yasg = "^1.20"
 django-cors-headers = "^3.2.0"
 
 # Databases
