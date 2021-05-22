@@ -383,9 +383,6 @@ def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     if not offices:
         return count
 
-    assert ballot.find(id='primaryColumnHeading1').text.strip() == 'DEMOCRATIC PARTY'
-    assert ballot.find(id='primaryColumnHeading2').text.strip() == 'REPUBLICAN PARTY'
-
     section: Dict = {}
     label = 'primary section'
     data[label] = section
@@ -401,6 +398,7 @@ def _parse_primary_election_offices(
     """Inserts primary election ballot data into the provided dictionary."""
     count = 0
 
+    assert ballot.text.find('DEMOCRATIC') < ballot.text.find('REPUBLICAN')
     offices = ballot.find(
         id='columnOnePrimary' if party == 'Democratic' else 'columnTwoPrimary'
     )
