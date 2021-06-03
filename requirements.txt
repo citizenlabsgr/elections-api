@@ -24,7 +24,7 @@ django-filter @ git+https://github.com/citizenlabsgr/django-filter@combine-filte
 django-grappelli==2.15.1
 django-model-utils @ git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216
 django-redis-cache==2.1.1
-django==3.1.6; python_version >= "3.6"
+django==3.1.8; python_version >= "3.6"
 djangorestframework==3.12.4; python_version >= "3.5"
 drf-yasg==1.20.0; python_version >= "3.6"
 factory-boy==3.0.1; python_version >= "3.5"
@@ -77,7 +77,7 @@ tomlkit==0.5.11; python_version >= "3.7" and python_full_version < "3.0.0" and p
 traitlets==5.0.4; python_version >= "3.7" and python_version < "4.0"
 typing-extensions==3.7.4.3; python_version >= "3.7" and python_version < "4.0"
 uritemplate==3.0.1; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6"
-urllib3==1.25.10; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.5.0" and python_version < "4" and python_version >= "3.7"
+urllib3==1.26.5; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.5.0" and python_version < "4" and python_version >= "3.7"
 wcwidth==0.2.5; python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.6.1"
 webdriver-manager==2.5.3; python_version >= "3.7" and python_version < "4.0"
 webob==1.8.6; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0"

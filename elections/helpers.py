@@ -295,7 +295,7 @@ def _clean_district_category(text: str):
 
 def fetch_ballot(url: str) -> str:
     log.info(f'Fetching ballot: {url}')
-    return fetch(url, "Sample Ballot")
+    return fetch(url, "PreviewMvicBallot")
 
 
 def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:

@@ -375,7 +375,6 @@ class BallotWebsite(models.Model):
             log.info('Ballot URL does not contain precinct information')
             self.valid = False
         else:
-            assert "Sample Ballot" in self.mvic_html
             log.info('Ballot URL contains precinct information')
             self.valid = True
             self.last_validate = timezone.now()
