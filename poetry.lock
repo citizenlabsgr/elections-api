@@ -376,7 +376,7 @@ python-versions = "*"
 
 [[package]]
 name = "django"
-version = "3.1.10"
+version = "3.1.12"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
@@ -1891,7 +1891,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "6fdbff1eab628dcac18cd3e7ce91bc7412abb9654caf9107f3e597097b403da5"
+content-hash = "549b9e4a3c901b2db6b494a423ee42f8160ca9ef675e138dbaaa77888593b258"
 
 [metadata.files]
 appdirs = [
@@ -2114,8 +2114,8 @@ dj-database-url = [
     {file = "dj_database_url-0.5.0-py2.py3-none-any.whl", hash = "sha256:851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"},
 ]
 django = [
-    {file = "Django-3.1.10-py3-none-any.whl", hash = "sha256:973c968e63518859732f018975364785dd96f0581b1e4b12e2a4b749415ac43a"},
-    {file = "Django-3.1.10.tar.gz", hash = "sha256:cd6ec37db950a384dba3341b135394fdc776ede4d149fc7abde1e45a21ec4f22"},
+    {file = "Django-3.1.12-py3-none-any.whl", hash = "sha256:a523d62b7ab2908f551dabc32b99017a86aa7784e32b761708e52be3dce6d35d"},
+    {file = "Django-3.1.12.tar.gz", hash = "sha256:dc41bf07357f1f4810c1c555b685cb51f780b41e37892d6cc92b89789f2847e1"},
 ]
 django-cors-headers = [
     {file = "django-cors-headers-3.5.0.tar.gz", hash = "sha256:db82b2840f667d47872ae3e4a4e0a0d72fbecb42779b8aa233fa8bb965f7836a"},
