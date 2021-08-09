@@ -87,6 +87,10 @@ class Election(TimeStampedModel):
             dt.format("dddd, MMMM D, YYYY"),
         ]
 
+    @property
+    def message(self) -> str:
+        return f"{self.name} election on {self.date}"
+
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/polling_location.html
 # TODO: PollingLocation(TimestampedModel): ...
@@ -166,6 +170,28 @@ class RegistrationStatus(models.Model):
 
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
+
+    @property
+    def message(self) -> str:
+        if self.registered:
+            text = "You are registered to vote"
+            if self.absentee:
+                text += " absentee"
+            if self.absentee_ballot_received:
+                text += (
+                    f" and your ballot was received on {self.absentee_ballot_received}"
+                )
+            elif self.absentee_ballot_sent:
+                text += (
+                    f" and your ballot was sent to you on {self.absentee_ballot_sent}"
+                )
+            elif self.absentee_application_received:
+                text += (
+                    f" (application received on {self.absentee_application_received})"
+                )
+        else:
+            text = "You are not registered to vote"
+        return text
 
     def save(self, *args, **kwargs):
         raise NotImplementedError
@@ -279,6 +305,15 @@ class Voter(models.Model):
         status.districts = districts
 
         return status
+
+    def fingerprint(self, election: Election, status: RegistrationStatus) -> str:
+        return '-'.join(
+            [
+                str(election.pk),
+                str(sum(ord(c) for c in repr(self))),
+                str(sum(ord(c) for c in status.message)),
+            ]
+        )
 
     def save(self, *args, **kwargs):
         raise NotImplementedError

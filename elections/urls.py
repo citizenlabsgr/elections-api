@@ -17,6 +17,7 @@ router = IndexRouter()
 
 router.register('registrations', views.RegistrationViewSet, basename='registrations')
 router.register('elections', views.ElectionViewSet)
+router.register('status', views.StatusViewSet, basename='status')
 
 router.register('district-categories', views.DistrictCategoryViewSet)
 router.register('districts', views.DistrictViewSet)

@@ -66,6 +66,27 @@ class ElectionSerializer(serializers.ModelSerializer):
         return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
 
 
+class MinimalElectionSerializer(serializers.ModelSerializer):
+
+    date_humanized = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Election
+        fields = [
+            'name',
+            'date',
+            'date_humanized',
+            'description',
+            'reference_url',
+        ]
+
+    def get_date_humanized(self, instance) -> str:
+        dt = pendulum.datetime(
+            instance.date.year, instance.date.month, instance.date.day
+        )
+        return dt.format('dddd, MMMM Do')
+
+
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
 
     county = serializers.CharField()
@@ -151,7 +172,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
         return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
 
 
-class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
+class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
@@ -169,6 +190,18 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
             'recently_moved',
             'precinct',
             'districts',
+        ]
+
+
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.RegistrationStatus
+        fields = [
+            'registered',
+            'absentee',
+            'absentee_application_received',
+            'absentee_ballot_sent',
+            'absentee_ballot_received',
         ]
 
 

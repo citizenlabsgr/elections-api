@@ -24,7 +24,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
         registration_status = voter.fetch_registration_status()
 
-        output_serializer = serializers.RegistrationStatusSerializer(
+        output_serializer = serializers.RegistrationSerializer(
             registration_status, context={'request': request}
         )
         return Response(output_serializer.data)
@@ -46,6 +46,34 @@ class ElectionViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.ElectionFilter
     serializer_class = serializers.ElectionSerializer
+
+
+class StatusViewSet(viewsets.ModelViewSet):
+    """
+    create:
+    Return the status of a particular voter's ballot.
+    """
+
+    http_method_names = ['post']
+    queryset = models.Voter.objects.all()
+    serializer_class = serializers.VoterSerializer
+
+    def create(self, request):  # pylint: disable=arguments-differ
+        voter = serializers.VoterSerializer(data=request.data)
+        voter.is_valid(raise_exception=True)
+        voter = models.Voter(**voter.validated_data)
+
+        election = models.Election.objects.last()
+        registration_status = voter.fetch_registration_status()
+
+        data = {
+            'id': voter.fingerprint(election, registration_status),
+            'message': f"{registration_status.message} for the {election.message}.",
+            'election': serializers.MinimalElectionSerializer(election).data,
+            'status': serializers.StatusSerializer(registration_status).data,
+        }
+
+        return Response(data)
 
 
 class DistrictCategoryViewSet(viewsets.ModelViewSet):
