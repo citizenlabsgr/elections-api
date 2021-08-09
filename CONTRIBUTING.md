@@ -9,14 +9,14 @@
   - Add `pyenv init` to your [shell config](https://github.com/pyenv/pyenv#installation)
   - Restart your terminal
   - `$ pyenv install`
-  - Linux: 
+  - Linux:
     - `$ python3 -m venv .venv`
     - `$ source .venv/bin/activate`
 
 - [Poetry](https://poetry.eustace.io/docs/)
 
   - (`$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python && source $HOME/.poetry/env`)
-  - Add poetry to your .bashrc or equivalent configuration file `$ echo "export PATH=~/.poetry/bin:$PATH" >> ~/.baschrc`
+  - Add poetry to your .bashrc or equivalent configuration file `$ echo "export PATH=~/.poetry/bin:$PATH" >> ~/.bashrc`
   - Linux:
     - `$ poetry install`
     - may need: `$ sudo apt-get install python-dev graphviz libgraphviz-dev pkg-config`
@@ -37,7 +37,7 @@
     - `$ brew install postgres` (or your platform's equivalent)
     - `$ brew services start postgres` (or your platform's equivalent)
   - Linux:
-    - `$ sudo apt install postresql`
+    - `$ sudo apt install postgresql`
 
 - [Redis](https://redis.io/)
 

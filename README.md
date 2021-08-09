@@ -17,11 +17,11 @@ APIs to check voter registration status and view sample ballots for elections in
 
 | Website                                   | Purpose               | Status                                                      |
 | ----------------------------------------- | --------------------- | ----------------------------------------------------------- |
-| https://share.michiganelections.io        | Ballot previews       | [Live](https://github.com/citizenlabsgr/ballotshare)        |
-| https://vote.citizenlabs.org              | Registration chat bot | [Live](https://github.com/citizenlabsgr/mittens)            |
-| https://explore.michiganelections.io      | Election advocacy     | [Discovery](https://github.com/citizenlabsgr/elections-app) |
+| https://share.michiganelections.io        | Ballot previews       | [Deployed](https://github.com/citizenlabsgr/ballotshare)    |
+| https://vote.citizenlabs.org              | Registration chat bot | [Deployed](https://github.com/citizenlabsgr/mittens)        |
 | https://github.com/MI-Vote/mivote-android | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
 | https://github.com/MI-Vote/mivote-ios     | Mobile voter app      | [Development](https://github.com/MI-Vote/mivote-android)    |
+| https://explore.michiganelections.io      | Election advocacy     | [Discovery](https://github.com/citizenlabsgr/elections-app) |
 
 ---
 
@@ -179,7 +179,7 @@ You can also contribute content changes by editing [these files](https://github.
 
 **Version 1.8**
 
-- Added `absentee_application_received`, `absentee_ballot_sent`, and `absentee_ballot_received` dates to the registrations API responses to track the progress of each voter's absentee balllot.
+- Added `absentee_application_received`, `absentee_ballot_sent`, and `absentee_ballot_received` dates to the registrations API responses to track the progress of each voter's absentee ballot.
 
 **Version 1.7**
 
