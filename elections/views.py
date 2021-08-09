@@ -1,5 +1,9 @@
 from typing import List, Set
 
+from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
@@ -17,6 +21,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     pagination_class = None
 
+    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
@@ -24,10 +29,39 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
         registration_status = voter.fetch_registration_status()
 
-        output_serializer = serializers.RegistrationStatusSerializer(
+        output_serializer = serializers.RegistrationSerializer(
             registration_status, context={'request': request}
         )
         return Response(output_serializer.data)
+
+
+class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
+    """
+    list:
+    Return the status of a particular voter's ballot for the latest election.
+    """
+
+    queryset = models.Voter.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = filters.VoterFilter
+    pagination_class = None
+
+    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
+    def list(self, request):  # pylint: disable=arguments-differ
+        input_serializer = serializers.VoterSerializer(data=request.query_params)
+        input_serializer.is_valid(raise_exception=True)
+        voter = models.Voter(**input_serializer.validated_data)
+
+        election: models.Election = models.Election.objects.first()
+        registration_status = voter.fetch_registration_status()
+
+        data = {
+            'id': voter.fingerprint(election, registration_status),
+            'message': voter.describe(election, registration_status),
+            'election': serializers.MinimalElectionSerializer(election).data,
+            'status': serializers.StatusSerializer(registration_status).data,
+        }
+        return Response(data)
 
 
 class ElectionViewSet(viewsets.ModelViewSet):

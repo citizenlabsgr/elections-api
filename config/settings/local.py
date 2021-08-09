@@ -11,6 +11,8 @@ BASE_NAME = 'localhost'
 BASE_DOMAIN = f"{BASE_NAME}:8000"
 BASE_URL = f"http://{BASE_DOMAIN}"
 
+API_CACHE_SECONDS = 10
+
 ###############################################################################
 # Core
 
@@ -49,8 +51,3 @@ DEBUG_TOOLBAR_CONFIG = {'SHOW_COLLAPSED': True}
 # Bugsnag
 
 bugsnag.configure(release_stage='local')
-
-###############################################################################
-# Swagger
-
-SWAGGER_SETTINGS['DOC_EXPANSION'] = 'full'

@@ -22,9 +22,11 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "Graphviz",
+    "Grappelli",
     "MVIC",
     "Postgres",
     "Rosalynn",
+    "browsable",
     "createdb",
     "direnv",
     "envrc",
