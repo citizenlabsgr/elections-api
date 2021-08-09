@@ -163,6 +163,10 @@ Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/s
 
 Versions of the API are requested through content negotiation. Your client will receive the highest compatible version for the major version you request.
 
+## Zapier Integration
+
+Get notified about upcoming elections and changes to your registration status using the official Zapier integration: https://zapier.com/developer/public-invite/67931/3e2129a5ae71f759de4e990d7d4b1586/
+
 ## Contributing
 
 If you would like to contribute to this project, fork this repository or ask for commit access rights during one of our ["Hack Night" events](https://citizenlabs.org/join/).
