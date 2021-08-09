@@ -1,5 +1,9 @@
 from typing import List, Set
 
+from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
@@ -17,6 +21,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     pagination_class = None
 
+    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
     def list(self, request):  # pylint: disable=arguments-differ
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
@@ -48,18 +53,20 @@ class ElectionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ElectionSerializer
 
 
-class StatusViewSet(viewsets.ModelViewSet):
+class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     """
-    create:
-    Return the status of a particular voter's ballot.
+    list:
+    Return the status of a particular voter's ballot for the latest election.
     """
 
-    http_method_names = ['post']
     queryset = models.Voter.objects.all()
-    serializer_class = serializers.VoterSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = filters.VoterFilter
+    pagination_class = None
 
-    def create(self, request):  # pylint: disable=arguments-differ
-        voter = serializers.VoterSerializer(data=request.data)
+    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
+    def list(self, request):  # pylint: disable=arguments-differ
+        voter = serializers.VoterSerializer(data=request.query_params)
         voter.is_valid(raise_exception=True)
         voter = models.Voter(**voter.validated_data)
 
