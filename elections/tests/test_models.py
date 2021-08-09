@@ -56,7 +56,7 @@ def ballot(election, precinct):
     return models.Ballot(election=election, precinct=precinct)
 
 
-def describe_voter_identity():
+def describe_voter():
     def describe_repr():
         def it_includes_all_info(expect, voter):
             expect(repr(voter)) == "<voter: Jane Doe, birth=1985-06-19, zip=12345>"
@@ -72,6 +72,83 @@ def describe_voter_identity():
     def describe_birth_year():
         def is_parsed_from_date(expect, voter):
             expect(voter.birth_year) == 1985
+
+
+def describe_registration_status():
+
+    DATE = pendulum.parse("2021-08-09", tz='America/Detroit')
+
+    def describe_message():
+        @pytest.mark.parametrize(
+            "registered, absentee, absentee_application_received, absentee_ballot_sent, absentee_ballot_received, message",
+            [
+                (
+                    False,
+                    False,
+                    None,
+                    None,
+                    None,
+                    "not registered to vote",
+                ),
+                (
+                    True,
+                    False,
+                    None,
+                    None,
+                    None,
+                    "registered to vote",
+                ),
+                (
+                    True,
+                    True,
+                    None,
+                    None,
+                    None,
+                    "registered to vote absentee",
+                ),
+                (
+                    True,
+                    True,
+                    pendulum.parse("2021-08-10", tz='America/Detroit'),
+                    None,
+                    None,
+                    "registered to vote absentee (application received on 2021-08-10)",
+                ),
+                (
+                    True,
+                    True,
+                    pendulum.parse("2021-08-10", tz='America/Detroit'),
+                    pendulum.parse("2021-08-11", tz='America/Detroit'),
+                    None,
+                    "registered to vote absentee and your ballot was mailed to you on 2021-08-11",
+                ),
+                (
+                    True,
+                    True,
+                    pendulum.parse("2021-08-10", tz='America/Detroit'),
+                    pendulum.parse("2021-08-11", tz='America/Detroit'),
+                    pendulum.parse("2021-08-12", tz='America/Detroit'),
+                    "registered to vote absentee and your ballot was received on 2021-08-12",
+                ),
+            ],
+        )
+        def permutations(
+            expect,
+            registered,
+            absentee,
+            absentee_application_received,
+            absentee_ballot_sent,
+            absentee_ballot_received,
+            message,
+        ):
+            registration_status = models.RegistrationStatus(
+                registered=registered,
+                absentee=absentee,
+                absentee_application_received=absentee_application_received,
+                absentee_ballot_sent=absentee_ballot_sent,
+                absentee_ballot_received=absentee_ballot_received,
+            )
+            expect(registration_status.message) == message
 
 
 def describe_district_category():

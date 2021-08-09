@@ -35,6 +35,35 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         return Response(output_serializer.data)
 
 
+class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
+    """
+    list:
+    Return the status of a particular voter's ballot for the latest election.
+    """
+
+    queryset = models.Voter.objects.all()
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = filters.VoterFilter
+    pagination_class = None
+
+    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
+    def list(self, request):  # pylint: disable=arguments-differ
+        input_serializer = serializers.VoterSerializer(data=request.query_params)
+        input_serializer.is_valid(raise_exception=True)
+        voter = models.Voter(**input_serializer.validated_data)
+
+        election: models.Election = models.Election.objects.first()
+        registration_status = voter.fetch_registration_status()
+
+        data = {
+            'id': voter.fingerprint(election, registration_status),
+            'message': voter.describe(election, registration_status),
+            'election': serializers.MinimalElectionSerializer(election).data,
+            'status': serializers.StatusSerializer(registration_status).data,
+        }
+        return Response(data)
+
+
 class ElectionViewSet(viewsets.ModelViewSet):
     """
     [VIP 5.1.2: Election](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html)
@@ -51,36 +80,6 @@ class ElectionViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.ElectionFilter
     serializer_class = serializers.ElectionSerializer
-
-
-class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
-    """
-    list:
-    Return the status of a particular voter's ballot for the latest election.
-    """
-
-    queryset = models.Voter.objects.all()
-    filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = filters.VoterFilter
-    pagination_class = None
-
-    @method_decorator(cache_page(settings.API_CACHE_SECONDS))
-    def list(self, request):  # pylint: disable=arguments-differ
-        voter = serializers.VoterSerializer(data=request.query_params)
-        voter.is_valid(raise_exception=True)
-        voter = models.Voter(**voter.validated_data)
-
-        election = models.Election.objects.first()
-        registration_status = voter.fetch_registration_status()
-
-        data = {
-            'id': voter.fingerprint(election, registration_status),
-            'message': f"{registration_status.message} for the {election.message}.",
-            'election': serializers.MinimalElectionSerializer(election).data,
-            'status': serializers.StatusSerializer(registration_status).data,
-        }
-
-        return Response(data)
 
 
 class DistrictCategoryViewSet(viewsets.ModelViewSet):

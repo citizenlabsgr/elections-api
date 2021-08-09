@@ -174,23 +174,17 @@ class RegistrationStatus(models.Model):
     @property
     def message(self) -> str:
         if self.registered:
-            text = "You are registered to vote"
+            text = "registered to vote"
             if self.absentee:
                 text += " absentee"
             if self.absentee_ballot_received:
-                text += (
-                    f" and your ballot was received on {self.absentee_ballot_received}"
-                )
+                text += f" and your ballot was received on {self.absentee_ballot_received:%Y-%m-%d}"
             elif self.absentee_ballot_sent:
-                text += (
-                    f" and your ballot was sent to you on {self.absentee_ballot_sent}"
-                )
+                text += f" and your ballot was mailed to you on {self.absentee_ballot_sent:%Y-%m-%d}"
             elif self.absentee_application_received:
-                text += (
-                    f" (application received on {self.absentee_application_received})"
-                )
+                text += f" (application received on {self.absentee_application_received:%Y-%m-%d})"
         else:
-            text = "You are not registered to vote"
+            text = "not registered to vote"
         return text
 
     def save(self, *args, **kwargs):
@@ -314,6 +308,9 @@ class Voter(models.Model):
                 str(sum(ord(c) for c in status.message)),
             ]
         )
+
+    def describe(self, election: Election, status: RegistrationStatus):
+        return f"{self} is {status.message} for the {election.message}."
 
     def save(self, *args, **kwargs):
         raise NotImplementedError
