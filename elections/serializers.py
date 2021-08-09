@@ -67,24 +67,14 @@ class ElectionSerializer(serializers.ModelSerializer):
 
 
 class MinimalElectionSerializer(serializers.ModelSerializer):
-
-    date_humanized = serializers.SerializerMethodField()
-
     class Meta:
         model = models.Election
         fields = [
             'name',
             'date',
-            'date_humanized',
             'description',
             'reference_url',
         ]
-
-    def get_date_humanized(self, instance) -> str:
-        dt = pendulum.datetime(
-            instance.date.year, instance.date.month, instance.date.day
-        )
-        return dt.format('dddd, MMMM Do')
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):

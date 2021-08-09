@@ -1,5 +1,6 @@
 # pylint: disable=unused-argument,unused-variable
 
+import pendulum
 import pytest
 
 from elections import defaults
@@ -9,7 +10,11 @@ from . import factories
 
 @pytest.fixture
 def election(db):
-    factories.ElectionFactory.create(pk=42)
+    instance = factories.ElectionFactory.create(pk=42)
+    factories.ElectionFactory.create(
+        active=False, date=pendulum.parse('2017-08-07', tz='America/Detroit')
+    )
+    return instance
 
 
 def describe_create():
@@ -36,7 +41,6 @@ def describe_create():
             'election': {
                 'name': 'General Election',
                 'date': '2018-08-07',
-                'date_humanized': 'Tuesday, August 7th',
                 'description': '',
                 'reference_url': None,
             },
@@ -66,7 +70,6 @@ def describe_create():
             'election': {
                 'name': 'General Election',
                 'date': '2018-08-07',
-                'date_humanized': 'Tuesday, August 7th',
                 'description': '',
                 'reference_url': None,
             },

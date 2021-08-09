@@ -63,7 +63,7 @@ class StatusViewSet(viewsets.ModelViewSet):
         voter.is_valid(raise_exception=True)
         voter = models.Voter(**voter.validated_data)
 
-        election = models.Election.objects.last()
+        election = models.Election.objects.first()
         registration_status = voter.fetch_registration_status()
 
         data = {
