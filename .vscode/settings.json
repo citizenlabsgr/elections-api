@@ -26,6 +26,7 @@
     "MVIC",
     "Postgres",
     "Rosalynn",
+    "browsable",
     "createdb",
     "direnv",
     "envrc",

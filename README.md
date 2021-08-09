@@ -157,7 +157,7 @@ http GET https://michiganelections.io/api/proposals/ \
 
 ## Documentation
 
-The browseable API powered by [Django REST Framework](https://www.django-rest-framework.org) can be found here: https://michiganelections.io/api/
+The browsable API powered by [Django REST Framework](https://www.django-rest-framework.org) can be found here: https://michiganelections.io/api/
 
 Interactive API documentation powered by [Swagger UI](https://swagger.io/tools/swagger-ui/), can be found here: https://michiganelections.io/docs/
 
@@ -172,6 +172,10 @@ Once you have access rights or a fork, please read the [CONTRIBUTING.md](https:/
 You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/main/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
+
+**Version 1.10**
+
+- Added `/api/status/` to enabling triggering when a voter's registration status changes for an upcoming election.
 
 **Version 1.9**
 
