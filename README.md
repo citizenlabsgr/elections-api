@@ -165,7 +165,7 @@ Versions of the API are requested through content negotiation. Your client will 
 
 ## Zapier Integration
 
-Get notified about upcoming elections and changes to your registration status using the official Zapier integration: https://zapier.com/developer/public-invite/67931/3e2129a5ae71f759de4e990d7d4b1586/
+Get notified about upcoming elections and changes to your registration status using the official Zapier integration: https://zapier.com/apps/michigan-elections
 
 ## Contributing
 
