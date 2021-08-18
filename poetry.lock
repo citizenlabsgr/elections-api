@@ -564,6 +564,13 @@ description = "Up to date simple useragent faker with real world database"
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
+
+[package.source]
+type = "git"
+url = "https://github.com/Jordan9675/fake-useragent"
+reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
+resolved_reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
 
 [[package]]
 name = "faker"
@@ -1894,7 +1901,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "d398b221f6ef8adaac77f95cb22bb20127fa1845ff1e2f7e3a8f8a6a44e2203f"
+content-hash = "55bede29afddb06a8869620f119b9855c750da901bd32f020d34d5490d21bbc2"
 
 [metadata.files]
 appdirs = [
@@ -2163,9 +2170,7 @@ entrypoints = [
 factory-boy = [
     {file = "factory_boy-3.0.1.tar.gz", hash = "sha256:2ce2f665045d9f15145a6310565fcb8255d52fc6fd867f3b783b3ac3de6cf10e"},
 ]
-fake-useragent = [
-    {file = "fake-useragent-0.1.11.tar.gz", hash = "sha256:c104998b750eb097eefc28ae28e92d66397598d2cf41a31aa45d5559ef1adf35"},
-]
+fake-useragent = []
 faker = [
     {file = "Faker-4.1.3-py3-none-any.whl", hash = "sha256:80bab8d46035a7393de827210c5d39c17109d3346d131946bde622137120c496"},
     {file = "Faker-4.1.3.tar.gz", hash = "sha256:075a95ac4c95765370919d787dcd958acfaea635005ad5af4d926cb0973800db"},
