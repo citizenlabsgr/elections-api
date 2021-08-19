@@ -179,7 +179,7 @@ You can also contribute content changes by editing [these files](https://github.
 
 **Version 1.10**
 
-- Added `/api/status/` to enabling triggering when a voter's registration status changes for an upcoming election.
+- Added `/api/status/` to enable triggering when a voter's registration status changes for an upcoming election.
 
 **Version 1.9**
 
