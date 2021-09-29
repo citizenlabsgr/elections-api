@@ -14,8 +14,8 @@ def scrape_ballots(
     max_election_error_count: int = 3,
     max_ballot_error_count: int = 1000,
 ):
-    last_election = Election.objects.exclude(active=True).last()
-    current_election = Election.objects.filter(active=True).first()
+    current_election = Election.objects.filter(active=True).last()
+    last_election = Election.objects.exclude(active=True).first()
 
     if starting_election_id is not None:
         pass  # use the provided ID
