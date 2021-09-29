@@ -35,7 +35,7 @@ def describe_create():
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            'id': '42-4085-6199',
+            'id': '142-4085-6199',
             'message': 'Rosalynn Bliss is registered to vote absentee and your ballot was received on 2020-09-29 for the General Election election on 2018-08-07.',
             'election': {
                 'name': 'General Election',
@@ -63,7 +63,7 @@ def describe_create():
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            'id': '42-3436-2176',
+            'id': '142-3436-2176',
             'message': 'Jane Doe is not registered to vote for the General Election election on 2018-08-07.',
             'election': {
                 'name': 'General Election',

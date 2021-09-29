@@ -303,7 +303,7 @@ class Voter(models.Model):
     def fingerprint(self, election: Election, status: RegistrationStatus) -> str:
         return '-'.join(
             [
-                str(election.pk),
+                str(settings.API_CACHE_KEY) + str(election.pk),
                 str(sum(ord(c) for c in repr(self))),
                 str(sum(ord(c) for c in status.message)),
             ]
