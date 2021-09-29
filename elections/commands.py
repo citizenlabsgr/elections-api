@@ -16,6 +16,8 @@ def scrape_ballots(
 ):
     current_election = Election.objects.filter(active=True).last()
     last_election = Election.objects.exclude(active=True).first()
+    log.info(f"Current election: {current_election}")
+    log.info(f"Last election: {last_election}")
 
     if starting_election_id is not None:
         pass  # use the provided ID

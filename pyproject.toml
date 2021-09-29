@@ -37,7 +37,7 @@ pygments = "*"
 # Utilities
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
-fake-useragent = { git = "https://github.com/Jordan9675/fake-useragent", rev = "d8ca49d341829adb1f0efa7a309337bdc1c2b978" } # wait for ~0.1.12
+fake-useragent = { git = "https://github.com/Jordan9675/fake-useragent", rev = "b608f96232874c32cd5e878f12dbe1a5bb5c8eaa" } # wait for ~0.1.12
 minilog = "^2.0"
 nameparser = "^1.0.4"
 pendulum = "*"

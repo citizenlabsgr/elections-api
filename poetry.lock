@@ -559,7 +559,7 @@ doc = ["sphinx", "sphinx-rtd-theme"]
 
 [[package]]
 name = "fake-useragent"
-version = "0.1.11"
+version = "0.1.12"
 description = "Up to date simple useragent faker with real world database"
 category = "main"
 optional = false
@@ -569,8 +569,8 @@ develop = false
 [package.source]
 type = "git"
 url = "https://github.com/Jordan9675/fake-useragent"
-reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
-resolved_reference = "d8ca49d341829adb1f0efa7a309337bdc1c2b978"
+reference = "b608f96232874c32cd5e878f12dbe1a5bb5c8eaa"
+resolved_reference = "b608f96232874c32cd5e878f12dbe1a5bb5c8eaa"
 
 [[package]]
 name = "faker"
@@ -1901,7 +1901,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "55bede29afddb06a8869620f119b9855c750da901bd32f020d34d5490d21bbc2"
+content-hash = "8e5fc65e0cb778860988fc8ea39035fe403e9d8f9d3cfdb03fd94ad5d4b84d8a"
 
 [metadata.files]
 appdirs = [
