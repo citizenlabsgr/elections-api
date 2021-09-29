@@ -65,22 +65,22 @@ def test_2020_general_ballots(expect, db, precinct_id, item_count):
 @pytest.mark.parametrize(
     ('precinct_id', 'item_count'),
     [
-        (1170, 1),
+        (1, 11),
     ],
 )
-def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(685, precinct_id)) == item_count
+def test_2021_primary_ballots(expect, db, precinct_id, item_count):
+    expect(parse_ballot(686, precinct_id)) == item_count
 
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
     ('precinct_id', 'item_count'),
     [
-        (1, 11),
+        (6956, 1),
     ],
 )
-def test_2021_primary_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(686, precinct_id)) == item_count
+def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
+    expect(parse_ballot(687, precinct_id)) == item_count
 
 
 @pytest.mark.vcr
