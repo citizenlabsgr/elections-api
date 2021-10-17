@@ -177,6 +177,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 1.10.1**
+
+- Updated `/api/status/` to return a 202 when the Michan Secretary of State website is unavailable.
+
 **Version 1.10**
 
 - Added `/api/status/` to enable triggering when a voter's registration status changes for an upcoming election.
