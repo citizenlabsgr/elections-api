@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_page
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
-from . import filters, models, serializers
+from . import exceptions, filters, models, serializers
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -53,15 +53,27 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         voter = models.Voter(**input_serializer.validated_data)
 
         election: models.Election = models.Election.objects.first()
-        registration_status = voter.fetch_registration_status()
+        try:
+            registration_status = voter.fetch_registration_status()
+        except exceptions.ServiceUnavailable as e:
+            registration_status = models.RegistrationStatus()
+            data = {
+                'id': voter.fingerprint(election, registration_status),
+                'message': str(e),
+                'election': serializers.MinimalElectionSerializer(election).data,
+                'status': serializers.StatusSerializer(registration_status).data,
+            }
+            status = 202
+        else:
 
-        data = {
-            'id': voter.fingerprint(election, registration_status),
-            'message': voter.describe(election, registration_status),
-            'election': serializers.MinimalElectionSerializer(election).data,
-            'status': serializers.StatusSerializer(registration_status).data,
-        }
-        return Response(data)
+            data = {
+                'id': voter.fingerprint(election, registration_status),
+                'message': voter.describe(election, registration_status),
+                'election': serializers.MinimalElectionSerializer(election).data,
+                'status': serializers.StatusSerializer(registration_status).data,
+            }
+            status = 200
+        return Response(data, status)
 
 
 class ElectionViewSet(viewsets.ModelViewSet):

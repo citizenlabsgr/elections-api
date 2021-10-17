@@ -1,11 +1,13 @@
 # pylint: disable=unused-argument,unused-variable
 
+from unittest.mock import Mock, patch
+
 from django.conf import settings
 
 import pendulum
 import pytest
 
-from elections import defaults
+from elections import defaults, exceptions
 
 from . import factories
 
@@ -75,6 +77,37 @@ def describe_create():
             },
             'status': {
                 'registered': False,
+                'absentee': False,
+                'absentee_application_received': None,
+                'absentee_ballot_sent': None,
+                'absentee_ballot_received': None,
+            },
+        }
+
+    @patch(
+        'elections.helpers.fetch_registration_status_data',
+        Mock(side_effect=exceptions.ServiceUnavailable),
+    )
+    def it_handles_mvic_outages(expect, client, url, election):
+        response = client.get(
+            url + '?first_name=Rosalynn'
+            '&last_name=Bliss'
+            '&birth_date=1975-08-03'
+            '&zip_code=49503'
+        )
+
+        expect(response.status_code) == 202
+        expect(response.data) == {
+            'id': f'{settings.API_CACHE_KEY}42-4085-2176',
+            'message': 'The Michigan Secretary of State website is temporarily unavailable, please try again later.',
+            'election': {
+                'name': 'General Election',
+                'date': '2018-08-07',
+                'description': '',
+                'reference_url': None,
+            },
+            'status': {
+                'registered': None,
                 'absentee': False,
                 'absentee_application_received': None,
                 'absentee_ballot_sent': None,

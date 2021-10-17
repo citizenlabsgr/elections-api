@@ -7,6 +7,8 @@ from .default import *
 # None of the commands that rely on these values should run during tests
 BASE_URL = 'http://example.com'
 
+API_CACHE_SECONDS = 0
+
 ###############################################################################
 # Core
 
