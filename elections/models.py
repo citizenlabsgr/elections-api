@@ -156,6 +156,7 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+    ballot_url = models.URLField(null=True, blank=True)
 
     absentee = models.BooleanField(default=False)
     absentee_application_received = models.DateField(null=True)
@@ -301,16 +302,24 @@ class Voter(models.Model):
         return status
 
     def fingerprint(self, election: Election, status: RegistrationStatus) -> str:
+        election_string = str(election.pk)
+        voter_string = repr(self)
+        status_string = status.message + (
+            status.ballot_url if status.ballot_url else ''
+        )
         return '-'.join(
             [
-                str(settings.API_CACHE_KEY) + str(election.pk),
-                str(sum(ord(c) for c in repr(self))),
-                str(sum(ord(c) for c in status.message)),
+                str(settings.API_CACHE_KEY) + election_string,
+                str(sum(ord(c) for c in voter_string)),
+                str(sum(ord(c) for c in status_string)),
             ]
         )
 
     def describe(self, election: Election, status: RegistrationStatus):
-        return f"{self} is {status.message} for the {election.message}."
+        message = f"{self} is {status.message} for the {election.message}"
+        if status.ballot_url:
+            message += " and a sample ballot is available"
+        return message + "."
 
     def save(self, *args, **kwargs):
         raise NotImplementedError
