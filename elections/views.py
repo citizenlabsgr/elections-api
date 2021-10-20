@@ -61,19 +61,27 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             registration_status = voter.fetch_registration_status()
         except exceptions.ServiceUnavailable as e:
             registration_status = models.RegistrationStatus()
+            precinct = registration_status.precinct
             data = {
                 'id': voter.fingerprint(election, registration_status),
                 'message': str(e),
                 'election': serializers.MinimalElectionSerializer(election).data,
+                'precinct': serializers.MinimalPrecinctSerializer(precinct).data,
                 'status': serializers.StatusSerializer(registration_status).data,
             }
             status = 202
         else:
-
+            precinct = registration_status.precinct
+            ballot = models.Ballot.objects.filter(
+                election=election, precinct=precinct
+            ).first()
+            if ballot:
+                registration_status.ballot_url = ballot.mvic_url
             data = {
                 'id': voter.fingerprint(election, registration_status),
                 'message': voter.describe(election, registration_status),
                 'election': serializers.MinimalElectionSerializer(election).data,
+                'precinct': serializers.MinimalPrecinctSerializer(precinct).data,
                 'status': serializers.StatusSerializer(registration_status).data,
             }
             status = 200

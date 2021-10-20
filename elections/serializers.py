@@ -70,6 +70,7 @@ class MinimalElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
         fields = [
+            'id',
             'name',
             'date',
             'description',
@@ -87,6 +88,18 @@ class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Precinct
         fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'number']
+
+
+class MinimalPrecinctSerializer(serializers.ModelSerializer):
+
+    county = serializers.CharField()
+    jurisdiction = serializers.CharField()
+    ward = fields.NullCharField()
+    number = fields.NullCharField()
+
+    class Meta:
+        model = models.Precinct
+        fields = ['id', 'county', 'jurisdiction', 'ward', 'number']
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
@@ -188,6 +201,7 @@ class StatusSerializer(serializers.ModelSerializer):
         model = models.RegistrationStatus
         fields = [
             'registered',
+            'ballot_url',
             'absentee',
             'absentee_application_received',
             'absentee_ballot_sent',
