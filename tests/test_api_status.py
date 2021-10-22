@@ -57,6 +57,7 @@ def describe_create():
             },
             'status': {
                 'registered': True,
+                'ballot': True,
                 'ballot_url': None,
                 'absentee': True,
                 'absentee_application_received': '2020-06-06',
@@ -93,8 +94,9 @@ def describe_create():
             },
             'status': {
                 'registered': False,
+                'ballot': None,
                 'ballot_url': None,
-                'absentee': False,
+                'absentee': None,
                 'absentee_application_received': None,
                 'absentee_ballot_sent': None,
                 'absentee_ballot_received': None,
@@ -132,8 +134,9 @@ def describe_create():
             },
             'status': {
                 'registered': None,
+                'ballot': None,
                 'ballot_url': None,
-                'absentee': False,
+                'absentee': None,
                 'absentee_application_received': None,
                 'absentee_ballot_sent': None,
                 'absentee_ballot_received': None,

@@ -184,6 +184,9 @@ def fetch_registration_status_data(voter):
     # Parse moved status
     recently_moved = "you have recently moved" in response.text
 
+    # Parse ballot status
+    ballot = "Ballot preview" in response.text
+
     # Parse absentee status
     absentee = "You are on the permanent absentee voter list" in response.text
 
@@ -267,6 +270,7 @@ def fetch_registration_status_data(voter):
 
     return {
         "registered": registered,
+        "ballot": ballot,
         "absentee": absentee,
         "absentee_dates": absentee_dates,
         "districts": districts,

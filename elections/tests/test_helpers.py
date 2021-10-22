@@ -25,6 +25,7 @@ def describe_fetch_registration_status_data():
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
             "registered": True,
+            "ballot": True,
             "absentee": True,
             "absentee_dates": {
                 'Application Received': datetime.date(2020, 6, 6),
