@@ -141,13 +141,13 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': False,
-            'absentee': False,
+            'absentee': None,
             'absentee_application_received': None,
             'absentee_ballot_sent': None,
             'absentee_ballot_received': None,
             'polling_location': None,
             'dropbox_location': None,
-            'recently_moved': False,
+            'recently_moved': None,
             'precinct': None,
             'districts': [],
         }

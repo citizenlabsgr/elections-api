@@ -156,16 +156,17 @@ class RegistrationStatus(models.Model):
     """Status of a particular voter's registration."""
 
     registered = models.BooleanField()
+    ballot = models.BooleanField(null=True, blank=True)
     ballot_url = models.URLField(null=True, blank=True)
 
-    absentee = models.BooleanField(default=False)
+    absentee = models.BooleanField(null=True, blank=True)
     absentee_application_received = models.DateField(null=True)
     absentee_ballot_sent = models.DateField(null=True)
     absentee_ballot_received = models.DateField(null=True)
 
-    polling_location = models.JSONField(blank=True, null=True)
-    dropbox_location = models.JSONField(blank=True, null=True)
-    recently_moved = models.BooleanField(default=False)
+    polling_location = models.JSONField(null=True, blank=True)
+    dropbox_location = models.JSONField(null=True, blank=True)
+    recently_moved = models.BooleanField(null=True, blank=True)
 
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
@@ -286,6 +287,7 @@ class Voter(models.Model):
 
         status = RegistrationStatus(
             registered=data['registered'],
+            ballot=data['ballot'],
             absentee=data['absentee'],
             absentee_application_received=data['absentee_dates'][
                 'Application Received'
