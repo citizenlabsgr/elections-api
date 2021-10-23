@@ -90,6 +90,7 @@ The registrations payload also includes fields indicating the voter's absentee s
 | Field                           | Description                                             |
 | ------------------------------- | ------------------------------------------------------- |
 | `registered`                    | Voter can participate in the upcoming election          |
+| `ballot`                        | Voter will participate in the upcoming election         |
 | `absentee`                      | Voter has requested to vote by mail for all elections   |
 | `absentee_application_received` | Date (`YYYY-MM-DD`) clerk received absentee application |
 | `absentee_ballot_sent`          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
@@ -176,6 +177,10 @@ Once you have access rights or a fork, please read the [CONTRIBUTING.md](https:/
 You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/main/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
+
+**Version 1.11**
+
+- Added `ballot` to registration and status responses.
 
 **Version 1.10.1**
 

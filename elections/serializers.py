@@ -184,8 +184,7 @@ class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
         model = models.RegistrationStatus
         fields = [
             'registered',
-            # TODO: Include ballot status when feature is tested with `StatusSerializer`
-            # 'ballot',
+            'ballot',
             'absentee',
             'absentee_application_received',
             'absentee_ballot_sent',
@@ -208,6 +207,8 @@ class StatusSerializer(serializers.ModelSerializer):
             # current voter. This happens when there's a ballot for a precinct
             # that only applies to a subset of voters in that precinct, such
             # as school districts that don't follow precinct/ward lines.
+            #
+            # NOTE: This parameter is not officially documented in the README.
             'ballot_url',
             'absentee',
             'absentee_application_received',
