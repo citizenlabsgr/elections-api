@@ -132,7 +132,7 @@ GRAPPELLI_ADMIN_TITLE = "Michigan Elections Admin"
 
 REST_FRAMEWORK = {
     'DEFAULT_VERSION': '1',
-    'ALLOWED_VERSIONS': ['1'],
+    'ALLOWED_VERSIONS': ['1', '2'],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,

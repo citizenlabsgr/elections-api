@@ -255,18 +255,33 @@ def fetch_registration_status_data(voter):
     else:
         log.warn("Unable to determine polling location")
 
-    # Parse dropbox location
+    # Parse dropbox locations
+    dropbox_locations: List[Dict[str, List[str]]] = []
     element = html.find('span', {'class': 'additional-location-badge'})
     if element:
-        dropbox_location = (
-            element.parent.get_text('\n')
-            .split('\n\n\n\n\n', 1)[-1]
-            .split(' Michigan', 1)[0]
-            + " Michigan"
-        ).split('\n')
+        lines: List[str] = []
+        for element in element.next_siblings:
+            try:
+                text = element.get_text('\n').strip()
+            except AttributeError:
+                text = element.replace('\xa0', ' ').strip()
+            if "Drop box locations" in text:
+                lines = []  # the previous lines were above the dropbox list
+            elif text and text != "Hours:":
+                lines.extend(text.split('\n'))
+
+        for line in lines:
+            if line[0].isnumeric():
+                dropbox_locations.append({'address': [line], 'hours': []})
+            elif len(dropbox_locations[-1]['address']) == 1:
+                dropbox_locations[-1]['address'].append(line)
+            else:
+                dropbox_locations[-1]['hours'].append(line)
+
+        if not dropbox_locations:
+            log.warn("No dropbox locations found")
     else:
-        log.warn("Unable to determine drobox location")
-        dropbox_location = None
+        log.warn("Unable to determine dropbox locations")
 
     return {
         "registered": registered,
@@ -275,7 +290,7 @@ def fetch_registration_status_data(voter):
         "absentee_dates": absentee_dates,
         "districts": districts,
         "polling_location": polling_location,
-        'dropbox_location': dropbox_location,
+        'dropbox_locations': dropbox_locations,
         "recently_moved": recently_moved,
     }
 
