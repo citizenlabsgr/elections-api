@@ -84,6 +84,14 @@ And the address where you can drop off your signed absentee ballot:
 ]
 ```
 
+⚠️ **DEPRECATION WARNING:** In version 2.x the API will return multiple dropbox locations, which you can preview like so:
+
+```
+http GET https://michiganelections.io/api/registrations/ \
+  "Accept: application/json; version=2" \
+  first_name==Rosalynn last_name==Bliss birth_date==1975-08-03 zip_code==49503
+```
+
 #### Absentee Information
 
 The registrations payload also includes fields indicating the voter's absentee status and progress of their ballot:
@@ -179,13 +187,17 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 2.0 (beta)**
+
+- Replaced `dropbox_location` with `dropbox_locations` in registrations API responses to include multiple locations and hours.
+
 **Version 1.11**
 
 - Added `ballot` to registration and status responses.
 
 **Version 1.10.1**
 
-- Updated `/api/status/` to return a 202 when the Michan Secretary of State website is unavailable.
+- Updated `/api/status/` to return a 202 when the Michigan Secretary of State website is unavailable.
 
 **Version 1.10**
 

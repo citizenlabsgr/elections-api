@@ -11,6 +11,195 @@ def describe_list():
         return '/api/registrations/'
 
     @pytest.mark.vcr
+    def it_returns_data_for_a_registered_voter_v2(expect, client, url, db):
+        defaults.initialize_districts()
+
+        response = client.get(
+            url + '?first_name=Rosalynn'
+            '&last_name=Bliss'
+            '&birth_date=1975-08-03'
+            '&zip_code=49503',
+            HTTP_ACCEPT='application/json; version=2',
+        )
+
+        expect(response.status_code) == 200
+        expect(response.data) == {
+            'registered': True,
+            'ballot': False,
+            'absentee': True,
+            'absentee_application_received': None,
+            'absentee_ballot_sent': None,
+            'absentee_ballot_received': None,
+            'polling_location': [
+                'Encounter Church',
+                '1736 Lyon Ne',
+                'Grand Rapids, Michigan 49503',
+            ],
+            'dropbox_locations': [
+                {
+                    'address': ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan 49503'],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': [
+                        '1563 Plainfield Avenue Ne',
+                        'Grand Rapids, Michigan 49505',
+                    ],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': ['1017 Leonard, Nw', 'Grand Rapids, Michigan 49504'],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': ['427 Market, Sw', 'Grand Rapids, Michigan 49503'],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': ['1150 Giddings Se', 'Grand Rapids, Michigan 49506'],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': ['2350 Eastern Se', 'Grand Rapids, Michigan 49507'],
+                    'hours': ['Available 24 Hours/7 Days a Week'],
+                },
+                {
+                    'address': [
+                        '300 Monroe Avenue, Nw',
+                        'Grand Rapids, Michigan 49503',
+                    ],
+                    'hours': [
+                        'Mon. 8am-5pm',
+                        'Tue. 8am-5pm',
+                        'Wed. 8am-5pm',
+                        'Thu. 8am-5pm',
+                        'Fri. 8am-5pm',
+                    ],
+                },
+            ],
+            'recently_moved': False,
+            'precinct': {
+                'url': expect.anything,
+                'id': expect.anything,
+                'county': 'Kent',
+                'jurisdiction': 'City of Grand Rapids',
+                'ward': '2',
+                'number': '30',
+            },
+            'districts': [
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Circuit Court District',
+                    'name': '17th Circuit',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Community College District',
+                    'name': 'Grand Rapids Community College',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'County',
+                    'name': 'Kent',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'County Commissioner District',
+                    'name': '18th District',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Court of Appeals District',
+                    'name': '3rd District',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'District Court District',
+                    'name': '61st District',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Intermediate School District',
+                    'name': 'Kent ISD',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Jurisdiction',
+                    'name': 'City of Grand Rapids',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'Probate Court District',
+                    'name': 'Kent County Probate Court',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'School District',
+                    'name': 'Grand Rapids Public Schools',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'State House District',
+                    'name': '75th District',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'State Senate District',
+                    'name': '29th District',
+                },
+                {
+                    'url': expect.anything,
+                    'id': expect.anything,
+                    'category': 'US Congress District',
+                    'name': '3rd District',
+                },
+            ],
+        }
+
+    @pytest.mark.vcr
+    def it_handles_unknown_voters_v2(expect, client, url):
+        response = client.get(
+            url + '?first_name=Jane'
+            '&last_name=Doe'
+            '&birth_date=2000-01-01'
+            '&zip_code=999999',
+            HTTP_ACCEPT='application/json; version=2',
+        )
+
+        expect(response.status_code) == 200
+        expect(response.data) == {
+            'registered': False,
+            'ballot': None,
+            'absentee': None,
+            'absentee_application_received': None,
+            'absentee_ballot_sent': None,
+            'absentee_ballot_received': None,
+            'polling_location': None,
+            'dropbox_locations': None,
+            'recently_moved': None,
+            'precinct': None,
+            'districts': [],
+        }
+
+
+def describe_list_v1():
+    @pytest.fixture
+    def url():
+        return '/api/registrations/'
+
+    @pytest.mark.vcr
     def it_returns_data_for_a_registered_voter(expect, client, url, db):
         defaults.initialize_districts()
 
@@ -35,9 +224,8 @@ def describe_list():
                 'Grand Rapids, Michigan 49503',
             ],
             'dropbox_location': [
-                'Election Central',
-                '201 Market',
-                'Grand Rapids, Michigan',
+                '300 Ottawa Ave Nw',
+                'Grand Rapids, Michigan 49503',
             ],
             'recently_moved': False,
             'precinct': {

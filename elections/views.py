@@ -21,6 +21,11 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     pagination_class = None
 
+    def get_serializer_class(self):
+        if self.request.version == '1':
+            return serializers.RegistrationSerializerV1
+        return serializers.RegistrationSerializer
+
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
     )
@@ -31,7 +36,8 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
         registration_status = voter.fetch_registration_status()
 
-        output_serializer = serializers.RegistrationSerializer(
+        serializer_class = self.get_serializer_class()
+        output_serializer = serializer_class(
             registration_status, context={'request': request}
         )
         return Response(output_serializer.data)
