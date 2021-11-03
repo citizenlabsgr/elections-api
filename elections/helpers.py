@@ -3,6 +3,7 @@ import string
 import time
 from contextlib import contextmanager
 from datetime import date, datetime
+from functools import cache
 from importlib import resources
 from typing import Any, Dict, Generator, List, Optional, Tuple
 
@@ -55,6 +56,7 @@ def visit(url: str, expected_text: str) -> pomace.Page:
     return page
 
 
+@cache
 def titleize(text: str) -> str:
     return (
         string.capwords(text)
@@ -80,6 +82,7 @@ def titleize(text: str) -> str:
     )
 
 
+@cache
 def normalize_position(text: str) -> str:
     text = text.split(' (')[0].split(' - ')[0]
     if text.startswith("Alderman"):
@@ -93,6 +96,7 @@ def normalize_position(text: str) -> str:
     return titleize(text)
 
 
+@cache
 def normalize_candidate(text: str) -> str:
     if '\n' in text:
         log.debug(f'Handling running mate: {text}')
@@ -113,10 +117,12 @@ def normalize_candidate(text: str) -> str:
     return str(name)
 
 
+@cache
 def normalize_district(text: str) -> str:
     return text.replace("District District", "District").replace(" Isd", " ISD").strip()
 
 
+@cache
 def normalize_jurisdiction(name: str) -> str:
     name = titleize(name)
 
@@ -130,6 +136,15 @@ def normalize_jurisdiction(name: str) -> str:
             return name.replace(" Charter", "")
 
     return name
+
+
+@cache
+def normalize_address(line: str) -> str:
+    line = line.strip()
+    for direction in {'Ne', 'Nw', 'Se', 'Sw'}:
+        if line.endswith(direction):
+            line = line.replace(' ' + direction, ' ' + direction.upper())
+    return line.replace(", Michigan", ", MI")
 
 
 def build_mvic_url(election_id: int, precinct_id: int) -> str:
@@ -248,10 +263,10 @@ def fetch_registration_status_data(voter):
         polling_location['PollingLocation'] = element.text.strip()
     element = html.find(id='lblPollAddress')
     if element:
-        polling_location['PollAddress'] = element.text.strip()
+        polling_location['PollAddress'] = normalize_address(element.text)
     element = html.find(id='lblPollCityStateZip')
     if element:
-        polling_location['PollCityStateZip'] = element.text.strip()
+        polling_location['PollCityStateZip'] = normalize_address(element.text)
     else:
         log.warn("Unable to determine polling location")
 
@@ -272,9 +287,11 @@ def fetch_registration_status_data(voter):
 
         for line in lines:
             if line[0].isnumeric():
-                dropbox_locations.append({'address': [line], 'hours': []})
+                dropbox_locations.append(
+                    {'address': [normalize_address(line)], 'hours': []}
+                )
             elif len(dropbox_locations[-1]['address']) == 1:
-                dropbox_locations[-1]['address'].append(line)
+                dropbox_locations[-1]['address'].append(normalize_address(line))
             else:
                 dropbox_locations[-1]['hours'].append(line)
 
