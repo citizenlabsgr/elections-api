@@ -76,7 +76,7 @@ coveragespace = "^3.1"
 # Utilities
 ipdb = "~0.12.2"  # export PYTHONBREAKPOINT=ipdb.set_trace
 django-extensions = "*"
-pygraphviz = "*"
+pygraphviz = "^1.7"
 
 # Development Server
 django-debug-toolbar = "*"
