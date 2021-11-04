@@ -56,21 +56,21 @@ def describe_fetch_registration_status_data():
             },
             "polling_location": {
                 "PollingLocation": "Encounter Church",
-                "PollAddress": "1736 Lyon Ne",
-                "PollCityStateZip": "Grand Rapids, Michigan 49503",
+                "PollAddress": "1736 Lyon NE",
+                "PollCityStateZip": "Grand Rapids, MI 49503",
             },
             "dropbox_locations": [
                 {
                     'address': [
-                        '300 Ottawa Ave Nw',
-                        'Grand Rapids, Michigan 49503',
+                        '300 Ottawa Ave NW',
+                        'Grand Rapids, MI 49503',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '1563 Plainfield Avenue Ne',
-                        'Grand Rapids, Michigan 49505',
+                        '1563 Plainfield Avenue NE',
+                        'Grand Rapids, MI 49505',
                     ],
                     'hours': [
                         'Available 24 Hours/7 Days a Week',
@@ -78,36 +78,36 @@ def describe_fetch_registration_status_data():
                 },
                 {
                     'address': [
-                        '1017 Leonard, Nw',
-                        'Grand Rapids, Michigan 49504',
+                        '1017 Leonard, NW',
+                        'Grand Rapids, MI 49504',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '427 Market, Sw',
-                        'Grand Rapids, Michigan 49503',
+                        '427 Market, SW',
+                        'Grand Rapids, MI 49503',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '1150 Giddings Se',
-                        'Grand Rapids, Michigan 49506',
+                        '1150 Giddings SE',
+                        'Grand Rapids, MI 49506',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '2350 Eastern Se',
-                        'Grand Rapids, Michigan 49507',
+                        '2350 Eastern SE',
+                        'Grand Rapids, MI 49507',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '300 Monroe Avenue, Nw',
-                        'Grand Rapids, Michigan 49503',
+                        '300 Monroe Avenue, NW',
+                        'Grand Rapids, MI 49503',
                     ],
                     'hours': [
                         'Mon. 8am-5pm',

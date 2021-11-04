@@ -32,41 +32,41 @@ def describe_list():
             'absentee_ballot_received': None,
             'polling_location': [
                 'Encounter Church',
-                '1736 Lyon Ne',
-                'Grand Rapids, Michigan 49503',
+                '1736 Lyon NE',
+                'Grand Rapids, MI 49503',
             ],
             'dropbox_locations': [
                 {
-                    'address': ['300 Ottawa Ave Nw', 'Grand Rapids, Michigan 49503'],
+                    'address': ['300 Ottawa Ave NW', 'Grand Rapids, MI 49503'],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '1563 Plainfield Avenue Ne',
-                        'Grand Rapids, Michigan 49505',
+                        '1563 Plainfield Avenue NE',
+                        'Grand Rapids, MI 49505',
                     ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['1017 Leonard, Nw', 'Grand Rapids, Michigan 49504'],
+                    'address': ['1017 Leonard, NW', 'Grand Rapids, MI 49504'],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['427 Market, Sw', 'Grand Rapids, Michigan 49503'],
+                    'address': ['427 Market, SW', 'Grand Rapids, MI 49503'],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['1150 Giddings Se', 'Grand Rapids, Michigan 49506'],
+                    'address': ['1150 Giddings SE', 'Grand Rapids, MI 49506'],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['2350 Eastern Se', 'Grand Rapids, Michigan 49507'],
+                    'address': ['2350 Eastern SE', 'Grand Rapids, MI 49507'],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
                     'address': [
-                        '300 Monroe Avenue, Nw',
-                        'Grand Rapids, Michigan 49503',
+                        '300 Monroe Avenue, NW',
+                        'Grand Rapids, MI 49503',
                     ],
                     'hours': [
                         'Mon. 8am-5pm',
@@ -171,7 +171,7 @@ def describe_list():
     @pytest.mark.vcr
     def it_handles_unknown_voters_v2(expect, client, url):
         response = client.get(
-            url + '?first_name=Jane'
+            url + '?first_name=JanE'
             '&last_name=Doe'
             '&birth_date=2000-01-01'
             '&zip_code=999999',
@@ -220,12 +220,12 @@ def describe_list_v1():
             'absentee_ballot_received': '2020-09-29',
             'polling_location': [
                 'Encounter Church',
-                '1736 Lyon Ne',
-                'Grand Rapids, Michigan 49503',
+                '1736 Lyon NE',
+                'Grand Rapids, MI 49503',
             ],
             'dropbox_location': [
-                '300 Ottawa Ave Nw',
-                'Grand Rapids, Michigan 49503',
+                '300 Ottawa Ave NW',
+                'Grand Rapids, MI 49503',
             ],
             'recently_moved': False,
             'precinct': {
@@ -321,7 +321,7 @@ def describe_list_v1():
     @pytest.mark.vcr
     def it_handles_unknown_voters(expect, client, url):
         response = client.get(
-            url + '?first_name=Jane'
+            url + '?first_name=JanE'
             '&last_name=Doe'
             '&birth_date=2000-01-01'
             '&zip_code=999999'

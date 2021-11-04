@@ -9,7 +9,7 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 
-python = "^3.7"
+python = "^3.9"
 
 # Django
 django = "~3.1.13"
@@ -24,7 +24,7 @@ django-cors-headers = "^3.2.0"
 
 # Databases
 dj-database-url = "^0.5.0"
-psycopg2-binary = "=2.8.4"
+psycopg2-binary = "^2.9.1"
 
 # Caches
 django-redis-cache = "*"
@@ -76,7 +76,7 @@ coveragespace = "^3.1"
 # Utilities
 ipdb = "~0.12.2"  # export PYTHONBREAKPOINT=ipdb.set_trace
 django-extensions = "*"
-pygraphviz = "*"
+pygraphviz = { version = "^1.7", optional = true }
 
 # Development Server
 django-debug-toolbar = "*"
