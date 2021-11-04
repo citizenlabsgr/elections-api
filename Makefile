@@ -133,6 +133,8 @@ data/production: install ## Data | Pull data as it exists on production
 
 .PHONY: uml
 uml: install
+	poetry install --extras uml
+	@ echo
 	poetry run pyreverse elections -p elections -a 1 -f ALL -o png --ignore admin.py,migrations,management,tests
 	mv -f classes_elections.png docs/classes.png
 	mv -f packages_elections.png docs/packages.png

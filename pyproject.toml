@@ -34,6 +34,9 @@ markdown = "*"
 pymdown-extensions = "*"
 pygments = "*"
 
+# UML
+pygraphviz = { version = "^1.7", optional = true }
+
 # Utilities
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
@@ -76,7 +79,6 @@ coveragespace = "^3.1"
 # Utilities
 ipdb = "~0.12.2"  # export PYTHONBREAKPOINT=ipdb.set_trace
 django-extensions = "*"
-pygraphviz = { version = "^1.7", optional = true }
 
 # Development Server
 django-debug-toolbar = "*"
@@ -84,6 +86,10 @@ django-livereload-server = "*"
 
 # Notebooks
 jupyter = "^1.0"
+
+[tool.poetry.extras]
+
+uml = ["pygraphviz"]
 
 [tool.black]
 

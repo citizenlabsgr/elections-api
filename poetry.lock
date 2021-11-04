@@ -1246,7 +1246,7 @@ python-versions = ">=3.5"
 name = "pygraphviz"
 version = "1.7"
 description = "Python interface to Graphviz"
-category = "dev"
+category = "main"
 optional = true
 python-versions = ">=3.7"
 
@@ -1847,10 +1847,13 @@ category = "main"
 optional = false
 python-versions = "*"
 
+[extras]
+uml = ["pygraphviz"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "a4d4b84bc6d7679aa0277a5df7ccfdd6481c665491c44f4ab45588909907037d"
+content-hash = "f1183919c0209c525a074f4371e7abc3b26e90f589d515985e94fefdac610fd1"
 
 [metadata.files]
 appdirs = [
