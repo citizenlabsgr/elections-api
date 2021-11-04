@@ -11,7 +11,7 @@ def describe_list():
         return '/api/registrations/'
 
     @pytest.mark.vcr
-    def it_returns_data_for_a_registered_voter_v2(expect, client, url, db):
+    def it_returns_data_for_a_registered_voter(expect, client, url, db):
         defaults.initialize_districts()
 
         response = client.get(
@@ -19,17 +19,16 @@ def describe_list():
             '&last_name=Bliss'
             '&birth_date=1975-08-03'
             '&zip_code=49503',
-            HTTP_ACCEPT='application/json; version=2',
         )
 
         expect(response.status_code) == 200
         expect(response.data) == {
             'registered': True,
-            'ballot': False,
+            'ballot': True,
             'absentee': True,
-            'absentee_application_received': None,
-            'absentee_ballot_sent': None,
-            'absentee_ballot_received': None,
+            'absentee_application_received': '2020-06-06',
+            'absentee_ballot_sent': '2020-09-24',
+            'absentee_ballot_received': '2020-09-29',
             'polling_location': [
                 'Encounter Church',
                 '1736 Lyon NE',
@@ -37,7 +36,10 @@ def describe_list():
             ],
             'dropbox_locations': [
                 {
-                    'address': ['300 Ottawa Ave NW', 'Grand Rapids, MI 49503'],
+                    'address': [
+                        '300 Ottawa Ave NW',
+                        'Grand Rapids, MI 49503',
+                    ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
@@ -48,19 +50,31 @@ def describe_list():
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['1017 Leonard, NW', 'Grand Rapids, MI 49504'],
+                    'address': [
+                        '1017 Leonard, NW',
+                        'Grand Rapids, MI 49504',
+                    ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['427 Market, SW', 'Grand Rapids, MI 49503'],
+                    'address': [
+                        '427 Market, SW',
+                        'Grand Rapids, MI 49503',
+                    ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['1150 Giddings SE', 'Grand Rapids, MI 49506'],
+                    'address': [
+                        '1150 Giddings SE',
+                        'Grand Rapids, MI 49506',
+                    ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
-                    'address': ['2350 Eastern SE', 'Grand Rapids, MI 49507'],
+                    'address': [
+                        '2350 Eastern SE',
+                        'Grand Rapids, MI 49507',
+                    ],
                     'hours': ['Available 24 Hours/7 Days a Week'],
                 },
                 {
@@ -169,13 +183,12 @@ def describe_list():
         }
 
     @pytest.mark.vcr
-    def it_handles_unknown_voters_v2(expect, client, url):
+    def it_handles_unknown_voters(expect, client, url):
         response = client.get(
             url + '?first_name=JanE'
             '&last_name=Doe'
             '&birth_date=2000-01-01'
             '&zip_code=999999',
-            HTTP_ACCEPT='application/json; version=2',
         )
 
         expect(response.status_code) == 200
@@ -207,7 +220,8 @@ def describe_list_v1():
             url + '?first_name=Rosalynn'
             '&last_name=Bliss'
             '&birth_date=1975-08-03'
-            '&zip_code=49503'
+            '&zip_code=49503',
+            HTTP_ACCEPT='application/json; version=1',
         )
 
         expect(response.status_code) == 200
@@ -324,7 +338,8 @@ def describe_list_v1():
             url + '?first_name=JanE'
             '&last_name=Doe'
             '&birth_date=2000-01-01'
-            '&zip_code=999999'
+            '&zip_code=999999',
+            HTTP_ACCEPT='application/json; version=1',
         )
 
         expect(response.status_code) == 200
