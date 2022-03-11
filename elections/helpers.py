@@ -182,6 +182,10 @@ def fetch_registration_status_data(voter):
         log.error(f'MVIC status code: {response.status_code}')
         raise exceptions.ServiceUnavailable()
 
+    if "No map" in response.text:
+        log.error("District information is unavailable")
+        raise exceptions.ServiceUnavailable()
+
     html = BeautifulSoup(response.text, 'html.parser')
 
     # Parse registration
