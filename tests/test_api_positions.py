@@ -32,7 +32,7 @@ def describe_list():
         expect(len(response.data['results'])) == 3
 
     def it_can_be_filtered_by_section(expect, client, url, positions):
-        response = client.get(url + f'?section=Democratic')
+        response = client.get(url + '?section=Democratic')
 
         expect(response.status_code) == 200
         expect(len(response.data['results'])) == 2

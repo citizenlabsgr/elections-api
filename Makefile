@@ -63,7 +63,7 @@ ci: check test ## CI | Run all validation targets
 
 .PHONY: format
 format: install ## CI | Format the code
-	poetry run isort $(PACKAGES) --recursive --apply
+	poetry run isort $(PACKAGES)
 	poetry run black $(PACKAGES)
 
 .PHONY: check

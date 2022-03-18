@@ -5,10 +5,9 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Dict, Generator, Tuple
 
+import log
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-
-import log
 
 from elections import defaults, helpers
 from elections.models import Candidate, District, DistrictCategory, Election, Position

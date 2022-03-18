@@ -18,7 +18,6 @@ from nameparser import HumanName
 from . import exceptions
 from .constants import MVIC_URL
 
-
 useragent = UserAgent()
 
 ###############################################################################

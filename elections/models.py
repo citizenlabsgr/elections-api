@@ -3,13 +3,12 @@ from __future__ import annotations
 import random
 from typing import Any, Dict, List, Optional
 
-from django.conf import settings
-from django.db import models
-from django.utils import timezone
-
 import bugsnag
 import log
 import pendulum
+from django.conf import settings
+from django.db import models
+from django.utils import timezone
 from model_utils.models import TimeStampedModel
 
 from . import constants, exceptions, helpers

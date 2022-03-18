@@ -55,11 +55,11 @@ bugsnag = "^3.4"
 [tool.poetry.dev-dependencies]
 
 # Formatting
-isort = "=4.3.21"
-black = "=20.8b1"
+isort = "^5.10"
+black = "^22.1"
 
 # Linters
-pylint = "~2.4.4"
+pylint = "~2.12"
 pylint-django = "*"
 mypy = "*"
 
@@ -93,5 +93,9 @@ uml = ["pygraphviz"]
 
 [tool.black]
 
-target_version = ['py37']
 skip-string-normalization = true
+quiet = true
+
+[tool.isort]
+
+profile = "black"
