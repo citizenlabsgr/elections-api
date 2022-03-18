@@ -84,6 +84,17 @@ def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
 
 
 @pytest.mark.vcr
+@pytest.mark.parametrize(
+    ('precinct_id', 'item_count'),
+    [
+        (6766, 1),
+    ],
+)
+def test_2022_consolidated_ballots(expect, db, precinct_id, item_count):
+    expect(parse_ballot(689, precinct_id)) == item_count
+
+
+@pytest.mark.vcr
 def test_reference_url(expect, db):
     parse_ballot(683, 1828)
     candidate = Candidate.objects.get(name="David LaGrand")

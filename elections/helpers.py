@@ -74,6 +74,7 @@ def titleize(text: str) -> str:
         .replace("Ii ", "II ")
         .replace("Iii ", "III ")
         .replace("Iv ", "IV ")
+        .replace("(c", "(C")
         .replace("(d", "(D")
         .replace("(l", "(L")
         .replace("(r", "(R")

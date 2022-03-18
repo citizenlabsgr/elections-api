@@ -825,6 +825,7 @@ class Ballot(TimeStampedModel):
                 'Township',
                 'Village',
                 'Authority',
+                'Authority (Custom Region)',
                 'Local School',
                 'Metropolitan',
             }:
