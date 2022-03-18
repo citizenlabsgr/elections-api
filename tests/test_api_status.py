@@ -2,10 +2,9 @@
 
 from unittest.mock import Mock, patch
 
-from django.conf import settings
-
 import pendulum
 import pytest
+from django.conf import settings
 
 from elections import defaults, exceptions
 

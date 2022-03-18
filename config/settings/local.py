@@ -6,7 +6,6 @@ import redis
 
 from .default import *
 
-
 BASE_NAME = 'localhost'
 BASE_DOMAIN = f"{BASE_NAME}:8000"
 BASE_URL = f"http://{BASE_DOMAIN}"

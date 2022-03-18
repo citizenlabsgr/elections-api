@@ -7,7 +7,6 @@ import redis
 
 from .default import *
 
-
 BASE_NAME = os.environ['HEROKU_APP_NAME']
 BASE_DOMAIN = f"{BASE_NAME}.io"
 BASE_URL = f"https://{BASE_DOMAIN}"

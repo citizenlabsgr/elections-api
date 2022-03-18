@@ -1,7 +1,5 @@
 from django.conf import settings
-
 from pendulum import datetime
-
 
 MVIC_URL = "https://mvic.sos.state.mi.us"
 

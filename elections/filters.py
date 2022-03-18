@@ -2,7 +2,6 @@ from django_filters import rest_framework as filters
 
 from . import models
 
-
 DjangoFilterBackend = filters.DjangoFilterBackend
 
 

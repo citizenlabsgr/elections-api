@@ -21,18 +21,20 @@
   "python.formatting.blackPath": ".venv/bin/black",
   "editor.formatOnSave": true,
   "cSpell.words": [
-    "Graphviz",
-    "Grappelli",
-    "MVIC",
-    "Postgres",
-    "Rosalynn",
     "browsable",
+    "circleci",
     "createdb",
     "direnv",
     "envrc",
+    "Graphviz",
+    "Grappelli",
+    "htmlcov",
     "libgraphviz",
+    "MVIC",
+    "Postgres",
     "postgresql",
     "pyenv",
+    "Rosalynn",
     "venv"
   ]
 }

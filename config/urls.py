@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import include, path
-
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from markdown import markdown

@@ -4,10 +4,9 @@ import os
 import sys
 from typing import Optional
 
-from django.core.management.base import BaseCommand
-
 import bugsnag
 import log
+from django.core.management.base import BaseCommand
 
 from elections.commands import parse_ballots
 
