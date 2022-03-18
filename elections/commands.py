@@ -11,7 +11,7 @@ def scrape_ballots(
     starting_election_id: Optional[int] = None,
     starting_precinct_id: int = 1,
     ballot_limit: Optional[int] = None,
-    max_election_error_count: int = 3,
+    max_election_error_count: int = 5,
     max_ballot_error_count: int = 1000,
 ):
     current_election = Election.objects.filter(active=True).last()
