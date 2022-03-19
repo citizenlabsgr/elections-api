@@ -26,7 +26,7 @@ def scrape_ballots(
     elif last_election:
         starting_election_id = last_election.mvic_id + 1
     else:
-        log.warning("No active elections")
+        log.warn("No active elections")
         return
 
     error_count = 0

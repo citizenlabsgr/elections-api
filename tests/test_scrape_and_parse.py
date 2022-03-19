@@ -87,6 +87,7 @@ def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
 @pytest.mark.parametrize(
     ('precinct_id', 'item_count'),
     [
+        (6176, 6),
         (6766, 1),
     ],
 )

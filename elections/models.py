@@ -414,7 +414,7 @@ class BallotWebsite(models.Model):
             or "currently no items for this ballot" in self.mvic_html
             or " County" not in self.mvic_html
         ):
-            log.info('Ballot URL does not contain precinct information')
+            log.warn('Ballot URL does not contain precinct information')
             self.valid = False
         else:
             log.info('Ballot URL contains precinct information')
@@ -429,8 +429,8 @@ class BallotWebsite(models.Model):
         """Scrape ballot data from the HTML."""
         log.info(f'Scraping data from ballot: {self}')
         assert self.valid, f'Ballot has not been validated: {self}'
-        data: Dict[str, Any] = {}
 
+        data: Dict[str, Any] = {}
         data['election'] = helpers.parse_election(self.mvic_html)
         data['precinct'] = helpers.parse_precinct(self.mvic_html, self.mvic_url)
         data['ballot'] = {}
@@ -767,7 +767,7 @@ class Ballot(TimeStampedModel):
                         if created:
                             log.info(f'Created district: {district}')
                     elif district is None:
-                        log.warning(
+                        log.warn(
                             f'Ballot {self.website.mvic_url} missing district: {position_data}'
                         )
                         district = self.precinct.jurisdiction
@@ -834,6 +834,7 @@ class Ballot(TimeStampedModel):
                 'Community College',
                 'Intermediate School',
                 'District Library',
+                'Ward',
             }:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
@@ -842,6 +843,14 @@ class Ballot(TimeStampedModel):
                 )
 
             for proposal_data in proposals_data:
+
+                if category and category.name == 'Ward':
+                    district, created = District.objects.get_or_create(
+                        category=category,
+                        name=self.precinct.get_ward_label(f'Ward {self.precinct.ward}'),
+                    )
+                    if created:
+                        log.info(f'Created district: {district}')
 
                 if district is None:
                     assert category, f'Expected category: {proposals_data}'

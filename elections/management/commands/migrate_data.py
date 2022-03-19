@@ -47,7 +47,7 @@ class Command(BaseCommand):
             new = helpers.normalize_jurisdiction(old)
             if new != old:
                 if District.objects.filter(category=jurisdiction, name=new):
-                    log.warning(f'Deleting district {old!r} in favor of {new!r}')
+                    log.warn(f'Deleting district {old!r} in favor of {new!r}')
                     district.delete()
                 else:
                     log.info(f'Renaming district {old!r} to {new!r}')
@@ -77,7 +77,7 @@ class Command(BaseCommand):
                         election.description = description
                         election.save()
             else:
-                log.warning(f'Election not found in database: {name}')
+                log.warn(f'Election not found in database: {name}')
 
         for name, description in self._read_descriptions('districts'):
             try:
@@ -85,7 +85,7 @@ class Command(BaseCommand):
             except DistrictCategory.DoesNotExist as e:
                 message = f'District category not found in database: {name}'
                 if name in {'Precinct'}:
-                    log.warning(message)
+                    log.warn(message)
                 else:
                     log.error(message)
                     raise e from None
@@ -104,7 +104,7 @@ class Command(BaseCommand):
                         position.description = description
                         position.save()
             else:
-                log.warning(f'Position not found in database: {name}')
+                log.warn(f'Position not found in database: {name}')
 
     def export_descriptions(self):
         elections = {}
