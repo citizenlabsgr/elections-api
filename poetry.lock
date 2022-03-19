@@ -398,11 +398,11 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-debug-toolbar"
-version = "3.1"
+version = "3.2.1"
 description = "A configurable set of panels that display various debug information about the current request/response."
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [package.dependencies]
 Django = ">=2.2"
@@ -2124,8 +2124,8 @@ django-cors-headers = [
     {file = "django_cors_headers-3.5.0-py3-none-any.whl", hash = "sha256:9322255c296d5f75089571f29e520c83ff9693df17aa3cf9f6a4bea7c6740169"},
 ]
 django-debug-toolbar = [
-    {file = "django-debug-toolbar-3.1.tar.gz", hash = "sha256:20d94839b81d8d97194a911fc248d78e9df9ed953016e575dc6bd4c717b99e6e"},
-    {file = "django_debug_toolbar-3.1-py3-none-any.whl", hash = "sha256:3ef1e3c6f0c35e6fb965fa455020c95bb1852822f2659046ae25f01852611395"},
+    {file = "django-debug-toolbar-3.2.1.tar.gz", hash = "sha256:a5ff2a54f24bf88286f9872836081078f4baa843dc3735ee88524e89f8821e33"},
+    {file = "django_debug_toolbar-3.2.1-py3-none-any.whl", hash = "sha256:e759e63e3fe2d3110e0e519639c166816368701eab4a47fed75d7de7018467b9"},
 ]
 django-extensions = [
     {file = "django-extensions-3.0.9.tar.gz", hash = "sha256:6809c89ca952f0e08d4e0766bc0101dfaf508d7649aced1180c091d737046ea7"},
