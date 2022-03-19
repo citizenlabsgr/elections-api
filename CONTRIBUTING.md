@@ -15,7 +15,7 @@
 
 - [Poetry](https://poetry.eustace.io/docs/)
 
-  - (`$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python && source $HOME/.poetry/env`)
+  - (`$ curl -sSL https://install.python-poetry.org | python - && source $HOME/.poetry/env`)
   - Add poetry to your .bashrc or equivalent configuration file `$ echo "export PATH=~/.poetry/bin:$PATH" >> ~/.bashrc`
   - Linux:
     - `$ poetry install`
