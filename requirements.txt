@@ -2,7 +2,7 @@ appnope==0.1.0; python_version >= "3.7" and python_version < "4.0" and sys_platf
 asgiref==3.4.1; python_version >= "3.6"
 backcall==0.2.0; python_version >= "3.7" and python_version < "4.0"
 beautifulsoup4==4.9.1
-bugsnag==3.9.0
+bugsnag==4.2.0; python_version >= "3.5" and python_version < "4"
 bullet==2.2.0; python_version >= "3.7" and python_version < "4.0"
 cached-property==1.5.2; python_version >= "3.7" and python_version < "4.0"
 certifi==2020.6.20; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.5.0" and python_version >= "3.7" and python_version < "4.0"
@@ -22,7 +22,7 @@ dj-database-url==0.5.0
 django-cors-headers==3.5.0; python_version >= "3.5"
 django-filter @ git+https://github.com/citizenlabsgr/django-filter@combine-filters ; python_version >= "3.5"
 django-grappelli==2.15.1
-django-model-utils @ git+https://github.com/jazzband/django-model-utils@ffa1a85dc7fe3fa8a56e8735b4ac881092abf216
+django-model-utils==4.2.0
 django-redis-cache==2.1.1
 django==3.1.14; python_version >= "3.6"
 djangorestframework==3.12.4; python_version >= "3.5"
@@ -79,6 +79,6 @@ uritemplate==3.0.1; python_version >= "3.6" and python_full_version < "3.0.0" or
 urllib3==1.26.5; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.5.0" and python_version < "4" and python_version >= "3.7"
 wcwidth==0.2.5; python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.6.1"
 webdriver-manager==2.5.3; python_version >= "3.7" and python_version < "4.0"
-webob==1.8.6; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0"
+webob==1.8.6; python_version >= "3.5" and python_full_version < "3.0.0" and python_version < "4" or python_version >= "3.5" and python_version < "4" and python_full_version >= "3.3.0"
 whitenoise==4.1.4
 zipcodes==1.1.2; python_version >= "3.7" and python_version < "4.0"

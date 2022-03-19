@@ -140,14 +140,13 @@ webencodings = "*"
 
 [[package]]
 name = "bugsnag"
-version = "3.9.0"
+version = "4.2.0"
 description = "Automatic error monitoring for django, flask, etc."
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.5, <4"
 
 [package.dependencies]
-six = ">=1.9,<2"
 webob = "*"
 
 [package.extras]
@@ -464,20 +463,14 @@ tornado = "*"
 
 [[package]]
 name = "django-model-utils"
-version = "3.3.0"
+version = "4.2.0"
 description = "Django model mixins and utilities"
 category = "main"
 optional = false
 python-versions = "*"
-develop = true
 
 [package.dependencies]
-Django = ">=1.11"
-
-[package.source]
-type = "git"
-url = "https://github.com/jazzband/django-model-utils"
-reference = "ffa1a85dc7fe3fa8a56e8735b4ac881092abf216"
+Django = ">=2.0.1"
 
 [[package]]
 name = "django-redis-cache"
@@ -1881,7 +1874,7 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8fcebc669052d83e211e29b47e3f03015112699eb611959a524ba259ced1f245"
+content-hash = "66883d112d3123eed2bb8a29d7adb56c9e566747d52b1a6a28d518b165f50494"
 
 [metadata.files]
 appnope = [
@@ -1971,8 +1964,8 @@ bleach = [
     {file = "bleach-3.3.0.tar.gz", hash = "sha256:98b3170739e5e83dd9dc19633f074727ad848cbedb6026708c8ac2d3b697a433"},
 ]
 bugsnag = [
-    {file = "bugsnag-3.9.0-py2.py3-none-any.whl", hash = "sha256:33cfcc6410a8c42311dd3958b5e5f5704e36617cd49bb53b59832a0cd6b90151"},
-    {file = "bugsnag-3.9.0.tar.gz", hash = "sha256:2b4c2e2e0ab8b74328d187441ad02973a52a3e1d31beaffbc972788801dd8874"},
+    {file = "bugsnag-4.2.0-py3-none-any.whl", hash = "sha256:65659eff2adaa601aa1bded7d5fa5ccf992b1bff244b6236f016133a56af1840"},
+    {file = "bugsnag-4.2.0.tar.gz", hash = "sha256:3674e7e26f707b8d16c3669b3fb99bcf50ad772a59c8dd86601be3f33c613a92"},
 ]
 bullet = [
     {file = "bullet-2.2.0-py3-none-any.whl", hash = "sha256:d22528deb914ce3ff20a4a000fa5ba37179697f384a0748f90691de8a74cf006"},
@@ -2154,7 +2147,10 @@ django-grappelli = [
 django-livereload-server = [
     {file = "django-livereload-server-0.3.2.tar.gz", hash = "sha256:6c8da1cb356d9a7fd044d0a50342574aad168522d5d8d25bbdc4ddd9fd196eab"},
 ]
-django-model-utils = []
+django-model-utils = [
+    {file = "django-model-utils-4.2.0.tar.gz", hash = "sha256:e7a95e102f9c9653427eadab980d5d59e1dea972913b9c9e01ac37f86bba0ddf"},
+    {file = "django_model_utils-4.2.0-py3-none-any.whl", hash = "sha256:a768a25c80514e0ad4e4a6f9c02c44498985f36c5dfdea47b5b1e8cf994beba6"},
+]
 django-redis-cache = [
     {file = "django-redis-cache-2.1.1.tar.gz", hash = "sha256:06d4e48545243883f88dc9263dda6c8a0012cb7d0cee2d8758d8917eca92cece"},
     {file = "django_redis_cache-2.1.1-py3-none-any.whl", hash = "sha256:b19ee6654cc2f2c89078c99255e07e19dc2dba8792351d76ba7ea899d465fbb0"},

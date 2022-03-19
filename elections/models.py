@@ -274,7 +274,7 @@ class Voter(models.Model):
             if track_missing_data:
                 bugsnag.notify(
                     exceptions.MissingData(message),
-                    meta_data={
+                    metadata={
                         "voter": {
                             "first_name": self.first_name,
                             "last_name": self.last_name,
