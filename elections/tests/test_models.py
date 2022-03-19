@@ -196,6 +196,19 @@ def describe_ballot_website():
                 website.mvic_url
             ) == "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1828/676/"
 
+    def describe_scrape():
+        @pytest.mark.vcr
+        @pytest.mark.django_db
+        def it_removes_extra_line_breaks(expect, website):
+            website = models.BallotWebsite(mvic_election_id=689, mvic_precinct_id=4542)
+            website.fetch()
+            website.validate()
+            website.scrape()
+
+            text = website.data["ballot"]["proposal section"]["Local School"][0]["text"]
+            expect(text.count("\n\n")) == 6
+            expect(text.count("\n\n\n")) == 0
+
 
 def describe_ballot():
     def describe_str():
