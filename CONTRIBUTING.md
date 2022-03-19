@@ -13,7 +13,7 @@
     - `$ python3 -m venv .venv`
     - `$ source .venv/bin/activate`
 
-- [Poetry](https://poetry.eustace.io/docs/)
+- [Poetry](https://python-poetry.org/docs/)
 
   - (`$ curl -sSL https://install.python-poetry.org | python - && source $HOME/.poetry/env`)
   - Add poetry to your .bashrc or equivalent configuration file `$ echo "export PATH=~/.poetry/bin:$PATH" >> ~/.bashrc`
@@ -24,7 +24,7 @@
 
 - [direnv](https://direnv.net/)
 
-  - MacOS: `$ brew install direnv` (or your platform's equivalent)
+  - MacOS: `$ brew install direnv`
   - Linux: `$ sudo apt install direnv`
   - Add `direnv hook` to your [shell config](https://direnv.net/)
   - Restart your terminal
