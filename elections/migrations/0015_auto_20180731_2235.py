@@ -5,10 +5,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0014_auto_20180721_1817')]
+    dependencies = [("elections", "0014_auto_20180721_1817")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='party', options={'verbose_name_plural': 'Parties'}
+            name="party", options={"verbose_name_plural": "Parties"}
         )
     ]

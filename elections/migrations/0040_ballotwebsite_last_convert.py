@@ -5,12 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0039_auto_20191026_2038')]
+    dependencies = [("elections", "0039_auto_20191026_2038")]
 
     operations = [
         migrations.AddField(
-            model_name='ballotwebsite',
-            name='last_convert',
+            model_name="ballotwebsite",
+            name="last_convert",
             field=models.DateTimeField(editable=False, null=True),
         )
     ]

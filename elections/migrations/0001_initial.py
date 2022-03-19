@@ -14,454 +14,454 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Ballot',
+            name="Ballot",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('mi_sos_html', models.TextField(blank=True, null=True)),
+                ("mi_sos_html", models.TextField(blank=True, null=True)),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Candidate',
+            name="Candidate",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField(blank=True)),
-                ('reference_url', models.URLField(blank=True, null=True)),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField(blank=True)),
+                ("reference_url", models.URLField(blank=True, null=True)),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='District',
+            name="District",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=100)),
-                ('population', models.PositiveIntegerField(blank=True, null=True)),
+                ("name", models.CharField(max_length=100)),
+                ("population", models.PositiveIntegerField(blank=True, null=True)),
             ],
-            options={'ordering': ['-population']},
+            options={"ordering": ["-population"]},
         ),
         migrations.CreateModel(
-            name='DistrictCategory',
+            name="DistrictCategory",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=50, unique=True)),
+                ("name", models.CharField(max_length=50, unique=True)),
             ],
             options={
-                'verbose_name_plural': 'District Categories',
-                'ordering': ['name'],
+                "verbose_name_plural": "District Categories",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Election',
+            name="Election",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=100)),
-                ('date', models.DateField()),
-                ('active', models.BooleanField(default=False)),
-                ('reference_url', models.URLField(blank=True, null=True)),
-                ('mi_sos_id', models.PositiveIntegerField(blank=True, null=True)),
+                ("name", models.CharField(max_length=100)),
+                ("date", models.DateField()),
+                ("active", models.BooleanField(default=False)),
+                ("reference_url", models.URLField(blank=True, null=True)),
+                ("mi_sos_id", models.PositiveIntegerField(blank=True, null=True)),
             ],
-            options={'ordering': ['-date']},
+            options={"ordering": ["-date"]},
         ),
         migrations.CreateModel(
-            name='Party',
+            name="Party",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=50)),
+                ("name", models.CharField(max_length=50)),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Poll',
+            name="Poll",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('ward', models.CharField(blank=True, max_length=2)),
-                ('precinct', models.CharField(blank=True, max_length=3)),
-                ('mi_sos_id', models.PositiveIntegerField(blank=True, null=True)),
+                ("ward", models.CharField(blank=True, max_length=2)),
+                ("precinct", models.CharField(blank=True, max_length=3)),
+                ("mi_sos_id", models.PositiveIntegerField(blank=True, null=True)),
                 (
-                    'county',
+                    "county",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='counties',
-                        to='elections.District',
+                        related_name="counties",
+                        to="elections.District",
                     ),
                 ),
                 (
-                    'jurisdiction',
+                    "jurisdiction",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='jurisdictions',
-                        to='elections.District',
+                        related_name="jurisdictions",
+                        to="elections.District",
                     ),
                 ),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Position',
+            name="Position",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField(blank=True)),
-                ('reference_url', models.URLField(blank=True, null=True)),
-                ('seats', models.PositiveIntegerField(default=1)),
-                ('candidates', models.ManyToManyField(to='elections.Candidate')),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField(blank=True)),
+                ("reference_url", models.URLField(blank=True, null=True)),
+                ("seats", models.PositiveIntegerField(default=1)),
+                ("candidates", models.ManyToManyField(to="elections.Candidate")),
                 (
-                    'district',
+                    "district",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.District',
+                        to="elections.District",
                     ),
                 ),
                 (
-                    'election',
+                    "election",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.Election',
+                        to="elections.Election",
                     ),
                 ),
                 (
-                    'poll',
+                    "poll",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.Poll',
+                        to="elections.Poll",
                     ),
                 ),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Proposal',
+            name="Proposal",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField(blank=True)),
-                ('reference_url', models.URLField(blank=True, null=True)),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField(blank=True)),
+                ("reference_url", models.URLField(blank=True, null=True)),
                 (
-                    'district',
+                    "district",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.District',
+                        to="elections.District",
                     ),
                 ),
                 (
-                    'election',
+                    "election",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.Election',
+                        to="elections.Election",
                     ),
                 ),
                 (
-                    'poll',
+                    "poll",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
-                        to='elections.Poll',
+                        to="elections.Poll",
                     ),
                 ),
             ],
-            options={'abstract': False},
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='RegistrationStatus',
+            name="RegistrationStatus",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('registered', models.BooleanField()),
+                ("registered", models.BooleanField()),
                 (
-                    'poll',
+                    "poll",
                     models.ForeignKey(
                         null=True,
                         on_delete=django.db.models.deletion.SET_NULL,
-                        to='elections.Poll',
+                        to="elections.Poll",
                     ),
                 ),
             ],
         ),
         migrations.CreateModel(
-            name='Voter',
+            name="Voter",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('first_name', models.CharField(max_length=50)),
-                ('last_name', models.CharField(max_length=50)),
-                ('birth_date', models.DateField()),
-                ('zip_code', models.CharField(max_length=10)),
+                ("first_name", models.CharField(max_length=50)),
+                ("last_name", models.CharField(max_length=50)),
+                ("birth_date", models.DateField()),
+                ("zip_code", models.CharField(max_length=10)),
             ],
         ),
         migrations.AlterUniqueTogether(
-            name='election', unique_together={('date', 'name')}
+            name="election", unique_together={("date", "name")}
         ),
         migrations.AddField(
-            model_name='district',
-            name='category',
+            model_name="district",
+            name="category",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                to='elections.DistrictCategory',
+                to="elections.DistrictCategory",
             ),
         ),
         migrations.AddField(
-            model_name='candidate',
-            name='party',
+            model_name="candidate",
+            name="party",
             field=models.ForeignKey(
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to='elections.Party',
+                to="elections.Party",
             ),
         ),
         migrations.AddField(
-            model_name='ballot',
-            name='election',
+            model_name="ballot",
+            name="election",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to='elections.Election'
+                on_delete=django.db.models.deletion.CASCADE, to="elections.Election"
             ),
         ),
         migrations.AddField(
-            model_name='ballot',
-            name='poll',
+            model_name="ballot",
+            name="poll",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to='elections.Poll'
+                on_delete=django.db.models.deletion.CASCADE, to="elections.Poll"
             ),
         ),
         migrations.AlterUniqueTogether(
-            name='proposal', unique_together={('election', 'district', 'name')}
+            name="proposal", unique_together={("election", "district", "name")}
         ),
         migrations.AlterUniqueTogether(
-            name='position', unique_together={('election', 'district', 'name')}
+            name="position", unique_together={("election", "district", "name")}
         ),
         migrations.AlterUniqueTogether(
-            name='district', unique_together={('category', 'name')}
+            name="district", unique_together={("category", "name")}
         ),
     ]

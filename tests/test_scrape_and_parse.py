@@ -25,7 +25,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    ('precinct_id', 'item_count'),
+    ("precinct_id", "item_count"),
     [
         (160, 1),
         # (911, 37), # TODO: Handle ballots with "no candidates" followed by some
@@ -41,7 +41,7 @@ def test_2020_primary_ballots(expect, db, precinct_id, item_count):
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    ('precinct_id', 'item_count'),
+    ("precinct_id", "item_count"),
     [
         (901, 90),
         (133, 84),
@@ -63,7 +63,7 @@ def test_2020_general_ballots(expect, db, precinct_id, item_count):
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    ('precinct_id', 'item_count'),
+    ("precinct_id", "item_count"),
     [
         (1, 11),
     ],
@@ -74,7 +74,7 @@ def test_2021_primary_ballots(expect, db, precinct_id, item_count):
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    ('precinct_id', 'item_count'),
+    ("precinct_id", "item_count"),
     [
         (6956, 1),
     ],
@@ -85,7 +85,7 @@ def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
 
 @pytest.mark.vcr
 @pytest.mark.parametrize(
-    ('precinct_id', 'item_count'),
+    ("precinct_id", "item_count"),
     [
         (6176, 6),
         (6766, 1),
@@ -99,9 +99,9 @@ def test_2022_consolidated_ballots(expect, db, precinct_id, item_count):
 def test_reference_url(expect, db):
     parse_ballot(683, 1828)
     candidate = Candidate.objects.get(name="David LaGrand")
-    expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/517249'
+    expect(candidate.reference_url) == "https://cfrsearch.nictusa.com/committees/517249"
     candidate = Candidate.objects.get(name="Mark Thomas Boonstra")
-    expect(candidate.reference_url) == 'https://cfrsearch.nictusa.com/committees/515816'
+    expect(candidate.reference_url) == "https://cfrsearch.nictusa.com/committees/515816"
 
 
 @pytest.mark.vcr

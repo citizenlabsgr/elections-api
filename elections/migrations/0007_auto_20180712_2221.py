@@ -6,20 +6,20 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0006_auto_20180711_2148')]
+    dependencies = [("elections", "0006_auto_20180711_2148")]
 
     operations = [
         migrations.AddField(
-            model_name='ballot',
-            name='website',
+            model_name="ballot",
+            name="website",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to='elections.BallotWebpage',
+                to="elections.BallotWebpage",
             ),
         ),
-        migrations.RemoveField(model_name='ballot', name='mi_sos_html'),
+        migrations.RemoveField(model_name="ballot", name="mi_sos_html"),
         migrations.AlterUniqueTogether(
-            name='ballot', unique_together={('election', 'precinct')}
+            name="ballot", unique_together={("election", "precinct")}
         ),
     ]

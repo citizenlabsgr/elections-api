@@ -23,16 +23,16 @@ def positions(db):
 def describe_list():
     @pytest.fixture
     def url():
-        return '/api/positions/'
+        return "/api/positions/"
 
     def it_returns_all_positions_by_default(expect, client, url, positions):
         response = client.get(url)
 
         expect(response.status_code) == 200
-        expect(len(response.data['results'])) == 3
+        expect(len(response.data["results"])) == 3
 
     def it_can_be_filtered_by_section(expect, client, url, positions):
-        response = client.get(url + '?section=Democratic')
+        response = client.get(url + "?section=Democratic")
 
         expect(response.status_code) == 200
-        expect(len(response.data['results'])) == 2
+        expect(len(response.data["results"])) == 2

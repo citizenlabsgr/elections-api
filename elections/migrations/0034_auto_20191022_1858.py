@@ -6,26 +6,26 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0033_auto_20191021_2337')]
+    dependencies = [("elections", "0033_auto_20191021_2337")]
 
     operations = [
-        migrations.RemoveField(model_name='ballotwebsite', name='ballot'),
+        migrations.RemoveField(model_name="ballotwebsite", name="ballot"),
         migrations.AddField(
-            model_name='ballot',
-            name='website',
+            model_name="ballot",
+            name="website",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to='elections.BallotWebsite',
+                to="elections.BallotWebsite",
             ),
         ),
         migrations.AddField(
-            model_name='ballotwebsite',
-            name='ballot_legacy',
+            model_name="ballotwebsite",
+            name="ballot_legacy",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to='elections.Ballot',
+                to="elections.Ballot",
             ),
         ),
     ]

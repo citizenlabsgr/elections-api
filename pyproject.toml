@@ -93,7 +93,6 @@ uml = ["pygraphviz"]
 
 [tool.black]
 
-skip-string-normalization = true
 quiet = true
 
 [tool.isort]

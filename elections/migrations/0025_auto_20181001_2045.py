@@ -5,17 +5,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0024_auto_20180930_2030')]
+    dependencies = [("elections", "0024_auto_20180930_2030")]
 
     operations = [
         migrations.AddField(
-            model_name='ballotwebsite',
-            name='last_parse',
+            model_name="ballotwebsite",
+            name="last_parse",
             field=models.DateTimeField(null=True),
         ),
         migrations.AddField(
-            model_name='ballotwebsite',
-            name='parsed',
+            model_name="ballotwebsite",
+            name="parsed",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0046_remove_party_description'),
+        ("elections", "0046_remove_party_description"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='registrationstatus',
-            name='recently_moved',
+            model_name="registrationstatus",
+            name="recently_moved",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -5,11 +5,11 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0002_auto_20180710_1841')]
+    dependencies = [("elections", "0002_auto_20180710_1841")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='ballot', options={'ordering': ['election__date']}
+            name="ballot", options={"ordering": ["election__date"]}
         ),
-        migrations.AlterModelOptions(name='election', options={'ordering': ['date']}),
+        migrations.AlterModelOptions(name="election", options={"ordering": ["date"]}),
     ]

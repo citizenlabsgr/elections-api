@@ -26,10 +26,10 @@ useragent = UserAgent()
 
 @contextmanager
 def mvic_session() -> Generator[requests.Session, None, None]:
-    with resources.path('config', 'mvic.sos.state.mi.us.pem') as path:
+    with resources.path("config", "mvic.sos.state.mi.us.pem") as path:
         session = requests.Session()
         session.verify = str(path)
-        session.headers['User-Agent'] = useragent.random
+        session.headers["User-Agent"] = useragent.random
         yield session
 
 
@@ -38,11 +38,11 @@ def fetch(url: str, expected_text: str) -> str:
         response = session.get(url)
 
     if response.status_code >= 400:
-        log.error(f'MVIC status code: {response.status_code}')
+        log.error(f"MVIC status code: {response.status_code}")
         raise exceptions.ServiceUnavailable()
 
     text = response.text.strip()
-    assert expected_text in text, f'{expected_text!r} not found on {url}'
+    assert expected_text in text, f"{expected_text!r} not found on {url}"
     return text
 
 
@@ -51,7 +51,7 @@ def visit(url: str, expected_text: str) -> pomace.Page:
     if expected_text not in page:
         log.info(f"Revisiting {url} with session cookies")
         page = pomace.visit(url)
-    assert expected_text in page, f'{expected_text!r} not found on {url}'
+    assert expected_text in page, f"{expected_text!r} not found on {url}"
     return page
 
 
@@ -84,7 +84,7 @@ def titleize(text: str) -> str:
 
 @cache
 def normalize_position(text: str) -> str:
-    text = text.split(' (')[0].split(' - ')[0]
+    text = text.split(" (")[0].split(" - ")[0]
     if text.startswith("Alderman"):
         text = "Alderman"
     elif text == "Board Member Bath Township Library":
@@ -98,9 +98,9 @@ def normalize_position(text: str) -> str:
 
 @cache
 def normalize_candidate(text: str) -> str:
-    if '\n' in text:
-        log.debug(f'Handling running mate: {text}')
-        text1, text2 = text.split('\n')
+    if "\n" in text:
+        log.debug(f"Handling running mate: {text}")
+        text1, text2 = text.split("\n")
         name1 = HumanName(text1.strip())
         name2 = HumanName(text2.strip())
         name1.capitalize()
@@ -110,7 +110,7 @@ def normalize_candidate(text: str) -> str:
             log.debug(f"Skipped non-person running mate: {name2}")
             return str(name1)
 
-        return str(name1) + ' & ' + str(name2)
+        return str(name1) + " & " + str(name2)
 
     name = HumanName(text.strip())
     name.capitalize()
@@ -126,13 +126,13 @@ def normalize_district(text: str) -> str:
 def normalize_jurisdiction(name: str) -> str:
     name = titleize(name)
 
-    for kind in {'City', 'Township', 'Village'}:
+    for kind in {"City", "Township", "Village"}:
         if name.startswith(kind):
             return name.replace(" Charter", "")
 
-    for kind in {'City', 'Township', 'Village'}:
-        if name.endswith(' ' + kind):
-            name = kind + ' of ' + name[: -len(kind) - 1]
+    for kind in {"City", "Township", "Village"}:
+        if name.endswith(" " + kind):
+            name = kind + " of " + name[: -len(kind) - 1]
             return name.replace(" Charter", "")
 
     return name
@@ -141,16 +141,16 @@ def normalize_jurisdiction(name: str) -> str:
 @cache
 def normalize_address(line: str) -> str:
     line = line.strip()
-    for direction in {'Ne', 'Nw', 'Se', 'Sw'}:
+    for direction in {"Ne", "Nw", "Se", "Sw"}:
         if line.endswith(direction):
-            line = line.replace(' ' + direction, ' ' + direction.upper())
+            line = line.replace(" " + direction, " " + direction.upper())
     return line.replace(", Michigan", ", MI")
 
 
 def build_mvic_url(election_id: int, precinct_id: int) -> str:
     assert election_id, "MVIC election ID is missing"
     assert precinct_id, "MVIC precinct ID is missing"
-    return f'{MVIC_URL}/Voter/GetMvicBallot/{precinct_id}/{election_id}/'
+    return f"{MVIC_URL}/Voter/GetMvicBallot/{precinct_id}/{election_id}/"
 
 
 ###############################################################################
@@ -158,35 +158,35 @@ def build_mvic_url(election_id: int, precinct_id: int) -> str:
 
 
 def fetch_registration_status_data(voter):
-    url = f'{MVIC_URL}/Voter/SearchByName'
+    url = f"{MVIC_URL}/Voter/SearchByName"
     log.info(f"Submitting form on {url}")
     with mvic_session() as session:
         try:
             response = session.post(
                 url,
-                headers={'Content-Type': "application/x-www-form-urlencoded"},
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
                 data={
-                    'FirstName': voter.first_name,
-                    'LastName': voter.last_name,
-                    'NameBirthMonth': voter.birth_month,
-                    'NameBirthYear': voter.birth_year,
-                    'ZipCode': voter.zip_code,
+                    "FirstName": voter.first_name,
+                    "LastName": voter.last_name,
+                    "NameBirthMonth": voter.birth_month,
+                    "NameBirthYear": voter.birth_year,
+                    "ZipCode": voter.zip_code,
                 },
                 timeout=10,
             )
         except requests.exceptions.ConnectionError as e:
-            log.error(f'MVIC connection error: {e}')
+            log.error(f"MVIC connection error: {e}")
             raise exceptions.ServiceUnavailable()
 
     if response.status_code >= 400:
-        log.error(f'MVIC status code: {response.status_code}')
+        log.error(f"MVIC status code: {response.status_code}")
         raise exceptions.ServiceUnavailable()
 
     if "No map" in response.text:
         log.error("District information is unavailable")
         raise exceptions.ServiceUnavailable()
 
-    html = BeautifulSoup(response.text, 'html.parser')
+    html = BeautifulSoup(response.text, "html.parser")
 
     # Parse registration
     registered = None
@@ -215,44 +215,44 @@ def fetch_registration_status_data(voter):
         "Ballot Sent": None,
         "Ballot Received": None,
     }
-    element = html.find(id='lblAbsenteeVoterInformation')
+    element = html.find(id="lblAbsenteeVoterInformation")
     if element:
         strings = list(element.strings) + [""] * 20
         for index, key in enumerate(absentee_dates):
             text = strings[4 + index * 2].strip()
             if text:
-                absentee_dates[key] = datetime.strptime(text, '%m/%d/%Y').date()
+                absentee_dates[key] = datetime.strptime(text, "%m/%d/%Y").date()
     else:
         log.warn("Unable to determine absentee status")
 
     # Parse districts
     districts: Dict = {}
-    element = html.find(id='lblCountyName')
+    element = html.find(id="lblCountyName")
     if element:
-        districts['County'] = normalize_district(element.text)
-    element = html.find(id='lblJurisdName')
+        districts["County"] = normalize_district(element.text)
+    element = html.find(id="lblJurisdName")
     if element:
-        districts['Jurisdiction'] = normalize_jurisdiction(element.text)
+        districts["Jurisdiction"] = normalize_jurisdiction(element.text)
     for category_name, element_id in [
-        ('Circuit Court', 'lblCircuitName'),
-        ('Community College', 'lblCommCollegeName'),
-        ('County Commissioner', 'lblCountyCommDistrict'),
-        ('Court of Appeals', 'lblAppealsName'),
-        ('District Court', 'lblDistCourtName'),
-        ('Intermediate School', 'lblIsdName'),
-        ('Library', 'lblLibraryName'),
-        ('Metropolitan', 'lblMetroName'),
-        ('Municipal Court', 'lblMuniCourtName'),
-        ('Precinct', 'lblPrecinctNumber'),
-        ('Probate Court', 'lblProbateName'),
-        ('Probate Court', 'lblProbateName'),
-        ('Probate District Court', 'lblProbateDistName'),
-        ('School', 'lblSchoolDistrict'),
-        ('State House', 'lblHouseDistrict'),
-        ('State Senate', 'lblSenateDistrict'),
-        ('US Congress', 'lblCongressDistrict'),
-        ('Village', 'lblVillageName'),
-        ('Ward', 'lblWardNumber'),
+        ("Circuit Court", "lblCircuitName"),
+        ("Community College", "lblCommCollegeName"),
+        ("County Commissioner", "lblCountyCommDistrict"),
+        ("Court of Appeals", "lblAppealsName"),
+        ("District Court", "lblDistCourtName"),
+        ("Intermediate School", "lblIsdName"),
+        ("Library", "lblLibraryName"),
+        ("Metropolitan", "lblMetroName"),
+        ("Municipal Court", "lblMuniCourtName"),
+        ("Precinct", "lblPrecinctNumber"),
+        ("Probate Court", "lblProbateName"),
+        ("Probate Court", "lblProbateName"),
+        ("Probate District Court", "lblProbateDistName"),
+        ("School", "lblSchoolDistrict"),
+        ("State House", "lblHouseDistrict"),
+        ("State Senate", "lblSenateDistrict"),
+        ("US Congress", "lblCongressDistrict"),
+        ("Village", "lblVillageName"),
+        ("Ward", "lblWardNumber"),
     ]:
         element = html.find(id=element_id)
         if element:
@@ -262,42 +262,42 @@ def fetch_registration_status_data(voter):
 
     # Parse polling location
     polling_location: Dict = {}
-    element = html.find(id='lblPollingLocation')
+    element = html.find(id="lblPollingLocation")
     if element:
-        polling_location['PollingLocation'] = element.text.strip()
-    element = html.find(id='lblPollAddress')
+        polling_location["PollingLocation"] = element.text.strip()
+    element = html.find(id="lblPollAddress")
     if element:
-        polling_location['PollAddress'] = normalize_address(element.text)
-    element = html.find(id='lblPollCityStateZip')
+        polling_location["PollAddress"] = normalize_address(element.text)
+    element = html.find(id="lblPollCityStateZip")
     if element:
-        polling_location['PollCityStateZip'] = normalize_address(element.text)
+        polling_location["PollCityStateZip"] = normalize_address(element.text)
     else:
         log.warn("Unable to determine polling location")
 
     # Parse dropbox locations
     dropbox_locations: List[Dict[str, List[str]]] = []
-    element = html.find('span', {'class': 'additional-location-badge'})
+    element = html.find("span", {"class": "additional-location-badge"})
     if element:
         lines: List[str] = []
         for element in element.next_siblings:
             try:
-                text = element.get_text('\n').strip()
+                text = element.get_text("\n").strip()
             except AttributeError:
-                text = element.replace('\xa0', ' ').strip()
+                text = element.replace("\xa0", " ").strip()
             if "Drop box locations" in text:
                 lines = []  # the previous lines were above the dropbox list
             elif text and text != "Hours:":
-                lines.extend(text.split('\n'))
+                lines.extend(text.split("\n"))
 
         for line in lines:
             if line[0].isnumeric():
                 dropbox_locations.append(
-                    {'address': [normalize_address(line)], 'hours': []}
+                    {"address": [normalize_address(line)], "hours": []}
                 )
-            elif len(dropbox_locations[-1]['address']) == 1:
-                dropbox_locations[-1]['address'].append(normalize_address(line))
+            elif len(dropbox_locations[-1]["address"]) == 1:
+                dropbox_locations[-1]["address"].append(normalize_address(line))
             else:
-                dropbox_locations[-1]['hours'].append(line)
+                dropbox_locations[-1]["hours"].append(line)
 
         if not dropbox_locations:
             log.warn("No dropbox locations found")
@@ -311,7 +311,7 @@ def fetch_registration_status_data(voter):
         "absentee_dates": absentee_dates,
         "districts": districts,
         "polling_location": polling_location,
-        'dropbox_locations': dropbox_locations,
+        "dropbox_locations": dropbox_locations,
         "recently_moved": recently_moved,
     }
 
@@ -334,18 +334,18 @@ def _clean_district_category(text: str):
 
 
 def fetch_ballot(url: str) -> str:
-    log.info(f'Fetching ballot: {url}')
+    log.info(f"Fetching ballot: {url}")
     return fetch(url, "PreviewMvicBallot")
 
 
 def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
     """Parse election information from ballot HTML."""
-    soup = BeautifulSoup(html, 'html.parser')
-    header = soup.find(id='PreviewMvicBallot').div.div.div.text
+    soup = BeautifulSoup(html, "html.parser")
+    header = soup.find(id="PreviewMvicBallot").div.div.div.text
 
-    election_name_text, election_date_text, *_ = header.strip().split('\n')
+    election_name_text, election_date_text, *_ = header.strip().split("\n")
     election_name = titleize(election_name_text)
-    election_date = datetime.strptime(election_date_text.strip(), '%A, %B %d, %Y')
+    election_date = datetime.strptime(election_date_text.strip(), "%A, %B %d, %Y")
 
     return election_name, (election_date.year, election_date.month, election_date.day)
 
@@ -354,58 +354,58 @@ def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
     """Parse precinct information from ballot HTML."""
 
     # Parse county
-    match = re.search(r'(?P<county>[^>]+) County, Michigan', html, re.IGNORECASE)
-    assert match, f'Unable to find county name: {url}'
-    county = titleize(match.group('county'))
+    match = re.search(r"(?P<county>[^>]+) County, Michigan", html, re.IGNORECASE)
+    assert match, f"Unable to find county name: {url}"
+    county = titleize(match.group("county"))
 
     # Parse jurisdiction
     match = None
     for pattern in [
-        r'(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+) Precinct (?P<precinct>\d+)',
-        r'(?P<jurisdiction>[^>]+),  Precinct (?P<precinct>\d+[A-Z]?)',
-        r'(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+)',
+        r"(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+) Precinct (?P<precinct>\d+)",
+        r"(?P<jurisdiction>[^>]+),  Precinct (?P<precinct>\d+[A-Z]?)",
+        r"(?P<jurisdiction>[^>]+), Ward (?P<ward>\d+)",
     ]:
         match = re.search(pattern, html)
         if match:
             break
-    assert match, f'Unable to find precinct information: {url}'
-    jurisdiction = normalize_jurisdiction(match.group('jurisdiction'))
+    assert match, f"Unable to find precinct information: {url}"
+    jurisdiction = normalize_jurisdiction(match.group("jurisdiction"))
 
     # Parse ward
     try:
-        ward = match.group('ward')
+        ward = match.group("ward")
     except IndexError:
-        ward = ''
+        ward = ""
 
     # Parse number
     try:
-        precinct = match.group('precinct')
+        precinct = match.group("precinct")
     except IndexError:
-        precinct = ''
+        precinct = ""
 
     return county, jurisdiction, ward, precinct
 
 
 def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str:
     patterns = [
-        f'[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})',
-        f'\n((?:[A-Z][A-Za-z.-]+ )+{category})',
+        f"[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})",
+        f"\n((?:[A-Z][A-Za-z.-]+ )+{category})",
     ]
 
     for pattern in patterns:
         for match in re.finditer(pattern, text):
             name = match[1].strip()
-            log.debug(f'{pattern!r} matched: {name}')
+            log.debug(f"{pattern!r} matched: {name}")
             if len(name) < 100:
                 return name
 
-    raise ValueError(f'Could not find {category!r} in {text!r} on {mvic_url}')
+    raise ValueError(f"Could not find {category!r} in {text!r} on {mvic_url}")
 
 
 def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
-    soup = BeautifulSoup(html, 'html.parser')
-    ballot = soup.find(id='PreviewMvicBallot').div.div.find_all('div', recursive=False)[
+    soup = BeautifulSoup(html, "html.parser")
+    ballot = soup.find(id="PreviewMvicBallot").div.div.find_all("div", recursive=False)[
         1
     ]
     count = 0
@@ -419,12 +419,12 @@ def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts primary election ballot data into the provided dictionary."""
     count = 0
 
-    offices = ballot.find(id='twoPartyPrimaryElectionOffices')
+    offices = ballot.find(id="twoPartyPrimaryElectionOffices")
     if not offices:
         return count
 
     section: Dict = {}
-    label = 'primary section'
+    label = "primary section"
     data[label] = section
 
     count += _parse_primary_election_offices("Democratic", ballot, section)
@@ -438,9 +438,9 @@ def _parse_primary_election_offices(
     """Inserts primary election ballot data into the provided dictionary."""
     count = 0
 
-    assert ballot.text.find('DEMOCRATIC') < ballot.text.find('REPUBLICAN')
+    assert ballot.text.find("DEMOCRATIC") < ballot.text.find("REPUBLICAN")
     offices = ballot.find(
-        id='columnOnePrimary' if party == 'Democratic' else 'columnTwoPrimary'
+        id="columnOnePrimary" if party == "Democratic" else "columnTwoPrimary"
     )
     if not offices:
         return count
@@ -451,7 +451,7 @@ def _parse_primary_election_offices(
 
     for index, item in enumerate(
         offices.find_all(
-            'div',
+            "div",
             {
                 "class": [
                     "division",
@@ -465,9 +465,9 @@ def _parse_primary_election_offices(
         ),
         start=1,
     ):
-        log.debug(f'Parsing office element {index}: {item}')
+        log.debug(f"Parsing office element {index}: {item}")
 
-        if "division" in item['class']:
+        if "division" in item["class"]:
             label = (
                 titleize(item.text).replace(" - Continued", "").replace(" District", "")
             )
@@ -478,56 +478,56 @@ def _parse_primary_election_offices(
             section[label] = division
             office = None
 
-        elif "office" in item['class']:
+        elif "office" in item["class"]:
             label = normalize_position(item.text)
-            assert division is not None, f'Division missing for office: {label}'
+            assert division is not None, f"Division missing for office: {label}"
             office = {
-                'name': label,
-                'district': None,
-                'type': None,
-                'term': None,
-                'seats': None,
-                'incumbency': None,
-                'candidates': [],
+                "name": label,
+                "district": None,
+                "type": None,
+                "term": None,
+                "seats": None,
+                "incumbency": None,
+                "candidates": [],
             }
             division.append(office)
 
-        elif "term" in item['class']:
+        elif "term" in item["class"]:
             label = item.text
-            assert office is not None, f'Office missing for term: {label}'
+            assert office is not None, f"Office missing for term: {label}"
             if "Incumbent" in label:
-                office['type'] = label
+                office["type"] = label
             elif "Term" in label:
-                office['term'] = label
+                office["term"] = label
             elif "Vote for" in label:
-                office['seats'] = int(label.replace("Vote for not more than ", ""))
+                office["seats"] = int(label.replace("Vote for not more than ", ""))
             elif label in {"Incumbent Position", "New Judgeship"}:
-                office['incumbency'] = label
+                office["incumbency"] = label
             else:
-                office['district'] = titleize(label)
+                office["district"] = titleize(label)
             count += 1
 
-        elif "candidate" in item['class']:
-            label = normalize_candidate(item.get_text('\n'))
-            assert office is not None, f'Office missing for candidate: {label}'
-            if label == 'No candidates on ballot':
+        elif "candidate" in item["class"]:
+            label = normalize_candidate(item.get_text("\n"))
+            assert office is not None, f"Office missing for candidate: {label}"
+            if label == "No candidates on ballot":
                 continue
             candidate: Dict[str, Any] = {
-                'name': label,
-                'finance_link': None,
-                'party': None,
+                "name": label,
+                "finance_link": None,
+                "party": None,
             }
-            office['candidates'].append(candidate)
+            office["candidates"].append(candidate)
             count += 1
 
-        elif "financeLink" in item['class']:
+        elif "financeLink" in item["class"]:
             if item.a:
-                candidate['finance_link'] = item.a['href']
+                candidate["finance_link"] = item.a["href"]
 
-        elif "party" in item['class']:
+        elif "party" in item["class"]:
             label = titleize(item.text)
-            assert candidate is not None, f'Candidate missing for party: {label}'
-            candidate['party'] = label or None
+            assert candidate is not None, f"Candidate missing for party: {label}"
+            candidate["party"] = label or None
 
     return count
 
@@ -536,14 +536,14 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts general election ballot data into the provided dictionary."""
     count = 0
 
-    offices = ballot.find(id='generalElectionOffices')
+    offices = ballot.find(id="generalElectionOffices")
     if not offices:
         return count
 
     section: Optional[Dict] = None
     for index, item in enumerate(
         offices.find_all(
-            'div',
+            "div",
             {
                 "class": [
                     "section",
@@ -558,29 +558,29 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         ),
         start=1,
     ):
-        log.debug(f'Parsing office element {index}: {item}')
+        log.debug(f"Parsing office element {index}: {item}")
 
-        if "section" in item['class']:
+        if "section" in item["class"]:
             section = {}
             division: Optional[List] = None
             office: Optional[Dict] = None
             label = item.text.lower()
             if label in data:
-                log.warn(f'Duplicate section on ballot: {label}')
+                log.warn(f"Duplicate section on ballot: {label}")
                 section = data[label]
             else:
                 data[label] = section
 
-        elif "division" in item['class']:
+        elif "division" in item["class"]:
             office = None
             label = (
                 titleize(item.text).replace(" - Continued", "").replace(" District", "")
             )
             if section is None:
                 log.warn(f"Section missing for division: {label}")
-                assert list(data.keys()) == ['primary section']
+                assert list(data.keys()) == ["primary section"]
                 section = {}
-                data['nonpartisan section'] = section
+                data["nonpartisan section"] = section
             try:
                 division = section[label]
             except KeyError:
@@ -588,61 +588,61 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             section[label] = division
             office = None
 
-        elif "office" in item['class']:
+        elif "office" in item["class"]:
             label = normalize_position(item.text)
             if division is None:
                 assert (
                     label == "Library Board Director"
-                ), f'Division missing for office: {label}'
+                ), f"Division missing for office: {label}"
                 division = []
-                assert isinstance(section, dict), f'Section missing for office: {label}'
+                assert isinstance(section, dict), f"Section missing for office: {label}"
                 section["Library"] = division
             office = {
-                'name': label,
-                'district': None,
-                'type': None,
-                'term': None,
-                'seats': None,
-                'incumbency': None,
-                'candidates': [],
+                "name": label,
+                "district": None,
+                "type": None,
+                "term": None,
+                "seats": None,
+                "incumbency": None,
+                "candidates": [],
             }
             division.append(office)
 
-        elif "term" in item['class']:
+        elif "term" in item["class"]:
             label = item.text
-            assert office is not None, f'Office missing for term: {label}'
+            assert office is not None, f"Office missing for term: {label}"
             if "Incumbent" in label:
-                office['type'] = label
+                office["type"] = label
             elif "Term" in label:
-                office['term'] = label
+                office["term"] = label
             elif "Vote for" in label:
-                office['seats'] = int(label.replace("Vote for not more than ", ""))
+                office["seats"] = int(label.replace("Vote for not more than ", ""))
             elif label in {"Incumbent Position", "New Judgeship"}:
-                office['incumbency'] = label
+                office["incumbency"] = label
             else:
-                office['district'] = titleize(label)
+                office["district"] = titleize(label)
             count += 1
 
-        elif "candidate" in item['class']:
-            label = normalize_candidate(item.get_text('\n'))
-            assert office is not None, f'Office missing for candidate: {label}'
-            if label == 'No candidates on ballot':
-                if office['seats'] is None:
+        elif "candidate" in item["class"]:
+            label = normalize_candidate(item.get_text("\n"))
+            assert office is not None, f"Office missing for candidate: {label}"
+            if label == "No candidates on ballot":
+                if office["seats"] is None:
                     log.warn(f"No seats for office: {office}")
-                    office['seats'] = 1
+                    office["seats"] = 1
                 continue
-            candidate = {'name': label, 'finance_link': None, 'party': None}
-            office['candidates'].append(candidate)
+            candidate = {"name": label, "finance_link": None, "party": None}
+            office["candidates"].append(candidate)
             count += 1
 
-        elif "financeLink" in item['class']:
+        elif "financeLink" in item["class"]:
             if item.a:
-                candidate['finance_link'] = item.a['href']
+                candidate["finance_link"] = item.a["href"]
 
-        elif "party" in item['class']:
+        elif "party" in item["class"]:
             label = titleize(item.text)
-            assert candidate is not None, f'Candidate missing for party: {label}'
-            candidate['party'] = label or None
+            assert candidate is not None, f"Candidate missing for party: {label}"
+            candidate["party"] = label or None
 
     return count
 
@@ -651,26 +651,26 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
     """Inserts proposal data into the provided dictionary."""
     count = 0
 
-    proposals = ballot.find(id='proposals')
+    proposals = ballot.find(id="proposals")
     if not proposals:
         return count
 
     for index, item in enumerate(
         proposals.find_all(
-            'div', {"class": ["section", "division", "proposalTitle", "proposalText"]}
+            "div", {"class": ["section", "division", "proposalTitle", "proposalText"]}
         ),
         start=1,
     ):
-        log.debug(f'Parsing proposal element {index}: {item}')
+        log.debug(f"Parsing proposal element {index}: {item}")
 
-        if "section" in item['class']:
+        if "section" in item["class"]:
             section: Dict[str, Any] = {}
             division: Optional[List] = None
             proposal = None
             label = item.text.lower()
             data[label] = section
 
-        elif "division" in item['class']:
+        elif "division" in item["class"]:
             proposal = None
             label = (
                 titleize(item.text).replace(" Proposals", "").replace(" District", "")
@@ -682,20 +682,20 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 division = []
             section[label] = division
 
-        elif "proposalTitle" in item['class']:
+        elif "proposalTitle" in item["class"]:
             label = item.text.strip()
-            if '\n' in label and len(label) > 200:
+            if "\n" in label and len(label) > 200:
                 log.debug("Parsing proposal text as part of proposal title")
-                label, text = label.split('\n', 1)
+                label, text = label.split("\n", 1)
             else:
                 text = None
             if label.isupper():
                 label = titleize(label)
-            assert division is not None, f'Division missing for proposal: {label}'
-            proposal = {'title': label, 'text': text}
+            assert division is not None, f"Division missing for proposal: {label}"
+            proposal = {"title": label, "text": text}
             division.append(proposal)
 
-            if proposal['text']:
+            if proposal["text"]:
                 count += 1
             else:
                 # Handle proposal text missing a class
@@ -703,25 +703,25 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 element = item.parent.next_sibling
                 while element is not None:
                     try:
-                        label += '\n\n' + element.get_text('\n\n').strip()
+                        label += "\n\n" + element.get_text("\n\n").strip()
                     except AttributeError:
-                        label += '\n\n' + element.strip()
+                        label += "\n\n" + element.strip()
                     element = element.next_sibling
                     if isinstance(element, Tag):
-                        if element.find('div', {'class': 'proposalTitle'}):
+                        if element.find("div", {"class": "proposalTitle"}):
                             break
-                        if element.find('div', {'class': 'division'}):
+                        if element.find("div", {"class": "division"}):
                             break
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
-                    assert proposal is not None, f'Proposal missing for text: {label}'
-                    proposal['text'] = label.strip().replace('\xa0', '')
+                    assert proposal is not None, f"Proposal missing for text: {label}"
+                    proposal["text"] = label.strip().replace("\xa0", "")
                     count += 1
 
-        elif "proposalText" in item['class']:
+        elif "proposalText" in item["class"]:
             label = item.text.strip()
-            assert proposal is not None, f'Proposal missing for text: {label}'
-            proposal['text'] = label
+            assert proposal is not None, f"Proposal missing for text: {label}"
+            proposal["text"] = label
             count += 1
 
     return count

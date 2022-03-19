@@ -28,9 +28,9 @@ def describe_fetch_registration_status_data():
             "ballot": True,
             "absentee": True,
             "absentee_dates": {
-                'Application Received': datetime.date(2020, 6, 6),
-                'Ballot Sent': datetime.date(2020, 9, 24),
-                'Ballot Received': datetime.date(2020, 9, 29),
+                "Application Received": datetime.date(2020, 6, 6),
+                "Ballot Sent": datetime.date(2020, 9, 24),
+                "Ballot Received": datetime.date(2020, 9, 29),
             },
             "districts": {
                 "Circuit Court": "17th Circuit",
@@ -61,60 +61,60 @@ def describe_fetch_registration_status_data():
             },
             "dropbox_locations": [
                 {
-                    'address': [
-                        '300 Ottawa Ave NW',
-                        'Grand Rapids, MI 49503',
+                    "address": [
+                        "300 Ottawa Ave NW",
+                        "Grand Rapids, MI 49503",
                     ],
-                    'hours': ['Available 24 Hours/7 Days a Week'],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
                 {
-                    'address': [
-                        '1563 Plainfield Avenue NE',
-                        'Grand Rapids, MI 49505',
+                    "address": [
+                        "1563 Plainfield Avenue NE",
+                        "Grand Rapids, MI 49505",
                     ],
-                    'hours': [
-                        'Available 24 Hours/7 Days a Week',
+                    "hours": [
+                        "Available 24 Hours/7 Days a Week",
                     ],
                 },
                 {
-                    'address': [
-                        '1017 Leonard, NW',
-                        'Grand Rapids, MI 49504',
+                    "address": [
+                        "1017 Leonard, NW",
+                        "Grand Rapids, MI 49504",
                     ],
-                    'hours': ['Available 24 Hours/7 Days a Week'],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
                 {
-                    'address': [
-                        '427 Market, SW',
-                        'Grand Rapids, MI 49503',
+                    "address": [
+                        "427 Market, SW",
+                        "Grand Rapids, MI 49503",
                     ],
-                    'hours': ['Available 24 Hours/7 Days a Week'],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
                 {
-                    'address': [
-                        '1150 Giddings SE',
-                        'Grand Rapids, MI 49506',
+                    "address": [
+                        "1150 Giddings SE",
+                        "Grand Rapids, MI 49506",
                     ],
-                    'hours': ['Available 24 Hours/7 Days a Week'],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
                 {
-                    'address': [
-                        '2350 Eastern SE',
-                        'Grand Rapids, MI 49507',
+                    "address": [
+                        "2350 Eastern SE",
+                        "Grand Rapids, MI 49507",
                     ],
-                    'hours': ['Available 24 Hours/7 Days a Week'],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
                 {
-                    'address': [
-                        '300 Monroe Avenue, NW',
-                        'Grand Rapids, MI 49503',
+                    "address": [
+                        "300 Monroe Avenue, NW",
+                        "Grand Rapids, MI 49503",
                     ],
-                    'hours': [
-                        'Mon. 8am-5pm',
-                        'Tue. 8am-5pm',
-                        'Wed. 8am-5pm',
-                        'Thu. 8am-5pm',
-                        'Fri. 8am-5pm',
+                    "hours": [
+                        "Mon. 8am-5pm",
+                        "Tue. 8am-5pm",
+                        "Wed. 8am-5pm",
+                        "Thu. 8am-5pm",
+                        "Fri. 8am-5pm",
                     ],
                 },
             ],

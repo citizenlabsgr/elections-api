@@ -5,13 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0027_auto_20181002_2133')]
+    dependencies = [("elections", "0027_auto_20181002_2133")]
 
     operations = [
         migrations.AlterField(
-            model_name='position', name='name', field=models.CharField(max_length=300)
+            model_name="position", name="name", field=models.CharField(max_length=300)
         ),
         migrations.AlterField(
-            model_name='proposal', name='name', field=models.CharField(max_length=300)
+            model_name="proposal", name="name", field=models.CharField(max_length=300)
         ),
     ]

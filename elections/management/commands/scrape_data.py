@@ -16,24 +16,24 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--start-election',
-            metavar='MVIC_ID',
+            "--start-election",
+            metavar="MVIC_ID",
             type=int,
             default=None,
-            help='Initial Michigan SOS election ID to start from.',
+            help="Initial Michigan SOS election ID to start from.",
         )
         parser.add_argument(
-            '--start-precinct',
-            metavar='MVIC_ID',
+            "--start-precinct",
+            metavar="MVIC_ID",
             type=int,
             default=1,
-            help='Initial Michigan SOS precinct ID to start from.',
+            help="Initial Michigan SOS precinct ID to start from.",
         )
         parser.add_argument(
-            '--ballot-limit',
-            metavar='COUNT',
+            "--ballot-limit",
+            metavar="COUNT",
             type=int,
-            help='Maximum number of fetches to perform before stopping.',
+            help="Maximum number of fetches to perform before stopping.",
         )
 
     def handle(
@@ -45,8 +45,8 @@ class Command(BaseCommand):
         **_kwargs,
     ):
         log.reset()
-        log.silence('datafiles')
-        log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
+        log.silence("datafiles")
+        log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)
 
         try:
             scrape_ballots(
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 ballot_limit=ballot_limit,
             )
         except Exception as e:
-            if 'HEROKU_APP_NAME' in os.environ:
+            if "HEROKU_APP_NAME" in os.environ:
                 log.error("Unable to finish scraping data", exc_info=e)
                 bugsnag.notify(e)
                 sys.exit(1)

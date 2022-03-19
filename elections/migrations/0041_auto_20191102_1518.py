@@ -5,22 +5,22 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0040_ballotwebsite_last_convert')]
+    dependencies = [("elections", "0040_ballotwebsite_last_convert")]
 
     operations = [
         migrations.AddField(
-            model_name='districtcategory',
-            name='description',
+            model_name="districtcategory",
+            name="description",
             field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
-            model_name='election',
-            name='description',
+            model_name="election",
+            name="description",
             field=models.CharField(blank=True, max_length=500),
         ),
         migrations.AddField(
-            model_name='party',
-            name='description',
+            model_name="party",
+            name="description",
             field=models.CharField(blank=True, max_length=500),
         ),
     ]

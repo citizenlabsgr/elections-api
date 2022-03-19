@@ -6,18 +6,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0034_auto_20191022_1858')]
+    dependencies = [("elections", "0034_auto_20191022_1858")]
 
     operations = [
-        migrations.RemoveField(model_name='ballotwebsite', name='ballot_legacy'),
+        migrations.RemoveField(model_name="ballotwebsite", name="ballot_legacy"),
         migrations.AlterField(
-            model_name='ballot',
-            name='website',
+            model_name="ballot",
+            name="website",
             field=models.OneToOneField(
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to='elections.BallotWebsite',
+                to="elections.BallotWebsite",
             ),
         ),
     ]

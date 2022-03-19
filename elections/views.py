@@ -21,7 +21,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     pagination_class = None
 
     def get_serializer_class(self):
-        if self.request.version == '1':
+        if self.request.version == "1":
             return serializers.RegistrationSerializerV1
         return serializers.RegistrationSerializer
 
@@ -37,7 +37,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
         serializer_class = self.get_serializer_class()
         output_serializer = serializer_class(
-            registration_status, context={'request': request}
+            registration_status, context={"request": request}
         )
         return Response(output_serializer.data)
 
@@ -68,11 +68,11 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             registration_status = models.RegistrationStatus()
             precinct = registration_status.precinct
             data = {
-                'id': voter.fingerprint(election, registration_status),
-                'message': str(e),
-                'election': serializers.MinimalElectionSerializer(election).data,
-                'precinct': serializers.MinimalPrecinctSerializer(precinct).data,
-                'status': serializers.StatusSerializer(registration_status).data,
+                "id": voter.fingerprint(election, registration_status),
+                "message": str(e),
+                "election": serializers.MinimalElectionSerializer(election).data,
+                "precinct": serializers.MinimalPrecinctSerializer(precinct).data,
+                "status": serializers.StatusSerializer(registration_status).data,
             }
             status = 202
         else:
@@ -83,11 +83,11 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             if ballot:
                 registration_status.ballot_url = ballot.mvic_url
             data = {
-                'id': voter.fingerprint(election, registration_status),
-                'message': voter.describe(election, registration_status),
-                'election': serializers.MinimalElectionSerializer(election).data,
-                'precinct': serializers.MinimalPrecinctSerializer(precinct).data,
-                'status': serializers.StatusSerializer(registration_status).data,
+                "id": voter.fingerprint(election, registration_status),
+                "message": voter.describe(election, registration_status),
+                "election": serializers.MinimalElectionSerializer(election).data,
+                "precinct": serializers.MinimalPrecinctSerializer(precinct).data,
+                "status": serializers.StatusSerializer(registration_status).data,
             }
             status = 200
         return Response(data, status)
@@ -104,7 +104,7 @@ class ElectionViewSet(viewsets.ModelViewSet):
     Return a specific upcoming election.
     """
 
-    http_method_names = ['options', 'get']
+    http_method_names = ["options", "get"]
     queryset = models.Election.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.ElectionFilter
@@ -122,7 +122,7 @@ class DistrictCategoryViewSet(viewsets.ModelViewSet):
     Return a specific type of district, which can filter ballot items.
     """
 
-    http_method_names = ['options', 'get']
+    http_method_names = ["options", "get"]
     queryset = models.DistrictCategory.objects.all()
     serializer_class = serializers.DistrictCategorySerializer
 
@@ -138,8 +138,8 @@ class DistrictViewSet(viewsets.ModelViewSet):
     Return a specific district, which can filter ballot items.
     """
 
-    http_method_names = ['options', 'get']
-    queryset = models.District.objects.all().prefetch_related('category')
+    http_method_names = ["options", "get"]
+    queryset = models.District.objects.all().prefetch_related("category")
     serializer_class = serializers.DistrictSerializer
 
 
@@ -154,8 +154,8 @@ class PrecinctViewSet(viewsets.ModelViewSet):
     Return a specific region which shares the same ballot.
     """
 
-    http_method_names = ['options', 'get']
-    queryset = models.Precinct.objects.select_related('county', 'jurisdiction').all()
+    http_method_names = ["options", "get"]
+    queryset = models.Precinct.objects.select_related("county", "jurisdiction").all()
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.PrecinctFilter
     serializer_class = serializers.PrecinctSerializer
@@ -172,9 +172,9 @@ class BallotViewSet(viewsets.ModelViewSet):
     Return a specific ballot for an upcoming election.
     """
 
-    http_method_names = ['options', 'get']
+    http_method_names = ["options", "get"]
     queryset = models.Ballot.objects.select_related(
-        'election', 'precinct', 'precinct__county', 'precinct__jurisdiction'
+        "election", "precinct", "precinct__county", "precinct__jurisdiction"
     ).all()
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.BallotFilter
@@ -192,10 +192,10 @@ class ProposalViewSet(viewsets.ModelViewSet):
     Return a specific proposal for an upcoming election.
     """
 
-    http_method_names = ['get']
+    http_method_names = ["get"]
     queryset = (
-        models.Proposal.objects.select_related('election', 'district__category')
-        .order_by('district__category__rank', 'name')
+        models.Proposal.objects.select_related("election", "district__category")
+        .order_by("district__category__rank", "name")
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
@@ -214,7 +214,7 @@ class PartyViewSet(viewsets.ModelViewSet):
     Return a specific political party.
     """
 
-    http_method_names = ['get']
+    http_method_names = ["get"]
     queryset = models.Party.objects.all()
     serializer_class = serializers.PartySerializer
 
@@ -230,8 +230,8 @@ class CandidateViewSet(viewsets.ModelViewSet):
     Return a specific candidate in an upcoming election.
     """
 
-    http_method_names = ['get']
-    queryset = models.Candidate.objects.select_related('position', 'party').all()
+    http_method_names = ["get"]
+    queryset = models.Candidate.objects.select_related("position", "party").all()
     # TODO: Add support for filtering candidates
     # filter_backends = [filters.DjangoFilterBackend]
     # filterset_class = filters.CandidateFilter
@@ -249,11 +249,11 @@ class PositionViewSet(viewsets.ModelViewSet):
     Return a position proposal for an upcoming election.
     """
 
-    http_method_names = ['get']
+    http_method_names = ["get"]
     queryset = (
-        models.Position.objects.select_related('election', 'district__category')
-        .prefetch_related('candidates__party')
-        .order_by('district__category__rank', 'name')
+        models.Position.objects.select_related("election", "district__category")
+        .prefetch_related("candidates__party")
+        .order_by("district__category__rank", "name")
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
@@ -261,9 +261,9 @@ class PositionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PositionSerializer
 
     def get_queryset(self):
-        section = self.request.query_params.get('section')
+        section = self.request.query_params.get("section")
         if section:
-            return self.queryset.filter(section__in={section, 'Nonpartisan', ''})
+            return self.queryset.filter(section__in={section, "Nonpartisan", ""})
         return self.queryset
 
 
@@ -273,7 +273,7 @@ class GlossaryViewSet(viewsets.ViewSet):
     Return all glossary terms.
     """
 
-    http_method_names = ['get']
+    http_method_names = ["get"]
     serializer_class = serializers.GlossarySerializer
 
     def list(self, request):

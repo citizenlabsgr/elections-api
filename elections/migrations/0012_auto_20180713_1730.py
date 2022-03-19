@@ -5,10 +5,10 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0011_auto_20180713_1713')]
+    dependencies = [("elections", "0011_auto_20180713_1713")]
 
     operations = [
         migrations.RenameField(
-            model_name='precinct', old_name='precinct', new_name='number'
+            model_name="precinct", old_name="precinct", new_name="number"
         )
     ]

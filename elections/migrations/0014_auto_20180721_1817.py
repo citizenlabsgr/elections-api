@@ -6,25 +6,25 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0013_auto_20180714_1321')]
+    dependencies = [("elections", "0013_auto_20180714_1321")]
 
     operations = [
-        migrations.RemoveField(model_name='position', name='candidates'),
+        migrations.RemoveField(model_name="position", name="candidates"),
         migrations.AddField(
-            model_name='candidate',
-            name='position',
+            model_name="candidate",
+            name="position",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
-                to='elections.Position',
+                to="elections.Position",
             ),
         ),
         migrations.AlterField(
-            model_name='party',
-            name='name',
+            model_name="party",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
         migrations.AlterUniqueTogether(
-            name='candidate', unique_together={('position', 'name')}
+            name="candidate", unique_together={("position", "name")}
         ),
     ]

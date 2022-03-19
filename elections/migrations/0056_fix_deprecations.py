@@ -6,28 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0055_registrationstatus_dropbox_location'),
+        ("elections", "0055_registrationstatus_dropbox_location"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='data',
+            model_name="ballotwebsite",
+            name="data",
             field=models.JSONField(editable=False, null=True),
         ),
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='valid',
+            model_name="ballotwebsite",
+            name="valid",
             field=models.BooleanField(editable=False, null=True),
         ),
         migrations.AlterField(
-            model_name='registrationstatus',
-            name='dropbox_location',
+            model_name="registrationstatus",
+            name="dropbox_location",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='registrationstatus',
-            name='polling_location',
+            model_name="registrationstatus",
+            name="polling_location",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

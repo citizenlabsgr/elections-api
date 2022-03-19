@@ -9,7 +9,7 @@ from . import fields, models
 class VoterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Voter
-        fields = '__all__'
+        fields = "__all__"
 
 
 class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -18,12 +18,12 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.DistrictCategory
-        fields = ['url', 'id', 'name', 'description', 'description_edit_url']
+        fields = ["url", "id", "name", "description", "description_edit_url"]
 
     def get_description_edit_url(self, instance):
-        category = 'districts'
-        name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
+        category = "districts"
+        name = instance.name.replace(" ", "%20")
+        return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,7 +32,7 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.District
-        fields = ['url', 'id', 'category', 'name']
+        fields = ["url", "id", "category", "name"]
 
 
 class ElectionSerializer(serializers.ModelSerializer):
@@ -43,38 +43,38 @@ class ElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
         fields = [
-            'url',
-            'id',
-            'name',
-            'date',
-            'date_humanized',
-            'description',
-            'description_edit_url',
-            'active',
-            'reference_url',
+            "url",
+            "id",
+            "name",
+            "date",
+            "date_humanized",
+            "description",
+            "description_edit_url",
+            "active",
+            "reference_url",
         ]
 
     def get_date_humanized(self, instance) -> str:
         dt = pendulum.datetime(
             instance.date.year, instance.date.month, instance.date.day
         )
-        return dt.format('dddd, MMMM Do')
+        return dt.format("dddd, MMMM Do")
 
     def get_description_edit_url(self, instance) -> str:
-        category = 'elections'
-        name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
+        category = "elections"
+        name = instance.name.replace(" ", "%20")
+        return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
 
 
 class MinimalElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
         fields = [
-            'id',
-            'name',
-            'date',
-            'description',
-            'reference_url',
+            "id",
+            "name",
+            "date",
+            "description",
+            "reference_url",
         ]
 
 
@@ -87,7 +87,7 @@ class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Precinct
-        fields = ['url', 'id', 'county', 'jurisdiction', 'ward', 'number']
+        fields = ["url", "id", "county", "jurisdiction", "ward", "number"]
 
 
 class MinimalPrecinctSerializer(serializers.ModelSerializer):
@@ -99,7 +99,7 @@ class MinimalPrecinctSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Precinct
-        fields = ['id', 'county', 'jurisdiction', 'ward', 'number']
+        fields = ["id", "county", "jurisdiction", "ward", "number"]
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
@@ -109,7 +109,7 @@ class BallotSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Ballot
-        fields = ['url', 'id', 'election', 'precinct', 'mvic_url']
+        fields = ["url", "id", "election", "precinct", "mvic_url"]
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
@@ -120,20 +120,20 @@ class ProposalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Proposal
         fields = [
-            'url',
-            'id',
-            'name',
-            'description',
-            'reference_url',
-            'election',
-            'district',
+            "url",
+            "id",
+            "name",
+            "description",
+            "reference_url",
+            "election",
+            "district",
         ]
 
 
 class PartySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Party
-        fields = ['url', 'id', 'name', 'color']
+        fields = ["url", "id", "name", "color"]
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
@@ -142,7 +142,7 @@ class CandidateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Candidate
-        fields = ['url', 'id', 'name', 'description', 'reference_url', 'party']
+        fields = ["url", "id", "name", "description", "reference_url", "party"]
 
 
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
@@ -155,24 +155,24 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Position
         fields = [
-            'url',
-            'id',
-            'name',
-            'description',
-            'description_edit_url',
-            'reference_url',
-            'section',
-            'seats',
-            'term',
-            'candidates',
-            'election',
-            'district',
+            "url",
+            "id",
+            "name",
+            "description",
+            "description_edit_url",
+            "reference_url",
+            "section",
+            "seats",
+            "term",
+            "candidates",
+            "election",
+            "district",
         ]
 
     def get_description_edit_url(self, instance):
-        category = 'positions'
-        name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
+        category = "positions"
+        name = instance.name.replace(" ", "%20")
+        return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
 
 
 class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
@@ -183,17 +183,17 @@ class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RegistrationStatus
         fields = [
-            'registered',
-            'ballot',
-            'absentee',
-            'absentee_application_received',
-            'absentee_ballot_sent',
-            'absentee_ballot_received',
-            'polling_location',
-            'dropbox_locations',
-            'recently_moved',
-            'precinct',
-            'districts',
+            "registered",
+            "ballot",
+            "absentee",
+            "absentee_application_received",
+            "absentee_ballot_sent",
+            "absentee_ballot_received",
+            "polling_location",
+            "dropbox_locations",
+            "recently_moved",
+            "precinct",
+            "districts",
         ]
 
 
@@ -206,17 +206,17 @@ class RegistrationSerializerV1(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RegistrationStatus
         fields = [
-            'registered',
-            'ballot',
-            'absentee',
-            'absentee_application_received',
-            'absentee_ballot_sent',
-            'absentee_ballot_received',
-            'polling_location',
-            'dropbox_location',
-            'recently_moved',
-            'precinct',
-            'districts',
+            "registered",
+            "ballot",
+            "absentee",
+            "absentee_application_received",
+            "absentee_ballot_sent",
+            "absentee_ballot_received",
+            "polling_location",
+            "dropbox_location",
+            "recently_moved",
+            "precinct",
+            "districts",
         ]
 
     def get_dropbox_location(self, instance):
@@ -225,26 +225,26 @@ class RegistrationSerializerV1(serializers.HyperlinkedModelSerializer):
         except (TypeError, IndexError):
             return None
         else:
-            return item['address']
+            return item["address"]
 
 
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.RegistrationStatus
         fields = [
-            'registered',
-            'ballot',
+            "registered",
+            "ballot",
             # If 'ballot' is False, then 'ballot_url' doesn't apply to the
             # current voter. This happens when there's a ballot for a precinct
             # that only applies to a subset of voters in that precinct, such
             # as school districts that don't follow precinct/ward lines.
             #
             # NOTE: This parameter is not officially documented in the README.
-            'ballot_url',
-            'absentee',
-            'absentee_application_received',
-            'absentee_ballot_sent',
-            'absentee_ballot_received',
+            "ballot_url",
+            "absentee",
+            "absentee_application_received",
+            "absentee_ballot_sent",
+            "absentee_ballot_received",
         ]
 
 
@@ -257,15 +257,15 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
 
     def get_category(self, instance) -> str:
         categories = {
-            'Party': 'parties',
-            'DistrictCategory': 'districts',
-            'Position': 'positions',
-            'Election': 'elections',
+            "Party": "parties",
+            "DistrictCategory": "districts",
+            "Position": "positions",
+            "Election": "elections",
         }
         model = instance.__class__.__name__
         return categories[model]
 
     def get_edit_url(self, instance):
         category = self.get_category(instance)
-        name = instance.name.replace(' ', '%20')
-        return f'https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md'
+        name = instance.name.replace(" ", "%20")
+        return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"

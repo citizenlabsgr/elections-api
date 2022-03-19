@@ -4,7 +4,7 @@ from .default import *
 
 # BASE_NAME and BASE_DOMAIN are intentionally unset
 # None of the commands that rely on these values should run during tests
-BASE_URL = 'http://example.com'
+BASE_URL = "http://example.com"
 
 API_CACHE_SECONDS = 0
 
@@ -13,18 +13,18 @@ API_CACHE_SECONDS = 0
 
 TEST = True
 DEBUG = True
-SECRET_KEY = 'test'
+SECRET_KEY = "test"
 
-INSTALLED_APPS += ['django_extensions']
+INSTALLED_APPS += ["django_extensions"]
 
 ###############################################################################
 # Databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elections_test',
-        'HOST': '127.0.0.1',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "elections_test",
+        "HOST": "127.0.0.1",
     }
 }
 
@@ -32,13 +32,13 @@ DATABASES = {
 # Caches
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '.cache/django',
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": ".cache/django",
     }
 }
 
 ###############################################################################
 # Bugsnag
 
-bugsnag.configure(release_stage='test')
+bugsnag.configure(release_stage="test")

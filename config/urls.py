@@ -10,10 +10,10 @@ from markdown import markdown
 
 
 def index(request):
-    with Path('README.md').open() as readme:
+    with Path("README.md").open() as readme:
         text = readme.read()
 
-    text = text.split('<!-- content -->')[1]
+    text = text.split("<!-- content -->")[1]
     text = text.replace(
         "Michigan.",
         """
@@ -28,22 +28,22 @@ def index(request):
         """,
         1,
     )
-    text = text.replace('https://michiganelections.io', settings.BASE_URL)
-    text = text.replace('>michiganelections.io', f'>{settings.BASE_DOMAIN}')
+    text = text.replace("https://michiganelections.io", settings.BASE_URL)
+    text = text.replace(">michiganelections.io", f">{settings.BASE_DOMAIN}")
 
     html = markdown(
-        text, extensions=['pymdownx.magiclink', 'markdown.extensions.tables']
+        text, extensions=["pymdownx.magiclink", "markdown.extensions.tables"]
     )
-    html = html.replace(' \\', ' \\<br>&nbsp;')
-    html = html.replace('</td>\n<td>', ' &nbsp; &nbsp; &nbsp; &nbsp; </td>\n<td>')
+    html = html.replace(" \\", " \\<br>&nbsp;")
+    html = html.replace("</td>\n<td>", " &nbsp; &nbsp; &nbsp; &nbsp; </td>\n<td>")
 
-    return render(request, 'index.html', {'body': html})
+    return render(request, "index.html", {"body": html})
 
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Michigan Elections API",
-        default_version='0',
+        default_version="0",
         description="Voter registration status and ballots for Michigan.",
     ),
     url=settings.BASE_URL,
@@ -51,15 +51,15 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-    path('api/', include('elections.urls')),
-    path('admin/', admin.site.urls),
-    path('grappelli/', include('grappelli.urls')),
-    path('docs/', schema_view.with_ui('swagger')),
-    path('', index),
+    path("api/", include("elections.urls")),
+    path("admin/", admin.site.urls),
+    path("grappelli/", include("grappelli.urls")),
+    path("docs/", schema_view.with_ui("swagger")),
+    path("", index),
 ]
 
 
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

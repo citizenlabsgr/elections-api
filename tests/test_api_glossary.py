@@ -8,7 +8,7 @@ from elections.models import DistrictCategory
 def describe_list():
     @pytest.fixture
     def url():
-        return '/api/glossary/'
+        return "/api/glossary/"
 
     def it_includes_edit_links(expect, client, url, db):
         DistrictCategory.objects.create(name="Foobar", description="TBD")
@@ -17,9 +17,9 @@ def describe_list():
 
         expect(response.data) == [
             {
-                'category': 'districts',
-                'name': 'Foobar',
-                'description': 'TBD',
-                'edit_url': 'https://github.com/citizenlabsgr/elections-api/edit/main/content/districts/Foobar.md',
+                "category": "districts",
+                "name": "Foobar",
+                "description": "TBD",
+                "edit_url": "https://github.com/citizenlabsgr/elections-api/edit/main/content/districts/Foobar.md",
             }
         ]

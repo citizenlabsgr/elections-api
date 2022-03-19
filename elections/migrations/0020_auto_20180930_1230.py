@@ -5,12 +5,12 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0019_auto_20180915_1725')]
+    dependencies = [("elections", "0019_auto_20180915_1725")]
 
     operations = [
         migrations.RenameField(
-            model_name='ballotwebsite',
-            old_name='last_fetch_with_precent',
-            new_name='last_fetch_with_precinct',
+            model_name="ballotwebsite",
+            old_name="last_fetch_with_precent",
+            new_name="last_fetch_with_precinct",
         )
     ]

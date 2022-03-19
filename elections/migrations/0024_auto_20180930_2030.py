@@ -5,16 +5,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0023_ballotwebsite_fetched')]
+    dependencies = [("elections", "0023_ballotwebsite_fetched")]
 
     operations = [
         migrations.AddField(
-            model_name='position',
-            name='term',
-            field=models.CharField(default='?', max_length=200),
+            model_name="position",
+            name="term",
+            field=models.CharField(default="?", max_length=200),
             preserve_default=False,
         ),
         migrations.AlterUniqueTogether(
-            name='position', unique_together={('election', 'district', 'name', 'term')}
+            name="position", unique_together={("election", "district", "name", "term")}
         ),
     ]

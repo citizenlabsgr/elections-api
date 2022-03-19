@@ -17,8 +17,8 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, **_kwargs):
         log.reset()
-        log.silence('datafiles')
-        log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
+        log.silence("datafiles")
+        log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)
 
         self.get_or_create_superuser()
         self.add_elections()
@@ -42,7 +42,7 @@ class Command(BaseCommand):
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
             name="November Consolidated",
-            date=pendulum.parse("2021-11-02", tz='America/Detroit'),
+            date=pendulum.parse("2021-11-02", tz="America/Detroit"),
             defaults=dict(active=True, mvic_id=687),
         )
         if created:

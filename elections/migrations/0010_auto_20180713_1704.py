@@ -5,12 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0009_ballotwebsite_source')]
+    dependencies = [("elections", "0009_ballotwebsite_source")]
 
     operations = [
         migrations.AddField(
-            model_name='ballotwebsite',
-            name='fetched',
+            model_name="ballotwebsite",
+            name="fetched",
             field=models.DateTimeField(null=True),
         )
     ]

@@ -41,11 +41,11 @@ def scrape_ballots(
             error_count += 1
 
         if error_count >= max_election_error_count:
-            log.info('No more ballots to scrape')
+            log.info("No more ballots to scrape")
             break
 
         if ballot_limit and ballot_count >= ballot_limit:
-            log.info(f'Stopping after fetching {ballot_count} ballot(s)')
+            log.info(f"Stopping after fetching {ballot_count} ballot(s)")
             break
 
 
@@ -55,10 +55,10 @@ def _scrape_ballots_for_election(
     limit: Optional[int],
     max_ballot_error_count: int,
 ) -> int:
-    log.info(f'Scrapping ballots for election {election_id}')
-    log.info(f'Starting from precinct {starting_precinct_id}')
+    log.info(f"Scrapping ballots for election {election_id}")
+    log.info(f"Starting from precinct {starting_precinct_id}")
     if limit:
-        log.info(f'Stopping after {limit} ballots')
+        log.info(f"Stopping after {limit} ballots")
 
     ballot_count = 0
     error_count = 0
@@ -68,7 +68,7 @@ def _scrape_ballots_for_election(
             mvic_election_id=election_id, mvic_precinct_id=precinct_id
         )
         if created:
-            log.info(f'Discovered new website: {website}')
+            log.info(f"Discovered new website: {website}")
         if website.stale or limit:
             website.fetch()
             website.validate() and website.scrape() and website.convert()
@@ -82,7 +82,7 @@ def _scrape_ballots_for_election(
             break
 
         if error_count >= max_ballot_error_count:
-            log.info(f'No more ballots to scrape for election {election_id}')
+            log.info(f"No more ballots to scrape for election {election_id}")
             break
 
     return ballot_count
@@ -99,16 +99,16 @@ def parse_ballots(*, election_id: Optional[int] = None):
 
 
 def _parse_ballots_for_election(election: Election):
-    log.info(f'Parsing ballots for election {election.mvic_id}')
+    log.info(f"Parsing ballots for election {election.mvic_id}")
 
     precincts: Set[Precinct] = set()
 
     websites = (
         BallotWebsite.objects.filter(mvic_election_id=election.mvic_id, valid=True)
-        .order_by('-mvic_precinct_id')
-        .defer('mvic_html', 'data')
+        .order_by("-mvic_precinct_id")
+        .defer("mvic_html", "data")
     )
-    log.info(f'Mapping {websites.count()} websites to ballots')
+    log.info(f"Mapping {websites.count()} websites to ballots")
 
     for website in websites:
 
@@ -118,13 +118,13 @@ def _parse_ballots_for_election(election: Election):
         ballot = website.convert()
 
         if ballot.precinct in precincts:
-            log.warn(f'Duplicate website: {website}')
+            log.warn(f"Duplicate website: {website}")
         else:
             precincts.add(ballot.precinct)
 
             previous = Ballot.objects.filter(website=website).exclude(pk=ballot.pk)
             if previous:
-                log.warn(f'Clearing website on previous ballot: {previous}')
+                log.warn(f"Clearing website on previous ballot: {previous}")
                 previous.update(website=None)
 
             ballot.website = website
@@ -133,4 +133,4 @@ def _parse_ballots_for_election(election: Election):
             if ballot.stale:
                 ballot.parse()
 
-    log.info(f'Parsed ballots for {len(precincts)} precincts')
+    log.info(f"Parsed ballots for {len(precincts)} precincts")

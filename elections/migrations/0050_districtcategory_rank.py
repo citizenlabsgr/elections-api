@@ -6,15 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0049_position_allow_blanks'),
+        ("elections", "0049_position_allow_blanks"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='districtcategory',
-            name='rank',
+            model_name="districtcategory",
+            name="rank",
             field=models.IntegerField(
-                default=0, help_text='Controls ballot item ordering'
+                default=0, help_text="Controls ballot item ordering"
             ),
         ),
     ]

@@ -23,7 +23,7 @@ class DistrictCategory(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "District Categories"
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self) -> str:
         if self.name in {
@@ -37,7 +37,7 @@ class DistrictCategory(TimeStampedModel):
             "Precinct",
         }:
             return self.name
-        return f'{self.name} District'
+        return f"{self.name} District"
 
 
 class District(TimeStampedModel):
@@ -48,11 +48,11 @@ class District(TimeStampedModel):
     population = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
-        unique_together = ['category', 'name']
-        ordering = ['-population']
+        unique_together = ["category", "name"]
+        ordering = ["-population"]
 
     def __repr__(self) -> str:
-        return f'<District: {self.name} ({self.category})>'
+        return f"<District: {self.name} ({self.category})>"
 
     def __str__(self) -> str:
         return self.name
@@ -71,11 +71,11 @@ class Election(TimeStampedModel):
     mvic_id = models.PositiveIntegerField(verbose_name="MVIC ID")
 
     class Meta:
-        unique_together = ['date', 'name']
-        ordering = ['-date']
+        unique_together = ["date", "name"]
+        ordering = ["-date"]
 
     def __str__(self) -> str:
-        return ' | '.join(self.mvic_name)
+        return " | ".join(self.mvic_name)
 
     @property
     def mvic_name(self) -> List[str]:
@@ -99,19 +99,19 @@ class Precinct(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
     county = models.ForeignKey(
-        District, related_name='counties', on_delete=models.CASCADE
+        District, related_name="counties", on_delete=models.CASCADE
     )
     jurisdiction = models.ForeignKey(
-        District, related_name='jurisdictions', on_delete=models.CASCADE
+        District, related_name="jurisdictions", on_delete=models.CASCADE
     )
     ward = models.CharField(max_length=2, blank=True)
     number = models.CharField(max_length=3, blank=True)
 
     class Meta:
-        unique_together = ['county', 'jurisdiction', 'ward', 'number']
+        unique_together = ["county", "jurisdiction", "ward", "number"]
 
     def __str__(self) -> str:
-        return ' | '.join(self.mvic_name)
+        return " | ".join(self.mvic_name)
 
     @property
     def mvic_name(self) -> List[str]:
@@ -145,8 +145,8 @@ class Precinct(TimeStampedModel):
         return f"{self.jurisdiction}, {ward_precinct}"
 
     def save(self, *args, **kwargs):
-        self.ward = self.ward if self.ward.strip('0') else ''
-        self.number = self.number if self.number.strip('0') else ''
+        self.ward = self.ward if self.ward.strip("0") else ""
+        self.number = self.number if self.number.strip("0") else ""
         assert self.mvic_name
         super().save(*args, **kwargs)
 
@@ -218,19 +218,19 @@ class Voter(models.Model):
         return self.birth_date.year
 
     def fetch_registration_status(
-        self, *, track_missing_data: bool = 'staging' not in settings.BASE_URL
+        self, *, track_missing_data: bool = "staging" not in settings.BASE_URL
     ) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
 
-        if not data['registered']:
+        if not data["registered"]:
             return RegistrationStatus(registered=False)
 
         districts: List[District] = []
         county = jurisdiction = None
 
-        for category_name, district_name in sorted(data['districts'].items()):
+        for category_name, district_name in sorted(data["districts"].items()):
             if not district_name:
-                log.debug(f'Skipped blank district: {category_name}')
+                log.debug(f"Skipped blank district: {category_name}")
                 continue
 
             if category_name in ["Ward", "Precinct"]:
@@ -255,18 +255,18 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        if data['districts']['Ward']:
+        if data["districts"]["Ward"]:
             precinct, created = Precinct.objects.get_or_create(
                 county=county,
                 jurisdiction=jurisdiction,
-                ward=data['districts']['Ward'],
-                number=data['districts']['Precinct'],
+                ward=data["districts"]["Ward"],
+                number=data["districts"]["Precinct"],
             )
         else:
             precinct, created = Precinct.objects.get_or_create(
                 county=county,
                 jurisdiction=jurisdiction,
-                number=data['districts']['Precinct'],
+                number=data["districts"]["Precinct"],
             )
         if created:
             message = f"Created precinct: {precinct}"
@@ -275,27 +275,27 @@ class Voter(models.Model):
                 bugsnag.notify(
                     exceptions.MissingData(message),
                     meta_data={
-                        'voter': {
-                            'first_name': self.first_name,
-                            'last_name': self.last_name,
-                            'birth_data': self.birth_date,
-                            'zip_code': self.zip_code,
+                        "voter": {
+                            "first_name": self.first_name,
+                            "last_name": self.last_name,
+                            "birth_data": self.birth_date,
+                            "zip_code": self.zip_code,
                         }
                     },
                 )
 
         status = RegistrationStatus(
-            registered=data['registered'],
-            ballot=data['ballot'],
-            absentee=data['absentee'],
-            absentee_application_received=data['absentee_dates'][
-                'Application Received'
+            registered=data["registered"],
+            ballot=data["ballot"],
+            absentee=data["absentee"],
+            absentee_application_received=data["absentee_dates"][
+                "Application Received"
             ],
-            absentee_ballot_sent=data['absentee_dates']['Ballot Sent'],
-            absentee_ballot_received=data['absentee_dates']['Ballot Received'],
-            polling_location=list(data['polling_location'].values()),
-            dropbox_locations=data['dropbox_locations'],
-            recently_moved=data['recently_moved'],
+            absentee_ballot_sent=data["absentee_dates"]["Ballot Sent"],
+            absentee_ballot_received=data["absentee_dates"]["Ballot Received"],
+            polling_location=list(data["polling_location"].values()),
+            dropbox_locations=data["dropbox_locations"],
+            recently_moved=data["recently_moved"],
             precinct=precinct,
         )
         status.districts = districts
@@ -306,9 +306,9 @@ class Voter(models.Model):
         election_string = str(election.pk)
         voter_string = repr(self)
         status_string = status.message + (
-            status.ballot_url if status.ballot_url else ''
+            status.ballot_url if status.ballot_url else ""
         )
-        return '-'.join(
+        return "-".join(
             [
                 str(settings.API_CACHE_KEY) + election_string,
                 str(sum(ord(c) for c in voter_string)),
@@ -335,7 +335,7 @@ class Party(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "Parties"
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -363,7 +363,7 @@ class BallotWebsite(models.Model):
     last_parse = models.DateTimeField(null=True, editable=False)
 
     class Meta:
-        unique_together = ['mvic_election_id', 'mvic_precinct_id']
+        unique_together = ["mvic_election_id", "mvic_precinct_id"]
 
     def __str__(self) -> str:
         return self.mvic_url
@@ -377,21 +377,21 @@ class BallotWebsite(models.Model):
     @property
     def stale(self) -> bool:
         if not self.last_fetch:
-            log.debug(f'Ballot has never been scraped: {self}')
+            log.debug(f"Ballot has never been scraped: {self}")
             return True
 
         if self.last_fetch < constants.SCRAPER_LAST_UPDATED:
-            log.info(f'Scraping logic is newer than last scrape: {self}')
+            log.info(f"Scraping logic is newer than last scrape: {self}")
             return True
 
         age = timezone.now() - self.last_fetch
         if age < timezone.timedelta(minutes=121):
-            log.debug(f'Ballot was scraped in the last two hours: {self}')
+            log.debug(f"Ballot was scraped in the last two hours: {self}")
             return False
 
         age_in_days = age.total_seconds() / 3600 / 24
         weight = age_in_days / 14  # fetch once per week on average
-        log.debug(f'Ballot was scraped {round(age_in_days, 1)} days ago: {self}')
+        log.debug(f"Ballot was scraped {round(age_in_days, 1)} days ago: {self}")
 
         return weight > random.random()
 
@@ -406,18 +406,18 @@ class BallotWebsite(models.Model):
 
     def validate(self) -> bool:
         """Determine if fetched HTML contains ballot information."""
-        log.info(f'Validating ballot HTML: {self}')
-        assert self.mvic_html, f'Ballot has not been fetched: {self}'
+        log.info(f"Validating ballot HTML: {self}")
+        assert self.mvic_html, f"Ballot has not been fetched: {self}"
 
         if (
             "not available at this time" in self.mvic_html
             or "currently no items for this ballot" in self.mvic_html
             or " County" not in self.mvic_html
         ):
-            log.warn('Ballot URL does not contain precinct information')
+            log.warn("Ballot URL does not contain precinct information")
             self.valid = False
         else:
-            log.info('Ballot URL contains precinct information')
+            log.info("Ballot URL contains precinct information")
             self.valid = True
             self.last_validate = timezone.now()
 
@@ -427,16 +427,16 @@ class BallotWebsite(models.Model):
 
     def scrape(self) -> int:
         """Scrape ballot data from the HTML."""
-        log.info(f'Scraping data from ballot: {self}')
-        assert self.valid, f'Ballot has not been validated: {self}'
+        log.info(f"Scraping data from ballot: {self}")
+        assert self.valid, f"Ballot has not been validated: {self}"
 
         data: Dict[str, Any] = {}
-        data['election'] = helpers.parse_election(self.mvic_html)
-        data['precinct'] = helpers.parse_precinct(self.mvic_html, self.mvic_url)
-        data['ballot'] = {}
+        data["election"] = helpers.parse_election(self.mvic_html)
+        data["precinct"] = helpers.parse_precinct(self.mvic_html, self.mvic_url)
+        data["ballot"] = {}
 
-        data_count = helpers.parse_ballot(self.mvic_html, data['ballot'])
-        log.info(f'Ballot URL contains {data_count} parsed item(s)')
+        data_count = helpers.parse_ballot(self.mvic_html, data["ballot"])
+        log.info(f"Ballot URL contains {data_count} parsed item(s)")
         if data_count > 0:
             self.data = data
             if data_count != self.data_count:
@@ -450,8 +450,8 @@ class BallotWebsite(models.Model):
 
     def convert(self) -> Ballot:
         """Convert parsed ballot data into a ballot."""
-        log.info(f'Converting to a ballot: {self}')
-        assert self.data, f'Ballot has not been scrapted: {self}'
+        log.info(f"Converting to a ballot: {self}")
+        assert self.data, f"Ballot has not been scrapted: {self}"
 
         election = self._get_election()
         precinct = self._get_precinct()
@@ -463,43 +463,43 @@ class BallotWebsite(models.Model):
         return ballot
 
     def _get_election(self) -> Election:
-        election_name, election_date = self.data['election']
+        election_name, election_date = self.data["election"]
 
         election, created = Election.objects.get_or_create(
             mvic_id=self.mvic_election_id,
-            defaults={'name': election_name, 'date': pendulum.date(*election_date)},
+            defaults={"name": election_name, "date": pendulum.date(*election_date)},
         )
         if created:
-            log.info(f'Created election: {election}')
+            log.info(f"Created election: {election}")
 
         assert (
             election.name == election_name
-        ), f'Election {election.mvic_id} name changed: {election_name}'
+        ), f"Election {election.mvic_id} name changed: {election_name}"
 
         return election
 
     def _get_precinct(self) -> Precinct:
-        county_name, jurisdiction_name, ward, number = self.data['precinct']
+        county_name, jurisdiction_name, ward, number = self.data["precinct"]
 
         county, created = District.objects.get_or_create(
             category=DistrictCategory.objects.get(name="County"), name=county_name
         )
         if created:
-            log.info(f'Created district: {county}')
+            log.info(f"Created district: {county}")
 
         jurisdiction, created = District.objects.get_or_create(
             category=DistrictCategory.objects.get(name="Jurisdiction"),
             name=jurisdiction_name,
         )
         if created:
-            log.info(f'Created district: {jurisdiction}')
+            log.info(f"Created district: {jurisdiction}")
 
         assert self.mvic_precinct_id
         precinct, created = Precinct.objects.get_or_create(
             county=county, jurisdiction=jurisdiction, ward=ward, number=number
         )
         if created:
-            log.info(f'Created precinct: {precinct}')
+            log.info(f"Created precinct: {precinct}")
 
         return precinct
 
@@ -509,7 +509,7 @@ class BallotWebsite(models.Model):
             election=election, precinct=precinct
         )
         if created:
-            log.info(f'Created ballot: {ballot}')
+            log.info(f"Created ballot: {ballot}")
         return ballot
 
 
@@ -524,15 +524,15 @@ class Ballot(TimeStampedModel):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='ballot',
+        related_name="ballot",
     )
 
     class Meta:
-        unique_together = ['election', 'precinct']
-        ordering = ['election__date']
+        unique_together = ["election", "precinct"]
+        ordering = ["election__date"]
 
     def __str__(self) -> str:
-        return ' | '.join(self.mvic_name)
+        return " | ".join(self.mvic_name)
 
     @property
     def mvic_name(self) -> List[str]:
@@ -547,29 +547,29 @@ class Ballot(TimeStampedModel):
     @property
     def stale(self) -> bool:
         if not self.website.last_parse:
-            log.debug('Ballot has never been parsed')
+            log.debug("Ballot has never been parsed")
             return True
 
         if self.website.last_parse < constants.PARSER_LAST_UPDATED:
-            log.info(f'Parsing logic is newer than last scrape: {self.website}')
+            log.info(f"Parsing logic is newer than last scrape: {self.website}")
             return True
 
         age = timezone.now() - self.website.last_parse
         if age < timezone.timedelta(hours=23):
-            log.debug('Ballot was parsed in the last day')
+            log.debug("Ballot was parsed in the last day")
             return False
 
         return True
 
     def parse(self) -> int:
-        log.info(f'Parsing ballot: {self}')
+        log.info(f"Parsing ballot: {self}")
         assert (
             self.website and self.website.data
-        ), 'Ballot website has not been converted: {self}'
+        ), "Ballot website has not been converted: {self}"
 
         count = 0
-        for section_name, section_data in self.website.data['ballot'].items():
-            section_parser = getattr(self, '_parse_' + section_name.replace(' ', '_'))
+        for section_name, section_data in self.website.data["ballot"].items():
+            section_parser = getattr(self, "_parse_" + section_name.replace(" ", "_"))
             for item in section_parser(section_data):
                 if isinstance(item, (Candidate, Proposal)):
                     count += 1
@@ -584,118 +584,118 @@ class Ballot(TimeStampedModel):
         for section_name, section_data in data.items():
             yield from self._parse_partisan_section(section_data, section_name)
 
-    def _parse_partisan_section(self, data, section=''):
+    def _parse_partisan_section(self, data, section=""):
         for category_name, positions_data in data.items():
             for position_data in positions_data:
 
                 category = district = None
 
-                if category_name in {'Presidential', 'State', 'State Board'}:
-                    district = District.objects.get(name='Michigan')
-                elif category_name in {'City', 'Township'}:
+                if category_name in {"Presidential", "State", "State Board"}:
+                    district = District.objects.get(name="Michigan")
+                elif category_name in {"City", "Township"}:
                     district = self.precinct.jurisdiction
                 elif category_name in {
-                    'Congressional',
-                    'Legislative',
-                    'County',
-                    'Delegate',
+                    "Congressional",
+                    "Legislative",
+                    "County",
+                    "Delegate",
                 }:
                     pass  # district parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
-                        f'Unhandled category {category_name!r} on {self.website.mvic_url}'
+                        f"Unhandled category {category_name!r} on {self.website.mvic_url}"
                     )
 
-                position_name = position_data['name']
+                position_name = position_data["name"]
 
                 if district is None:
-                    if position_name in {'United States Senator'}:
-                        district = District.objects.get(name='Michigan')
-                    elif position_name in {'Representative in Congress'}:
-                        category = DistrictCategory.objects.get(name='US Congress')
+                    if position_name in {"United States Senator"}:
+                        district = District.objects.get(name="Michigan")
+                    elif position_name in {"Representative in Congress"}:
+                        category = DistrictCategory.objects.get(name="US Congress")
                         district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
+                            category=category, name=position_data["district"]
                         )
                         if created:
-                            log.info(f'Created district: {district}')
-                    elif position_name in {'State Senator'}:
-                        category = DistrictCategory.objects.get(name='State Senate')
+                            log.info(f"Created district: {district}")
+                    elif position_name in {"State Senator"}:
+                        category = DistrictCategory.objects.get(name="State Senate")
                         district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
+                            category=category, name=position_data["district"]
                         )
                         if created:
-                            log.info(f'Created district: {district}')
-                    elif position_name in {'Representative in State Legislature'}:
-                        category = DistrictCategory.objects.get(name='State House')
+                            log.info(f"Created district: {district}")
+                    elif position_name in {"Representative in State Legislature"}:
+                        category = DistrictCategory.objects.get(name="State House")
                         district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
+                            category=category, name=position_data["district"]
                         )
                         if created:
-                            log.info(f'Created district: {district}')
+                            log.info(f"Created district: {district}")
 
-                    elif position_name in {'County Commissioner'}:
+                    elif position_name in {"County Commissioner"}:
                         category = DistrictCategory.objects.get(name=position_name)
                         district, created = District.objects.get_or_create(
                             category=category,
                             name=self.precinct.get_county_district_label(
-                                position_data['district']
+                                position_data["district"]
                             ),
                         )
                         if created:
-                            log.info(f'Created district: {district}')
-                    elif position_name in {'Delegate to County Convention'}:
-                        category = DistrictCategory.objects.get(name='Precinct')
+                            log.info(f"Created district: {district}")
+                    elif position_name in {"Delegate to County Convention"}:
+                        category = DistrictCategory.objects.get(name="Precinct")
                         district, created = District.objects.get_or_create(
                             category=category,
                             name=self.precinct.get_precinct_label(),
                         )
                         if created:
-                            log.info(f'Created district: {district}')
-                    elif category_name in {'County'}:
+                            log.info(f"Created district: {district}")
+                    elif category_name in {"County"}:
                         district = self.precinct.county
                     else:
                         raise exceptions.UnhandledData(
-                            f'Unhandled position {position_name!r} on {self.website.mvic_url}'
+                            f"Unhandled position {position_name!r} on {self.website.mvic_url}"
                         )
 
-                default_term = constants.TERMS.get(position_data['name'], "")
+                default_term = constants.TERMS.get(position_data["name"], "")
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
-                    name=position_data['name'],
-                    term=position_data['term'] or default_term,
-                    seats=position_data['seats'],
+                    name=position_data["name"],
+                    term=position_data["term"] or default_term,
+                    seats=position_data["seats"],
                     section=section,
                 )
                 if created:
-                    log.info(f'Created position: {position}')
+                    log.info(f"Created position: {position}")
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
 
-                for candidate_data in position_data['candidates']:
-                    candidate_name = candidate_data['name']
+                for candidate_data in position_data["candidates"]:
+                    candidate_name = candidate_data["name"]
 
                     if candidate_name in {"Uncommitted"}:
-                        log.debug(f'Skipped placeholder candidate: {candidate_name}')
+                        log.debug(f"Skipped placeholder candidate: {candidate_name}")
                         continue
 
-                    if candidate_data['party'] is None:
+                    if candidate_data["party"] is None:
                         raise exceptions.UnhandledData(
-                            f'Expected party for {candidate_name!r} on {self.website.mvic_url}'
+                            f"Expected party for {candidate_name!r} on {self.website.mvic_url}"
                         )
 
-                    party = Party.objects.get(name=candidate_data['party'])
+                    party = Party.objects.get(name=candidate_data["party"])
                     candidate, created = Candidate.objects.update_or_create(
                         position=position,
                         name=candidate_name,
                         defaults={
-                            'party': party,
-                            'reference_url': candidate_data['finance_link'],
+                            "party": party,
+                            "reference_url": candidate_data["finance_link"],
                         },
                     )
                     if created:
-                        log.info(f'Created candidate: {candidate}')
+                        log.info(f"Created candidate: {candidate}")
                     yield candidate
 
     def _parse_nonpartisan_section(self, data):
@@ -705,109 +705,109 @@ class Ballot(TimeStampedModel):
                 category = district = None
 
                 if category_name in {
-                    'City',
-                    'Township',
-                    'Village',
-                    'Authority',
-                    'Metropolitan',
+                    "City",
+                    "Township",
+                    "Village",
+                    "Authority",
+                    "Metropolitan",
                 }:
-                    if position_data['district']:
+                    if position_data["district"]:
                         category = self.precinct.jurisdiction.category
                     else:
                         district = self.precinct.jurisdiction
                 elif category_name in {
-                    'Community College',
-                    'Local School',
-                    'Intermediate School',
-                    'Library',
+                    "Community College",
+                    "Local School",
+                    "Intermediate School",
+                    "Library",
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
-                elif category_name in {'Judicial'}:
+                elif category_name in {"Judicial"}:
                     pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
-                        f'Unhandled category {category_name!r} on {self.website.mvic_url}'
+                        f"Unhandled category {category_name!r} on {self.website.mvic_url}"
                     )
 
-                position_name = position_data['name']
+                position_name = position_data["name"]
 
                 if district is None:
                     if category is None:
-                        if position_name in {'Justice of Supreme Court'}:
-                            district = District.objects.get(name='Michigan')
-                        elif position_name in {'Judge of Court of Appeals'}:
+                        if position_name in {"Justice of Supreme Court"}:
+                            district = District.objects.get(name="Michigan")
+                        elif position_name in {"Judge of Court of Appeals"}:
                             category = DistrictCategory.objects.get(
-                                name='Court of Appeals'
+                                name="Court of Appeals"
                             )
-                        elif position_name in {'Judge of Municipal Court'}:
+                        elif position_name in {"Judge of Municipal Court"}:
                             category = DistrictCategory.objects.get(
-                                name='Municipal Court'
+                                name="Municipal Court"
                             )
-                        elif position_name in {'Judge of Probate Court'}:
+                        elif position_name in {"Judge of Probate Court"}:
                             category = DistrictCategory.objects.get(
-                                name='Probate Court'
+                                name="Probate Court"
                             )
-                        elif position_name in {'Judge of Circuit Court'}:
+                        elif position_name in {"Judge of Circuit Court"}:
                             category = DistrictCategory.objects.get(
-                                name='Circuit Court'
+                                name="Circuit Court"
                             )
-                        elif position_name in {'Judge of District Court'}:
+                        elif position_name in {"Judge of District Court"}:
                             category = DistrictCategory.objects.get(
-                                name='District Court'
+                                name="District Court"
                             )
                         else:
                             raise exceptions.UnhandledData(
-                                f'Unhandled position {position_name!r} on {self.website.mvic_url}'
+                                f"Unhandled position {position_name!r} on {self.website.mvic_url}"
                             )
 
-                    if position_data['district']:
+                    if position_data["district"]:
                         district, created = District.objects.get_or_create(
-                            category=category, name=position_data['district']
+                            category=category, name=position_data["district"]
                         )
                         if created:
-                            log.info(f'Created district: {district}')
+                            log.info(f"Created district: {district}")
                     elif district is None:
                         log.warn(
-                            f'Ballot {self.website.mvic_url} missing district: {position_data}'
+                            f"Ballot {self.website.mvic_url} missing district: {position_data}"
                         )
                         district = self.precinct.jurisdiction
 
-                elif position_name in {'Commissioner by Ward'}:
-                    category = DistrictCategory.objects.get(name='Ward')
+                elif position_name in {"Commissioner by Ward"}:
+                    category = DistrictCategory.objects.get(name="Ward")
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=self.precinct.get_ward_label(position_data['district']),
+                        name=self.precinct.get_ward_label(position_data["district"]),
                     )
                     if created:
-                        log.info(f'Created district: {district}')
+                        log.info(f"Created district: {district}")
 
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
-                    name=position_data['name'],
-                    term=position_data['term'] or "",
-                    seats=position_data['seats'] or 0,
+                    name=position_data["name"],
+                    term=position_data["term"] or "",
+                    seats=position_data["seats"] or 0,
                 )
                 if created:
-                    log.info(f'Created position: {position}')
+                    log.info(f"Created position: {position}")
                 position.section = "Nonpartisan"
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
 
-                for candidate_data in position_data['candidates']:
-                    assert candidate_data['party'] is None
+                for candidate_data in position_data["candidates"]:
+                    assert candidate_data["party"] is None
                     party = Party.objects.get(name="Nonpartisan")
                     candidate, created = Candidate.objects.update_or_create(
                         position=position,
-                        name=candidate_data['name'],
+                        name=candidate_data["name"],
                         defaults={
-                            'party': party,
-                            'reference_url': candidate_data['finance_link'],
+                            "party": party,
+                            "reference_url": candidate_data["finance_link"],
                         },
                     )
                     if created:
-                        log.info(f'Created candidate: {candidate}')
+                        log.info(f"Created candidate: {candidate}")
                     yield candidate
 
     def _parse_proposal_section(self, data):
@@ -815,66 +815,66 @@ class Ballot(TimeStampedModel):
 
             category = district = None
 
-            if category_name in {'State'}:
-                district = District.objects.get(name='Michigan')
-            elif category_name in {'County'}:
+            if category_name in {"State"}:
+                district = District.objects.get(name="Michigan")
+            elif category_name in {"County"}:
                 district = self.precinct.county
             elif category_name in {
-                'City',
-                'Township',
-                'Village',
-                'Authority',
-                'Authority (Custom Region)',
-                'Local School',
-                'Metropolitan',
+                "City",
+                "Township",
+                "Village",
+                "Authority",
+                "Authority (Custom Region)",
+                "Local School",
+                "Metropolitan",
             }:
                 # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
             elif category_name in {
-                'Community College',
-                'Intermediate School',
-                'District Library',
-                'Ward',
+                "Community College",
+                "Intermediate School",
+                "District Library",
+                "Ward",
             }:
                 category = DistrictCategory.objects.get(name=category_name)
             else:
                 raise exceptions.UnhandledData(
-                    f'Unhandled category {category_name!r} on {self.website.mvic_url}'
+                    f"Unhandled category {category_name!r} on {self.website.mvic_url}"
                 )
 
             for proposal_data in proposals_data:
 
-                if category and category.name == 'Ward':
+                if category and category.name == "Ward":
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=self.precinct.get_ward_label(f'Ward {self.precinct.ward}'),
+                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
                     )
                     if created:
-                        log.info(f'Created district: {district}')
+                        log.info(f"Created district: {district}")
 
                 if district is None:
-                    assert category, f'Expected category: {proposals_data}'
+                    assert category, f"Expected category: {proposals_data}"
 
                     possible_category_names = [category.name]
-                    if category.name == 'District Library':
+                    if category.name == "District Library":
                         possible_category_names.extend(
                             [
-                                'Public Library',
-                                'Community Library',
-                                'Library District',
-                                'Library',
+                                "Public Library",
+                                "Community Library",
+                                "Library District",
+                                "Library",
                             ]
                         )
-                    elif category.name == 'Community College':
-                        possible_category_names.extend(['College'])
-                    elif category.name == 'Intermediate School':
+                    elif category.name == "Community College":
+                        possible_category_names.extend(["College"])
+                    elif category.name == "Intermediate School":
                         possible_category_names.extend(
                             [
-                                'Regional Education Service Agency',
-                                'Regional Educational Service Agency',
-                                'Regional Education Service',
-                                'Area Educational Service Agency',
-                                'Educational Service',
+                                "Regional Education Service Agency",
+                                "Regional Educational Service Agency",
+                                "Regional Education Service",
+                                "Area Educational Service Agency",
+                                "Educational Service",
                             ]
                         )
 
@@ -883,7 +883,7 @@ class Ballot(TimeStampedModel):
                         try:
                             district_name = helpers.parse_district_from_proposal(
                                 category_name,
-                                proposal_data['text'],
+                                proposal_data["text"],
                                 self.website.mvic_url,
                             )
                         except ValueError as e:
@@ -898,21 +898,21 @@ class Ballot(TimeStampedModel):
                         category=category, name=district_name
                     )
                     if created:
-                        log.info(f'Created district: {district}')
+                        log.info(f"Created district: {district}")
 
-                if proposal_data['text'] is None:
+                if proposal_data["text"] is None:
                     raise exceptions.MissingData(
-                        f'Proposal text missing on {self.website.mvic_url}'
+                        f"Proposal text missing on {self.website.mvic_url}"
                     )
 
                 proposal, created = Proposal.objects.update_or_create(
                     election=self.election,
                     district=district,
-                    name=proposal_data['title'],
-                    defaults={'description': proposal_data['text']},
+                    name=proposal_data["title"],
+                    defaults={"description": proposal_data["text"]},
                 )
                 if created:
-                    log.info(f'Created proposal: {proposal}')
+                    log.info(f"Created proposal: {proposal}")
                 proposal.precincts.add(self.precinct)
                 proposal.save()
                 yield proposal
@@ -936,8 +936,8 @@ class Proposal(BallotItem):
     """Ballot item with a boolean outcome."""
 
     class Meta:
-        unique_together = ['election', 'district', 'name']
-        ordering = ['name']
+        unique_together = ["election", "district", "name"]
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -952,18 +952,18 @@ class Position(BallotItem):
 
     class Meta:
         unique_together = [
-            'election',
-            'section',
-            'district',
-            'name',
-            'term',
-            'seats',
+            "election",
+            "section",
+            "district",
+            "name",
+            "term",
+            "seats",
         ]
-        ordering = ['name', 'seats']
+        ordering = ["name", "seats"]
 
     def __str__(self):
         if self.term:
-            return f'{self.name} ({self.term})'
+            return f"{self.name} ({self.term})"
         return self.name
 
     def update_term(self):
@@ -979,7 +979,7 @@ class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
 
     position = models.ForeignKey(
-        Position, null=True, on_delete=models.CASCADE, related_name='candidates'
+        Position, null=True, on_delete=models.CASCADE, related_name="candidates"
     )
 
     name = models.CharField(max_length=100)
@@ -988,8 +988,8 @@ class Candidate(TimeStampedModel):
     party = models.ForeignKey(Party, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
-        unique_together = ['position', 'name']
-        ordering = ['name']
+        unique_together = ["position", "name"]
+        ordering = ["name"]
 
     def __str__(self) -> str:
-        return f'{self.name} for {self.position}'
+        return f"{self.name} for {self.position}"

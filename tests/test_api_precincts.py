@@ -12,8 +12,8 @@ def precinct(db):
     precinct.county.save()
     precinct.jurisdiction.name = "Forsyth Township"
     precinct.jurisdiction.save()
-    precinct.ward = ''
-    precinct.number = '3'
+    precinct.ward = ""
+    precinct.number = "3"
     precinct.save()
     return precinct
 
@@ -21,17 +21,17 @@ def precinct(db):
 def describe_detail():
     @pytest.fixture
     def url(precinct):
-        return f'/api/precincts/{precinct.id}/'
+        return f"/api/precincts/{precinct.id}/"
 
     def it_handles_precincts_without_a_ward(expect, client, url, precinct):
         response = client.get(url)
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            'url': f'http://testserver/api/precincts/{precinct.id}/',
-            'id': precinct.id,
-            'county': 'Marquette',
-            'jurisdiction': 'Forsyth Township',
-            'ward': None,
-            'number': '3',
+            "url": f"http://testserver/api/precincts/{precinct.id}/",
+            "id": precinct.id,
+            "county": "Marquette",
+            "jurisdiction": "Forsyth Township",
+            "ward": None,
+            "number": "3",
         }

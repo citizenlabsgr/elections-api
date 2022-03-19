@@ -7,13 +7,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0054_verbose_names'),
+        ("elections", "0054_verbose_names"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='registrationstatus',
-            name='dropbox_location',
+            model_name="registrationstatus",
+            name="dropbox_location",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
         ),
     ]

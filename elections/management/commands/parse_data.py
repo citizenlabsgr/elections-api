@@ -16,22 +16,22 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--election',
-            metavar='MVIC_ID',
+            "--election",
+            metavar="MVIC_ID",
             type=int,
             default=None,
-            help='Michigan SOS election ID to parse ballots for.',
+            help="Michigan SOS election ID to parse ballots for.",
         )
 
     def handle(self, verbosity: int, election: Optional[int], **_kwargs):
         log.reset()
-        log.silence('datafiles')
-        log.init(reset=True, verbosity=verbosity if '-v' in sys.argv[-1] else 2)
+        log.silence("datafiles")
+        log.init(reset=True, verbosity=verbosity if "-v" in sys.argv[-1] else 2)
 
         try:
             parse_ballots(election_id=election)
         except Exception as e:
-            if 'HEROKU_APP_NAME' in os.environ:
+            if "HEROKU_APP_NAME" in os.environ:
                 log.error("Unable to finish parsing data", exc_info=e)
                 bugsnag.notify(e)
                 sys.exit(1)

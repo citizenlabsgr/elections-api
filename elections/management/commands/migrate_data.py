@@ -18,8 +18,8 @@ class Command(BaseCommand):
 
     def handle(self, verbosity: int, **_kwargs):
         log.reset()
-        log.silence('datafiles')
-        log.init(verbosity=verbosity if '-v' in sys.argv[-1] else 2)
+        log.silence("datafiles")
+        log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)
 
         defaults.initialize_parties()
         defaults.initialize_districts()
@@ -36,7 +36,7 @@ class Command(BaseCommand):
         for election in Election.objects.filter(active=True):
             age = timezone.now() - timedelta(weeks=2)
             if election.date < age.date():
-                log.info(f'Deactivating election: {election}')
+                log.info(f"Deactivating election: {election}")
                 election.active = False
                 election.save()
 
@@ -47,10 +47,10 @@ class Command(BaseCommand):
             new = helpers.normalize_jurisdiction(old)
             if new != old:
                 if District.objects.filter(category=jurisdiction, name=new):
-                    log.warn(f'Deleting district {old!r} in favor of {new!r}')
+                    log.warn(f"Deleting district {old!r} in favor of {new!r}")
                     district.delete()
                 else:
-                    log.info(f'Renaming district {old!r} to {new!r}')
+                    log.info(f"Renaming district {old!r} to {new!r}")
                     district.name = new
                     district.save()
 
@@ -68,71 +68,71 @@ class Command(BaseCommand):
             candidate.save()
 
     def import_descriptions(self):
-        for name, description in self._read_descriptions('elections'):
+        for name, description in self._read_descriptions("elections"):
             elections = Election.objects.filter(name=name)
             if elections:
                 for election in elections:
                     if description and election.description != description:
-                        log.info(f'Updating description for {name}')
+                        log.info(f"Updating description for {name}")
                         election.description = description
                         election.save()
             else:
-                log.warn(f'Election not found in database: {name}')
+                log.warn(f"Election not found in database: {name}")
 
-        for name, description in self._read_descriptions('districts'):
+        for name, description in self._read_descriptions("districts"):
             try:
                 category = DistrictCategory.objects.get(name=name)
             except DistrictCategory.DoesNotExist as e:
-                message = f'District category not found in database: {name}'
-                if name in {'Precinct'}:
+                message = f"District category not found in database: {name}"
+                if name in {"Precinct"}:
                     log.warn(message)
                 else:
                     log.error(message)
                     raise e from None
             if description and category.description != description:
-                log.info(f'Updating description for {name}')
+                log.info(f"Updating description for {name}")
                 category.description = description
                 category.save()
 
-        for name, description in self._read_descriptions('positions'):
+        for name, description in self._read_descriptions("positions"):
             name = helpers.normalize_position(name)
             positions = Position.objects.filter(name=name)
             if positions:
                 for position in positions:
                     if description and position.description != description:
-                        log.info(f'Updating description for {name}')
+                        log.info(f"Updating description for {name}")
                         position.description = description
                         position.save()
             else:
-                log.warn(f'Position not found in database: {name}')
+                log.warn(f"Position not found in database: {name}")
 
     def export_descriptions(self):
         elections = {}
         for election in Election.objects.all():
             elections[election.name] = election.description
-        self._write('elections', elections)
+        self._write("elections", elections)
 
         districts = {}
         for category in DistrictCategory.objects.all():
             districts[category.name] = category.description
-        self._write('districts', districts)
+        self._write("districts", districts)
 
         positions = {}
         for position in Position.objects.all():
             name = helpers.normalize_position(position.name)
             positions[name] = position.description
-        self._write('positions', positions)
+        self._write("positions", positions)
 
     def _read_descriptions(self, name: str) -> Generator[Tuple[str, str], None, None]:
-        for path in Path(f'content/{name}').iterdir():
-            if path.name.startswith('.'):
+        for path in Path(f"content/{name}").iterdir():
+            if path.name.startswith("."):
                 continue
-            log.debug(f'Reading {path}')
+            log.debug(f"Reading {path}")
             yield path.stem, path.read_text().strip()
 
     def _write(self, name: str, data: Dict) -> None:
         for key, value in sorted(data.items()):
-            path = Path(f'content/{name}/{key}.md')
-            with path.open('w') as f:
-                log.debug(f'Writing {path}')
-                f.write(value + '\n')
+            path = Path(f"content/{name}/{key}.md")
+            with path.open("w") as f:
+                log.debug(f"Writing {path}")
+                f.write(value + "\n")

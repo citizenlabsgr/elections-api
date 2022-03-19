@@ -38,7 +38,7 @@ class ElectionFactory(factory.django.DjangoModelFactory):
         model = models.Election
 
     name = "General Election"
-    date = pendulum.parse('2018-08-07', tz='America/Detroit')
+    date = pendulum.parse("2018-08-07", tz="America/Detroit")
     active = True
     mvic_id = 2222
 

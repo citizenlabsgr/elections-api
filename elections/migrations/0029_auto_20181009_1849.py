@@ -5,11 +5,11 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0028_auto_20181003_0806')]
+    dependencies = [("elections", "0028_auto_20181003_0806")]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='position',
-            unique_together={('election', 'district', 'name', 'term', 'seats')},
+            name="position",
+            unique_together={("election", "district", "name", "term", "seats")},
         )
     ]

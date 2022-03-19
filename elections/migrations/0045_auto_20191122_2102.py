@@ -5,13 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0044_remove_ballotwebsite_refetch_weight')]
+    dependencies = [("elections", "0044_remove_ballotwebsite_refetch_weight")]
 
     operations = [
-        migrations.AlterModelOptions(name='election', options={'ordering': ['-date']}),
+        migrations.AlterModelOptions(name="election", options={"ordering": ["-date"]}),
         migrations.AddField(
-            model_name='registrationstatus',
-            name='absentee',
+            model_name="registrationstatus",
+            name="absentee",
             field=models.BooleanField(default=False),
         ),
     ]

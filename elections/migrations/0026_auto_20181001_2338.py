@@ -5,27 +5,27 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0025_auto_20181001_2045')]
+    dependencies = [("elections", "0025_auto_20181001_2045")]
 
     operations = [
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='last_fetch',
+            model_name="ballotwebsite",
+            name="last_fetch",
             field=models.DateTimeField(editable=False, null=True),
         ),
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='last_fetch_with_ballot',
+            model_name="ballotwebsite",
+            name="last_fetch_with_ballot",
             field=models.DateTimeField(editable=False, null=True),
         ),
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='last_fetch_with_precinct',
+            model_name="ballotwebsite",
+            name="last_fetch_with_precinct",
             field=models.DateTimeField(editable=False, null=True),
         ),
         migrations.AlterField(
-            model_name='ballotwebsite',
-            name='last_parse',
+            model_name="ballotwebsite",
+            name="last_parse",
             field=models.DateTimeField(editable=False, null=True),
         ),
     ]

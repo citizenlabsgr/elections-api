@@ -5,18 +5,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0017_auto_20180807_2005')]
+    dependencies = [("elections", "0017_auto_20180807_2005")]
 
     operations = [
         migrations.AlterField(
-            model_name='election',
-            name='mi_sos_id',
+            model_name="election",
+            name="mi_sos_id",
             field=models.PositiveIntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='precinct',
-            name='mi_sos_id',
+            model_name="precinct",
+            name="mi_sos_id",
             field=models.PositiveIntegerField(default=0),
             preserve_default=False,
         ),

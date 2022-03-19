@@ -12,7 +12,7 @@ def voter():
     return models.Voter(
         first_name="Jane",
         last_name="Doe",
-        birth_date=pendulum.parse("1985-06-19", tz='America/Detroit'),
+        birth_date=pendulum.parse("1985-06-19", tz="America/Detroit"),
         zip_code=12345,
     )
 
@@ -31,7 +31,7 @@ def district(district_category):
 def election():
     return models.Election(
         name="State Primary",
-        date=pendulum.parse("2018-08-07", tz='America/Detroit'),
+        date=pendulum.parse("2018-08-07", tz="America/Detroit"),
         mvic_id=676,
     )
 
@@ -48,7 +48,7 @@ def precinct(district):
         name="City of Grand Rapids",
         category=models.DistrictCategory(name="Jurisdiction"),
     )
-    return models.Precinct(county=county, jurisdiction=jurisdiction, ward=1, number='9')
+    return models.Precinct(county=county, jurisdiction=jurisdiction, ward=1, number="9")
 
 
 @pytest.fixture
@@ -76,7 +76,7 @@ def describe_voter():
 
 def describe_registration_status():
 
-    DATE = pendulum.parse("2021-08-09", tz='America/Detroit')
+    DATE = pendulum.parse("2021-08-09", tz="America/Detroit")
 
     def describe_message():
         @pytest.mark.parametrize(
@@ -109,7 +109,7 @@ def describe_registration_status():
                 (
                     True,
                     True,
-                    pendulum.parse("2021-08-10", tz='America/Detroit'),
+                    pendulum.parse("2021-08-10", tz="America/Detroit"),
                     None,
                     None,
                     "registered to vote absentee (application received on 2021-08-10)",
@@ -117,17 +117,17 @@ def describe_registration_status():
                 (
                     True,
                     True,
-                    pendulum.parse("2021-08-10", tz='America/Detroit'),
-                    pendulum.parse("2021-08-11", tz='America/Detroit'),
+                    pendulum.parse("2021-08-10", tz="America/Detroit"),
+                    pendulum.parse("2021-08-11", tz="America/Detroit"),
                     None,
                     "registered to vote absentee and your ballot was mailed to you on 2021-08-11",
                 ),
                 (
                     True,
                     True,
-                    pendulum.parse("2021-08-10", tz='America/Detroit'),
-                    pendulum.parse("2021-08-11", tz='America/Detroit'),
-                    pendulum.parse("2021-08-12", tz='America/Detroit'),
+                    pendulum.parse("2021-08-10", tz="America/Detroit"),
+                    pendulum.parse("2021-08-11", tz="America/Detroit"),
+                    pendulum.parse("2021-08-12", tz="America/Detroit"),
                     "registered to vote absentee and your ballot was received on 2021-08-12",
                 ),
             ],
@@ -177,13 +177,13 @@ def describe_precinct():
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 Precinct 9"
 
         def when_ward_only(expect, precinct):
-            precinct.number = ''
+            precinct.number = ""
             expect(
                 str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids, Ward 1 "
 
         def when_precinct_only(expect, precinct):
-            precinct.ward = ''
+            precinct.ward = ""
             expect(
                 str(precinct)
             ) == "Kent County, Michigan | City of Grand Rapids,  Precinct 9"

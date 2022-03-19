@@ -5,8 +5,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0043_registrationstatus_polling_location')]
+    dependencies = [("elections", "0043_registrationstatus_polling_location")]
 
     operations = [
-        migrations.RemoveField(model_name='ballotwebsite', name='refetch_weight')
+        migrations.RemoveField(model_name="ballotwebsite", name="refetch_weight")
     ]

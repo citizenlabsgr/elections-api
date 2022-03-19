@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0050_districtcategory_rank'),
+        ("elections", "0050_districtcategory_rank"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='registrationstatus',
-            name='absentee_application_received',
+            model_name="registrationstatus",
+            name="absentee_application_received",
             field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='registrationstatus',
-            name='absentee_ballot_received',
+            model_name="registrationstatus",
+            name="absentee_ballot_received",
             field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='registrationstatus',
-            name='absentee_ballot_sent',
+            model_name="registrationstatus",
+            name="absentee_ballot_sent",
             field=models.DateField(null=True),
         ),
     ]

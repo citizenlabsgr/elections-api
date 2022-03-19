@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('elections', '0048_position_section'),
+        ("elections", "0048_position_section"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='position',
-            name='seats',
+            model_name="position",
+            name="seats",
             field=models.PositiveIntegerField(blank=True, default=1),
         ),
         migrations.AlterField(
-            model_name='position',
-            name='term',
+            model_name="position",
+            name="term",
             field=models.CharField(blank=True, max_length=200),
         ),
     ]

@@ -6,17 +6,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('elections', '0016_auto_20180804_1259')]
+    dependencies = [("elections", "0016_auto_20180804_1259")]
 
     operations = [
         migrations.AlterField(
-            model_name='candidate',
-            name='position',
+            model_name="candidate",
+            name="position",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name='candidates',
-                to='elections.Position',
+                related_name="candidates",
+                to="elections.Position",
             ),
         )
     ]
