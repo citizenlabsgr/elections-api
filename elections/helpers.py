@@ -566,7 +566,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             office: Optional[Dict] = None
             label = item.text.lower()
             if label in data:
-                log.warning(f'Duplicate section on ballot: {label}')
+                log.warn(f'Duplicate section on ballot: {label}')
                 section = data[label]
             else:
                 data[label] = section
@@ -628,7 +628,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             assert office is not None, f'Office missing for candidate: {label}'
             if label == 'No candidates on ballot':
                 if office['seats'] is None:
-                    log.warn(f"No seats for offce: {office}")
+                    log.warn(f"No seats for office: {office}")
                     office['seats'] = 1
                 continue
             candidate = {'name': label, 'finance_link': None, 'party': None}

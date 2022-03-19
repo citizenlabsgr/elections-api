@@ -41,7 +41,7 @@ pygraphviz = { version = "^1.7", optional = true }
 beautifulsoup4 = "^4.8.2"
 factory_boy = "*"
 fake-useragent = { git = "https://github.com/Jordan9675/fake-useragent", rev = "b608f96232874c32cd5e878f12dbe1a5bb5c8eaa" } # wait for ~0.1.12
-minilog = "^2.0"
+minilog = "^2.1"
 nameparser = "^1.0.4"
 pendulum = "*"
 pomace = "~0.6.12"

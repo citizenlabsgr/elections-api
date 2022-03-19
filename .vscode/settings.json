@@ -21,6 +21,7 @@
   "python.formatting.blackPath": ".venv/bin/black",
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "Boonstra",
     "browsable",
     "circleci",
     "createdb",
@@ -29,7 +30,9 @@
     "Graphviz",
     "Grappelli",
     "htmlcov",
+    "Jurisd",
     "libgraphviz",
+    "Muni",
     "MVIC",
     "Postgres",
     "postgresql",
