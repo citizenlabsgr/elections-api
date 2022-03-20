@@ -1,4 +1,5 @@
 import itertools
+import sys
 from typing import Optional, Set
 
 import log
@@ -64,6 +65,7 @@ def _scrape_ballots_for_election(
     error_count = 0
 
     for precinct_id in itertools.count(starting_precinct_id):
+        sys.stderr.write("\n")
         website, created = BallotWebsite.objects.get_or_create(
             mvic_election_id=election_id, mvic_precinct_id=precinct_id
         )
@@ -111,6 +113,7 @@ def _parse_ballots_for_election(election: Election):
     log.info(f"Mapping {websites.count()} websites to ballots")
 
     for website in websites:
+        sys.stderr.write("\n")
 
         if not website.data:
             website.scrape()

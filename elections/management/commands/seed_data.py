@@ -41,9 +41,9 @@ class Command(BaseCommand):
 
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
-            name="November Consolidated",
-            date=pendulum.parse("2021-11-02", tz="America/Detroit"),
-            defaults=dict(active=True, mvic_id=687),
+            name="May Consolidated",
+            date=pendulum.parse("2022-05-03", tz="America/Detroit"),
+            defaults=dict(active=True, mvic_id=689),
         )
         if created:
             log.info(f"Added election: {election}")

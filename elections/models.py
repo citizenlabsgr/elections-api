@@ -385,8 +385,8 @@ class BallotWebsite(models.Model):
             return True
 
         age = timezone.now() - self.last_fetch
-        if age < timezone.timedelta(minutes=121):
-            log.debug(f"Ballot was scraped in the last two hours: {self}")
+        if age < timezone.timedelta(hours=6):
+            log.debug(f"Ballot was scraped in the last six hours: {self}")
             return False
 
         age_in_days = age.total_seconds() / 3600 / 24
