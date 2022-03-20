@@ -565,7 +565,7 @@ class Ballot(TimeStampedModel):
         log.info(f"Parsing ballot: {self}")
         assert (
             self.website and self.website.data
-        ), "Ballot website has not been converted: {self}"
+        ), f"Ballot website has not been converted: {self}"
 
         count = 0
         for section_name, section_data in self.website.data["ballot"].items():
