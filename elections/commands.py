@@ -1,5 +1,4 @@
 import itertools
-import sys
 from typing import Optional, Set
 
 import log
@@ -13,7 +12,7 @@ def scrape_ballots(
     starting_precinct_id: int = 1,
     ballot_limit: Optional[int] = None,
     max_election_error_count: int = 5,
-    max_ballot_error_count: int = 10000,
+    max_ballot_error_count: int = 20000,
 ):
     current_election = Election.objects.filter(active=True).last()
     last_election = Election.objects.exclude(active=True).first()
@@ -74,7 +73,6 @@ def _scrape_ballots_for_election(
         if website.stale or limit:
             website.fetch()
             website.validate() and website.scrape() and website.convert()
-            sys.stderr.write("\n")
         if website.valid:
             ballot_count += 1
             error_count = 0
@@ -118,7 +116,6 @@ def _parse_ballots_for_election(election: Election):
     log.info(f"Mapping {websites.count()} websites to ballots")
 
     for website in websites:
-        sys.stderr.write("\n")
 
         if not website.data:
             website.scrape()
