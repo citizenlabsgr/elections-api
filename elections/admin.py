@@ -1,6 +1,6 @@
 # pylint: disable=no-self-use,unused-argument
 
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.shortcuts import redirect, reverse
 from django.utils.html import format_html
 
@@ -55,6 +55,16 @@ class DistrictAdmin(admin.ModelAdmin):
     ordering = ["category", "name"]
 
 
+def delete_invalid_ballot_websites(modeladmin, request, queryset):
+    count = 0
+    for election in queryset:
+        websites = models.BallotWebsite.objects.filter(
+            mvic_election_id=election.mvic_id, valid=False
+        )
+        count += websites.delete()[0]
+    messages.info(request, f"Deleted {count} invalid ballot website(s)")
+
+
 @admin.register(models.Election)
 class ElectionAdmin(admin.ModelAdmin):
 
@@ -73,6 +83,8 @@ class ElectionAdmin(admin.ModelAdmin):
     ]
 
     ordering = ["-date"]
+
+    actions = [delete_invalid_ballot_websites]
 
 
 @admin.register(models.Precinct)

@@ -83,6 +83,10 @@ def _scrape_ballots_for_election(
         if limit and ballot_count >= limit:
             break
 
+        if error_count > max_ballot_error_count / 10 and not ballot_count:
+            log.info(f"No ballots to scrape for election {election_id}")
+            break
+
         if error_count >= max_ballot_error_count:
             log.info(f"No more ballots to scrape for election {election_id}")
             break

@@ -10,7 +10,14 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from elections import defaults, helpers
-from elections.models import Candidate, District, DistrictCategory, Election, Position
+from elections.models import (
+    BallotWebsite,
+    Candidate,
+    District,
+    DistrictCategory,
+    Election,
+    Position,
+)
 
 
 class Command(BaseCommand):
@@ -26,7 +33,6 @@ class Command(BaseCommand):
 
         self.update_elections()
         self.update_jurisdictions()
-        self.update_positions()
         self.update_candidates()
 
         self.import_descriptions()
@@ -37,6 +43,11 @@ class Command(BaseCommand):
             age = timezone.now() - timedelta(weeks=2)
             if election.date < age.date():
                 log.info(f"Deactivating election: {election}")
+                websites = BallotWebsite.objects.filter(
+                    mvic_election_id=election.mvic_id, valid=False
+                )
+                count, _objects = websites.delete()
+                log.info(f"Deleted {count} invalid ballot website(s)")
                 election.active = False
                 election.save()
 
@@ -53,12 +64,6 @@ class Command(BaseCommand):
                     log.info(f"Renaming district {old!r} to {new!r}")
                     district.name = new
                     district.save()
-
-    def update_positions(self):
-        for position in Position.objects.filter(term=""):
-            position.save()
-            if position.term:
-                log.info(f"Updated term: {position}")
 
     def update_candidates(self):
         justice = " & Justice "
