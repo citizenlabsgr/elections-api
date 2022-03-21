@@ -12,7 +12,7 @@ def scrape_ballots(
     starting_precinct_id: int = 1,
     ballot_limit: Optional[int] = None,
     max_election_error_count: int = 5,
-    max_ballot_error_count: int = 20000,
+    max_ballot_error_count: int = 30000,
 ):
     current_election = Election.objects.filter(active=True).last()
     last_election = Election.objects.exclude(active=True).first()
@@ -64,6 +64,7 @@ def _scrape_ballots_for_election(
     error_count = 0
 
     for precinct_id in itertools.count(starting_precinct_id):
+
         website: BallotWebsite
         website, created = BallotWebsite.objects.get_or_create(
             mvic_election_id=election_id, mvic_precinct_id=precinct_id
@@ -83,7 +84,7 @@ def _scrape_ballots_for_election(
         if limit and ballot_count >= limit:
             break
 
-        if error_count > 1000 and not ballot_count:
+        if error_count >= 1000 and not ballot_count:
             log.warn(f"No ballots to scrape for election {election_id}")
             break
 
