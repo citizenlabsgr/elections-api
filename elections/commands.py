@@ -88,6 +88,11 @@ def _scrape_ballots_for_election(
             log.warn(f"No ballots to scrape for election {election_id}")
             break
 
+        if error_count > 1000:
+            log.warn(
+                f"Found {ballot_count} ballots with {error_count} successive errors"
+            )
+
         if error_count >= max_ballot_error_count:
             log.info(f"No more ballots to scrape for election {election_id}")
             break
