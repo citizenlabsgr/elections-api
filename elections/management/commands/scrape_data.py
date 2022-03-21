@@ -36,7 +36,7 @@ class Command(BaseCommand):
             help="Maximum number of fetches to perform before stopping.",
         )
 
-    def handle(
+    def handle(  # type: ignore
         self,
         verbosity: int,
         start_election: Optional[int],

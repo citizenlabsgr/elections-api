@@ -41,7 +41,7 @@ def scrape_ballots(
             error_count += 1
 
         if error_count >= max_election_error_count:
-            log.info("No more ballots to scrape")
+            log.info("No more elections to scrape")
             break
 
         if ballot_limit and ballot_count >= ballot_limit:
@@ -70,6 +70,7 @@ def _scrape_ballots_for_election(
         )
         if created:
             log.info(f"Discovered new website: {website}")
+
         if website.stale or limit:
             website.fetch()
             website.validate() and website.scrape() and website.convert()
@@ -83,7 +84,7 @@ def _scrape_ballots_for_election(
             break
 
         if error_count > 1000 and not ballot_count:
-            log.info(f"No ballots to scrape for election {election_id}")
+            log.warn(f"No ballots to scrape for election {election_id}")
             break
 
         if error_count >= max_ballot_error_count:

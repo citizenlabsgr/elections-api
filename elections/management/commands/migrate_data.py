@@ -23,7 +23,7 @@ from elections.models import (
 class Command(BaseCommand):
     help = "Initialize contants and migrate data between existing models"
 
-    def handle(self, verbosity: int, **_kwargs):
+    def handle(self, verbosity: int, **_kwargs):  # type: ignore
         log.reset()
         log.silence("datafiles")
         log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)

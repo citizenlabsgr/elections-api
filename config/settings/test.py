@@ -34,7 +34,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": ".cache/django",
+        "LOCATION": os.path.join(PROJECT_ROOT, ".cache/django"),
     }
 }
 

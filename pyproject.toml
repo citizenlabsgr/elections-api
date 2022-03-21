@@ -12,8 +12,8 @@ license = "GPLv3"
 python = "^3.9"
 
 # Django
-django = "~3.1.14"
-django-grappelli = "^2.15.1"
+django = "~3.2.12"
+django-grappelli = "^3.0"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
 django-model-utils = "^4.2"
 
@@ -60,8 +60,12 @@ black = "^22.1"
 
 # Linters
 pylint = "~2.12"
-pylint-django = "*"
-mypy = "*"
+pylint-django = "~2.3"
+mypy = "~0.910"
+django-stubs = "~1.9"
+types-markdown = "*"
+types-redis = "*"
+types-requests = "*"
 
 # Testing
 pytest = "^7.1"
@@ -97,3 +101,17 @@ quiet = true
 [tool.isort]
 
 profile = "black"
+
+[tool.mypy]
+
+ignore_missing_imports = true
+no_implicit_optional = true
+check_untyped_defs = true
+
+cache_dir = ".cache/mypy/"
+
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+
+django_settings_module = "config.settings.local"

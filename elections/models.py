@@ -546,6 +546,8 @@ class Ballot(TimeStampedModel):
 
     @property
     def stale(self) -> bool:
+        assert self.website
+
         if not self.website.last_parse:
             log.debug("Ballot has never been parsed")
             return True
@@ -585,6 +587,8 @@ class Ballot(TimeStampedModel):
             yield from self._parse_partisan_section(section_data, section_name)
 
     def _parse_partisan_section(self, data, section=""):
+        assert self.website
+
         for category_name, positions_data in data.items():
             for position_data in positions_data:
 
@@ -699,6 +703,8 @@ class Ballot(TimeStampedModel):
                     yield candidate
 
     def _parse_nonpartisan_section(self, data):
+        assert self.website
+
         for category_name, positions_data in data.items():
             for position_data in positions_data:
 
@@ -811,6 +817,8 @@ class Ballot(TimeStampedModel):
                     yield candidate
 
     def _parse_proposal_section(self, data):
+        assert self.website
+
         for category_name, proposals_data in data.items():
 
             category = district = None

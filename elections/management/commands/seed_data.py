@@ -15,7 +15,7 @@ from elections import models
 class Command(BaseCommand):
     help = "Generate data for local development and review"
 
-    def handle(self, verbosity: int, **_kwargs):
+    def handle(self, verbosity: int, **_kwargs):  # type: ignore
         log.reset()
         log.silence("datafiles")
         log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)
@@ -52,7 +52,7 @@ class Command(BaseCommand):
         voter = models.Voter(
             first_name="Rosalynn",
             last_name="Bliss",
-            birth_date=pendulum.parse("1975-08-03"),
+            birth_date=pendulum.parse("1975-08-03"),  # type: ignore
             zip_code="49503",
         )
         voter.fetch_registration_status(track_missing_data=False)
