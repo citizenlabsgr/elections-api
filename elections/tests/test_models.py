@@ -12,7 +12,7 @@ def voter():
     return models.Voter(
         first_name="Jane",
         last_name="Doe",
-        birth_date=pendulum.parse("1985-06-19", tz="America/Detroit"),
+        birth_date=pendulum.parse("1985-06-19", tz="America/Detroit"),  # type: ignore
         zip_code=12345,
     )
 
@@ -31,7 +31,7 @@ def district(district_category):
 def election():
     return models.Election(
         name="State Primary",
-        date=pendulum.parse("2018-08-07", tz="America/Detroit"),
+        date=pendulum.parse("2018-08-07", tz="America/Detroit"),  # type: ignore
         mvic_id=676,
     )
 

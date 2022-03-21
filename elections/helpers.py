@@ -281,9 +281,10 @@ def fetch_registration_status_data(voter):
         lines: List[str] = []
         for element in element.next_siblings:
             try:
-                text = element.get_text("\n").strip()
+                text = element.get_text("\n")
             except AttributeError:
-                text = element.replace("\xa0", " ").strip()
+                text = element
+            text = text.replace("\xa0", " ").strip()
             if "Drop box locations" in text:
                 lines = []  # the previous lines were above the dropbox list
             elif text and text != "Hours:":

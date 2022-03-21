@@ -23,7 +23,7 @@ class Command(BaseCommand):
             help="Michigan SOS election ID to parse ballots for.",
         )
 
-    def handle(self, verbosity: int, election: Optional[int], **_kwargs):
+    def handle(self, verbosity: int, election: Optional[int], **_kwargs):  # type: ignore
         log.reset()
         log.silence("datafiles")
         log.init(reset=True, verbosity=verbosity if "-v" in sys.argv[-1] else 2)

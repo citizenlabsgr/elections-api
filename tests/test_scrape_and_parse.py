@@ -139,6 +139,7 @@ def test_default_term(expect, db):
     position = Position.objects.filter(
         name="Representative in State Legislature"
     ).first()
+    assert position
     expect(position.term) == "2 Year Term"
     parse_ballot(683, 6911)
 

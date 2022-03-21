@@ -1,7 +1,8 @@
 # pylint: disable=no-self-use,unused-argument
 
 from django.contrib import admin, messages
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.html import format_html
 
 from . import models

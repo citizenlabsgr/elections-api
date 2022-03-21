@@ -34,10 +34,12 @@
     "libgraphviz",
     "Muni",
     "MVIC",
+    "ngrok",
     "Postgres",
     "postgresql",
     "pyenv",
     "Rosalynn",
-    "venv"
+    "venv",
+    "yasg"
   ]
 }

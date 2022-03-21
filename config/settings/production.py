@@ -1,9 +1,7 @@
 import os
 import urllib
-from datetime import timedelta
 
 import dj_database_url
-import redis
 
 from .default import *
 
