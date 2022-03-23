@@ -105,6 +105,15 @@ def test_reference_url(expect, db):
 
 
 @pytest.mark.vcr
+def test_proposal_district(expect, db):
+    parse_ballot(689, 48658)
+    proposal = Proposal.objects.get(name="Wyoming Public Schools Bonding Proposal")
+    assert proposal.district
+    expect(proposal.district.category.name) == "Local School"
+    expect(proposal.district.name) == "Wyoming Public Schools"
+
+
+@pytest.mark.vcr
 def test_proposal_description_primary(expect, db):
     parse_ballot(682, 6911)
     proposal = Proposal.objects.get(name="Millage Renewal to Original Levy")

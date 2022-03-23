@@ -833,14 +833,13 @@ class Ballot(TimeStampedModel):
                 "Village",
                 "Authority",
                 "Authority (Custom Region)",
-                "Local School",
                 "Metropolitan",
             }:
-                # TODO: Verify this is the correct mapping for 'Local School'
                 district = self.precinct.jurisdiction
             elif category_name in {
                 "Community College",
                 "Intermediate School",
+                "Local School",
                 "District Library",
                 "Ward",
             }:
@@ -875,6 +874,14 @@ class Ballot(TimeStampedModel):
                         )
                     elif category.name == "Community College":
                         possible_category_names.extend(["College"])
+                    elif category.name == "Local School":
+                        possible_category_names.extend(
+                            [
+                                "Public Schools",
+                                "Area Schools",
+                                "Area School District",
+                            ]
+                        )
                     elif category.name == "Intermediate School":
                         possible_category_names.extend(
                             [
