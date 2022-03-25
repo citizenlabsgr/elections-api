@@ -887,6 +887,7 @@ class Ballot(TimeStampedModel):
                                 "Public School",
                                 "Community Schools",
                                 "Community School District",
+                                "Community School",
                                 "Consolidated Schools District",
                                 "School District",
                                 "Area School System",
