@@ -873,7 +873,11 @@ class Ballot(TimeStampedModel):
                             ]
                         )
                     elif category.name == "Community College":
-                        possible_category_names.extend(["College"])
+                        possible_category_names.extend(
+                            [
+                                "College",
+                            ]
+                        )
                     elif category.name == "Local School":
                         possible_category_names.extend(
                             [
@@ -881,6 +885,7 @@ class Ballot(TimeStampedModel):
                                 "Area Schools",
                                 "Area School District",
                                 "Public School",
+                                "Community Schools",
                             ]
                         )
                     elif category.name == "Intermediate School":
