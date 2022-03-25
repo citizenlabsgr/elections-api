@@ -890,6 +890,7 @@ class Ballot(TimeStampedModel):
                                 "Consolidated Schools District",
                                 "School District",
                                 "Area School System",
+                                "Schools",
                             ]
                         )
                     elif category.name == "Intermediate School":

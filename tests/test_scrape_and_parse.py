@@ -95,6 +95,7 @@ def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
         (56204, 1),
         (55859, 1),
         (55833, 1),
+        (54783, 1),
     ],
 )
 def test_2022_consolidated_ballots(expect, db, precinct_id, item_count):
