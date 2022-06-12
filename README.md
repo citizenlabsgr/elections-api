@@ -70,7 +70,7 @@ The registrations payload also includes your polling location:
 ```
 "polling_location": [
     "Mayfair Christian Reformed Church",
-    "1736 Lyon Ne",
+    "1736 Lyon NE",
     "Grand Rapids, Michigan 49503"
 ]
 ```
