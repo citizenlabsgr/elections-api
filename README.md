@@ -98,15 +98,15 @@ The registrations payload also includes fields indicating the voter's absentee s
 
 | Field                           | Description                                             |
 | ------------------------------- | ------------------------------------------------------- |
-| `registered`                    | Voter can participate in the upcoming election          |
-| `ballot`                        | Voter will participate in the upcoming election         |
+| `registered`                    | Voter is registered to vote in future elections         |
 | `absentee`                      | Voter has requested to vote by mail for all elections   |
 | `absentee_application_received` | Date (`YYYY-MM-DD`) clerk received absentee application |
+| `ballot`                        | Voter will have a ballot for the the upcoming election  |
 | `absentee_ballot_sent`          | Date (`YYYY-MM-DD`) clerk mailed your absentee ballot   |
 | `absentee_ballot_received`      | Date (`YYYY-MM-DD`) clear recorded your absentee vote   |
 
 <br>
-These dates reset after each election.
+Ballot dates reset after each election. Absentee status resets each year.
 
 ### Sample Ballots
 
