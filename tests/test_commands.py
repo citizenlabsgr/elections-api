@@ -27,6 +27,17 @@ def active_election(db):
     )
 
 
+def describe_update_elections():
+    def it_marks_past_elections_inactive(expect, past_election):
+        past_election.active = True
+        past_election.save()
+
+        commands.update_elections()
+
+        past_election.refresh_from_db()
+        expect(past_election.active) == False
+
+
 def describe_scrape_ballots():
     @pytest.mark.vcr
     def with_no_active_election(expect, db):

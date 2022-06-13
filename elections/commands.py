@@ -1,9 +1,26 @@
 import itertools
+from datetime import timedelta
 from typing import Optional, Set
 
 import log
+from django.utils import timezone
 
 from .models import Ballot, BallotWebsite, Election, Precinct
+
+
+def update_elections():
+    for election in Election.objects.filter(active=True):
+        age = timezone.now() - timedelta(weeks=2)
+        if election.date < age.date():
+            log.info(f"Deactivating election: {election}")
+            websites = BallotWebsite.objects.filter(
+                mvic_election_id=election.mvic_id, valid=False
+            )
+            count = websites.count()
+            websites._raw_delete(websites.db)  # type: ignore
+            log.info(f"Deleted {count} invalid ballot website(s)")
+            election.active = False
+            election.save()
 
 
 def scrape_ballots(

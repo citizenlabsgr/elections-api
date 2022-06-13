@@ -8,7 +8,7 @@ import bugsnag
 import log
 from django.core.management.base import BaseCommand
 
-from elections.commands import scrape_ballots
+from elections.commands import scrape_ballots, update_elections
 
 
 class Command(BaseCommand):
@@ -49,6 +49,7 @@ class Command(BaseCommand):
         log.init(verbosity=verbosity if "-v" in sys.argv[-1] else 2)
 
         try:
+            update_elections()
             scrape_ballots(
                 starting_election_id=start_election,
                 starting_precinct_id=start_precinct,

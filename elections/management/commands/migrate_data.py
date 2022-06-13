@@ -1,27 +1,18 @@
 # pylint: disable=no-self-use
 
 import sys
-from datetime import timedelta
 from pathlib import Path
 from typing import Dict, Generator, Tuple
 
 import log
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
 from elections import defaults, helpers
-from elections.models import (
-    BallotWebsite,
-    Candidate,
-    District,
-    DistrictCategory,
-    Election,
-    Position,
-)
+from elections.models import Candidate, District, DistrictCategory, Election, Position
 
 
 class Command(BaseCommand):
-    help = "Initialize contants and migrate data between existing models"
+    help = "Initialize constants and migrate data between existing models"
 
     def handle(self, verbosity: int, **_kwargs):  # type: ignore
         log.reset()
@@ -31,25 +22,11 @@ class Command(BaseCommand):
         defaults.initialize_parties()
         defaults.initialize_districts()
 
-        self.update_elections()
         self.update_jurisdictions()
         self.update_candidates()
 
         self.import_descriptions()
         self.export_descriptions()
-
-    def update_elections(self):
-        for election in Election.objects.filter(active=True):
-            age = timezone.now() - timedelta(weeks=2)
-            if election.date < age.date():
-                log.info(f"Deactivating election: {election}")
-                websites = BallotWebsite.objects.filter(
-                    mvic_election_id=election.mvic_id, valid=False
-                )
-                count, _objects = websites.delete()
-                log.info(f"Deleted {count} invalid ballot website(s)")
-                election.active = False
-                election.save()
 
     def update_jurisdictions(self):
         jurisdiction = DistrictCategory.objects.get(name="Jurisdiction")
