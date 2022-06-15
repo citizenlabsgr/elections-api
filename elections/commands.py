@@ -16,8 +16,9 @@ def update_elections():
             websites = BallotWebsite.objects.filter(
                 mvic_election_id=election.mvic_id, valid=False
             )
-            count = websites.delete()
-            log.info(f"Deleted {count} invalid ballot website(s)")
+            for count, website in enumerate(websites, start=1):
+                website.delete()
+                log.info(f"Deleted {count} invalid ballot website(s)")
             election.active = False
             election.save()
 
