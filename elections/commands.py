@@ -13,14 +13,17 @@ def update_elections():
         age = timezone.now() - timedelta(weeks=2)
         if election.date < age.date():
             log.info(f"Deactivating election: {election}")
-            websites = BallotWebsite.objects.filter(
-                mvic_election_id=election.mvic_id, valid=False
-            )
             count = 0
-            for website in websites:
-                website.delete()
-                count += 1
-                log.info(f"Deleted {count} invalid ballot website(s)")
+            while True:
+                websites = BallotWebsite.objects.filter(
+                    mvic_election_id=election.mvic_id, valid=False
+                )
+                if not websites.exists():
+                    break
+                for website in websites[:100]:
+                    website.delete()
+                    count += 1
+                    log.info(f"Deleted {count} invalid ballot website(s)")
             election.active = False
             election.save()
 
