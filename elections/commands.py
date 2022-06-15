@@ -16,9 +16,7 @@ def update_elections():
             websites = BallotWebsite.objects.filter(
                 mvic_election_id=election.mvic_id, valid=False
             )
-            count = websites.count()
-            # pylint: disable=protected-access
-            websites._raw_delete(websites.db)  # type: ignore
+            count = websites.delete()
             log.info(f"Deleted {count} invalid ballot website(s)")
             election.active = False
             election.save()
