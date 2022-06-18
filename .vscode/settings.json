@@ -27,6 +27,7 @@
     "createdb",
     "direnv",
     "envrc",
+    "getplugin",
     "Graphviz",
     "Grappelli",
     "htmlcov",
@@ -36,10 +37,12 @@
     "MVIC",
     "ngrok",
     "onclick",
+    "pluginmanager",
     "Postgres",
     "postgresql",
     "pyenv",
     "Rosalynn",
+    "showfspath",
     "venv",
     "yasg"
   ]

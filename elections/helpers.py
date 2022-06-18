@@ -704,7 +704,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 element = item.parent.next_sibling
                 while element is not None:
                     try:
-                        label += "\n\n" + element.get_text("\n\n").strip()
+                        label += "\n\n" + element.get_text().strip()
                     except AttributeError:
                         label += "\n\n" + element.strip()
                     element = element.next_sibling
@@ -716,7 +716,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
                     assert proposal is not None, f"Proposal missing for text: {label}"
-                    proposal["text"] = label.strip()
+                    proposal["text"] = re.sub(
+                        r"([a-z])\.([A-Z])", r"\1.\n\n\2", label
+                    ).strip()
                     count += 1
 
         elif "proposalText" in item["class"]:

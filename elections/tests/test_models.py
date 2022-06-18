@@ -206,7 +206,7 @@ def describe_ballot_website():
             website.scrape()
 
             text = website.data["ballot"]["proposal section"]["Local School"][0]["text"]
-            expect(text.count("\n\n")) == 6
+            expect(text.count("\n\n")) == 5
             expect(text.count("\n\n\n")) == 0
 
 
