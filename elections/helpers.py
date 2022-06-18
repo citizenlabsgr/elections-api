@@ -391,6 +391,7 @@ def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str
     patterns = [
         f"[a-z] ((?:[A-Z][A-Za-z.-]+ )+{category})",
         f"\n((?:[A-Z][A-Za-z.-]+ )+{category})",
+        f"{category} of the ([^,.]+),",
     ]
 
     for pattern in patterns:
