@@ -892,6 +892,7 @@ class Ballot(TimeStampedModel):
                                 "Consolidated School",
                                 "School District",
                                 "Area School System",
+                                "Rural Agricultural School",
                                 "Schools",
                             ]
                         )
