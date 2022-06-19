@@ -1,6 +1,7 @@
 # pylint: disable=unused-variable,unused-argument,expression-not-assigned
 
 
+import log
 import pendulum
 import pytest
 
@@ -206,6 +207,7 @@ def describe_ballot_website():
             website.scrape()
 
             text = website.data["ballot"]["proposal section"]["Local School"][0]["text"]
+            log.info(f"{text=}")
             expect(text.count("\n\n")) == 5
             expect(text.count("\n\n\n")) == 0
 

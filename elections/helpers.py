@@ -406,6 +406,7 @@ def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str
 
 def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
+    html = html.replace("<br>", "\n").replace("\n ", "\n").replace(" \n", "\n")
     soup = BeautifulSoup(html, "html.parser")
     ballot = soup.find(id="PreviewMvicBallot").div.div.find_all("div", recursive=False)[
         1
@@ -717,9 +718,9 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
                     assert proposal is not None, f"Proposal missing for text: {label}"
-                    proposal["text"] = re.sub(
-                        r"([a-z])\.([A-Z])", r"\1.\n\n\2", label
-                    ).strip()
+                    label = re.sub(r"([a-z])\.([A-Z])", r"\1.\n\n\2", label)
+                    label = re.sub(r"\n([a-z])", r"\1", label)
+                    proposal["text"] = label.strip()
                     count += 1
 
         elif "proposalText" in item["class"]:
