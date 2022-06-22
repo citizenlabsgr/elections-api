@@ -176,8 +176,10 @@ class RegistrationStatus(models.Model):
     def message(self) -> str:
         if self.registered:
             text = "registered to vote"
-            if self.absentee:
+            if self.absentee_application_received:
                 text += " absentee"
+            elif self.absentee:
+                text += " and applied for an absentee ballot"
             if self.absentee_ballot_received:
                 text += f" and your ballot was received on {self.absentee_ballot_received:%Y-%m-%d}"
             elif self.absentee_ballot_sent:

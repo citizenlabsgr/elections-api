@@ -81,7 +81,14 @@ def describe_registration_status():
 
     def describe_message():
         @pytest.mark.parametrize(
-            "registered, absentee, absentee_application_received, absentee_ballot_sent, absentee_ballot_received, message",
+            (
+                "registered",
+                "absentee",
+                "absentee_application_received",
+                "absentee_ballot_sent",
+                "absentee_ballot_received",
+                "message",
+            ),
             [
                 (
                     False,
@@ -105,7 +112,7 @@ def describe_registration_status():
                     None,
                     None,
                     None,
-                    "registered to vote absentee",
+                    "registered to vote and applied for an absentee ballot",
                 ),
                 (
                     True,

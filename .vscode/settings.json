@@ -28,6 +28,7 @@
     "createdb",
     "direnv",
     "envrc",
+    "filterset",
     "getplugin",
     "Graphviz",
     "Grappelli",
@@ -45,6 +46,7 @@
     "Rosalynn",
     "showfspath",
     "venv",
+    "viewsets",
     "yasg"
   ]
 }
