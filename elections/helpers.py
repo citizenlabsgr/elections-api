@@ -289,16 +289,18 @@ def fetch_registration_status_data(voter):
                 lines = []  # the previous lines were above the dropbox list
             elif text and text != "Hours:":
                 lines.extend(text.split("\n"))
+        log.debug(f"Drop box lines: {lines}")
 
         for line in lines:
             if line[0].isnumeric():
                 dropbox_locations.append(
                     {"address": [normalize_address(line)], "hours": []}
                 )
-            elif len(dropbox_locations[-1]["address"]) == 1:
-                dropbox_locations[-1]["address"].append(normalize_address(line))
-            else:
-                dropbox_locations[-1]["hours"].append(line)
+            elif dropbox_locations:
+                if len(dropbox_locations[-1]["address"]) == 1:
+                    dropbox_locations[-1]["address"].append(normalize_address(line))
+                else:
+                    dropbox_locations[-1]["hours"].append(line)
 
         if not dropbox_locations:
             log.warn("No dropbox locations found")
