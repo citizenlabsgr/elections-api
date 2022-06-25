@@ -10,4 +10,4 @@ TERMS = {
 }
 
 SCRAPER_LAST_UPDATED = datetime(2022, 6, 19, tz=settings.TIME_ZONE)
-PARSER_LAST_UPDATED = datetime(2022, 3, 25, tz=settings.TIME_ZONE)
+PARSER_LAST_UPDATED = datetime(2022, 6, 26, tz=settings.TIME_ZONE)
