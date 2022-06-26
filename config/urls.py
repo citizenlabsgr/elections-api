@@ -19,14 +19,11 @@ def index(request):
         """
         Michigan.
         <div>
-            <button class="btn btn-primary mb-1" onclick="location.href='https://share.michiganelections.io/elections/'">
-                Find Your Ballot
+            <button class="btn btn-primary mb-1" onclick="location.href='https://share.michiganelections.io/about/'">
+                Ballot Preview
             </button>
-            <button class="btn btn-success mb-1" onclick="location.href='https://absentee.michiganelections.io'">
-                Vote By Mail
-            </button>
-            <button class="btn btn-danger mb-1" onclick="location.href='https://buddies.michiganelections.io'">
-                Track Your Ballot
+            <button class="btn btn-danger mb-1" onclick="location.href='https://buddies.michiganelections.io/about/'">
+                Ballot Buddies
             </button>
         </div>
         """,
