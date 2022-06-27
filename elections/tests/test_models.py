@@ -74,6 +74,34 @@ def describe_voter():
         def is_parsed_from_date(expect, voter):
             expect(voter.birth_year) == 1985
 
+    def describe_message():
+        def without_sample_ballot(expect, voter, election):
+            status = models.RegistrationStatus(registered=True)
+            message = voter.describe(election, status)
+            expect(
+                message
+            ) == "Jane Doe is registered to vote for the State Primary election on 2018-08-07."
+
+        def with_sample_ballot(expect, voter, election):
+            status = models.RegistrationStatus(
+                registered=True, ballot_url="http://example.com"
+            )
+            message = voter.describe(election, status)
+            expect(
+                message
+            ) == "Jane Doe is registered to vote for the State Primary election on 2018-08-07 and a sample ballot is available."
+
+        def with_sample_ballot_and_absentee(expect, voter, election):
+            status = models.RegistrationStatus(
+                registered=True,
+                ballot_url="http://example.com",
+                absentee_ballot_sent=pendulum.parse("2021-08-09", tz="America/Detroit"),  # type: ignore
+            )
+            message = voter.describe(election, status)
+            expect(
+                message
+            ) == "Jane Doe is registered to vote and your ballot was mailed to you on 2021-08-09 for the State Primary election on 2018-08-07."
+
 
 def describe_registration_status():
 

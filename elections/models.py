@@ -88,7 +88,7 @@ class Election(TimeStampedModel):
 
     @property
     def message(self) -> str:
-        return f"{self.name} election on {self.date}"
+        return f"{self.name} election on {self.date:%Y-%m-%d}"
 
 
 # https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/polling_location.html
@@ -320,7 +320,7 @@ class Voter(models.Model):
 
     def describe(self, election: Election, status: RegistrationStatus):
         message = f"{self} is {status.message} for the {election.message}"
-        if status.ballot_url:
+        if status.ballot_url and "your ballot" not in message:
             message += " and a sample ballot is available"
         return message + "."
 
