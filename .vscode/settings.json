@@ -48,6 +48,7 @@
     "pymdownx",
     "Rosalynn",
     "showfspath",
+    "useragent",
     "venv",
     "viewsets",
     "yasg"

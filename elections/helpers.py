@@ -172,9 +172,8 @@ def fetch_registration_status_data(voter):
                     "NameBirthYear": voter.birth_year,
                     "ZipCode": voter.zip_code,
                 },
-                timeout=10,
             )
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.RequestException as e:
             log.error(f"MVIC connection error: {e}")
             raise exceptions.ServiceUnavailable()
 
