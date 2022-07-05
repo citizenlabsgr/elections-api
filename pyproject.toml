@@ -12,7 +12,7 @@ license = "GPLv3"
 python = "^3.9"
 
 # Django
-django = "~3.2.13"
+django = "~3.2.14"
 django-grappelli = "^3.0"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
 django-model-utils = "^4.2"
