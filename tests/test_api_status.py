@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 
 import pendulum
 import pytest
+import time_machine
 from django.conf import settings
 
 from elections import defaults, exceptions
@@ -26,6 +27,7 @@ def describe_create():
         return "/api/status/"
 
     @pytest.mark.vcr
+    @time_machine.travel("2018-08-06")
     def it_returns_data_for_a_registered_voter(expect, client, url, election):
         defaults.initialize_districts()
 
@@ -66,6 +68,7 @@ def describe_create():
         }
 
     @pytest.mark.vcr
+    @time_machine.travel("2018-08-06")
     def it_handles_unknown_voters(expect, client, url, election):
         response = client.get(
             url + "?first_name=Jane"
