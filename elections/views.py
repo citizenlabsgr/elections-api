@@ -76,12 +76,8 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             }
             status = 202
         else:
+            registration_status.update(election)
             precinct = registration_status.precinct
-            ballot = models.Ballot.objects.filter(
-                election=election, precinct=precinct
-            ).first()
-            if ballot:
-                registration_status.ballot_url = ballot.mvic_url
             data = {
                 "id": voter.fingerprint(election, registration_status),
                 "message": voter.describe(election, registration_status),

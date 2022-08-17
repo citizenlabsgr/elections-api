@@ -88,6 +88,8 @@ class Election(TimeStampedModel):
 
     @property
     def message(self) -> str:
+        if self.date < timezone.now().date():
+            return "upcoming election"
         return f"{self.name} election on {self.date:%Y-%m-%d}"
 
 
@@ -172,6 +174,9 @@ class RegistrationStatus(models.Model):
     # We can't use 'ManytoManyField' because this model is never saved
     districts: List[District] = []
 
+    def __str__(self) -> str:
+        return self.message
+
     @property
     def message(self) -> str:
         if self.registered:
@@ -189,6 +194,19 @@ class RegistrationStatus(models.Model):
         else:
             text = "not registered to vote"
         return text
+
+    def update(self, election: Election):
+        if election.date < timezone.now().date():
+            self.ballot = False
+            self.ballot_url = None
+            self.absentee_ballot_sent = None
+            self.absentee_ballot_received = None
+        else:
+            ballot = Ballot.objects.filter(
+                election=election, precinct=self.precinct
+            ).first()
+            if ballot:
+                self.ballot_url = ballot.mvic_url
 
     def save(self, *args, **kwargs):
         raise NotImplementedError

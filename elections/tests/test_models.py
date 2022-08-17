@@ -4,6 +4,7 @@
 import log
 import pendulum
 import pytest
+import time_machine
 
 from .. import models
 
@@ -32,7 +33,7 @@ def district(district_category):
 def election():
     return models.Election(
         name="State Primary",
-        date=pendulum.parse("2018-08-07", tz="America/Detroit"),  # type: ignore
+        date=pendulum.parse("2018-08-07", tz="America/Detroit").date(),  # type: ignore
         mvic_id=676,
     )
 
@@ -75,6 +76,7 @@ def describe_voter():
             expect(voter.birth_year) == 1985
 
     def describe_message():
+        @time_machine.travel("2018-08-06")
         def without_sample_ballot(expect, voter, election):
             status = models.RegistrationStatus(registered=True)
             message = voter.describe(election, status)
@@ -82,6 +84,7 @@ def describe_voter():
                 message
             ) == "Jane Doe is registered to vote for the State Primary election on 2018-08-07."
 
+        @time_machine.travel("2018-08-06")
         def with_sample_ballot(expect, voter, election):
             status = models.RegistrationStatus(
                 registered=True, ballot_url="http://example.com"
@@ -91,6 +94,7 @@ def describe_voter():
                 message
             ) == "Jane Doe is registered to vote for the State Primary election on 2018-08-07 and a sample ballot is available."
 
+        @time_machine.travel("2018-08-06")
         def with_sample_ballot_and_absentee(expect, voter, election):
             status = models.RegistrationStatus(
                 registered=True,
@@ -101,6 +105,14 @@ def describe_voter():
             expect(
                 message
             ) == "Jane Doe is registered to vote and your ballot was mailed to you on 2021-08-09 for the State Primary election on 2018-08-07."
+
+        @time_machine.travel("2018-08-08")
+        def with_past_election(expect, voter, election):
+            status = models.RegistrationStatus(registered=True)
+            message = voter.describe(election, status)
+            expect(
+                message
+            ) == "Jane Doe is registered to vote for the upcoming election."
 
 
 def describe_registration_status():

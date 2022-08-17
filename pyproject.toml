@@ -74,6 +74,7 @@ pytest-expecter = "^2.3"
 pytest-vcr = "*"
 pytest-cov = "^3.0"
 pytest-watch = "^4.2"
+time-machine = "^2.8"
 
 # Reports
 coveragespace = "^4.2"
