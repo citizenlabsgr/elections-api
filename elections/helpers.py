@@ -98,7 +98,7 @@ def normalize_position(text: str) -> str:
 @cache
 def normalize_candidate(text: str) -> str:
     if "\n" in text:
-        log.info(f"Handling potential running mate: {text}")
+        log.debug(f"Handling potential running mate: {text!r}")
         names = [HumanName(n) for n in text.split("\n")]
         for name in names:
             name.capitalize()
