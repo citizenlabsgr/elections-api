@@ -10,6 +10,7 @@
     "htmlcov/": true,
     "staticfiles/": true
   },
+  "python.defaultInterpreterPath": ".venv/bin/python",
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": true,
   "python.linting.pylintPath": ".venv/bin/pylint",
