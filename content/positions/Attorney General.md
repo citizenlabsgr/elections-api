@@ -1,1 +1,1 @@
-
+The chief legal officer and lawyer for the state of Michigan. Establishes the official legal position for the state and renders opinions on questions of law when requested to do so by the governor, legislature, or any other state officer.
