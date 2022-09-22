@@ -688,12 +688,12 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 
         elif "proposalTitle" in item["class"]:
             label = item.text.strip()
-            if "\n" in label and len(label) > 200:
+            if "\n" in label and "?" in label and len(label) > 200:
                 log.debug("Parsing proposal text as part of proposal title")
                 label, text = label.split("\n", 1)
             else:
                 text = None
-            if label.isupper():
+            if label.isupper() or label[-20:].islower():
                 label = titleize(label)
             assert division is not None, f"Division missing for proposal: {label}"
             proposal = {"title": label, "text": text}

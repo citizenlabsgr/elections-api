@@ -160,23 +160,14 @@ def test_proposal_description_primary(expect, db):
 
 @pytest.mark.vcr
 def test_proposal_description_general(expect, db):
-    parse_ballot(683, 1828)
+    parse_ballot(691, 63051)
 
-    proposal = Proposal.objects.get(name="Proposal 20-1")
-    expect(proposal.description).startswith("A proposed constitutional amendment")
+    proposal = Proposal.objects.get(name__startswith="Proposal 22-1")
+    expect(proposal.name).contains("12 Total Years in Legislature")
+    expect(proposal.description).startswith("This proposed constitutional amendment")
     expect(proposal.description).endswith(
-        "conservation.\n\nShould this proposal be adopted?"
+        "became a candidate.\n\nShould this proposal be adopted?"
     )
-    expect(proposal.description).excludes("unreasonable searches")
-
-    proposal = Proposal.objects.get(name="Proposal 20-2")
-    expect(proposal.description).contains("unreasonable searches")
-    expect(proposal.description).endswith("things.\n\nShould this proposal be adopted?")
-
-    proposal = Proposal.objects.get(name__startswith="I. Proposed Amendment")
-    expect(proposal.description).contains("City Charter Title II, Section 9")
-    expect(proposal.description).excludes("winning a certain percentage")
-    expect(proposal.description).endswith("years.\n\nShall this amendment be adopted?")
 
 
 @pytest.mark.vcr
