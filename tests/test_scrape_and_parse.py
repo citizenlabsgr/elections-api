@@ -125,7 +125,7 @@ def test_2022_primary_ballots(expect, db, precinct_id, item_count):
     ("precinct_id", "item_count"),
     [
         (1878, 99),
-        (68643, 75),
+        (68643, 73),
     ],
 )
 def test_2022_general_ballots(expect, db, precinct_id, item_count):
