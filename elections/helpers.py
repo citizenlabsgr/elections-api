@@ -98,18 +98,19 @@ def normalize_position(text: str) -> str:
 @cache
 def normalize_candidate(text: str) -> str:
     if "\n" in text:
-        log.debug(f"Handling running mate: {text}")
-        text1, text2 = text.split("\n")
-        name1 = HumanName(text1.strip())
-        name2 = HumanName(text2.strip())
-        name1.capitalize()
-        name2.capitalize()
+        log.info(f"Handling potential running mate: {text}")
+        names = [HumanName(n) for n in text.split("\n")]
+        for name in names:
+            name.capitalize()
 
-        if " of " in str(name2):
-            log.debug(f"Skipped non-person running mate: {name2}")
-            return str(name1)
+        if "Formerly:" in names[1]:
+            log.debug(f"Skipped former name: {names[1]}")
+            return str(names[0])
+        if " of " in str(names[1]):
+            log.debug(f"Skipped non-person running mate: {names[1]}")
+            return str(names[0])
 
-        return str(name1) + " & " + str(name2)
+        return str(names[0]) + " & " + str(names[0])
 
     name = HumanName(text.strip())
     name.capitalize()
