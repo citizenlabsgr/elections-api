@@ -319,7 +319,7 @@ class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ["name", "description", "reference_url"]
 
-    list_filter = ["election"]
+    list_filter = ["election", "described"]
     default_filters = ["election__id__exact={election_id}"]
 
     list_display = [
@@ -349,6 +349,7 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         "district__category",
         "district",
         "name",
+        "described",
         "term",
         "seats",
     ]

@@ -984,8 +984,13 @@ class BallotItem(TimeStampedModel):
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
+    described = models.BooleanField(default=False, editable=False)
+
     class Meta:
         abstract = True
+
+    def update_described(self):
+        self.described = bool(self.description)
 
 
 class Proposal(BallotItem):
@@ -997,6 +1002,10 @@ class Proposal(BallotItem):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.update_described()
+        super().save(*args, **kwargs)
 
 
 class Position(BallotItem):
@@ -1026,6 +1035,7 @@ class Position(BallotItem):
         self.term = self.term or constants.TERMS.get(self.name, "")
 
     def save(self, *args, **kwargs):
+        self.update_described()
         self.update_term()
         super().save(*args, **kwargs)
 
