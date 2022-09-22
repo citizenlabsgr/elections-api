@@ -1,1 +1,1 @@
-
+Establishes policy for the district and shares in policy development. Recruits, hires and evaluates the performance of the superintendent. Reviews the budget submitted by the superintendent and aligns the funding priorities with the district goals.
