@@ -750,6 +750,7 @@ class Ballot(TimeStampedModel):
                     "Community College",
                     "Local School",
                     "Intermediate School",
+                    "District Library",
                     "Library",
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
