@@ -164,6 +164,7 @@ def test_proposal_description_general(expect, db):
 
     proposal = Proposal.objects.get(name__startswith="Proposal 22-1")
     expect(proposal.name).contains("12 Total Years in Legislature")
+    expect(proposal.name).excludes("\n")
     expect(proposal.description).startswith("This proposed constitutional amendment")
     expect(proposal.description).endswith(
         "became a candidate.\n\nShould this proposal be adopted?"
