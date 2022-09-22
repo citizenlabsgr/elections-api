@@ -110,7 +110,7 @@ def normalize_candidate(text: str) -> str:
             log.debug(f"Skipped non-person running mate: {names[1]}")
             return str(names[0])
 
-        return str(names[0]) + " & " + str(names[0])
+        return str(names[0]) + " & " + str(names[1])
 
     name = HumanName(text.strip())
     name.capitalize()

@@ -161,7 +161,6 @@ def test_proposal_description_primary(expect, db):
 @pytest.mark.vcr
 def test_proposal_description_general(expect, db):
     parse_ballot(691, 63051)
-
     proposal = Proposal.objects.get(name__startswith="Proposal 22-1")
     expect(proposal.name).contains("12 Total Years in Legislature")
     expect(proposal.name).excludes("\n")
@@ -169,6 +168,13 @@ def test_proposal_description_general(expect, db):
     expect(proposal.description).endswith(
         "became a candidate.\n\nShould this proposal be adopted?"
     )
+
+
+@pytest.mark.vcr
+def test_running_mate(expect, db):
+    parse_ballot(691, 63051)
+    candidate = Candidate.objects.get(name__contains="Kevin Hogan")
+    expect(candidate.name) == "Kevin Hogan & Destiny Clayton"
 
 
 @pytest.mark.vcr
