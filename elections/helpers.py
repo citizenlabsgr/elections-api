@@ -687,7 +687,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             section[label] = division
 
         elif "proposalTitle" in item["class"]:
-            label = item.text.strip()
+            label = _html_to_text(item)
             if "\n" in label and "?" in label and len(label) > 200:
                 log.debug("Parsing proposal text as part of proposal title")
                 label, text = label.split("\n", 1)
@@ -706,10 +706,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 label = ""
                 element = item.parent.next_sibling
                 while element is not None:
-                    try:
-                        label += "\n\n" + element.get_text().strip()
-                    except AttributeError:
-                        label += "\n\n" + element.strip()
+                    label += "\n\n" + _html_to_text(element)
                     element = element.next_sibling
                     if isinstance(element, Tag):
                         if element.find("div", {"class": "proposalTitle"}):
@@ -725,7 +722,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                     count += 1
 
         elif "proposalText" in item["class"]:
-            label = item.text.strip()
+            label = _html_to_text(item)
             assert proposal is not None, f"Proposal missing for text: {label}"
             proposal["text"] = label
             count += 1
@@ -738,3 +735,13 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
             proposal["text"] = proposal["text"].replace("\n\n\n", "\n\n")
 
     return count
+
+
+def _html_to_text(element) -> str:
+    try:
+        if items := element.find_all("li"):
+            lines = ["- " + item.text.strip("; ") for item in items]
+            return "\n".join(lines)
+        return element.text.strip()
+    except AttributeError:
+        return element.strip()
