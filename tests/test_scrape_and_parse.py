@@ -166,10 +166,10 @@ def test_proposal_description_general(expect, db):
     expect(proposal.name).excludes("\n")
     expect(proposal.description).startswith("This proposed constitutional amendment")
     expect(proposal.description).contains(
-        "political organizations.\n- Require legislature"
+        "political organizations\n- Require legislature"
     )
     expect(proposal.description).endswith(
-        "became a candidate.\n\nShould this proposal be adopted?"
+        "became a candidate\n\nShould this proposal be adopted?"
     )
 
 

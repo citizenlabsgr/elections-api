@@ -740,7 +740,7 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
 def _html_to_text(element) -> str:
     try:
         if items := element.find_all("li"):
-            lines = ["- " + item.text.strip("; ") for item in items]
+            lines = ["- " + item.text.strip(".; ") for item in items]
             return "\n".join(lines)
         return element.text.strip()
     except AttributeError:
