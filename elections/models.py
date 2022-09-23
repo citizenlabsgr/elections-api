@@ -21,6 +21,8 @@ class DistrictCategory(TimeStampedModel):
     description = models.TextField(blank=True)
     rank = models.IntegerField(default=0, help_text="Controls ballot item ordering")
 
+    described = models.BooleanField(default=False, editable=False)
+
     class Meta:
         verbose_name_plural = "District Categories"
         ordering = ["name"]
@@ -38,6 +40,13 @@ class DistrictCategory(TimeStampedModel):
         }:
             return self.name
         return f"{self.name} District"
+
+    def update_described(self):
+        self.described = bool(self.description)
+
+    def save(self, *args, **kwargs):
+        self.update_described()
+        super().save(*args, **kwargs)
 
 
 class District(TimeStampedModel):
@@ -63,7 +72,6 @@ class Election(TimeStampedModel):
 
     name = models.CharField(max_length=100)
     date = models.DateField()
-    description = models.TextField(blank=True)
 
     active = models.BooleanField(default=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
@@ -984,13 +992,8 @@ class BallotItem(TimeStampedModel):
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
-    described = models.BooleanField(default=False, editable=False)
-
     class Meta:
         abstract = True
-
-    def update_described(self):
-        self.described = bool(self.description)
 
 
 class Proposal(BallotItem):
@@ -1003,10 +1006,6 @@ class Proposal(BallotItem):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        self.update_described()
-        super().save(*args, **kwargs)
-
 
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
@@ -1014,6 +1013,8 @@ class Position(BallotItem):
     term = models.CharField(max_length=200, blank=True)
     seats = models.PositiveIntegerField(default=1, blank=True)
     section = models.CharField(max_length=50, blank=True)
+
+    described = models.BooleanField(default=False, editable=False)
 
     class Meta:
         unique_together = [
@@ -1033,6 +1034,9 @@ class Position(BallotItem):
 
     def update_term(self):
         self.term = self.term or constants.TERMS.get(self.name, "")
+
+    def update_described(self):
+        self.described = bool(self.description)
 
     def save(self, *args, **kwargs):
         self.update_described()
