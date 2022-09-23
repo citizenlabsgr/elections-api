@@ -1,1 +1,0 @@
-The presidential primary elections and caucuses held in the various states, the District of Columbia, and territories of the United States form part of the nominating process of candidates for United States presidential elections.

@@ -38,7 +38,16 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ["name"]
 
-    list_display = ["id", "name", "display_name", "rank", "modified"]
+    list_filter = ["described", "rank"]
+
+    list_display = [
+        "id",
+        "name",
+        "display_name",
+        "description",
+        "rank",
+        "modified",
+    ]
 
     def display_name(self, category: models.DistrictCategory) -> str:
         return str(category)
@@ -319,7 +328,7 @@ class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     search_fields = ["name", "description", "reference_url"]
 
-    list_filter = ["election", "described"]
+    list_filter = ["election"]
     default_filters = ["election__id__exact={election_id}"]
 
     list_display = [

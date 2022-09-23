@@ -8,7 +8,7 @@ import log
 from django.core.management.base import BaseCommand
 
 from elections import defaults, helpers
-from elections.models import Candidate, District, DistrictCategory, Election, Position
+from elections.models import Candidate, District, DistrictCategory, Position
 
 
 class Command(BaseCommand):
@@ -50,17 +50,6 @@ class Command(BaseCommand):
             candidate.save()
 
     def import_descriptions(self):
-        for name, description in self._read_descriptions("elections"):
-            elections = Election.objects.filter(name=name)
-            if elections:
-                for election in elections:
-                    if description and election.description != description:
-                        log.info(f"Updating description for {name}")
-                        election.description = description
-                        election.save()
-            else:
-                log.warn(f"Election not found in database: {name}")
-
         for name, description in self._read_descriptions("districts"):
             try:
                 category = DistrictCategory.objects.get(name=name)
@@ -71,7 +60,9 @@ class Command(BaseCommand):
                 else:
                     log.error(message)
                     raise e from None
-            if description and category.description != description:
+            if description and (
+                category.description != description or not category.described
+            ):
                 log.info(f"Updating description for {name}")
                 category.description = description
                 category.save()
@@ -81,7 +72,9 @@ class Command(BaseCommand):
             positions = Position.objects.filter(name=name)
             if positions:
                 for position in positions:
-                    if description and position.description != description:
+                    if description and (
+                        position.description != description or not position.described
+                    ):
                         log.info(f"Updating description for {name}")
                         position.description = description
                         position.save()
@@ -89,11 +82,6 @@ class Command(BaseCommand):
                 log.warn(f"Position not found in database: {name}")
 
     def export_descriptions(self):
-        elections = {}
-        for election in Election.objects.all():
-            elections[election.name] = election.description
-        self._write("elections", elections)
-
         districts = {}
         for category in DistrictCategory.objects.all():
             districts[category.name] = category.description
