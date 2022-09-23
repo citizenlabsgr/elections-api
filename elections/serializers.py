@@ -230,37 +230,6 @@ class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class RegistrationSerializerV1(serializers.HyperlinkedModelSerializer):
-
-    precinct = PrecinctSerializer()
-    districts = DistrictSerializer(many=True)
-    dropbox_location = serializers.SerializerMethodField()
-
-    class Meta:
-        model = models.RegistrationStatus
-        fields = [
-            "registered",
-            "ballot",
-            "absentee",
-            "absentee_application_received",
-            "absentee_ballot_sent",
-            "absentee_ballot_received",
-            "polling_location",
-            "dropbox_location",
-            "recently_moved",
-            "precinct",
-            "districts",
-        ]
-
-    def get_dropbox_location(self, instance):
-        try:
-            item = instance.dropbox_locations[0]
-        except (TypeError, IndexError):
-            return None
-        else:
-            return item["address"]
-
-
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.RegistrationStatus

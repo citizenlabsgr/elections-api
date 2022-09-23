@@ -46,7 +46,6 @@ def describe_create():
                 "id": 42,
                 "name": "General Election",
                 "date": "2018-08-07",
-                "description": "",
                 "reference_url": None,
             },
             "precinct": {
@@ -85,7 +84,6 @@ def describe_create():
                 "id": 42,
                 "name": "General Election",
                 "date": "2018-08-07",
-                "description": "",
                 "reference_url": None,
             },
             "precinct": {
@@ -125,7 +123,6 @@ def describe_create():
                 "id": 42,
                 "name": "General Election",
                 "date": "2018-08-07",
-                "description": "",
                 "reference_url": None,
             },
             "precinct": {

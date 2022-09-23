@@ -187,13 +187,18 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 3.0**
+
+- Removed unused `description` field from election responses.
+- Removed support for legacy (1.x) `dropbox_location` field in registration API responses.
+
 **Version 2.0**
 
 - Replaced `dropbox_location` with `dropbox_locations` in registrations API responses to include multiple locations and hours.
 
 **Version 1.11**
 
-- Added `ballot` to registration and status responses.
+- Added `ballot` to registration and status API responses.
 
 **Version 1.10.1**
 

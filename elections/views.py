@@ -18,12 +18,8 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     queryset = models.Voter.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.VoterFilter
+    serializer_class = serializers.RegistrationSerializer
     pagination_class = None
-
-    def get_serializer_class(self):
-        if self.request.version == "1":
-            return serializers.RegistrationSerializerV1
-        return serializers.RegistrationSerializer
 
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
