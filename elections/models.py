@@ -1059,7 +1059,7 @@ class Candidate(TimeStampedModel):
 
     class Meta:
         unique_together = ["position", "name"]
-        ordering = ["name"]
+        ordering = ["party__name", "name"]
 
     def __str__(self) -> str:
         return f"{self.name} for {self.position}"

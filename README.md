@@ -36,7 +36,7 @@ Check your registration status and fetch your voting precinct with an [API call]
 
 ```
 http GET https://michiganelections.io/api/registrations/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   first_name==Rosalynn last_name==Bliss birth_date==1975-08-03 zip_code==49503
 ```
 
@@ -114,7 +114,7 @@ Get a link to the official sample ballot for upcoming elections, by precinct ID 
 
 ```
 http GET https://michiganelections.io/api/ballots/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_id==1173
 ```
 
@@ -122,7 +122,7 @@ or by precinct name with an [API call](https://michiganelections.io/api/ballots/
 
 ```
 http GET https://michiganelections.io/api/ballots/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```
@@ -133,7 +133,7 @@ Get more information about the specific positions and candidates on your ballot,
 
 ```
 http GET https://michiganelections.io/api/positions/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_id==1173
 ```
 
@@ -141,7 +141,7 @@ or by precinct name with an [API call](https://michiganelections.io/api/position
 
 ```
 http GET https://michiganelections.io/api/positions/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```
@@ -152,7 +152,7 @@ Get more information about the specific proposals on your ballot, by precinct ID
 
 ```
 http GET https://michiganelections.io/api/proposals/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_id=1173
 ```
 
@@ -160,7 +160,7 @@ or by precinct name with an [API call](https://michiganelections.io/api/proposal
 
 ```
 http GET https://michiganelections.io/api/proposals/ \
-  "Accept: application/json; version=2" \
+  "Accept: application/json; version=3" \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```

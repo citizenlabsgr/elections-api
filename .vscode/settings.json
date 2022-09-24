@@ -26,6 +26,7 @@
     "browsable",
     "bugsnag",
     "circleci",
+    "corsheaders",
     "createdb",
     "direnv",
     "envrc",
@@ -35,6 +36,7 @@
     "Grappelli",
     "htmlcov",
     "Jurisd",
+    "levelname",
     "libgraphviz",
     "magiclink",
     "michiganelections",
@@ -53,6 +55,7 @@
     "useragent",
     "venv",
     "viewsets",
+    "whitenoise",
     "yasg"
   ]
 }
