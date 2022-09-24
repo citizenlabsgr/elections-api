@@ -192,14 +192,6 @@ def test_default_term(expect, db):
 
 
 @pytest.mark.vcr
-def test_justices(expect, db):
-    parse_ballot(683, 1828)
-    candidate = Candidate.objects.filter(name__startswith="Bridget").first()
-    expect(candidate.name) == "Bridget Mary McCormack"
-    expect(candidate.position.district.name) == "Michigan"
-
-
-@pytest.mark.vcr
 def test_capitalization(expect, db):
     parse_ballot(683, 1828)
     expect(Position.objects.filter(name__contains="of The").count()) == 0
