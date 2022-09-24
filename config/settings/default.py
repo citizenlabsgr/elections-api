@@ -132,8 +132,8 @@ GRAPPELLI_ADMIN_TITLE = "Michigan Elections Admin"
 # Django REST Framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_VERSION": "2",
-    "ALLOWED_VERSIONS": ["1", "2"],
+    "DEFAULT_VERSION": "3",
+    "ALLOWED_VERSIONS": ["2", "3"],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
