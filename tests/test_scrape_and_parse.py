@@ -119,8 +119,7 @@ def test_2022_primary_ballots(expect, db, precinct_id, item_count):
     expect(parse_ballot(690, precinct_id)) == item_count
 
 
-# TODO: Uncomment after 2022-10-15
-# @pytest.mark.vcr
+@pytest.mark.vcr
 @pytest.mark.parametrize(
     ("precinct_id", "item_count"),
     [

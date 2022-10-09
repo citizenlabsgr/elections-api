@@ -1,0 +1,655 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0
+    method: GET
+    uri: https://mvic.sos.state.mi.us/Voter/GetMvicBallot/68643/691/
+  response:
+    body:
+      string: "\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"en-us\">\r\n<head>\r\n
+        \   <!-- Digital Guidelines Required meta tags -->\r\n    <meta charset=\"utf-8\">\r\n
+        \   <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n    <meta
+        name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n\r\n
+        \   <!-- Digital Guidelines CSS -->\r\n    <link rel=\"stylesheet\" href=\"https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css\"
+        integrity=\"sha384-Pp+1H0t7AJGZkZGeqxlQokBSSsbLYn8rzNPBPE/uKhhZOvCPpQLn2dn/TolY47tN\"
+        crossorigin=\"anonymous\">\r\n\r\n    <!-- Ditital Guidelines Fav Icon -->\r\n
+        \   <link rel=\"icon\" type=\"image/png\" href=\"https://www.michigan.gov/favicon.ico\">\r\n\r\n
+        \   <!-- Global site tag (gtag.js) - Google Analytics -->\r\n    <script async
+        src=\"https://www.googletagmanager.com/gtag/js?id=UA-124923729-1\"></script>\r\n
+        \   <script>\r\n        window.dataLayer = window.dataLayer || [];\r\n        function
+        gtag() { dataLayer.push(arguments); }\r\n        gtag('js', new Date());\r\n
+        \       gtag('config', 'UA-124923729-1');\r\n    </script>\r\n\r\n    <link
+        href=\"/Content/css?v=DQN-ALpJmhZoH0SqzqhYTC81_oNlNOEdo_Nlj8XUx-c1\" rel=\"stylesheet\"/>\r\n\r\n
+        \   <script src=\"/bundles/scripts?v=p5WmSazMe3YAV59i9UuL7h_AKdixOURE5nVYj2iG6Bg1\"></script>\r\n\r\n
+        \   <script src=\"/bundles/errorhandlerJS?v=hZ4VM3wlHDzILWa4MetNq9Xqt9riZ7tijZ8kSfe4aZA1\"></script>\r\n\r\n
+        \   <script src=\"/bundles/BingMapJS?v=XgqZHpFMh6PgxqFv2EbFUE-JrwdZK88VAIk5Ee20hLA1\"></script>\r\n\r\n\r\n
+        \   <title></title>\r\n    <!-- Google Tag Manager -->\r\n    <script>\r\n
+        \       (function (w, d, s, l, i) {\r\n            w[l] = w[l] || []; w[l].push({\r\n
+        \               'gtm.start':\r\n                    new Date().getTime(),
+        event: 'gtm.js'\r\n            }); var f = d.getElementsByTagName(s)[0], j
+        = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true;
+        j.src =\r\n                'https://www.googletagmanager.com/gtm.js?id=' +
+        i + dl; f.parentNode.insertBefore(j, f);\r\n        })(window, document, 'script',
+        'dataLayer', 'GTM-WFQ4994');</script>\r\n    <!-- End Google Tag Manager -->\r\n\r\n</head>\r\n<body>\r\n
+        \   <noscript>\r\n        <img src=\"/Content/Images/DigitalGuidelineHeader.PNG\"
+        alt=\"page header\" />\r\n    </noscript>\r\n    <!-- Modal for spinner when
+        an action is occuring -->\r\n    <div id=\"SpinnerModal\" class=\"modal\"
+        style=\"z-index: 1050\" role=\"dialog\" aria-label=\"in progress\">\r\n        <div
+        class=\"vertical-alignment-helper\">\r\n            <div class=\"modal-dialog
+        vertical-align-center\">\r\n                <!-- Modal content modal-lg-->\r\n
+        \               <div class=\"mmodal-content\">\r\n                    <div
+        class=\"loader\">Loading...</div>\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n    <div>\r\n        <!-- SOM Header -->\r\n
+        \       <div id=\"header\">\r\n            <som-header app-name=\"Michigan
+        Voter Information Center\" department-name=\"Department of State\" main-content-id=\"main-Content\"
+        home-link=\"/Home/Index\">\r\n                <som-menu>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Home/Index\">Home</a>\r\n                    </som-menu-item>\r\n
+        \                   <som-menu-item>\r\n                        <a href=\"/Voter/Index\">Your
+        voter information</a>\r\n                    </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Home/VoteAtHome\">Vote at home</a>\r\n
+        \                   </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Home/RegisterToVote\">Register</a>\r\n
+        \                   </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Home/VoteInPerson\">Vote in person</a>\r\n
+        \                   </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Home/AccessibleVoting\">Accessible voting</a>\r\n
+        \                   </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a href=\"/Voter/index\">Your polling place</a>\r\n
+        \                   </som-menu-item>\r\n                    <som-menu-item>\r\n
+        \                       <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/resources/language-services\">Language
+        services (michigan.gov)</a>\r\n                    </som-menu-item>\r\n\r\n
+        \                   \r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a rel=\"tag\" href=\"/RegisterVoter/Index\">Register to vote
+        online</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a rel=\"tag\" href=\"/AVApplication/Index\">Apply for an absentee
+        ballot online</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
+        Forms and Publications</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a rel=\"tag\" href=\"/Voter/Index/#yourclerk\">Your
+        clerk</a></som-menu-item>\r\n\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a rel=\"tag\" href=\"/CancellationNotice/Index/\">Notice of cancellation</a></som-menu-item>\r\n
+        \                   <strong class=\"d-block d-lg-none\">Voter information</strong>\r\n
+        \                   <som-menu-item class=\"d-block d-lg-none\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=0CA77C36E2D44E0DBCAB875DE164507F&_z=z
+        \">Voter Cancellation Procedures</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/~/link.aspx?_id=B7433AFD811D48BEBEAD713948798FBB&_z=z\">Military
+        and overseas</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos~/link.aspx?_id=6080B5CF66BA4E1587E07BB1DABDD930&_z=z\">Students</a></som-menu-item>\r\n
+        \                   <som-menu-item class=\"d-block d-lg-none\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=43BFEE4980B5402ABD60EE6540C72459&_z=z\">Voters
+        with disabilities</a></som-menu-item>\r\n                    <strong class=\"d-block
+        d-lg-none\">About elections</strong>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/elections/election-results-and-data\">Election
+        Results and Data</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/elections/security\">Election security</a></som-menu-item>\r\n
+        \                   <som-menu-item class=\"d-block d-lg-none\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/upcoming-election-information\">Upcoming
+        elections</a></som-menu-item>\r\n                    <strong class=\"d-block
+        d-lg-none\">Resources</strong>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=3611B24DA3A54A8C9059D9B23C3845C7&_z=z\">Become
+        a poll worker</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/candidates\">Candidate
+        Information</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
+        d-lg-none\"><a rel=\"noopener noreferrer\" href=\"/VoterCount/Index\">Voter
+        registration statistics</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/~/link.aspx?_id=F24B2E07F4D9494D80FF3AD32BC27ED0&_z=z\">More
+        election information</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/~/link.aspx?_id=5AB778E9850B4D348783220535C12E77&_z=z\">Frequently
+        asked questions</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/resources/language-services\">Language
+        services (michigan.gov)</a></som-menu-item>\r\n                </som-menu>\r\n
+        \           </som-header>\r\n        </div>\r\n\r\n        <div class=\"sidenav
+        container\" data-navigation-type=\"primary\" role=\"navigation\" aria-label=\"Primary
+        Menu\">\r\n            <div id=\"sidenav\">\r\n                <div class=\"row\">\r\n
+        \                   <div class=\"col\">\r\n                        <br /><br
+        />\r\n                        <span class=\"nav-item my-2\"><a rel=\"tag\"
+        href=\"/RegisterVoter/Index\">Register to vote online</a></span>\r\n                        <br
+        />\r\n                        <span class=\"nav-item my-2\"><a rel=\"tag\"
+        href=\"/AVApplication/Index\">Apply for an absentee ballot online</a></span>\r\n
+        \                       <br />\r\n                        <span class=\"nav-item
+        my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
+        Forms and Publications</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a rel=\"tag\" href=\"/Voter/Index/#yourclerk\">Your
+        clerk</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a rel=\"tag\" href=\"/CancellationNotice/Index/\">Notice
+        of cancellation</a></span>\r\n\r\n                        <br /><br />\r\n
+        \                       <strong>Voter information</strong>\r\n                        <br
+        />\r\n                        <span class=\"nav-item my-2\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=0CA77C36E2D44E0DBCAB875DE164507F&_z=z
+        \">Voter Cancellation Procedures</a></span>\r\n                        <br
+        />\r\n                        <span class=\"nav-item my-2\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=B7433AFD811D48BEBEAD713948798FBB&_z=z\">Military
+        and overseas</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos~/link.aspx?_id=6080B5CF66BA4E1587E07BB1DABDD930&_z=z\">Students</a></span>\r\n
+        \                       <br />\r\n                        <span class=\"nav-item
+        my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=43BFEE4980B5402ABD60EE6540C72459&_z=z\">Voters
+        with disabilities</a></span>\r\n\r\n                        <br /><br />\r\n
+        \                       <strong>About elections</strong>\r\n                        <br
+        />\r\n                        <span class=\"nav-item my-2\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/election-results-and-data\">Election
+        Results and Data</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/security\">Election
+        security</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/upcoming-election-information\">Upcoming
+        elections</a></span>\r\n\r\n                        <br /><br />\r\n                        <strong>Resources</strong>\r\n
+        \                       <br />\r\n                        <span class=\"nav-item
+        my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/Resources/Initiatives/democracy-mvp\">Become
+        a poll worker</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/elections/candidates\">Candidate
+        Information</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a rel=\"noopener noreferrer\" href=\"/VoterCount/Index\">Voter
+        registration statistics</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=F24B2E07F4D9494D80FF3AD32BC27ED0&_z=z\">More
+        election information</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=5AB778E9850B4D348783220535C12E77&_z=z\">Frequently
+        asked questions</a></span>\r\n                        <br />\r\n                        <span
+        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/resources/language-services\">Language
+        services (michigan.gov)</a></span>\r\n\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n        </div>\r\n\r\n        <main id=\"main-Content\">\r\n
+        \           <noscript style=\"font-size: large; font-weight: bold;\">\r\n
+        \               <br />Browsers that have javascript disabled will not be able
+        to access some features of this site.<br /><br />\r\n            </noscript>\r\n
+        \           <div id=\"special-small-screen-links\">\r\n                <span
+        class=\"nav-item my-2\"><a href=\"/RegisterVoter/Index\"> Register to vote
+        online</a></span>\r\n                <br />\r\n                <span class=\"nav-item
+        my-2\"><a href=\"/AVApplication/Index\"> Apply for an absentee ballot online</a></span>\r\n
+        \               <br />\r\n                <span class=\"nav-item my-2\">\r\n
+        \                   <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Get
+        a printable application</a>\r\n                </span>\r\n                <br
+        />\r\n                <span class=\"nav-item my-2\"><a href=\"/Voter/Index/#yourclerk\">
+        Your clerk</a></span>\r\n                <br />\r\n                <span class=\"nav-item
+        my-2\"><a rel=\"tag\" href=\"/CancellationNotice/Index/\">Notice of cancellation</a></span>\r\n
+        \               <br />\r\n            </div>\r\n            <div id=\"body\"
+        class=\"container\">\r\n                \r\n\r\n\r\n\r\n<div id=\"PreviewMvicBallot\"
+        role=\"region\" aria-labelledby=\"page-title\">\r\n    <div>\r\n        <div>\r\n
+        \           <div class=\"text-center\">\r\n                STATE GENERAL<br
+        />\r\n                Tuesday, November 8, 2022 &nbsp;&nbsp;&nbsp;&nbsp;\r\n
+        \               <br class=\"d-md-none\" />\r\n                Sanilac County,
+        Michigan &nbsp;&nbsp;&nbsp;&nbsp;\r\n                <br class=\"d-lg-none\"
+        />\r\n                LEXINGTON TOWNSHIP,  Precinct 1 &nbsp;&nbsp;&nbsp;&nbsp;\r\n
+        \           </div>\r\n\r\n            <div>\r\n                <div id=\"generalElectionOffices\"
+        class=\"container generalOfficeSection\">\r\n                    <div class=\"row
+        officeColumns\" >\r\n                        <div id=\"columnOne\" class=\"col-md-6
+        ballotColumn\">\r\n                            <div class=\"row\">   <div
+        class=\"col-md-12\">\r\n                            <div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 section' valign='top'>PARTISAN
+        SECTION</div></div><div class='row'><div class=' col-md-12 division' valign='top'>State</div></div><div
+        class='row'><div class=' col-md-12 office' valign='top'>GOVERNOR AND LIEUTENANT
+        GOVERNOR</div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
+        for not more than 1</div></div></div><div class='container tblCandidate'><div
+        class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Gretchen
+        Whitmer<br/>Garlin D. Gilchrist II</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/518014'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/519074'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Tudor M. Dixon<br/>Shane
+        Hernandez</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520065'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520991'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Mary Buzuma<br/>Brian
+        Ellison</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520929'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520930'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Donna Brandenburg<br/>Mellissa
+        Carone</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520136'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520965'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kevin Hogan<br/>Destiny
+        Clayton</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520336'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520877'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Green</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Daryl M. Simpson<br/>Doug
+        Dern</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520968'>$</a><br/><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520959'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Natural Law</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 office'
+        valign='top'>SECRETARY OF STATE</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>Vote for not more than 1</div></div></div><div class='container
+        tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
+        candidate'>Jocelyn Benson</div><div  class='col-xs-1 financeLink'><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/514336'>$</a></div><div  class='col-xs-4
+        party ' valign='middle'>Democratic</div></div><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Kristina Elaine Karamo</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520019'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Gregory Scott
+        Stempfle</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520601'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Christine C. Schwartz</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520966'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Larry James Hutchinson
+        Jr.</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520878'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Green</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>ATTORNEY
+        GENERAL</div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
+        for not more than 1</div></div></div><div class='container tblCandidate'><div
+        class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Dana
+        Nessel</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/518223'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Matthew DePerno</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520096'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Joseph W. McHugh
+        Jr.</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520920'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Gerald T. Van
+        Sickle</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520958'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 division'
+        valign='top'>Congressional</div></div><div class='row'><div class=' col-md-12
+        office' valign='top'>REPRESENTATIVE IN CONGRESS</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>9th DISTRICT</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 1</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Brian Jaye</div><div  class='col-xs-1 financeLink'>&nbsp;</div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Lisa McClain</div><div
+        \ class='col-xs-1 financeLink'>&nbsp;</div><div  class='col-xs-4 party ' valign='middle'>Republican</div></div><div
+        class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Jake
+        Kelts</div><div  class='col-xs-1 financeLink'>&nbsp;</div><div  class='col-xs-4
+        party ' valign='middle'>Libertarian</div></div><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Jim Walkowicz</div><div  class='col-xs-1
+        financeLink'>&nbsp;</div><div  class='col-xs-4 party ' valign='middle'>Working
+        Class</div></div></div><div class='container tblOffice'><div class='row'><div
+        class=' col-md-12 division' valign='top'>Legislative</div></div><div class='row'><div
+        class=' col-md-12 office' valign='top'>STATE SENATOR</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>25th DISTRICT</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 1</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Bert Van Dyke</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520657'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Daniel V. Lauwers</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/518302'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 office'
+        valign='top'>REPRESENTATIVE IN STATE LEGISLATURE</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>98th DISTRICT</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 1</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Robert Mroczek</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/520765'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Gregory L. Alexander</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/519329'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 division'
+        valign='top'>State Boards</div></div><div class='row'><div class=' col-md-12
+        office' valign='top'>MEMBER OF THE STATE BOARD OF EDUCATION</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
+        2</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Pamela Pugh</div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/517159'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Mitchell Robinson</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520493'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Tamara D. Carlone</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/519825'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Linda Lee Tarver</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520176'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Donna Gundle-Krieg</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520931'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Bill Hall</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520928'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Ethan Hobson</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520180'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Mary Anne Hering</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520899'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Working Class</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 office'
+        valign='top'>REGENT OF THE UNIVERSITY OF MICHIGAN</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 2</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Mike Behm</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/517047'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kathy White</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/508975'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Lena Epstein</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520488'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Sevag Vartanian</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520199'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Eric Larson</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520923'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Joe Sanger</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520949'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Sherry A. Wells</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520855'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Green</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kathleen Oakford</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520956'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Natural Law</div></div></div>\r\n
+        \                             </div>    </div>\r\n                        </div>\r\n
+        \                       <div id=\"columnTwo\" class=\"col-md-6 ballotColumn\">\r\n
+        \                           <div class=\"row\">                             <div
+        class=\"col-md-12\">\r\n                                    <div class='container
+        tblOffice'><div class='row'><div class='division col-xs-12'>State Boards -
+        Continued</div></div></div><div class='container tblOffice'><div class='row'><div
+        class=' col-md-12 office' valign='top'>TRUSTEE OF MICHIGAN STATE UNIVERSITY</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
+        2</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Dennis Denno</div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/514464'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Renee Knake Jefferson</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520287'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Mike Balow</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520508'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Travis Menge</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520089'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Claranna Gelineau</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520933'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Max Riekse</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520932'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Robin Lea Laurain</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/519317'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Green</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>GOVERNOR
+        OF WAYNE STATE UNIVERSITY</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>Vote for not more than 2</div></div></div><div class='container
+        tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
+        candidate'>Danielle Atkinson</div><div  class='col-xs-1 financeLink'><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/520587'>$</a></div><div  class='col-xs-4
+        party ' valign='middle'>Democratic</div></div><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Marilyn Kelly</div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/517154'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Christa Murphy</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520787'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Craig Wilsher</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520489'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Bruce Jaquays</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520934'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Libertarian</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Marc Joseph Sosnowski</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520962'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>U.S. Taxpayers</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Susan Odgers</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520846'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Green</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 division' valign='top'>County</div></div><div
+        class='row'><div class=' col-md-12 office' valign='top'>CLERK</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'><b>Partial Term Ending
+        12/31/2024</b></div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
+        for not more than 1</div></div></div><div class='container tblCandidate'><div
+        class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Leslie
+        Hilgendorf</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/1042603'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kimberly Ann Cory</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/1042620'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>No Party Affiliation</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 office'
+        valign='top'>COUNTY ROAD COMMISSIONER</div></div><div class='row'><div class='
+        col-md-12 term' valign='top'>Vote for not more than 1</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Ronald Gerstenberger</div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/1041917'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 office'
+        valign='top'>COUNTY COMMISSIONER</div></div><div class='row'><div class='
+        col-md-12 term' valign='top'>6th DISTRICT</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 1</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Geoff Angus</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/1042609'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>Democratic</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Evans Ehardt</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/1042616'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>No Party Affiliation</div></div></div><div
+        class='container tblOffice'><div class='row'><div class=' col-md-12 section'
+        valign='top'>NONPARTISAN SECTION</div></div><div class='row'><div class='
+        col-md-12 division' valign='top'>Judicial</div></div><div class='row'><div
+        class=' col-md-12 office' valign='top'>JUSTICE OF SUPREME COURT</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
+        2</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Richard Bernstein<br/><span
+        class='formerName'>Justice of Supreme Court</span></div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/517135'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kyra Harris Bolden</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520558'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Paul Hudson</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520405'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Kerry Lee Morgan</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/520967'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Brian Zahra<br/><span
+        class='formerName'>Justice of Supreme Court</span></div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/515731'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>JUDGE
+        OF COURT OF APPEALS</div></div><div class='row'><div class=' col-md-12 term'
+        valign='top'>COURT OF APPEALS DISTRICT 4</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Incumbent Position</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 2</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Michael F. Gadola<br/><span class='formerName'>Judge
+        of Court of Appeals</span></div><div  class='col-xs-1 financeLink'><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/517504'>$</a></div><div  class='col-xs-4
+        party ' valign='middle'>&nbsp;</div></div><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Brock A. Swartzle<br/><span class='formerName'>Judge
+        of Court of Appeals</span></div><div  class='col-xs-1 financeLink'><a target='_blank'
+        href='https://cfrsearch.nictusa.com/committees/518565'>$</a></div><div  class='col-xs-4
+        party ' valign='middle'>&nbsp;</div></div></div><div class='container tblOffice'><div
+        class='row'><div class=' col-md-12 division' valign='top'>Local School District</div></div><div
+        class='row'><div class=' col-md-12 office' valign='top'>LOCAL SCHOOL DISTRICT
+        BOARD MEMBER</div></div><div class='row'><div class=' col-md-12 term' valign='top'>CARSONVILLE-PORT
+        SANILAC SCHOOLS</div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
+        for not more than 2</div></div></div><div class='container tblCandidate'><div
+        class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Renzie
+        R. Milarch</div><div  class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/532013662'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div><div class='row
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Ken Poirier</div><div
+        \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/532013662'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 division' valign='top'>District
+        Library</div></div><div class='row'><div class=' col-md-12 office' valign='top'>DISTRICT
+        LIBRARY BOARD MEMBER</div></div><div class='row'><div class=' col-md-12 term'
+        valign='top'>SANILAC DISTRICT LIBRARY</div></div><div class='row'><div class='
+        col-md-12 term' valign='top'>4 Year Term</div></div><div class='row'><div
+        class=' col-md-12 term' valign='top'>Vote for not more than 3</div></div></div><div
+        class='container tblCandidate'><div class='row row-eq-height row-striped'><div
+        \ class='col-xs-7 candidate'>Grace Spencer</div><div  class='col-xs-1 financeLink'><a
+        target='_blank' href='https://cfrsearch.nictusa.com/committees/1042315'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div></div><div class='container
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>DISTRICT
+        LIBRARY BOARD MEMBER</div></div><div class='row'><div class=' col-md-12 term'
+        valign='top'>SANILAC DISTRICT LIBRARY</div></div><div class='row'><div class='
+        col-md-12 term' valign='top'><b>Partial Term Ending 12/31/2024</b></div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
+        1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
+        row-striped'><div  class='col-xs-7 candidate'>Heather Eitel</div><div  class='col-xs-1
+        financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/1042640'>$</a></div><div
+        \ class='col-xs-4 party ' valign='middle'>&nbsp;</div></div></div>\r\n                                </div>
+        \                       </div>\r\n                        </div>\r\n                    </div>\r\n
+        \               </div>  \r\n                <br />\r\n                <div
+        id=\"proposals\" class=\"container proposalSection\"><div class='row'><div
+        class=' col-md-12 section' valign='top'>PROPOSAL SECTION</div></div><div class='row'><div
+        class=' col-md-12 division' valign='top'>State</div></div><div class='row'><div
+        class=' col-md-12 proposalTitle' valign='top'>Proposal 22-1\nA proposal to
+        amend the state constitution to require annual public financial disclosure
+        reports by legislators and other state officers and change state legislator
+        term limit to 12 total years in legislature</div></div><p>This proposed constitutional
+        amendment would:</p><ul><li>Require members of legislature, governor, lieutenant
+        governor, secretary of state, and attorney general file annual public financial
+        disclosure reports after 2023, including assets, liabilities, income sources,
+        future employment agreements, gifts, travel reimbursements, and positions
+        held in organizations except religious, social, and political organizations.</li><li>Require
+        legislature implement but not limit or restrict reporting requirements.</li><li>Replace
+        current term limits for state representatives and state senators with a 12-year
+        total limit in any combination between house and senate, except a person elected
+        to senate in 2022 may be elected the number of times allowed when that person
+        became a candidate.</li></ul><p><span style=\"background: yellow;\" data-mce-style=\"background:
+        yellow;\"></span>Should this proposal be adopted?</p><br /><div class='row'><div
+        class=' col-md-12 proposalTitle' valign='top'>Proposal 22-2\nA proposal to
+        amend the state constitution to add provisions regarding elections.\n\n</div></div><span
+        id=\"_mce_caret\" data-mce-bogus=\"1\"></span><p>This proposed constitutional
+        amendment would:</p><ul><li>Recognize fundamental right to vote without harassing
+        conduct;</li><li>Require military or overseas ballots be counted if postmarked
+        by election day;</li><li>Provide voter right to verify identity with photo
+        ID or signed statement;</li><li>Provide voter right to single application
+        to vote absentee in all elections;</li><li>Require state-funded absentee-ballot
+        drop boxes, and postage for absentee applications and ballots;</li><li>Provide
+        that only election officials may conduct post-election audits;</li><li>Require
+        nine days of early in-person voting;</li><li>Allow donations to fund elections,
+        which must be disclosed;</li><li>Require canvass boards certify election results
+        based only on the official records of votes cast.</li></ul><p>&nbsp;</p><p>Should
+        this proposal be adopted?</p><br /><div class='row'><div class=' col-md-12
+        proposalTitle' valign='top'>Proposal 22-3\nA proposal to amend the state constitution
+        to establish new individual right to reproductive freedom, including right
+        to make all decisions about pregnancy and abortion; allow state to regulate
+        abortion in some cases; and forbid prosecution of individuals exercising established
+        right</div></div><span id=\"_mce_caret\" data-mce-bogus=\"1\"></span><p>This
+        proposed constitutional amendment would:</p><ul><li>Establish new individual
+        right to reproductive freedom, including right to make and carry out all decisions
+        about pregnancy, such as prenatal care, childbirth, postpartum care, contraception,
+        sterilization, abortion, miscarriage management, and infertility;</li><li>Allow
+        state to regulate abortion after fetal viability, but not prohibit if medically
+        needed to protect a patient\u2019s life or physical or mental health;</li><li>Forbid
+        state discrimination in enforcement of this right; prohibit prosecution of
+        an individual, or a person helping a pregnant individual, for exercising rights
+        established by this amendment;</li><li>Invalidate state laws conflicting with
+        this amendment.</li></ul><p>Should this proposal be adopted?</p><br /><div
+        class='row'><div class=' col-md-12 division' valign='top'>County</div></div><div
+        class='row'><div class=' col-md-12 proposalTitle' valign='top'>Renewal of
+        Medical Care Facility Millage</div></div><span style=\"font-family: &quot;Segoe
+        UI&quot;;\" data-mce-style=\"font-family: 'Segoe UI';\"><span style=\"font-family:
+        &quot;Segoe UI&quot;;\" data-mce-style=\"font-family: 'Segoe UI';\"></span></span>This
+        is a renewal of the expired Medical Care Facility 0.2000 millage that will
+        provide funds for the operation of the Sanilac County Medical Care Facility.&nbsp;<p
+        style=\"text-align: justify;\" data-mce-style=\"text-align: justify;\">&nbsp;Shall
+        the expired previously voted increase in the tax limitation imposed under
+        Article IX, Sec. 6 of the Michigan Constitution in Sanilac County, which was
+        last approved for six years by the electors in 2016, be renewed at the originally
+        voted 0.2000 mills (20 cents per $1,000.00 of taxable value), and levied for
+        six (6) years, 2022 through 2027, inclusive, for the purpose of funding the
+        payment of maintenance of effort fees charged the County of Sanilac by the
+        State of Michigan for the operation of the Sanilac County Medical Care Facility
+        and for the operations of the facility itself?&nbsp; If approved, it is estimated
+        that the 0.2000 mill would raise $339,076 in the first year the millage is
+        levied.&nbsp; A portion of the millage may be captured by local Tax Increment
+        Finance Authorities, Brownfield Redevelopment Authorities and Downtown Development
+        Authorities</p><br /></div>\r\n            </div>\r\n\r\n                <div
+        class=\"text-center\">\r\n                    \r\n                    <br
+        /><br />\r\n                </div>\r\n                    </div>\r\n    </div>\r\n</div>\r\n
+        \           </div>\r\n        </main>\r\n        <som-footer light>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='http://www.michigan.gov/sos'
+        data-som-footer=\"\">SOS Home</a>\r\n            </som-footer-item>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='https://www.michigan.gov/sos/~/link.aspx?_id=5AB778E9850B4D348783220535C12E77&_z=z'
+        data-som-footer=\"\">FAQ</a>\r\n            </som-footer-item>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='https://www.michigan.gov/sos/~/link.aspx?_id=65DD7E9FE1024A25945F7663E5B91AAD&_z=z'
+        data-som-footer=\"\">Forms</a>\r\n            </som-footer-item>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='https://mdossupport.happyfox.com/new/'
+        data-som-footer=\"\">Contact the Secretary of State</a>\r\n            </som-footer-item>\r\n
+        \           <som-footer-item>\r\n                <a target=\"_blank\" rel=\"noopener
+        noreferrer\" href='https://www.michigan.gov/sos/-/media/Project/Websites/sos/02lehman/FOIA_FORM.pdf?rev=b1ac9e66e4fd4d97ace0e4d9194ceb64'
+        data-som-footer=\"\">FOIA</a>\r\n            </som-footer-item>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='http://www.michigan.gov/adaform'
+        data-som-footer=\"\">ADA</a>\r\n            </som-footer-item>\r\n            <som-footer-item>\r\n
+        \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='https://www.michigan.gov/som/government/branches-of-government/executive-branch'
+        data-som-footer=\"\">State Web Sites</a>\r\n            </som-footer-item>\r\n
+        \       </som-footer>\r\n\r\n        <input id=\"buildDate\" name=\"buildDate\"
+        type=\"hidden\" value=\"10/4/2022\" />\r\n\r\n    </div>\r\n    <input id=\"reloadValue\"
+        type=\"hidden\" name=\"reloadValue\" value=\"\" />\r\n\r\n    \r\n    \r\n
+        \   \r\n\r\n    <script type=\"text/javascript\">\r\n        $(document).ready(function
+        () {\r\n            var appInsights = window.appInsights || function (config)
+        {\r\n                function s(config) { t[config] = function () { var i
+        = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t
+        = { config: config }, r = document, f = window, e = \"script\", o = r.createElement(e),
+        i, u; for (o.src = config.url || \"//az416426.vo.msecnd.net/scripts/a/ai.0.js\",
+        r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie,
+        t.queue = [], i = [\"Event\", \"Exception\", \"Metric\", \"PageView\", \"Trace\"];
+        i.length;) s(\"track\" + i.pop()); return config.disableExceptionTracking
+        || (i = \"onerror\", s(\"_\" + i), u = f[i], f[i] = function (config, r, f,
+        e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t[\"_\" + i](config,
+        r, f, e, o), s }), t\r\n            }({\r\n                instrumentationKey:
+        '089caf48-1dd9-4936-909e-2898ea753d07'\r\n            });\r\n\r\n            window.appInsights
+        = appInsights;\r\n            appInsights.trackPageView();\r\n        });\r\n
+        \   </script>\r\n    <!-- Digital Guidelines JS -->\r\n    <script src=\"https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.js\"
+        integrity=\"sha384-XlA7Fu1F8LXMcfPXeo92tbMvCJbgJzWmdC9WGq/KdVSIOLO9eqD4Pkqvv0btxbko\"
+        crossorigin=\"anonymous\"></script>\r\n</body>\r\n</html>\r\n"
+    headers:
+      Cache-Control:
+      - no-cache, no-store,no-store
+      Content-Length:
+      - '51475'
+      Content-Security-Policy:
+      - "\r\n             default-src 'self'; \r\n             object-src 'self';
+        \r\n             connect-src 'self' https://dc.services.visualstudio.com https://*.bing.com
+        https://*.virtualearth.net https://www.googletagmanager.com https://www.google-analytics.com
+        https://stats.g.doubleclick.net https://www.google.com/ads https://digitalguidelines.michigan.gov;\r\n
+        \            form-action 'self'; \r\n             frame-ancestors 'none';
+        \r\n             frame-src 'self' https://www.youtube.com ;\r\n             img-src
+        'self' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://www.michigan.gov/favicon.ico https://www.youtube.com data:; \r\n             style-src
+        'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css; \r\n
+        \            script-src 'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net
+        https://www.googletagmanager.com https://www.google-analytics.com https://stats.g.doubleclick.net
+        https://www.google.com/ads https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/
+        https://www.youtube.com/iframe_api https://www.youtube.com/s/player/38c5f870/www-widgetapi.vflset/www-widgetapi.js;
+        \r\n             font-src 'self' https://digitalguidelines.michigan.gov/cdn/3.2.0/fonts/
+        data:;"
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Sun, 09 Oct 2022 22:01:30 GMT
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-UA-Compatible:
+      - IE=edge
+      X-Xss-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
