@@ -742,6 +742,7 @@ class Ballot(TimeStampedModel):
             for position_data in positions_data:
 
                 category = district = None
+                position_name = position_data["name"]
 
                 if category_name in {
                     "City",
@@ -760,6 +761,7 @@ class Ballot(TimeStampedModel):
                     "Intermediate School",
                     "District Library",
                     "Library",
+                    "Ward",
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
                 elif category_name in {"Judicial"}:
@@ -769,7 +771,13 @@ class Ballot(TimeStampedModel):
                         f"Unhandled category {category_name!r} on {self.website.mvic_url}"
                     )
 
-                position_name = position_data["name"]
+                if category and category.name == "Ward":
+                    district, created = District.objects.get_or_create(
+                        category=category,
+                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
+                    )
+                    if created:
+                        log.info(f"Created district: {district}")
 
                 if district is None:
                     if category is None:
@@ -811,15 +819,6 @@ class Ballot(TimeStampedModel):
                             f"Ballot {self.website.mvic_url} missing district: {position_data}"
                         )
                         district = self.precinct.jurisdiction
-
-                elif position_name in {"Commissioner by Ward"}:
-                    category = DistrictCategory.objects.get(name="Ward")
-                    district, created = District.objects.get_or_create(
-                        category=category,
-                        name=self.precinct.get_ward_label(position_data["district"]),
-                    )
-                    if created:
-                        log.info(f"Created district: {district}")
 
                 position, created = Position.objects.get_or_create(
                     election=self.election,
