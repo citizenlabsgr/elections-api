@@ -195,3 +195,13 @@ def test_capitalization(expect, db):
     parse_ballot(683, 1828)
     expect(Position.objects.filter(name__contains="of The").count()) == 0
     expect(Position.objects.filter(name__contains="of the").count()) == 3
+
+
+@pytest.mark.vcr
+def test_ward_positions(expect, db):
+    parse_ballot(691, 68112)
+    position: Position = Position.objects.get(name__contains="Ward")
+    assert position.district
+    expect(position.name) == "Council Member by Ward"
+    expect(position.district.name) == "City of Grand Rapids, Ward 2"
+    expect(position.candidates.count()) == 2
