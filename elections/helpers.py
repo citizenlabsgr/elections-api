@@ -12,6 +12,7 @@ import pomace
 import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag
+from fake_useragent import UserAgent
 from nameparser import HumanName
 
 from . import exceptions
@@ -26,9 +27,7 @@ def mvic_session() -> Generator[requests.Session, None, None]:
     with resources.path("config", "mvic.sos.state.mi.us.pem") as path:
         session = requests.Session()
         session.verify = str(path)
-        session.headers[
-            "User-Agent"
-        ] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0"
+        session.headers["User-Agent"] = UserAgent().random
         yield session
 
 
