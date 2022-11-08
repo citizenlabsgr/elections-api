@@ -492,7 +492,6 @@ def _parse_primary_election_offices(
                 "type": None,
                 "term": None,
                 "seats": None,
-                "incumbency": None,
                 "candidates": [],
             }
             division.append(office)
@@ -500,14 +499,12 @@ def _parse_primary_election_offices(
         elif "term" in item["class"]:
             label = item.text
             assert office is not None, f"Office missing for term: {label}"
-            if "Incumbent" in label:
+            if "Incumbent " in label or "New " in label:
                 office["type"] = label
             elif "Term" in label:
                 office["term"] = label
             elif "Vote for" in label:
                 office["seats"] = int(label.replace("Vote for not more than ", ""))
-            elif label in {"Incumbent Position", "New Judgeship"}:
-                office["incumbency"] = label
             else:
                 office["district"] = titleize(label)
             count += 1
@@ -608,7 +605,6 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 "type": None,
                 "term": None,
                 "seats": None,
-                "incumbency": None,
                 "candidates": [],
             }
             division.append(office)
@@ -616,14 +612,12 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
         elif "term" in item["class"]:
             label = item.text
             assert office is not None, f"Office missing for term: {label}"
-            if "Incumbent" in label:
+            if "Incumbent " in label or "New " in label:
                 office["type"] = label
             elif "Term" in label:
                 office["term"] = label
             elif "Vote for" in label:
                 office["seats"] = int(label.replace("Vote for not more than ", ""))
-            elif label in {"Incumbent Position", "New Judgeship"}:
-                office["incumbency"] = label
             else:
                 office["district"] = titleize(label)
             count += 1

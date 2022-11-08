@@ -9,5 +9,5 @@ TERMS = {
     "Representative in State Legislature": "2 Year Term",
 }
 
-SCRAPER_LAST_UPDATED = datetime(2022, 9, 25, tz=settings.TIME_ZONE)
+SCRAPER_LAST_UPDATED = datetime(2022, 11, 9, tz=settings.TIME_ZONE)
 PARSER_LAST_UPDATED = datetime(2022, 10, 12, tz=settings.TIME_ZONE)

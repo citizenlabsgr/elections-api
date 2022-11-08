@@ -820,11 +820,12 @@ class Ballot(TimeStampedModel):
                         )
                         district = self.precinct.jurisdiction
 
+                parts = [position_data["type"] or "", position_data["term"] or ""]
                 position, created = Position.objects.get_or_create(
                     election=self.election,
                     district=district,
                     name=position_data["name"],
-                    term=position_data["term"] or "",
+                    term=(", ".join(parts)).strip(", "),
                     seats=position_data["seats"] or 0,
                 )
                 if created:

@@ -1,6 +1,7 @@
 # pylint: disable=unused-argument,unused-variable
 
 
+import log
 import pytest
 
 from elections import defaults
@@ -205,3 +206,12 @@ def test_ward_positions(expect, db):
     expect(position.name) == "Council Member by Ward"
     expect(position.district.name) == "City of Grand Rapids, Ward 2"
     expect(position.candidates.count()) == 2
+
+
+@pytest.mark.vcr
+def test_court_of_appeals_incumbency(expect, db):
+    parse_ballot(691, 46994)
+    positions = Position.objects.filter(name__contains="Court of Appeals")
+    for position in positions:
+        log.info(position)
+    expect(len(positions)) == 3
