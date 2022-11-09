@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from datetime import timedelta
 from typing import Any, Dict, List, Optional
 
 import bugsnag
@@ -204,7 +205,8 @@ class RegistrationStatus(models.Model):
         return text
 
     def update(self, election: Election):
-        if election.date < timezone.now().date():
+        remaining = election.date - timezone.now().date()
+        if remaining < timedelta(days=-30):
             self.ballot = False
             self.ballot_url = None
             self.absentee_ballot_sent = None
