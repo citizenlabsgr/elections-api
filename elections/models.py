@@ -216,6 +216,7 @@ class RegistrationStatus(models.Model):
                 election=election, precinct=self.precinct
             ).first()
             if ballot:
+                self.ballot = True
                 self.ballot_url = ballot.mvic_url
 
     def save(self, *args, **kwargs):
