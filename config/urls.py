@@ -22,7 +22,7 @@ def index(request):
             <button class="btn btn-primary mb-1" onclick="location.href='https://share.michiganelections.io'">
                 Ballot Preview
             </button>
-            <button class="btn btn-danger mb-1" onclick="location.href='https://buddies.michiganelections.io'">
+            <button class="btn btn-danger mb-1" onclick="location.href='https://app.michiganelections.io'">
                 Ballot Buddies
             </button>
         </div>
