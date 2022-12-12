@@ -32,13 +32,14 @@ django==3.2.16; python_version >= "3.6"
 djangorestframework==3.13.1; python_version >= "3.6"
 drf-yasg==1.20.0; python_version >= "3.6"
 factory-boy==3.2.1; python_version >= "3.6"
-fake-useragent==0.1.13
+fake-useragent==1.1.1
 faker==4.18.0; python_version >= "3.7" and python_version < "4.0"
 gitman==2.3.2; python_version >= "3.7" and python_version < "4.0"
 gunicorn==19.10.0; (python_version >= "2.6" and python_full_version < "3.0.0") or (python_full_version >= "3.2.0")
 h11==0.13.0; python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.7.0"
 idna==3.3; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.6.0" and python_version >= "3.7" and python_version < "4"
 importlib-metadata==4.11.3; python_version < "3.10" and python_version >= "3.7"
+importlib-resources==5.10.1; python_version >= "3.7" and python_version < "3.10"
 inflection==0.4.0; python_version >= "3.7" and python_version < "4.0"
 ipython==7.32.0; python_version >= "3.7" and python_version < "4.0"
 itypes==1.2.0; python_version >= "3.6"
