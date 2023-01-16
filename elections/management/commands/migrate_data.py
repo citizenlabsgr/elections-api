@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import sys
 from pathlib import Path
 from typing import Dict, Generator, Tuple

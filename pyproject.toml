@@ -9,7 +9,7 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 
-python = "^3.9"
+python = "^3.11"
 
 # Django
 django = "~3.2.15"
@@ -44,7 +44,7 @@ fake-useragent = "^1.1"
 minilog = "^2.1"
 nameparser = "^1.0.4"
 pendulum = "*"
-pomace = "~0.6.12"
+pomace = "~0.12"
 requests = "^2.25"
 
 # Production Server
@@ -59,8 +59,8 @@ isort = "^5.10"
 black = "^22.1"
 
 # Linters
-pylint = "~2.12"
-pylint-django = "~2.3"
+pylint = "~2.15"
+pylint-django = "~2.5"
 mypy = "~0.910"
 django-stubs = "~1.9"
 types-markdown = "*"
@@ -81,7 +81,7 @@ time-machine = "^2.8"
 coveragespace = "^4.2"
 
 # Utilities
-ipdb = "~0.12.2"  # export PYTHONBREAKPOINT=ipdb.set_trace
+ipdb = "~0.13"  # export PYTHONBREAKPOINT=ipdb.set_trace
 django-extensions = "*"
 
 # Development Server
