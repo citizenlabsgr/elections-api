@@ -107,6 +107,7 @@ def describe_create():
         "elections.helpers.fetch_registration_status_data",
         Mock(side_effect=exceptions.ServiceUnavailable),
     )
+    @time_machine.travel("2018-08-06")
     def it_handles_mvic_outages(expect, client, url, election):
         response = client.get(
             url + "?first_name=Rosalynn"
