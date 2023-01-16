@@ -79,6 +79,7 @@ time-machine = "^2.8"
 
 # Reports
 coveragespace = "^4.2"
+coveralls = "*"
 
 # Utilities
 ipdb = "~0.13"  # export PYTHONBREAKPOINT=ipdb.set_trace
