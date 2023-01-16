@@ -1,4 +1,4 @@
-# pylint: disable=no-self-use,broad-except
+# pylint: disable=broad-except
 
 import os
 import sys

@@ -76,6 +76,9 @@ endif
 test: install ## CI | Run all tests
 	poetry run pytest elections tests
 	poetry run coveragespace update overall --exit-code
+ifdef COVERALLS_REPO_TOKEN
+	poetry run coveralls
+endif
 
 .PHONY: dev
 dev: install

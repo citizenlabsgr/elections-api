@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import pendulum
 from rest_framework import serializers
 
