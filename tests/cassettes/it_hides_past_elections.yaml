@@ -1,0 +1,350 @@
+interactions:
+- request:
+    body: FirstName=Rosalynn&LastName=Bliss&NameBirthMonth=8&NameBirthYear=1975&ZipCode=49503
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '83'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Mozilla/5.0 (Windows NT 6.1; en-US) AppleWebKit/534.30 (KHTML, like Gecko)
+        Chrome/12.0.750.0 Safari/534.30
+    method: POST
+    uri: https://mvic.sos.state.mi.us/Voter/SearchByName
+  response:
+    body:
+      string: "\r\n\r\n\r\n\r\n\r\n<input data-val=\"true\" data-val-number=\"The
+        field CountyID must be a number.\" id=\"Voter_0__CountyID\" name=\"Voter[0].CountyID\"
+        type=\"hidden\" value=\"41\" /><input data-val=\"true\" data-val-number=\"The
+        field DpaID must be a number.\" id=\"Voter_0__DpaID\" name=\"Voter[0].DpaID\"
+        type=\"hidden\" value=\"43404\" /><input data-val=\"true\" data-val-date=\"The
+        field EffectiveRegistrationDate must be a date.\" id=\"Voter_0__EffectiveRegistrationDate\"
+        name=\"Voter[0].EffectiveRegistrationDate\" type=\"hidden\" value=\"4/15/2007
+        12:00:00 AM\" /><input data-val=\"true\" data-val-number=\"The field JurisdictionID
+        must be a number.\" id=\"Voter_0__JurisdictionID\" name=\"Voter[0].JurisdictionID\"
+        type=\"hidden\" value=\"669\" /><input data-val=\"true\" data-val-date=\"The
+        field LastDayToVote must be a date.\" id=\"Voter_0__LastDayToVote\" name=\"Voter[0].LastDayToVote\"
+        type=\"hidden\" value=\"12/31/9999 12:00:00 AM\" /><input id=\"Voter_0__MVIP\"
+        name=\"Voter[0].MVIP\" type=\"hidden\" value=\"False\" /><input data-val=\"true\"
+        data-val-number=\"The field VoterAddressID must be a number.\" id=\"Voter_0__VoterAddressID\"
+        name=\"Voter[0].VoterAddressID\" type=\"hidden\" value=\"4513186\" /><input
+        data-val=\"true\" data-val-number=\"The field StreetRangeID must be a number.\"
+        id=\"Voter_0__StreetRangeID\" name=\"Voter[0].StreetRangeID\" type=\"hidden\"
+        value=\"12795\" /><input id=\"Voter_0__IdConfirmed\" name=\"Voter[0].IdConfirmed\"
+        type=\"hidden\" value=\"True\" /><input id=\"Voter_0__IsPermAV\" name=\"Voter[0].IsPermAV\"
+        type=\"hidden\" value=\"True\" /><input id=\"Voter_0__SkipPermAvText\" name=\"Voter[0].SkipPermAvText\"
+        type=\"hidden\" value=\"False\" /><input id=\"HidePollingLocation\" name=\"HidePollingLocation\"
+        type=\"hidden\" value=\"False\" />\r\n\r\n\r\n<div id=\"registeredVoter\">\r\n\r\n
+        \   <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap'
+        async defer></script>\r\n    <input id=\"hfPageTitle\" name=\"hfPageTitle\"
+        type=\"hidden\" value=\"Your voter information\" />\r\n    <input id=\"hfPageName\"
+        name=\"hfPageName\" type=\"hidden\" value=\"registeredvoter\" />\r\n\r\n    <input
+        id=\"hfMapType\" name=\"hfMapType\" type=\"hidden\" value=\"\" />\r\n\r\n
+        \   <input id=\"hfVoterAddressID\" name=\"hfVoterAddressID\" type=\"hidden\"
+        value=\"4513186\" />\r\n    <input id=\"hfSkipPermAvText\" name=\"hfSkipPermAvText\"
+        type=\"hidden\" value=\"False\" />\r\n\r\n    <input id=\"hfClerkLatitude\"
+        name=\"hfClerkLatitude\" type=\"hidden\" value=\"42.968915\" />\r\n    <input
+        id=\"hfClerkLongitude\" name=\"hfClerkLongitude\" type=\"hidden\" value=\"-85.672123\"
+        />\r\n    <input id=\"hfClerkRouteRequestTitle\" name=\"hfClerkRouteRequestTitle\"
+        type=\"hidden\" value=\"City Of Grand Rapids Clerk\" />\r\n    <input id=\"hfClerkAddress\"
+        name=\"hfClerkAddress\" type=\"hidden\" value=\"300 Monroe Avenue, Nw\" />\r\n
+        \   <input id=\"hfClerkCityStateZip\" name=\"hfClerkCityStateZip\" type=\"hidden\"
+        value=\"Grand Rapids, Michigan 49503\" />\r\n\r\n    <input id=\"hfPollLatitude\"
+        name=\"hfPollLatitude\" type=\"hidden\" value=\"42.966634\" />\r\n    <input
+        id=\"hfPollLongitude\" name=\"hfPollLongitude\" type=\"hidden\" value=\"-85.626380\"
+        />\r\n    <input id=\"hfPollRouteRequestTitle\" name=\"hfPollRouteRequestTitle\"
+        type=\"hidden\" value=\"Encounter Church\" />\r\n    <input id=\"hfPollingAddress\"
+        name=\"hfPollingAddress\" type=\"hidden\" value=\"1736 Lyon Ne\" />\r\n    <input
+        id=\"hfPollingCityStateZip\" name=\"hfPollingCityStateZip\" type=\"hidden\"
+        value=\"Grand Rapids, Michigan 49503\" />\r\n\r\n    <h1 id=\"lblJurisdiction\"
+        class=\"body-title h3\">\r\n        <strong>City Of Grand Rapids,&nbsp;Kent
+        County</strong>\r\n    </h1>\r\n    <br /> <br />\r\n\r\n    <div class=\"row\">\r\n
+        \       <div class=\"col-xl-8\">\r\n            <div class=\"row\">\r\n                <div
+        class=\"col-xl-12\">\r\n                    <div class=\"card voter-info-card\">\r\n
+        \                       <div class=\"card-header\" tabindex=\"0\">\r\n                            <div
+        class=\"row\">\r\n                                <div class=\"col-xl-1 col-xs-4\"><img
+        src=\"/Content/Images/RegisterToVoteSmall.png\" role=\"presentation\" alt=\"\"
+        /></div>\r\n                                <div class=\"col-xl-9 col-xs-7\">\r\n
+        \                                   <span class=\"ccd-page-heading\">Yes,
+        you are registered!</span><br />\r\n                                </div>\r\n
+        \                           </div>\r\n                        </div>\r\n                        <div
+        class=\"card-body\" tabindex=\"0\">\r\n                            <h2>Elections
+        calendar</h2>\r\n                            <div id=\"lblElectionCalendar\">\r\n
+        \                               <p class='maroon'>There are no elections scheduled
+        at this time.</p>\r\n                            </div>\r\n                        </div>\r\n
+        \                   </div>\r\n                </div>\r\n            </div>\r\n
+        \           <div class=\"row\">\r\n                <div class=\"col-lg-5 col-md-6
+        col-xs-12\">\r\n                    <div class=\"card voter-info-card\">\r\n
+        \                       <div class=\"card-header\" tabindex=\"0\">\r\n                            <img
+        src=\"/Content/Images/PollingPlaceSmall.png\" role=\"presentation\" alt=\"\"
+        />\r\n                            <strong>\r\nYour polling location                            </strong>\r\n
+        \                       </div>\r\n                        <div class=\"card-body\">\r\n
+        \                           <div id=\"pollMapDiv\" style=\"display:block;\">\r\n
+        \                               <div id=\"pollMapArea\" class=\"theMap\">\r\n
+        \                                           <div id=\"pollMap\" style=\"height:
+        100%; position: relative;\"></div>\r\n                                </div>\r\n
+        \                           </div>\r\n                            <div id=\"pollingLocationFound\">\r\n
+        \                                   <br />\r\n                                    <span
+        id=\"lblWardPrecinct\"> Ward: 2,  Precinct: 29</span>\r\n                                    <br
+        />\r\n                                    <br />\r\n                                    <span
+        id=\"lblPollingLocation\">Encounter Church</span>\r\n                                    <br>\r\n
+        \                                   <span id=\"lblPollAddress\">1736 Lyon
+        Ne</span>\r\n                                    <br />\r\n                                    <span
+        id=\"lblPollCityStateZip\">Grand Rapids, Michigan 49503</span>\r\n                                    <br
+        />\r\n                                    <br />\r\n                                    <strong>Phone:&nbsp;</strong>
+        <span id=\"lblPollPhone\">616-456-3010</span>\r\n                                    <br
+        />\r\n                                    <strong>Open:&nbsp;</strong><span>7:00
+        AM to 8:00 PM on Election Day</span>\r\n                                    <br
+        />\r\n                                    <br />\r\n                                        <img
+        src=\"/Content/images/handicap.gif\" alt=\"Location is HandiCap Accessible\">\r\n&nbsp;&nbsp;&nbsp;
+        \                                   <a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"http://www.michigan.gov/sos/0,1607,7-127-1633_8716_45458---,00.html\"
+        title=\"Voting Equipment\">\r\n                                        <img
+        src=\"/content/images/VotingEquipmentImage.gif\" border=\"0\" alt=\"Voting
+        Equipment\">\r\n                                    </a>\r\n                            </div>\r\n
+        \                       </div>\r\n                    </div>\r\n                </div>\r\n
+        \               <div class=\"col-lg-7 col-md-6 col-xs-12\">\r\n                    <div
+        class=\"card voter-info-card\">\r\n                        <div class=\"card-header\"
+        tabindex=\"0\">\r\n                            <img src=\"/Content/Images/PollingPlaceSmall.png\"
+        role=\"presentation\" alt=\"\" />\r\n                            <strong>\r\n
+        \                               Your clerk\r\n                            </strong>\r\n
+        \                       </div>\r\n                        <div class=\"card-body\">\r\n
+        \                                   <br>\r\n                                    <span
+        id=\"lblClerkName\">Joel Hondorp, City Clerk</span>\r\n                                    <br>\r\n
+        \                                   <br>\r\n                                    <span
+        id=\"lblClerkAddress\">300 Monroe Avenue, Nw</span>\r\n                                    <br>\r\n
+        \                                   <span id=\"lblClerkCityStateZip\">Grand
+        Rapids, Michigan 49503</span>\r\n                                        <br
+        />\r\n                                        <br />\r\n                                        <strong>Mailing
+        address:</strong>\r\n                                        <br />\r\n                                        <span
+        id=\"lblClerkMailAddress\">300 Monroe Ave Nw</span>\r\n                                        <br>\r\n
+        \                                       <span id=\"lblClerkMailCityStateZip\">Grand
+        Rapids, Michigan 49503</span>\r\n                                    <br>\r\n
+        \                                   <br>\r\n                                    <strong>Phone:&nbsp;</strong>
+        <span id=\"lblClerkPhone\">(616) 456-3010</span>\r\n                                    <br>\r\n
+        \                                   <strong>Fax:&nbsp;</strong><span id=\"lblClerkFax\">(616)
+        456-4607</span>\r\n                                    <br>\r\n                                    <strong>Email:&nbsp;</strong>\r\n
+        \                                   <span id=\"lblClerkEmail\" class=\"emailAddr\">\r\n
+        \                                           <a href=\"mailto:elections@grcity.us\">elections@grcity.us</a>\r\n
+        \                                   </span><br />\r\n<strong>Business hours:</strong><div
+        class='clerk-hours'>Mon. 8am-5pm<br />Tue. 8am-5pm<br />Wed. 8am-5pm<br />Thu.
+        8am-5pm<br />Fri. 8am-5pm<br /></div>                        </div>\r\n                    </div>\r\n
+        \               </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div
+        class=\"col-xl-4\">\r\n            <button id=\"collapseButton\" aria-expanded=\"false\"
+        onClick=\"document.getElementById('voting-district').toggle();\" class=\"btn
+        btn-primary\">\r\n                Voting district information\r\n            </button>\r\n
+        \           <som-collapse id=\"voting-district\" collapsed=\"false\">\r\n
+        \               <div class=\"pt-3\">\r\n                    <div class=\"districtCell\">\r\n
+        \                       <div>\r\n                            Your districts
+        are current for elections beginning in August 2022. Please note that some
+        of your districts may have changed because of redistricting done after the
+        2020 census.\r\n                            <br />\r\n                            <br
+        />\r\n                        </div>\r\n                        <span id=\"lblCntyTitle\"
+        >\r\n                            <strong>County:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblCountyName\"
+        aria-labelledby=\"lblCntyTitle\"> Kent County</span>\r\n                        <br
+        />\r\n\r\n                        <span id=\"lbljurisTitle\" >\r\n                            <strong>Jurisdiction:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblJurisdName\"
+        aria-labelledby=\"lbljurisTitle\">City Of Grand Rapids</span>\r\n                        <br
+        />\r\n\r\n                        <span id=\"lblWardTitle\" >\r\n                            <strong>Ward:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblWardNumber\"
+        aria-labelledby=\"lblWardTitle\">\r\n2                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span id=\"lblPctTitle\"
+        >\r\n                            <strong>Precinct:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblPrecinctNumber\"
+        aria-labelledby=\"lblPctTitle\"> 29</span>\r\n                        <br
+        />\r\n\r\n                        <span id=\"lblVillageTitle\" class='disabledFont'
+        \ title='You do not have a Village district.'>\r\n                            <strong>Village:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblVillageName\"
+        aria-labelledby=\"lblVillageTitle\">\r\n<span class=\"sr-only\">,,Not applicable,</span>
+        \r\n                        </span>\r\n                        <br />\r\n\r\n\t\t\t\t\t\t<span
+        id=\"lblMetroTitle\" class='disabledFont' title='You do not have a Metropolitan
+        district.'>\r\n\t\t\t\t\t\t\t<strong>Metropolitan:&nbsp;&nbsp;&nbsp;</strong>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span
+        id=\"lblMetroName\" aria-labelledby=\"lblMetroTitle\">\r\n<span class=\"sr-only\">,,Not
+        applicable,</span> \t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<br />\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t<span
+        id=\"lblAuthTitle\" class='disabledFont' title='You do not have an Auhtority
+        district.'>\r\n\t\t\t\t\t\t\t<strong>Authority:&nbsp;&nbsp;&nbsp;</strong>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span
+        id=\"lblAuthName\" aria-labelledby=\"lblAuthTitle\">\r\n<span class=\"sr-only\">,,Not
+        applicable,</span> \t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<hr />\r\n\r\n                        <span
+        id=\"lblSchoolTitle\" >\r\n                            <strong>School:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblSchoolDistrict\"
+        aria-labelledby=\"lblSchoolTitle\"> Grand Rapids Public Schools</span>\r\n
+        \                       <br />\r\n\r\n                        <span id=\"lblIsdTitle\"
+        >\r\n                            <strong>Intermediate school:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblIsdName\"
+        aria-labelledby=\"lblIsdTitle\">\r\nKent Isd                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span id=\"lblCommCollegeTitle\"
+        >\r\n                            <strong>Community college:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblCommCollegeName\"
+        aria-labelledby=\"lblCommCollegeTitle\">\r\nGrand Rapids Community College
+        \                       </span>\r\n                        <br />\r\n\r\n
+        \                       <span id=\"lblLibraryTitle\" class='disabledFont'
+        title='You do not have a Libray district.'>\r\n                            <strong>Library:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblLibraryName\">\r\n<span
+        class=\"sr-only\">,,Not applicable,</span>                         </span>\r\n
+        \                       <hr />\r\n                        <span id=\"lblCntyCommTitle\"
+        >\r\n                            <strong>County commissioner:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblCountyCommDistrict\"
+        aria-labelledby=\"lblCntyCommTitle\">\r\n19th District                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span for=\"lblHouseDistrict\"
+        id=\"lblHouseTitle\" >\r\n                            <strong>State house:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblHouseDistrict\"
+        aria-labelledby=\"lblHouseTitle\"> 81st District</span>\r\n                        <br
+        />\r\n\r\n                        <span for=\"lblSenateDistrict\" id=\"lblSenateTitle\"
+        >\r\n                            <strong> State senate:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblSenateDistrict\"
+        aria-labelledby=\"lblSenateTitle\"> 30th District</span>\r\n                        <br
+        />\r\n\r\n                        <span for=\"lblCongressDistrict\" id=\"lblCongressTitle\"
+        >\r\n                            <strong>US Congress:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblCongressDistrict\"
+        aria-labelledby=\"lblCongressTitle\"> 3rd District</span>\r\n                        <hr
+        />\r\n\r\n                        <span for=\"lblAppealsName\" id=\"lblAppealsTitle\"
+        >\r\n                            <strong>Court of appeals:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblAppealsName\"
+        aria-labelledby=\"lblAppealsTitle\">\r\n3rd District                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span for=\"lblCircuitName\"
+        id=\"lblCircuitTitle\" >\r\n                            <strong>Circuit court:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblCircuitName\"
+        aria-labelledby=\"lblCircuitTitle\">\r\n17th Circuit                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span for=\"lblProbateName\"
+        id=\"lblProbateTitle\" >\r\n                            <strong>Probate court:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblProbateName\"
+        aria-labelledby=\"lblProbateTitle\">\r\nKent County Probate Court                        </span>\r\n
+        \                       <br />\r\n\r\n                        <span for=\"lblProbateDistName\"
+        id=\"lblProbateDistTitle\" class='disabledFont' title='You do not have a Probate
+        District Court district.'>\r\n                            <strong>Probate
+        district court:&nbsp;&nbsp;&nbsp;</strong>\r\n                        </span>\r\n
+        \                       <span id=\"lblProbateDistName\" aria-labelledby=\"lblProbateDistTitle\">\r\n<span
+        class=\"sr-only\">,,Not applicable,</span>                         </span>\r\n
+        \                       <br />\r\n\r\n                        <span for=\"lblDistCourtName\"
+        id=\"lblDistCourtTitle\" >\r\n                            <strong>District
+        court:&nbsp;&nbsp;&nbsp;</strong>\r\n                        </span>\r\n                        <span
+        id=\"lblDistCourtName\" aria-labelledby=\"lblDistCourtTitle\">\r\n61st District
+        \                       </span>\r\n                        <br />\r\n\r\n
+        \                       <span for=\"lblMuniCourtName\" id=\"lblMuniCourtTitle\"
+        class='disabledFont' title='You do not have a Municipal Court district.'>\r\n
+        \                           <strong>Municipal court:&nbsp;&nbsp;&nbsp;</strong>\r\n
+        \                       </span>\r\n                        <span id=\"lblMuniCourtName\"
+        aria-labelledby=\"lblMuniCourtTitle\">\r\n<span class=\"sr-only\">,,Not applicable,</span>
+        \                        </span>\r\n                    </div>\r\n                </div>\r\n
+        \           </som-collapse>\r\n        </div>\r\n    </div>\r\n\r\n<div class=\"modal
+        fade custom-model-class\" id=\"RouteRequest\" tabindex=\"-1\" role=\"dialog\"
+        aria-labelledby=\"RouteRequest\">\r\n    <div class=\"modal-dialog modal-lg\"
+        role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div
+        class=\"modal-header route-request-title\">\r\n                Directions
+        to <span id=\"RouteRequestTitle\"></span>\r\n            </div>\r\n            <div
+        class=\"modal-body\">\r\n                <div>\r\n                    <span
+        id=\"RouteRequestDetail1\" class=\"route-description-area\" />\r\n                    <br
+        />\r\n                    <span id=\"RouteRequestDetail2\" class=\"route-description-area\"
+        />\r\n                </div>\r\n                <br />\r\n                <div>\r\n
+        \                   <label for=\"StartingPoint\">Enter a starting point</label>\r\n
+        \               </div>\r\n                <input id=\"StartingPoint\" type=\"text\"
+        autofocus />\r\n            </div>\r\n            <div class=\"modal-footer\">\r\n
+        \               <button id=\"btnRouteRequest\" role=\"button\" type=\"button\"
+        formtarget=\"_self\" class=\"btn btn-primary\">Get Route</button>\r\n                <button
+        type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">CLOSE</button>\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"modal
+        fade custom-model-class\" id=\"RouteContainer\" tabindex=\"-1\" role=\"dialog\"
+        aria-labelledby=\"RouteContainer\">\r\n    <div class=\"modal-dialog modal-lg\"
+        role=\"document\">\r\n        <div class=\"modal-content\">\r\n            <div
+        class=\"modal-header\">\r\n                <button type=\"button\" class=\"btn
+        btn-default\" data-dismiss=\"modal\">CLOSE</button>\r\n            </div>\r\n
+        \           <div class=\"modal-body\">\r\n                <div  class=\"theMap\">\r\n
+        \                   <div id=\"routeMap\"></div>\r\n                </div>\r\n\r\n
+        \               <div id=\"routeDirectionsContainer\" class=\"panel\">\r\n
+        \                   <div class=\"panel-heading\">\r\n                        Directions
+        to <span id=\"DirectionsTitle\"></span>\r\n                    </div>\r\n
+        \                   <div class=\"panel-body\">\r\n                        <div
+        id=\"routeDirectionsItinerary\"></div>\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n\r\n    <som-modal
+        headline=\"Confirm ID\" id=\"confirm-id-modal\" size=\"lg\">\r\n        <div
+        slot=\"close-component\">\r\n            <div class=\"custom-close-button\">Close</div>\r\n
+        \       </div>\r\n        <div id=\"id-confirmed-modal-body\">\r\n            <p>\r\n
+        \               You have not yet met the federal identification requirement,
+        and you will not be able to vote in Michigan until\r\n                you
+        have satisfied this requirement.\r\n            </p>\r\n            <p>\r\n
+        \               You may satisfy the requirement by providing the information
+        or documents listed below to your local clerk.\r\n            </p>\r\n            <p>\r\n
+        \               Your Name _________________________________________\r\n            </p>\r\n
+        \           <p>\r\n                Provide one of the following numbers:\r\n
+        \           </p>\r\n            <p>\r\n                Your Michigan driver\u2019s
+        license number or Michigan state identification card number:<br />\r\n                ___
+        - ___ ___ ___ - ___ ___ ___ - ___ ___ ___ - ___ ___ ___\r\n            </p>\r\n
+        \           <p>\r\n                OR\r\n            </p>\r\n            <p>\r\n
+        \               Last four digits of your social security number:<br />\r\n
+        \               XXX-XX-___________\r\n            </p>\r\n            <p>\r\n
+        \               Or provide a COPY of one of the following to your local clerk:\r\n
+        \           </p>\r\n            <p>\r\n                \u2022 a current and
+        valid photo identification (such as a driver\u2019s license or personal ID
+        card from any state)<br />\r\n                \u2022 a paycheck stub, utility
+        bill, bank statement or a government document that lists your name and address.\r\n
+        \           </p>\r\n            <p>\r\n                ***DO NOT SEND ORIGINAL
+        DOCUMENTS***\r\n            </p>\r\n            <p>\r\n                You
+        may mail, hand deliver, fax, or scan or take a picture and send via email
+        this form or any other document you\r\n                are using to satisfy
+        the requirement. If you have been issued a ballot, do not return your documentation
+        in the\r\n                same envelope as the ballot to ensure proper processing.\r\n
+        \           </p>\r\n        </div>\r\n        <br />\r\n        <br />\r\n
+        \   </som-modal>\r\n\r\n    <script src=\"/bundles/voterJS?v=d_ggqGjITBAOZzjRErlPMSD2isOWI-rSllIDRAohgIg1\"></script>\r\n\r\n
+        \   <script src=\"/bundles/BingMapJS?v=XgqZHpFMh6PgxqFv2EbFUE-JrwdZK88VAIk5Ee20hLA1\"></script>\r\n\r\n</div>\r\n"
+    headers:
+      Cache-Control:
+      - no-cache, no-store,no-store
+      Content-Length:
+      - '22275'
+      Content-Security-Policy:
+      - "\r\n             default-src 'self'; \r\n             object-src 'self';
+        \r\n             connect-src 'self' https://dc.services.visualstudio.com https://*.bing.com
+        https://*.virtualearth.net https://www.googletagmanager.com https://www.google-analytics.com
+        https://stats.g.doubleclick.net https://www.google.com/ads https://digitalguidelines.michigan.gov;\r\n
+        \            form-action 'self'; \r\n             frame-ancestors 'none';
+        \r\n             frame-src 'self' https://www.youtube.com ;\r\n             img-src
+        'self' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://www.michigan.gov/favicon.ico https://www.youtube.com data:; \r\n             style-src
+        'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css; \r\n
+        \            script-src 'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net
+        https://www.googletagmanager.com https://www.google-analytics.com https://stats.g.doubleclick.net
+        https://www.google.com/ads https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/
+        https://www.youtube.com/iframe_api https://www.youtube.com/s/player/38c5f870/www-widgetapi.vflset/www-widgetapi.js;
+        \r\n             font-src 'self' https://digitalguidelines.michigan.gov/cdn/3.2.0/fonts/
+        data:;"
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Mon, 16 Jan 2023 21:40:11 GMT
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Set-Cookie:
+      - 'ASP.NET_SessionId=y4zct3nsfv3sbt3dijbf4j3b; path=/; secure; HttpOnly; SameSite=Lax;
+        SameSite=Lax; '
+      - TS01d4614d=0120f338930d9a080318e25da403d13c27d86347abb8326603998a03cc19f9e9cf64ad73163d3e078c75f6bc8903cdf6cf12a3c8de;
+        Path=/; Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-UA-Compatible:
+      - IE=edge
+      X-Xss-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

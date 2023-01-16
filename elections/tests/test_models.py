@@ -110,9 +110,7 @@ def describe_voter():
         def with_past_election(expect, voter, election):
             status = models.RegistrationStatus(registered=True)
             message = voter.describe(election, status)
-            expect(
-                message
-            ) == "Jane Doe is registered to vote for the upcoming election."
+            expect(message) == "Jane Doe is registered to vote for the next election."
 
 
 def describe_registration_status():

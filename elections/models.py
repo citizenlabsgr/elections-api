@@ -98,7 +98,7 @@ class Election(TimeStampedModel):
     @property
     def message(self) -> str:
         if self.date < timezone.now().date():
-            return "upcoming election"
+            return "next election"
         return f"{self.name} election on {self.date:%Y-%m-%d}"
 
 
