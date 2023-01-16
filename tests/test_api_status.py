@@ -67,41 +67,6 @@ def describe_create():
         }
 
     @pytest.mark.vcr
-    @time_machine.travel("2023-01-15")
-    def it_hides_past_elections(expect, client, url, election):
-        defaults.initialize_districts()
-
-        response = client.get(
-            url + "?first_name=Rosalynn"
-            "&last_name=Bliss"
-            "&birth_date=1975-08-03"
-            "&zip_code=49503"
-        )
-
-        expect(response.status_code) == 200
-        expect(response.data) == {
-            "id": f"{settings.API_CACHE_KEY}42-4085-1807",
-            "message": "Rosalynn Bliss is registered to vote for the next election.",
-            "election": None,
-            "precinct": {
-                "id": expect.anything,
-                "county": "Kent",
-                "jurisdiction": "City of Grand Rapids",
-                "ward": "2",
-                "number": "29",
-            },
-            "status": {
-                "registered": True,
-                "ballot": False,
-                "ballot_url": None,
-                "absentee": False,
-                "absentee_application_received": None,
-                "absentee_ballot_sent": None,
-                "absentee_ballot_received": None,
-            },
-        }
-
-    @pytest.mark.vcr
     @time_machine.travel("2018-08-06")
     def it_handles_unknown_voters(expect, client, url, election):
         response = client.get(

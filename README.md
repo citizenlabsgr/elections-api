@@ -187,10 +187,6 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
-**Version 3.1**
-
-- Updated `/api/status/` to hide election metadata for past years.
-
 **Version 3.0**
 
 - Removed unused `description` field from election responses.
