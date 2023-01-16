@@ -1,7 +1,6 @@
 from typing import List, Set
 
 from django.conf import settings
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, viewsets
@@ -83,8 +82,6 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
                 "status": serializers.StatusSerializer(registration_status).data,
             }
             status = 200
-        if election.date.year < timezone.now().year:
-            data["election"] = None
         return Response(data, status)
 
 
