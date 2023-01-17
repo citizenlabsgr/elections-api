@@ -3,7 +3,6 @@
 name = "elections"
 version = "3.0"
 description = "APIs for voter registration status and sample ballots in Michigan."
-
 authors = ["Citizen Labs <info@citizenlabs.com>"]
 license = "GPLv3"
 
