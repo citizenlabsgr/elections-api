@@ -2490,8 +2490,8 @@ files = [
 name = "pygraphviz"
 version = "1.9"
 description = "Python interface to Graphviz"
-category = "main"
-optional = true
+category = "dev"
+optional = false
 python-versions = ">=3.8"
 files = [
     {file = "pygraphviz-1.9.zip", hash = "sha256:fa18f7c6cea28341a4e466ed0cf05682b0a68288afe8dd7c9426782f7c1ae01c"},
@@ -4066,10 +4066,7 @@ files = [
     {file = "zipcodes-1.2.0.tar.gz", hash = "sha256:15d727e1c3426423fe0f2bdc9b056fdbc18c7c31e556d62e23537ceb35001077"},
 ]
 
-[extras]
-uml = ["pygraphviz"]
-
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "b5c9b66f408b5cdee9865a92b0f61e07a226dbc977c1437250f0aea15fc024ba"
+content-hash = "69622e49d118f33160e023b8d97a36101ea4981d4f997bc0c4043203cb484ac8"

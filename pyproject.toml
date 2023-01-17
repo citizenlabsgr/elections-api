@@ -3,7 +3,6 @@
 name = "elections"
 version = "3.0"
 description = "APIs for voter registration status and sample ballots in Michigan."
-
 authors = ["Citizen Labs <info@citizenlabs.com>"]
 license = "GPLv3"
 
@@ -33,9 +32,6 @@ django-redis-cache = "*"
 markdown = "*"
 pymdown-extensions = "*"
 pygments = "*"
-
-# UML
-pygraphviz = { version = "^1.7", optional = true }
 
 # Utilities
 beautifulsoup4 = "^4.8.2"
@@ -80,6 +76,7 @@ time-machine = "^2.8"
 # Reports
 coveragespace = "^4.2"
 coveralls = "*"
+pygraphviz = "^1.9"
 
 # Utilities
 ipdb = "~0.13"  # export PYTHONBREAKPOINT=ipdb.set_trace
@@ -91,10 +88,6 @@ django-livereload-server = "*"
 
 # Notebooks
 jupyter = "^1.0"
-
-[tool.poetry.extras]
-
-uml = ["pygraphviz"]
 
 [tool.black]
 
