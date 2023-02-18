@@ -27,5 +27,6 @@
   },
   "scripts": {
     "postdeploy": "python manage.py seed_data"
-  }
+  },
+  "stack": "heroku-22"
 }
