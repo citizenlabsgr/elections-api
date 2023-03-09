@@ -2,16 +2,7 @@
 
 ### Requirements
 
-- [pyenv](https://github.com/pyenv/pyenv)
-
-  - MacOS: `$ brew install pyenv`
-  - Linux: `$ curl https://pyenv.run | bash`
-  - Add `pyenv init` to your [shell config](https://github.com/pyenv/pyenv#installation)
-  - Restart your terminal
-  - `$ pyenv install`
-  - Linux:
-    - `$ python3 -m venv .venv`
-    - `$ source .venv/bin/activate`
+- [asdf](https://asdf-vm.com/guide/getting-started.html)
 
 - [Poetry](https://python-poetry.org/docs/)
 

@@ -55,6 +55,7 @@ def copy():
         ".coveragerc",
         ".gitignore",
         ".pylint.ini",
+        ".tool-versions",
         ".verchew.ini",
         "CONTRIBUTING.md",
         "Makefile",
