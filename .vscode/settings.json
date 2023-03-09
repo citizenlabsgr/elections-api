@@ -29,7 +29,10 @@
     "chromedriver",
     "cimg",
     "circleci",
+    "citizenlabsgr",
+    "cookiecutter",
     "corsheaders",
+    "coveragerc",
     "createdb",
     "direnv",
     "envrc",
@@ -62,6 +65,7 @@
     "showfspath",
     "useragent",
     "venv",
+    "verchew",
     "viewsets",
     "whitenoise",
     "yasg"

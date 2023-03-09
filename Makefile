@@ -1,6 +1,3 @@
-.PHONY: all
-all: install
-
 # SYSTEM DEPENENDENCIES #######################################################
 
 .PHONY: doctor
@@ -27,10 +24,8 @@ ifndef CI
 poetry.lock: pyproject.toml
 	poetry lock --no-update
 	@ touch $@
-
-runtime.txt: .python-version
-	echo "python-$(shell cat $<)" > $@
-
+runtime.txt: .tool-versions
+	echo $(shell cat $< | tr ' ' '-') > $@
 requirements.txt: poetry.lock
 	poetry export --format requirements.txt --output $@ --without-hashes
 endif
@@ -55,8 +50,8 @@ shell: install migrate  ## Project | Open the Django shell
 
 PACKAGES := config elections tests
 
-.PHONY: ci
-ci: check test ## CI | Run all validation targets
+.PHONY: all
+all: check test ## CI | Run all validation targets
 
 .PHONY: format
 format: install ## CI | Format the code
@@ -158,7 +153,7 @@ crawl:
 # HELP ########################################################################
 
 .PHONY: help
-help: all
+help: install
 	@ grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
