@@ -1,6 +1,3 @@
-.PHONY: all
-all: install
-
 # SYSTEM DEPENENDENCIES #######################################################
 
 .PHONY: doctor
@@ -55,8 +52,8 @@ shell: install migrate  ## Project | Open the Django shell
 
 PACKAGES := config elections tests
 
-.PHONY: ci
-ci: check test ## CI | Run all validation targets
+.PHONY: all
+all: check test ## CI | Run all validation targets
 
 .PHONY: format
 format: install ## CI | Format the code
@@ -158,7 +155,7 @@ crawl:
 # HELP ########################################################################
 
 .PHONY: help
-help: all
+help: install
 	@ grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
