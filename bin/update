@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+from contextlib import suppress
+import importlib
+import tempfile
+import shutil
+import subprocess
+import sys
+
+
+CWD = os.getcwd()
+TMP = tempfile.gettempdir()
+CONFIG = {
+    "full_name": "Citizen Labs",
+    "github_username": "citizenlabsgr",
+    "github_repo": "elections-api",
+    "project_name": "elections",
+    "first_app_name": "core",
+}
+
+
+def install(package="cookiecutter"):
+    try:
+        importlib.import_module(package)
+    except ImportError:
+        print("Installing cookiecutter")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+
+def run():
+    print("Generating project")
+
+    from cookiecutter.main import cookiecutter
+
+    os.chdir(TMP)
+    cookiecutter(
+        "https://github.com/jacebrowning/template-django.git",
+        no_input=True,
+        overwrite_if_exists=True,
+        extra_context=CONFIG,
+    )
+
+
+def copy():
+    for filename in [
+        os.path.join(".circleci", "config.yml"),
+        os.path.join("bin", "checksum"),
+        os.path.join("bin", "open"),
+        os.path.join("bin", "post_compile"),
+        os.path.join("bin", "pre_compile"),
+        os.path.join("bin", "update"),
+        os.path.join("bin", "verchew"),
+        ".coveragerc",
+        ".gitignore",
+        ".pylint.ini",
+        ".verchew.ini",
+        "CONTRIBUTING.md",
+        "Makefile",
+        "scent.py",
+    ]:
+        src = os.path.join(TMP, CONFIG["project_name"], filename)
+        dst = os.path.join(CWD, filename)
+        print("Updating " + filename)
+        with suppress(FileNotFoundError):
+            shutil.copy(src, dst)
+
+
+if __name__ == "__main__":
+    install()
+    run()
+    copy()
