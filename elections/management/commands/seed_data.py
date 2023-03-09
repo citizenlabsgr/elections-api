@@ -40,8 +40,8 @@ class Command(BaseCommand):
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
             name="May Consolidated",
-            date=pendulum.parse("2022-05-03", tz="America/Detroit"),
-            defaults=dict(active=True, mvic_id=689),
+            date=pendulum.parse("2023-05-02", tz="America/Detroit"),
+            defaults=dict(active=True, mvic_id=693),
         )
         if created:
             log.info(f"Added election: {election}")
