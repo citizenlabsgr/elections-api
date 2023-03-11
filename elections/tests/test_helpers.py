@@ -26,6 +26,7 @@ def describe_fetch_registration_status_data():
         expect(data) == {
             "registered": True,
             "ballot": True,
+            "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
             "absentee": True,
             "absentee_dates": {
                 "Application Received": datetime.date(2020, 6, 6),

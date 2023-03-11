@@ -211,12 +211,33 @@ class RegistrationStatus(models.Model):
             self.ballot_url = None
             self.absentee_ballot_sent = None
             self.absentee_ballot_received = None
-        elif self.ballot:
-            ballot = Ballot.objects.filter(
+        else:
+            if ballot := Ballot.objects.filter(
                 election=election, precinct=self.precinct
-            ).first()
-            if ballot:
-                self.ballot_url = ballot.mvic_url
+            ).first():
+                message = ""
+                scraped_url = ballot.mvic_url
+                linked_url = self.ballot_url
+                if self.ballot:
+                    if linked_url:
+                        if linked_url != scraped_url:
+                            message = "Mismatch between scrapped and linked ballots"
+                    else:
+                        self.ballot_url = scraped_url
+                        log.info(f"Attached {scraped_url} for {self.precinct}")
+                else:
+                    message = "Mismatch between scrapped and linked ballots"
+                if message:
+                    log.warn(f"{message}: {scraped_url=} {linked_url=}")
+                    bugsnag.notify(
+                        ValueError(message),
+                        metadata={
+                            "ballots": {
+                                "scraped_url": scraped_url,
+                                "linked_url": linked_url,
+                            }
+                        },
+                    )
 
     def save(self, *args, **kwargs):
         raise NotImplementedError
@@ -317,6 +338,7 @@ class Voter(models.Model):
         status = RegistrationStatus(
             registered=data["registered"],
             ballot=data["ballot"],
+            ballot_url=data["ballot_url"],
             absentee=data["absentee"],
             absentee_application_received=data["absentee_dates"][
                 "Application Received"

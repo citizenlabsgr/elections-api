@@ -204,7 +204,10 @@ def fetch_registration_status_data(voter):
     recently_moved = "you have recently moved" in response.text
 
     # Parse ballot status
-    ballot = "Ballot preview" in response.text
+    ballot_url = None
+    if ballot := "Ballot preview" in response.text:
+        if match := re.search(r"/Voter/GetMvicBallot/\d+/\d+/", response.text):
+            ballot_url = MVIC_URL + match.group()
 
     # Parse absentee status
     absentee = "You are on the permanent absentee voter list" in response.text
@@ -310,6 +313,7 @@ def fetch_registration_status_data(voter):
     return {
         "registered": registered,
         "ballot": ballot,
+        "ballot_url": ballot_url,
         "absentee": absentee,
         "absentee_dates": absentee_dates,
         "districts": districts,
