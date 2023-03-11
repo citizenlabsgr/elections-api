@@ -211,12 +211,11 @@ class RegistrationStatus(models.Model):
             self.ballot_url = None
             self.absentee_ballot_sent = None
             self.absentee_ballot_received = None
-        else:
+        elif self.ballot:
             ballot = Ballot.objects.filter(
                 election=election, precinct=self.precinct
             ).first()
             if ballot:
-                self.ballot = True
                 self.ballot_url = ballot.mvic_url
 
     def save(self, *args, **kwargs):
