@@ -40,7 +40,7 @@ def describe_create():
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            "id": f"{settings.API_CACHE_KEY}42-4085-6199",
+            "id": f"{settings.API_CACHE_KEY}42-4085-11289",
             "message": "Rosalynn Bliss is registered to vote absentee and your ballot was received on 2020-09-29 for the General Election election on 2018-08-07.",
             "election": {
                 "id": 42,
@@ -58,7 +58,7 @@ def describe_create():
             "status": {
                 "registered": True,
                 "ballot": True,
-                "ballot_url": None,
+                "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
                 "absentee": True,
                 "absentee_application_received": "2020-06-06",
                 "absentee_ballot_sent": "2020-09-24",
