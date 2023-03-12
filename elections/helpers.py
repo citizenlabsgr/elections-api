@@ -93,6 +93,10 @@ def normalize_position(text: str) -> str:
         text = "Delta College Board of Trustees Member"
     elif text.endswith("Village Charter Commission"):
         text = "Village Charter Commission"
+    elif text.startswith("City Council Ward"):
+        text = "City Council"
+    elif text.startswith("Council Member District"):
+        text = "Council Member"
     return titleize(text)
 
 
