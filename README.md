@@ -190,6 +190,7 @@ You can also contribute content changes by editing [these files](https://github.
 **Version 3.1** (beta)
 
 - Added `ballots` to registration API responses.
+- Added `ballot` to status API responses.
 
 **Version 3.0**
 

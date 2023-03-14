@@ -142,6 +142,15 @@ class MinimalBallotSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class NestedBallotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Ballot
+        fields = [
+            "id",
+            "mvic_url",
+        ]
+
+
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 
     election = ElectionSerializer()
@@ -247,13 +256,6 @@ class StatusSerializer(serializers.ModelSerializer):
         fields = [
             "registered",
             "ballot",
-            # If 'ballot' is False, then 'ballot_url' doesn't apply to the
-            # current voter. This happens when there's a ballot for a precinct
-            # that only applies to a subset of voters in that precinct, such
-            # as school districts that don't follow precinct/ward lines.
-            #
-            # NOTE: This parameter is not officially documented in the README.
-            "ballot_url",
             "absentee",
             "absentee_application_received",
             "absentee_ballot_sent",

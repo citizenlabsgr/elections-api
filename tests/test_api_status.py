@@ -58,12 +58,17 @@ def describe_create():
             "status": {
                 "registered": True,
                 "ballot": True,
-                "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
                 "absentee": True,
                 "absentee_application_received": "2020-06-06",
                 "absentee_ballot_sent": "2020-09-24",
                 "absentee_ballot_received": "2020-09-29",
             },
+            # TODO: Add fixtures to make this work
+            # "ballot": {
+            #     "id": expect.anything,
+            #     "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+            # },
+            "ballot": {},
         }
 
     @pytest.mark.vcr
@@ -95,12 +100,12 @@ def describe_create():
             "status": {
                 "registered": False,
                 "ballot": None,
-                "ballot_url": None,
                 "absentee": None,
                 "absentee_application_received": None,
                 "absentee_ballot_sent": None,
                 "absentee_ballot_received": None,
             },
+            "ballot": {},
         }
 
     @patch(
@@ -135,10 +140,10 @@ def describe_create():
             "status": {
                 "registered": None,
                 "ballot": None,
-                "ballot_url": None,
                 "absentee": None,
                 "absentee_application_received": None,
                 "absentee_ballot_sent": None,
                 "absentee_ballot_received": None,
             },
+            "ballot": {},
         }

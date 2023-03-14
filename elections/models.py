@@ -215,6 +215,7 @@ class RegistrationStatus(models.Model):
             if ballot := Ballot.objects.filter(
                 election=election, precinct=self.precinct
             ).first():
+                # TODO: Remove this when Bugsnag is no longer called
                 message = ""
                 scraped_url = ballot.mvic_url
                 linked_url = self.ballot_url

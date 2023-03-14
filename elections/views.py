@@ -69,17 +69,21 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
                 "election": serializers.MinimalElectionSerializer(election).data,
                 "precinct": serializers.MinimalPrecinctSerializer(precinct).data,
                 "status": serializers.StatusSerializer(registration_status).data,
+                "ballot": serializers.NestedBallotSerializer(None).data,
             }
             status = 202
         else:
             registration_status.update(election)
             precinct = registration_status.precinct
+            ballots = registration_status.ballots
+            ballot = ballots[0] if ballots else None
             data = {
                 "id": voter.fingerprint(election, registration_status),
                 "message": voter.describe(election, registration_status),
                 "election": serializers.MinimalElectionSerializer(election).data,
                 "precinct": serializers.MinimalPrecinctSerializer(precinct).data,
                 "status": serializers.StatusSerializer(registration_status).data,
+                "ballot": serializers.NestedBallotSerializer(ballot).data,
             }
             status = 200
         return Response(data, status)
