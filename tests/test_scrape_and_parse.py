@@ -29,7 +29,6 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
     ("precinct_id", "item_count"),
     [
         (160, 1),
-        # (911, 37), # TODO: Handle ballots with "no candidates" followed by some
         (7608, 29),
         (1828, 25),
         (7489, 25),

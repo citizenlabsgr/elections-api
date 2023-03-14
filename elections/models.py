@@ -539,9 +539,7 @@ class Ballot(TimeStampedModel):
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
-    website = models.OneToOneField(  # TODO: Disallow null values
-        BallotWebsite, null=True, related_name="ballot", on_delete=models.CASCADE
-    )
+    website = models.OneToOneField(BallotWebsite, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["election__date"]

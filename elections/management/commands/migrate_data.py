@@ -67,7 +67,9 @@ class Command(BaseCommand):
 
         for name, description in self._read_descriptions("positions"):
             name = helpers.normalize_position(name)
-            positions = Position.objects.filter(name=name)
+            positions = Position.objects.filter(name=name) or Position.objects.filter(
+                name__startswith=name, description=""
+            )
             if positions:
                 for position in positions:
                     if description and (
