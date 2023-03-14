@@ -187,6 +187,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 3.1** (beta)
+
+- Added `ballots` to registration API responses.
+
 **Version 3.0**
 
 - Removed unused `description` field from election responses.

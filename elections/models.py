@@ -168,6 +168,7 @@ class RegistrationStatus(models.Model):
     registered = models.BooleanField()
     ballot = models.BooleanField(null=True, blank=True)
     ballot_url = models.URLField(null=True, blank=True)
+    ballots: List[Ballot] = []  # not M2M because model is never saved
 
     absentee = models.BooleanField(null=True, blank=True)
     absentee_application_received = models.DateField(null=True)
@@ -180,8 +181,7 @@ class RegistrationStatus(models.Model):
 
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
-    # We can't use 'ManytoManyField' because this model is never saved
-    districts: List[District] = []
+    districts: List[District] = []  # not M2M because model is never saved
 
     def __str__(self) -> str:
         return self.message
@@ -351,6 +351,12 @@ class Voter(models.Model):
             precinct=precinct,
         )
         status.districts = districts
+        if data["ballot_url"]:
+            *_, precinct_id, election_id = data["ballot_url"].strip("/").split("/")
+            status.ballots = Ballot.objects.filter(
+                website__mvic_election_id=election_id,
+                website__mvic_precinct_id=precinct_id,
+            )
 
         return status
 

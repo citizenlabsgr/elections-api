@@ -25,6 +25,7 @@ def describe_list():
         expect(response.data) == {
             "registered": True,
             "ballot": True,
+            "ballots": [],
             "absentee": True,
             "absentee_application_received": "2020-06-06",
             "absentee_ballot_sent": "2020-09-24",
@@ -195,6 +196,7 @@ def describe_list():
         expect(response.data) == {
             "registered": False,
             "ballot": None,
+            "ballots": [],
             "absentee": None,
             "absentee_application_received": None,
             "absentee_ballot_sent": None,
