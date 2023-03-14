@@ -503,7 +503,7 @@ class BallotWebsite(models.Model):
     def convert(self) -> Ballot:
         """Convert parsed ballot data into a ballot."""
         log.info(f"Converting to a ballot: {self}")
-        assert self.data, f"Ballot has not been scrapted: {self}"
+        assert self.data, f"Ballot has not been scraped: {self}"
 
         election = self._get_election()
         precinct = self._get_precinct()
@@ -555,10 +555,9 @@ class BallotWebsite(models.Model):
 
         return precinct
 
-    @staticmethod
-    def _get_ballot(election: Election, precinct: Precinct) -> Ballot:
+    def _get_ballot(self, election: Election, precinct: Precinct) -> Ballot:
         ballot, created = Ballot.objects.get_or_create(
-            election=election, precinct=precinct
+            website=self, defaults=dict(election=election, precinct=precinct)
         )
         if created:
             log.info(f"Created ballot: {ballot}")
@@ -570,17 +569,11 @@ class Ballot(TimeStampedModel):
 
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     precinct = models.ForeignKey(Precinct, on_delete=models.CASCADE)
-
-    website = models.OneToOneField(
-        BallotWebsite,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="ballot",
+    website = models.OneToOneField(  # TODO: Disallow null values
+        BallotWebsite, null=True, related_name="ballot", on_delete=models.CASCADE
     )
 
     class Meta:
-        unique_together = ["election", "precinct"]
         ordering = ["election__date"]
 
     def __str__(self) -> str:
@@ -730,6 +723,7 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f"Created position: {position}")
+                position.ballots.add(self)
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
@@ -855,6 +849,7 @@ class Ballot(TimeStampedModel):
                 if created:
                     log.info(f"Created position: {position}")
                 position.section = "Nonpartisan"
+                position.ballots.add(self)
                 position.precincts.add(self.precinct)
                 position.save()
                 yield position
@@ -1001,6 +996,7 @@ class Ballot(TimeStampedModel):
                 )
                 if created:
                     log.info(f"Created proposal: {proposal}")
+                proposal.ballots.add(self)
                 proposal.precincts.add(self.precinct)
                 proposal.save()
                 yield proposal
@@ -1011,6 +1007,7 @@ class BallotItem(TimeStampedModel):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     precincts = models.ManyToManyField(Precinct)
+    ballots = models.ManyToManyField(Ballot)
 
     name = models.CharField(max_length=500)
     description = models.TextField(blank=True)

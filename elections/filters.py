@@ -5,7 +5,7 @@ from . import models
 DjangoFilterBackend = filters.DjangoFilterBackend
 
 
-class InitialilzedFilterSet(filters.FilterSet):
+class InitializedFilterSet(filters.FilterSet):
     def __init__(self, data, *args, **kwargs):
         # pylint: disable=no-member
         if data is not None:
@@ -18,7 +18,7 @@ class InitialilzedFilterSet(filters.FilterSet):
         super().__init__(data, *args, **kwargs)
 
 
-class VoterFilter(InitialilzedFilterSet):
+class VoterFilter(InitializedFilterSet):
     class Meta:
         model = models.Voter
         fields = ["first_name", "last_name", "zip_code", "birth_date"]
@@ -43,7 +43,7 @@ class VoterFilter(InitialilzedFilterSet):
     )
 
 
-class ElectionFilter(InitialilzedFilterSet):
+class ElectionFilter(InitializedFilterSet):
     class Meta:
         model = models.Election
         fields = ["active"]
@@ -53,7 +53,7 @@ class ElectionFilter(InitialilzedFilterSet):
     )
 
 
-class PrecinctFilter(InitialilzedFilterSet):
+class PrecinctFilter(InitializedFilterSet):
     class Meta:
         model = models.Precinct
         fields = [
@@ -96,7 +96,7 @@ class PrecinctFilter(InitialilzedFilterSet):
     )
 
 
-class BallotFilter(InitialilzedFilterSet):
+class BallotFilter(InitializedFilterSet):
     class Meta:
         model = models.Ballot
         fields = [
@@ -157,17 +157,18 @@ class BallotFilter(InitialilzedFilterSet):
     )
 
 
-class ProposalFilter(InitialilzedFilterSet):
+class ProposalFilter(InitializedFilterSet):
     class Meta:
         model = models.Proposal
         fields = [
             "election_id",
+            "active_election",
             "precinct_id",
             "precinct_county",
             "precinct_jurisdiction",
             "precinct_ward",
             "precinct_number",
-            "active_election",
+            "ballot_id",
         ]
 
     # Election ID lookup
@@ -217,18 +218,27 @@ class ProposalFilter(InitialilzedFilterSet):
         help_text="Number of the precinct.",
     )
 
+    # Ballot ID lookup
 
-class PositionFilter(InitialilzedFilterSet):
+    ballot_id = filters.NumberFilter(
+        field_name="ballots",
+        label="Ballot ID",
+        help_text="Integer value identifying a specific ballot.",
+    )
+
+
+class PositionFilter(InitializedFilterSet):
     class Meta:
         model = models.Position
         fields = [
             "election_id",
+            "active_election",
             "precinct_id",
             "precinct_county",
             "precinct_jurisdiction",
             "precinct_ward",
             "precinct_number",
-            "active_election",
+            "ballot_id",
         ]
 
     # Election ID lookup
@@ -276,4 +286,12 @@ class PositionFilter(InitialilzedFilterSet):
         field_name="precincts__number",
         label="Precinct",
         help_text="Number of the precinct.",
+    )
+
+    # Ballot ID lookup
+
+    ballot_id = filters.NumberFilter(
+        field_name="ballots",
+        label="Ballot ID",
+        help_text="Integer value identifying a specific ballot.",
     )
