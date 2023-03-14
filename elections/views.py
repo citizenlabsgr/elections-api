@@ -73,7 +73,6 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             }
             status = 202
         else:
-            registration_status.update(election)
             precinct = registration_status.precinct
             ballots = registration_status.ballots
             ballot = ballots[0] if ballots else None
