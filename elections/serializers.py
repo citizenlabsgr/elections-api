@@ -131,6 +131,17 @@ class BallotSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class MinimalBallotSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Ballot
+        fields = [
+            "url",
+            "id",
+            "mvic_url",
+            "mvic_name",
+        ]
+
+
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
 
     election = ElectionSerializer()
@@ -210,12 +221,14 @@ class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
 
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
+    ballots = MinimalBallotSerializer(many=True)
 
     class Meta:
         model = models.RegistrationStatus
         fields = [
             "registered",
             "ballot",
+            "ballots",
             "absentee",
             "absentee_application_received",
             "absentee_ballot_sent",
