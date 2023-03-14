@@ -5,7 +5,7 @@ from typing import Optional, Set
 import log
 from django.utils import timezone
 
-from .models import Ballot, BallotWebsite, Election, Precinct
+from .models import BallotWebsite, Election, Precinct
 
 
 def update_elections():
@@ -139,7 +139,7 @@ def _parse_ballots_for_election(election: Election):
 
     websites = (
         BallotWebsite.objects.filter(mvic_election_id=election.mvic_id, valid=True)
-        .order_by("-mvic_precinct_id")
+        .order_by("mvic_precinct_id")
         .defer("mvic_html", "data")
     )
     log.info(f"Mapping {websites.count()} websites to ballots")
@@ -150,21 +150,9 @@ def _parse_ballots_for_election(election: Election):
             website.scrape()
 
         ballot = website.convert()
+        precincts.add(ballot.precinct)
 
-        if ballot.precinct in precincts:
-            log.warn(f"Duplicate website: {website}")
-        else:
-            precincts.add(ballot.precinct)
+        if ballot.stale:
+            ballot.parse()
 
-            previous = Ballot.objects.filter(website=website).exclude(pk=ballot.pk)
-            if previous:
-                log.warn(f"Clearing website on previous ballot: {previous}")
-                previous.update(website=None)
-
-            ballot.website = website
-            ballot.save()
-
-            if ballot.stale:
-                ballot.parse()
-
-    log.info(f"Parsed ballots for {len(precincts)} precincts")
+    log.info(f"Parsed ballots for {len(precincts)} unique precincts")
