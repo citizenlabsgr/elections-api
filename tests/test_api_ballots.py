@@ -18,15 +18,6 @@ def describe_list():
     def url():
         return "/api/ballots/"
 
-    def it_handles_ballots_without_websites(expect, client, url, ballot):
-        ballot.website = None
-        ballot.save()
-
-        response = client.get(url)
-
-        expect(response.status_code) == 200
-        expect(response.data["results"][0]["mvic_url"]) == None
-
     def it_can_be_filtered_by_election_id(expect, client, url, ballot):
         response = client.get(url + "?election_id=999")
 

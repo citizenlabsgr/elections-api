@@ -14,11 +14,22 @@ from . import factories
 
 @pytest.fixture
 def election(db):
-    instance = factories.ElectionFactory.create(pk=42)
+    election = factories.ElectionFactory.create(pk=42)
     factories.ElectionFactory.create(
         active=False, date=pendulum.parse("2017-08-07", tz="America/Detroit")
     )
-    return instance
+    return election
+
+
+@pytest.fixture
+def ballot(election):
+    ballot = factories.BallotFactory.create(
+        election=election,
+        website=factories.BallotWebsiteFactory.create(
+            mvic_election_id=683, mvic_precinct_id=1792
+        ),
+    )
+    return ballot
 
 
 def describe_create():
@@ -28,7 +39,7 @@ def describe_create():
 
     @pytest.mark.vcr
     @time_machine.travel("2018-08-06")
-    def it_returns_data_for_a_registered_voter(expect, client, url, election):
+    def it_returns_data_for_a_registered_voter(expect, client, url, election, ballot):
         defaults.initialize_districts()
 
         response = client.get(
@@ -63,12 +74,10 @@ def describe_create():
                 "absentee_ballot_sent": "2020-09-24",
                 "absentee_ballot_received": "2020-09-29",
             },
-            # TODO: Add fixtures to make this work
-            # "ballot": {
-            #     "id": expect.anything,
-            #     "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
-            # },
-            "ballot": {},
+            "ballot": {
+                "id": expect.anything,
+                "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+            },
         }
 
     @pytest.mark.vcr

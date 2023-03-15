@@ -4,6 +4,17 @@ import pytest
 
 from elections import defaults
 
+from . import factories
+
+
+@pytest.fixture
+def ballot(db):
+    return factories.BallotFactory.create(
+        website=factories.BallotWebsiteFactory.create(
+            mvic_election_id=683, mvic_precinct_id=1792
+        )
+    )
+
 
 def describe_list():
     @pytest.fixture
@@ -11,7 +22,7 @@ def describe_list():
         return "/api/registrations/"
 
     @pytest.mark.vcr
-    def it_returns_data_for_a_registered_voter(expect, client, url, db):
+    def it_returns_data_for_a_registered_voter(expect, client, url, ballot):
         defaults.initialize_districts()
 
         response = client.get(
@@ -25,7 +36,14 @@ def describe_list():
         expect(response.data) == {
             "registered": True,
             "ballot": True,
-            "ballots": [],
+            "ballots": [
+                {
+                    "url": expect.anything,
+                    "id": expect.anything,
+                    "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+                    "mvic_name": expect.anything,
+                }
+            ],
             "absentee": True,
             "absentee_application_received": "2020-06-06",
             "absentee_ballot_sent": "2020-09-24",
