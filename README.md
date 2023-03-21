@@ -187,7 +187,7 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
-**Version 3.1** (beta)
+**Version 3.1**
 
 - Added `ballots` to registration API responses.
 - Added `ballot` to status API responses.
