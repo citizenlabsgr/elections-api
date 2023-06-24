@@ -706,10 +706,27 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 count += 1
             else:
                 # Handle proposal text missing a class
+                if str(item.parent.parent).count("mce") > 100:
+                    log.debug("Parsing proposal text from parent with MCE formatting")
+                    heading = item.text
+                    body = item.parent.parent.text.replace("\xa0", "")
+                    label = body.split(heading, maxsplit=1)[1]
+                    log.debug(f"Original text: {label!r}")
+                    label = re.sub(r",([^ 0-9])", r", \1", label)  # fix commas
+                    label = re.sub(r":([^ 0-9])", r":\n\n\1", label)  # fix colons
+                    label = re.sub(
+                        r"([.?])([A-Z])", r"\1\n\n\2", label
+                    )  # fix paragraphs
+                    label = re.sub(r"[.][(]", r".\n\n(", label)  # fix paragraphs
+                    proposal["text"] = label
+                    log.debug(f"Cleaned text: {proposal['text']!r}")
+                    count += 1
+                    continue
+
                 label = ""
                 element = item.parent.next_sibling
                 while element is not None:
-                    label += "\n\n" + _html_to_text(element)
+                    label += _html_to_text(element)
                     element = element.next_sibling
                     if isinstance(element, Tag):
                         if element.find("div", {"class": "proposalTitle"}):
@@ -719,9 +736,14 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
                 if label:
                     log.debug("Parsing proposal text as sibling of proposal title")
                     assert proposal is not None, f"Proposal missing for text: {label}"
-                    label = re.sub(r"([a-z])\.([A-Z])", r"\1.\n\n\2", label)
-                    label = re.sub(r"\n([a-z])", r"\1", label)
-                    proposal["text"] = label.strip()
+                    log.debug(f"Original text: {label!r}")
+                    label = re.sub(r"\n([a-z])", r"\1", label)  # remove extra breaks
+                    label = re.sub(r":([^ 0-9])", r":\n\n\1", label)  # fix colons
+                    label = re.sub(
+                        r"([.?])([A-Z])", r"\1\n\n\2", label
+                    )  # fix paragraphs
+                    proposal["text"] = label.strip().replace("\xa0", "")
+                    log.debug(f"Cleaned text: {proposal['text']!r}")
                     count += 1
 
         elif "proposalText" in item["class"]:
@@ -744,7 +766,7 @@ def _html_to_text(element) -> str:
     try:
         if items := element.find_all("li"):
             lines = ["- " + item.text.strip(".; ") for item in items]
-            return "\n".join(lines)
-        return element.text.strip()
+            return "\n\n" + "\n".join(lines) + "\n\n"
+        return element.text
     except AttributeError:
         return element.strip()
