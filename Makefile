@@ -15,6 +15,7 @@ doctor: ## System | Check for the required system dependencies
 .PHONY: install
 install: .venv/flag ## Project | Install project dependencies
 .venv/flag: poetry.lock runtime.txt requirements.txt
+	@ rm -rf ~/Library/Preferences/pypoetry
 	@ poetry config virtualenvs.in-project true
 	poetry install
 	@ mkdir -p staticfiles

@@ -250,10 +250,54 @@ def describe_ballot_website():
             website.validate()
             website.scrape()
 
-            text = website.data["ballot"]["proposal section"]["Local School"][0]["text"]
-            log.info(f"{text=}")
-            expect(text.count("\n\n")) == 5
-            expect(text.count("\n\n\n")) == 0
+            actual = website.data["ballot"]["proposal section"]["Local School"][0][
+                "text"
+            ]
+            expected = """
+Shall Coopersville Area Public Schools, Ottawa and Muskegon Counties, Michigan, borrow the sum of not to exceed Forty-Two Million Nine Hundred Thousand Dollars ($42,900,000) and issue its general obligation unlimited tax bonds therefor, in one or more series, for the purpose of:
+
+erecting, furnishing, and equipping additions to West Elementary School and Coopersville High School; remodeling, furnishing and refurnishing, and equipping and re-equipping school facilities; acquiring and installing instructional technology and instructional technology equipment for school facilities; erecting a storage building; purchasing school buses; and remodeling, preparing, developing, improving, and equipping athletic facilities, athletic fields, playgrounds and sites?
+The following is for informational purposes only:
+
+The estimated millage that will be levied for the proposed bonds in 2022, under current law, is 1.24 mills ($1.24 on each $1,000 taxable valuation), for a -0- mill net increase over the prior year's levy. The maximum number of years the bonds of any series may be outstanding, exclusive of any refunding, is thirty (30) years. The estimated simple average annual millage anticipated to be required to retire this bond debt is 4.08 mills ($4.08 on each $1,000 of taxable valuation).
+
+The school district expects to borrow from the State School Bond Qualification and Loan Program to pay debt service on these bonds. The estimated total principal amount of that borrowing is $8,278,037 and the estimated total interest to be paid thereon is $13,155,210. The estimated duration of the millage levy associated with that borrowing is 32 years and the estimated computed millage rate for such levy is 8.99 mills. The estimated computed millage rate may change based on changes in certain circumstances.
+
+The total amount of qualified bonds currently outstanding is $51,340,000. The total amount of qualified loans currently outstanding is approximately $12,640,391.
+
+(Pursuant to State law, expenditure of bond proceeds must be audited and the proceeds cannot be used for repair or maintenance costs, teacher, administrator or employee salaries, or other operating expenses.)
+""".strip()
+            log.info(f"{actual=}")
+            log.info(f"{expected=}")
+            expect(actual) == expected
+
+        @pytest.mark.vcr
+        @pytest.mark.django_db
+        def it_removes_mce_formatting(expect, website):
+            website = models.BallotWebsite(mvic_election_id=694, mvic_precinct_id=2300)
+            website.fetch()
+            website.validate()
+            website.scrape()
+
+            actual = website.data["ballot"]["proposal section"]["Local School"][0][
+                "text"
+            ]
+            expected = """
+Shall Central Montcalm Public School, Montcalm and Ionia Counties, Michigan, borrow the sum of not to exceed Forty-Seven Million Five Hundred Thousand Dollars ($47,500,000) and issue its general obligation unlimited tax bonds therefor, in one or more series, for the purpose of:
+
+erecting, furnishing, and equipping an addition to the elementary school building; erecting, furnishing, and equipping additions to the middle school/high school building; remodeling, furnishing and refurnishing, and equipping and re-equipping school buildings and facilities; acquiring and installing instructional technology in school buildings; purchasing school buses; erecting, furnishing, and equipping restroom and team room buildings and a press box; and preparing, developing, improving, and equipping playgrounds, athletic fields and facilities, and sites?
+
+The following is for informational purposes only:
+
+The estimated millage that will be levied for the proposed bonds in 2024, is 2.74 mills ($2.74 on each $1,000 of taxable valuation) for a -0- mill net increase over the prior year's levy. The maximum number of years the bonds of any series may be outstanding, exclusive of any refunding, is twenty-six (26) years. The estimated simple average annual millage anticipated to be required to retire this bond debt is 5.44 mills ($5.44 on each $1,000 of taxable valuation).
+
+The school district does not expect to borrow from the State to pay debt service on the bonds. The total amount of qualified bonds currently outstanding is $8,095,000. The total amount of qualified loans currently outstanding is $0. The estimated computed millage rate may change based on changes in certain circumstances.
+
+(Pursuant to State law, expenditure of bond proceeds must be audited and the proceeds cannot be used for repair or maintenance costs, teacher, administrator or employee salaries, or other operating expenses.)
+""".strip()
+            log.info(f"{actual=}")
+            log.info(f"{expected=}")
+            expect(actual) == expected
 
 
 def describe_ballot():
