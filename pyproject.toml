@@ -54,8 +54,8 @@ bugsnag = "^4.2"
 [tool.poetry.dev-dependencies]
 
 # Formatting
-isort = "^5.10"
-black = "^22.1"
+isort = "^5.12"
+black = "^23.3"
 
 # Linters
 pylint = "~2.15"

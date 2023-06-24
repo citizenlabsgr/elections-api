@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("elections", "0057_registrationstatus_ballot_url"),
     ]

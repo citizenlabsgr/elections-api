@@ -604,7 +604,6 @@ class Ballot(TimeStampedModel):
 
         for category_name, positions_data in data.items():
             for position_data in positions_data:
-
                 category = district = None
 
                 if category_name in {
@@ -726,7 +725,6 @@ class Ballot(TimeStampedModel):
 
         for category_name, positions_data in data.items():
             for position_data in positions_data:
-
                 category = district = None
                 position_name = position_data["name"]
 
@@ -841,7 +839,6 @@ class Ballot(TimeStampedModel):
         assert self.website
 
         for category_name, proposals_data in data.items():
-
             category = district = None
 
             if category_name in {"State"}:
@@ -871,7 +868,6 @@ class Ballot(TimeStampedModel):
                 )
 
             for proposal_data in proposals_data:
-
                 if category and category.name == "Ward":
                     district, created = District.objects.get_or_create(
                         category=category,
@@ -971,7 +967,6 @@ class Ballot(TimeStampedModel):
 
 
 class BallotItem(TimeStampedModel):
-
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
     precincts = models.ManyToManyField(Precinct)

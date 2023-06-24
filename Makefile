@@ -25,7 +25,7 @@ poetry.lock: pyproject.toml
 	poetry lock --no-update
 	@ touch $@
 runtime.txt: .tool-versions
-	echo $(shell cat $< | tr ' ' '-') > $@
+	echo $(shell grep '^python ' $< | tr ' ' '-') > $@
 requirements.txt: poetry.lock
 	poetry export --format requirements.txt --output $@ --without-hashes
 endif

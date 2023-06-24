@@ -114,7 +114,6 @@ def describe_voter():
 
 
 def describe_registration_status():
-
     DATE = pendulum.parse("2021-08-09", tz="America/Detroit")
 
     def describe_message():
