@@ -26,11 +26,11 @@ user_agent = UserAgent()
 
 @contextmanager
 def mvic_session() -> Generator[requests.Session, None, None]:
-    with resources.path("config", "mvic.sos.state.mi.us.pem") as path:
-        session = requests.Session()
-        session.verify = str(path)
-        session.headers["User-Agent"] = user_agent.random
-        yield session
+    certificate = resources.files("config") / "mvic.sos.state.mi.us.pem"
+    session = requests.Session()
+    session.verify = str(certificate)
+    session.headers["User-Agent"] = user_agent.random
+    yield session
 
 
 def fetch(url: str, expected_text: str) -> str:
