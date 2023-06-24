@@ -4,14 +4,7 @@
 
 - [asdf](https://asdf-vm.com/guide/getting-started.html)
 
-- [Poetry](https://python-poetry.org/docs/)
-
-  - (`$ curl -sSL https://install.python-poetry.org | python - && source $HOME/.poetry/env`)
-  - Add poetry to your .bashrc or equivalent configuration file `$ echo "export PATH=~/.poetry/bin:$PATH" >> ~/.bashrc`
-  - Linux:
-    - `$ poetry install`
-    - may need: `$ sudo apt-get install python-dev graphviz libgraphviz-dev pkg-config`
-    - re-run `$ poetry install`
+  - Once installed: `asdf install` to get Python and Poetry
 
 - [direnv](https://direnv.net/)
 

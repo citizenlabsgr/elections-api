@@ -35,7 +35,6 @@ class DefaultFiltersMixin(admin.ModelAdmin):
 
 @admin.register(models.DistrictCategory)
 class DistrictCategoryAdmin(admin.ModelAdmin):
-
     search_fields = ["name"]
 
     list_filter = ["described", "rank"]
@@ -55,7 +54,6 @@ class DistrictCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.District)
 class DistrictAdmin(admin.ModelAdmin):
-
     search_fields = ["name"]
 
     list_filter = ["category"]
@@ -77,7 +75,6 @@ def delete_invalid_ballot_websites(modeladmin, request, queryset):
 
 @admin.register(models.Election)
 class ElectionAdmin(admin.ModelAdmin):
-
     search_fields = ["name", "mvic_id"]
 
     list_filter = ["active"]
@@ -99,7 +96,6 @@ class ElectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Precinct)
 class PrecinctAdmin(admin.ModelAdmin):
-
     search_fields = ["county__name", "jurisdiction__name", "ward", "number"]
 
     list_display = ["id", "county", "jurisdiction", "ward", "number", "modified"]
@@ -121,7 +117,6 @@ def parse_selected_ballots(modeladmin, request, queryset):
 
 @admin.register(models.BallotWebsite)
 class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
-
     search_fields = ["mvic_election_id", "mvic_precinct_id", "mvic_html"]
 
     list_filter = ["mvic_election_id", "fetched", "valid", "parsed"]
@@ -232,7 +227,6 @@ class PrecinctJurisdictionListFilter(admin.SimpleListFilter):
 
 @admin.register(models.Ballot)
 class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
-
     search_fields = [
         "website__mvic_election_id",
         "website__mvic_precinct_id",
@@ -303,7 +297,6 @@ class BallotAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
 @admin.register(models.Party)
 class PartyAdmin(admin.ModelAdmin):
-
     search_fields = ["name"]
 
     list_display = ["id", "name", "Color"]
@@ -325,7 +318,6 @@ class PartyAdmin(admin.ModelAdmin):
 
 @admin.register(models.Proposal)
 class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
-
     search_fields = ["name", "description", "reference_url"]
 
     list_filter = ["election"]
@@ -349,7 +341,6 @@ class ProposalAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
 @admin.register(models.Position)
 class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
-
     search_fields = ["name", "description", "reference_url"]
 
     list_filter = [
@@ -385,7 +376,6 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
 @admin.register(models.Candidate)
 class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
-
     search_fields = ["name", "position__name", "description", "reference_url"]
 
     list_filter = ["position__election", "party", "position"]

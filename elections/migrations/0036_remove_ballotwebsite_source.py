@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("elections", "0035_auto_20191023_0505")]
 
     operations = [migrations.RemoveField(model_name="ballotwebsite", name="source")]

@@ -11,7 +11,6 @@ class VoterSerializer(serializers.ModelSerializer):
 
 
 class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
-
     description_edit_url = serializers.SerializerMethodField()
 
     class Meta:
@@ -31,7 +30,6 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DistrictSerializer(serializers.HyperlinkedModelSerializer):
-
     category = serializers.CharField()
 
     class Meta:
@@ -45,7 +43,6 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ElectionSerializer(serializers.ModelSerializer):
-
     date_humanized = serializers.SerializerMethodField()
 
     class Meta:
@@ -79,7 +76,6 @@ class MinimalElectionSerializer(serializers.ModelSerializer):
 
 
 class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
-
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
     ward = fields.NullCharField()
@@ -98,7 +94,6 @@ class PrecinctSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class MinimalPrecinctSerializer(serializers.ModelSerializer):
-
     county = serializers.CharField()
     jurisdiction = serializers.CharField()
     ward = fields.NullCharField()
@@ -116,7 +111,6 @@ class MinimalPrecinctSerializer(serializers.ModelSerializer):
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
-
     election = ElectionSerializer()
     precinct = PrecinctSerializer()
 
@@ -152,7 +146,6 @@ class NestedBallotSerializer(serializers.ModelSerializer):
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
-
     election = ElectionSerializer()
     district = DistrictSerializer()
 
@@ -181,7 +174,6 @@ class PartySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
-
     party = PartySerializer()
 
     class Meta:
@@ -197,7 +189,6 @@ class CandidateSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
-
     candidates = CandidateSerializer(many=True)
     election = ElectionSerializer()
     district = DistrictSerializer()
@@ -227,7 +218,6 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
-
     precinct = PrecinctSerializer()
     districts = DistrictSerializer(many=True)
     ballots = MinimalBallotSerializer(many=True)
@@ -264,7 +254,6 @@ class StatusSerializer(serializers.ModelSerializer):
 
 
 class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-method
-
     category = serializers.SerializerMethodField()
     name = serializers.CharField()
     description = serializers.CharField()
