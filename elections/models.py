@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from datetime import timedelta
 from typing import Any, Dict, List, Optional
 
 import bugsnag
@@ -402,7 +403,7 @@ class BallotWebsite(models.Model):
             log.debug(f"Ballot has never been scraped: {self}")
             return True
 
-        if self.last_fetch < constants.SCRAPER_LAST_UPDATED:
+        if self.last_fetch < constants.SCRAPER_LAST_UPDATED + timedelta(days=1):
             log.info(f"Scraping logic is newer than last scrape: {self}")
             return True
 
@@ -565,7 +566,7 @@ class Ballot(TimeStampedModel):
             log.debug("Ballot has never been parsed")
             return True
 
-        if self.website.last_parse < constants.PARSER_LAST_UPDATED:
+        if self.website.last_parse < constants.PARSER_LAST_UPDATED + timedelta(days=1):
             log.info(f"Parsing logic is newer than last scrape: {self.website}")
             return True
 
