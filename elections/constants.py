@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.conf import settings
 from pendulum import datetime
 
@@ -9,5 +11,6 @@ TERMS = {
     "Representative in State Legislature": "2 Year Term",
 }
 
-SCRAPER_LAST_UPDATED = datetime(2023, 6, 25, tz=settings.TIME_ZONE)
-PARSER_LAST_UPDATED = datetime(2023, 3, 14, tz=settings.TIME_ZONE)
+_SHIFT = timedelta(hours=12)
+SCRAPER_LAST_UPDATED = datetime(2023, 6, 25, tz=settings.TIME_ZONE) + _SHIFT
+PARSER_LAST_UPDATED = datetime(2023, 3, 14, tz=settings.TIME_ZONE) + _SHIFT
