@@ -19,6 +19,17 @@ def voter():
     )
 
 
+def describe_normalize_position():
+    @pytest.mark.parametrize(
+        ("before", "after"),
+        [
+            ("Commissioner At-Large", "Commissioner at Large"),
+        ],
+    )
+    def it_removes_extra_words_and_titleizes(expect, before, after):
+        expect(helpers.normalize_position(before)) == after
+
+
 def describe_fetch_registration_status_data():
     @pytest.mark.vcr
     def with_known_voter(expect, voter):

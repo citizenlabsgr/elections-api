@@ -85,6 +85,7 @@ def titleize(text: str) -> str:
 @cache
 def normalize_position(text: str) -> str:
     text = text.split(" (")[0].split(" - ")[0]
+    text = text.replace(" At-Large", " At Large")
     if text.startswith("Alderman"):
         text = "Alderman"
     elif text == "Board Member Bath Township Library":

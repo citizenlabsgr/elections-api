@@ -65,6 +65,7 @@
     "pymdownx",
     "Rosalynn",
     "showfspath",
+    "titleizes",
     "useragent",
     "venv",
     "verchew",
