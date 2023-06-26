@@ -178,7 +178,8 @@ class BallotViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        instance = get_object_or_404(queryset)
+        filter_kwargs = {self.lookup_field: self.kwargs[self.lookup_field]}
+        instance = get_object_or_404(queryset, **filter_kwargs)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
