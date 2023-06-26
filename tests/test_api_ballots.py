@@ -57,3 +57,21 @@ def describe_list():
                 "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1111/2222/",
             }
         ]
+
+
+def describe_detail():
+    @pytest.fixture
+    def url(ballot):
+        return f"/api/ballots/{ballot.id}/"
+
+    def it_ignores_active_election_filter(expect, client, url, ballot):
+        response = client.get(url + "?active_election=false")
+
+        expect(response.status_code) == 200
+        expect(response.data).contains("election")
+
+    def it_handles_unknown_ballots(expect, client, url, ballot):
+        ballot.delete()
+        response = client.get(url)
+
+        expect(response.status_code) == 404
