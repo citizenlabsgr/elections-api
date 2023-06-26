@@ -1,6 +1,7 @@
 from typing import List, Set
 
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, viewsets
@@ -174,6 +175,12 @@ class BallotViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.BallotFilter
     serializer_class = serializers.BallotSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        instance = get_object_or_404(queryset)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class ProposalViewSet(viewsets.ModelViewSet):
