@@ -26,7 +26,7 @@ django-filter @ git+https://github.com/citizenlabsgr/django-filter@combine-filte
 django-grappelli==3.0.3 ; python_version >= "3.11" and python_version < "4.0"
 django-model-utils==4.2.0 ; python_version >= "3.11" and python_version < "4.0"
 django-redis-cache==3.0.1 ; python_version >= "3.11" and python_version < "4.0"
-django==3.2.19 ; python_version >= "3.11" and python_version < "4.0"
+django==3.2.20 ; python_version >= "3.11" and python_version < "4.0"
 djangorestframework==3.13.1 ; python_version >= "3.11" and python_version < "4.0"
 drf-yasg==1.20.0 ; python_version >= "3.11" and python_version < "4.0"
 executing==1.2.0 ; python_version >= "3.11" and python_version < "4.0"
