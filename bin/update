@@ -57,6 +57,7 @@ def copy():
         ".pylint.ini",
         ".tool-versions",
         ".verchew.ini",
+        "app.json",
         "CONTRIBUTING.md",
         "Makefile",
         "scent.py",
