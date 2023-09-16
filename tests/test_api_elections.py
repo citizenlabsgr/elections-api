@@ -1,7 +1,7 @@
 # pylint: disable=unused-argument,unused-variable
 
-import pendulum
 import pytest
+from django.utils import timezone
 
 from . import factories
 
@@ -10,7 +10,7 @@ from . import factories
 def elections(db):
     factories.ElectionFactory.create(active=True)
     factories.ElectionFactory.create(
-        active=False, date=pendulum.parse("2017-08-07", tz="America/Detroit")
+        active=False, date=timezone.make_aware(timezone.datetime(2017, 8, 7))
     )
 
 

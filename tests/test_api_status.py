@@ -2,10 +2,10 @@
 
 from unittest.mock import Mock, patch
 
-import pendulum
 import pytest
 import time_machine
 from django.conf import settings
+from django.utils import timezone
 
 from elections import defaults, exceptions
 
@@ -16,7 +16,7 @@ from . import factories
 def election(db):
     election = factories.ElectionFactory.create(pk=42)
     factories.ElectionFactory.create(
-        active=False, date=pendulum.parse("2017-08-07", tz="America/Detroit")
+        active=False, date=timezone.make_aware(timezone.datetime(2017, 8, 7))
     )
     return election
 
