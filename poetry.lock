@@ -3591,13 +3591,13 @@ watchdog = ["watchdog"]
 
 [[package]]
 name = "whitenoise"
-version = "4.1.4"
+version = "6.5.0"
 description = "Radically simplified static file serving for WSGI applications"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "whitenoise-4.1.4-py2.py3-none-any.whl", hash = "sha256:6dfea214b7c12efd689007abf9afa87a426586e9dbc051873ad2c8e535e2a1ac"},
-    {file = "whitenoise-4.1.4.tar.gz", hash = "sha256:22f79cf8f1f509639330f93886acaece8ec5ac5e9600c3b981d33c34e8a42dfd"},
+    {file = "whitenoise-6.5.0-py3-none-any.whl", hash = "sha256:16468e9ad2189f09f4a8c635a9031cc9bb2cdbc8e5e53365407acf99f7ade9ec"},
+    {file = "whitenoise-6.5.0.tar.gz", hash = "sha256:15fe60546ac975b58e357ccaeb165a4ca2d0ab697e48450b8f0307ca368195a8"},
 ]
 
 [package.extras]
@@ -3808,4 +3808,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "b0bf04caa9667abaf754118a3d02ad01378b687487b929b8eecc37d19c14f1a2"
+content-hash = "f2086441a9626eef2fa6057a643a0fcbc8e7466035a6602f0dd2b97d73c69915"
