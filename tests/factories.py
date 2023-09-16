@@ -1,5 +1,5 @@
 import factory
-import pendulum
+from django.utils import timezone
 
 from elections import models
 
@@ -38,7 +38,7 @@ class ElectionFactory(factory.django.DjangoModelFactory):
         model = models.Election
 
     name = "General Election"
-    date = pendulum.parse("2018-08-07", tz="America/Detroit")
+    date = timezone.make_aware(timezone.datetime(2018, 8, 7))
     active = True
     mvic_id = 2222
 

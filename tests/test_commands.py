@@ -1,8 +1,8 @@
 # pylint: disable=unused-argument,unused-variable
 
 
-import pendulum
 import pytest
+from django.utils import timezone
 
 from elections import commands, defaults
 from elections.models import Ballot, BallotWebsite, District, Election
@@ -12,7 +12,7 @@ from elections.models import Ballot, BallotWebsite, District, Election
 def past_election(db):
     return Election.objects.create(
         name="Unknown Election",
-        date=pendulum.parse("2020-06-06", tz="America/Detroit"),
+        date=timezone.make_aware(timezone.datetime(2020, 6, 6)),
         mvic_id=681,
         active=False,
     )
@@ -22,7 +22,7 @@ def past_election(db):
 def active_election(db):
     return Election.objects.create(
         name="State Primary",
-        date=pendulum.parse("2020-08-04", tz="America/Detroit"),
+        date=timezone.make_aware(timezone.datetime(2020, 8, 4)),
         mvic_id=682,
     )
 

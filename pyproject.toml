@@ -11,8 +11,8 @@ license = "GPLv3"
 python = "3.11.5"
 
 # Django
-django = "~3.2.20"
-django-grappelli = "^3.0"
+django = "~4.2"
+django-grappelli = "^3.0.6"
 django-filter = { git = "https://github.com/citizenlabsgr/django-filter", branch = "combine-filters" }
 django-model-utils = "^4.2"
 
@@ -38,17 +38,17 @@ pygraphviz = { version = "^1.7", optional = true }
 
 # Utilities
 beautifulsoup4 = "^4.8.2"
-factory_boy = "*"
+factory_boy = "^3.3"
 fake-useragent = "^1.1"
 minilog = "^2.1"
 nameparser = "^1.0.4"
-pendulum = "*"
+pendulum = "^2.1"
 pomace = "~0.12"
 requests = "^2.31"
 
 # Production Server
 gunicorn = "^19.8"
-whitenoise = "^4.1.4"
+whitenoise = "^6.5"
 bugsnag = "^4.2"
 
 [tool.poetry.dev-dependencies]
@@ -67,7 +67,7 @@ types-redis = "*"
 types-requests = "*"
 
 # Testing
-pytest = "^7.1"
+pytest = "^7.4"
 pytest-django = "*"
 pytest-describe = "^2.0.1"
 pytest-expecter = "^2.3"

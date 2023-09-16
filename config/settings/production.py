@@ -59,4 +59,4 @@ AUTH_PASSWORD_VALIDATORS = [
 ###############################################################################
 # Static files
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
