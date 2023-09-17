@@ -1,11 +1,11 @@
 import sys
 
 import log
-import pendulum
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
+from django.utils import timezone
 
 from elections import models
 
@@ -40,7 +40,7 @@ class Command(BaseCommand):
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
             name="May Consolidated",
-            date=pendulum.parse("2023-05-02", tz="America/Detroit"),
+            date=timezone.make_aware(timezone.datetime(2023, 5, 2)),
             defaults=dict(active=True, mvic_id=693),
         )
         if created:
@@ -50,7 +50,7 @@ class Command(BaseCommand):
         voter = models.Voter(
             first_name="Rosalynn",
             last_name="Bliss",
-            birth_date=pendulum.parse("1975-08-03"),  # type: ignore
+            birth_date=timezone.make_aware(timezone.datetime(1975, 8, 3)),
             zip_code="49503",
         )
         voter.fetch_registration_status(track_missing_data=False)
