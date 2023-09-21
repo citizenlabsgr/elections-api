@@ -223,7 +223,7 @@ def test_capitalization(expect, db):
 @pytest.mark.vcr
 def test_ward_positions(expect, db):
     parse_ballot(691, 68112)
-    position: Position = Position.objects.get(name__contains="Ward")
+    position = Position.objects.get(name__contains="Ward")
     assert position.district
     expect(position.name) == "Council Member by Ward"
     expect(position.district.name) == "City of Grand Rapids, Ward 2"
@@ -233,7 +233,7 @@ def test_ward_positions(expect, db):
 @pytest.mark.vcr
 def test_ward_positions_partial_term(expect, db):
     parse_ballot(695, 7192)
-    positions: list[Position] = Position.objects.filter(name__contains="Ward")
+    positions = Position.objects.filter(name__contains="Ward")
     terms = sorted(position.term for position in positions)
     expect(terms) == ["4 Year Term", "Partial Term Ending 12/31/2025"]
 
