@@ -605,6 +605,7 @@ class Ballot(TimeStampedModel):
         for category_name, positions_data in data.items():
             for position_data in positions_data:
                 category = district = None
+                position_name = position_data["name"]
 
                 if category_name in {
                     "Presidential",
@@ -613,8 +614,15 @@ class Ballot(TimeStampedModel):
                     "State Boards",
                 }:
                     district = District.objects.get(name="Michigan")
-                elif category_name in {"City", "Township"}:
+                elif category_name in {
+                    "City",
+                    "Township",
+                }:
                     district = self.precinct.jurisdiction
+                elif category_name in {
+                    "Ward",
+                }:
+                    category = DistrictCategory.objects.get(name=category_name)
                 elif category_name in {
                     "Congressional",
                     "Legislative",
@@ -627,7 +635,13 @@ class Ballot(TimeStampedModel):
                         f"Unhandled category {category_name!r} on {self.website.mvic_url}"
                     )
 
-                position_name = position_data["name"]
+                if category and category.name == "Ward":
+                    district, created = District.objects.get_or_create(
+                        category=category,
+                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
+                    )
+                    if created:
+                        log.info(f"Created district: {district}")
 
                 if district is None:
                     if position_name in {"United States Senator"}:
@@ -748,7 +762,9 @@ class Ballot(TimeStampedModel):
                     "Ward",
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
-                elif category_name in {"Judicial"}:
+                elif category_name in {
+                    "Judicial",
+                }:
                     pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
@@ -841,9 +857,13 @@ class Ballot(TimeStampedModel):
         for category_name, proposals_data in data.items():
             category = district = None
 
-            if category_name in {"State"}:
+            if category_name in {
+                "State",
+            }:
                 district = District.objects.get(name="Michigan")
-            elif category_name in {"County"}:
+            elif category_name in {
+                "County",
+            }:
                 district = self.precinct.county
             elif category_name in {
                 "City",
