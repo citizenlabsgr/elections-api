@@ -147,6 +147,7 @@ def test_2023_consolidated_ballots(expect, db, precinct_id, item_count):
     ("precinct_id", "item_count"),
     [
         (4190, 4),
+        (7192, 5),
     ],
 )
 def test_2023_november_consolidated_ballots(expect, db, precinct_id, item_count):
@@ -227,6 +228,14 @@ def test_ward_positions(expect, db):
     expect(position.name) == "Council Member by Ward"
     expect(position.district.name) == "City of Grand Rapids, Ward 2"
     expect(position.candidates.count()) == 2
+
+
+@pytest.mark.vcr
+def test_ward_positions_partial_term(expect, db):
+    parse_ballot(695, 7192)
+    positions: list[Position] = Position.objects.filter(name__contains="Ward")
+    terms = sorted(position.term for position in positions)
+    expect(terms) == ["4 Year Term", "Partial Term Ending 12/31/2025"]
 
 
 @pytest.mark.vcr
