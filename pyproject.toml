@@ -69,19 +69,19 @@ types-requests = "*"
 # Testing
 pytest = "^7.4"
 pytest-django = "*"
-pytest-describe = "^2.0.1"
-pytest-expecter = "^2.3"
+pytest-describe = "^2.1"
+pytest-expecter = "^3.0"
 pytest-vcr = "*"
-pytest-cov = "^3.0"
+pytest-cov = "^4.1"
 pytest-watch = "^4.2"
 time-machine = "^2.8"
 
 # Reports
-coveragespace = "^4.2"
+coveragespace = "^6.0"
 coveralls = "*"
 
 # Utilities
-ipdb = "~0.13"  # export PYTHONBREAKPOINT=ipdb.set_trace
+ipdb = "~0.13"
 django-extensions = "*"
 
 # Development Server

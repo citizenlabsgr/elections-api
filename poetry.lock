@@ -467,21 +467,21 @@ toml = ["tomli"]
 
 [[package]]
 name = "coveragespace"
-version = "4.2"
+version = "6.0.2"
 description = "A place to track your code coverage metrics."
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "coveragespace-4.2-py3-none-any.whl", hash = "sha256:3b8651c97b0741f89786eb57fb0b27a606502207439825d9f1c6f99b0e598e68"},
-    {file = "coveragespace-4.2.tar.gz", hash = "sha256:b23263b7b9689fd7ded975809b134453c0e0cdbf1dea6b60bf8ebed2c78f9270"},
+    {file = "coveragespace-6.0.2-py3-none-any.whl", hash = "sha256:e4900e6eac340d2ea8b6f831a75984392eb9090f9d811c94b7f4c9496214d9b5"},
+    {file = "coveragespace-6.0.2.tar.gz", hash = "sha256:07ff131408bcd37cfe3b142092a289d949102d36221e40f066a557121be7cae7"},
 ]
 
 [package.dependencies]
 colorama = ">=0.4"
 coverage = ">=4.0"
 docopt = ">=0.6"
-minilog = ">=2.0,<3.0"
-requests = ">=2.0,<3.0"
+minilog = ">=2.0"
+requests = ">=2.28,<3.0"
 
 [[package]]
 name = "coveralls"
@@ -2461,13 +2461,13 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "pytest-cov"
-version = "3.0.0"
+version = "4.1.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "pytest-cov-3.0.0.tar.gz", hash = "sha256:e7f0f5b1617d2210a2cabc266dfe2f4c75a8d32fb89eafb7ad9d06f6d076d470"},
-    {file = "pytest_cov-3.0.0-py3-none-any.whl", hash = "sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6"},
+    {file = "pytest-cov-4.1.0.tar.gz", hash = "sha256:3904b13dfbfec47f003b8e77fd5b589cd11904a21ddf1ab38a64f204d6a10ef6"},
+    {file = "pytest_cov-4.1.0-py3-none-any.whl", hash = "sha256:6ba70b9e97e69fcc3fb45bfeab2d0a138fb65c4d0d6a41ef33983ad114be8c3a"},
 ]
 
 [package.dependencies]
@@ -2479,17 +2479,17 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtuale
 
 [[package]]
 name = "pytest-describe"
-version = "2.0.1"
+version = "2.1.0"
 description = "Describe-style plugin for pytest"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "pytest-describe-2.0.1.tar.gz", hash = "sha256:e5cbaa31169f0060348ad5ca0191027e5f1f41f3f27fdeef208365e09c55eb9a"},
-    {file = "pytest_describe-2.0.1-py3-none-any.whl", hash = "sha256:ea347838bdf774b498ee7cb4a0b802a40be89e667a399fb63d860e3223bf4183"},
+    {file = "pytest-describe-2.1.0.tar.gz", hash = "sha256:0630c95ac4942ab8dcd8e766236f86436b4984896db0c059fc234fef66fe9732"},
+    {file = "pytest_describe-2.1.0-py3-none-any.whl", hash = "sha256:3ea587839363a91ea24e35e442dae46b56bd91d670e63b755e002b0adfc7a7b2"},
 ]
 
 [package.dependencies]
-pytest = ">=4.0.0"
+pytest = ">=4.6,<8"
 
 [[package]]
 name = "pytest-django"
@@ -2511,13 +2511,13 @@ testing = ["Django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "pytest-expecter"
-version = "2.3"
+version = "3.0"
 description = "Better testing with expecter and pytest."
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "pytest-expecter-2.3.tar.gz", hash = "sha256:8e6a3e565fbc524e5a4988b664d1b748e0a810b33233880aa5d3d78970351e06"},
-    {file = "pytest_expecter-2.3-py3-none-any.whl", hash = "sha256:6336d7f43221500e392014a949fd77ee2c2a84bcae2be7669acdd0d7c89b89e9"},
+    {file = "pytest-expecter-3.0.tar.gz", hash = "sha256:be8f3e9f823af6d6713e3f552ed47560061a2fd243a78952180f5df61a2b76a4"},
+    {file = "pytest_expecter-3.0-py3-none-any.whl", hash = "sha256:98fe65ecc1ddb7ca29084dc68ec07983dbbdb20b566fd14140b0b5f4b7c84cc8"},
 ]
 
 [[package]]
@@ -3808,4 +3808,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "f2086441a9626eef2fa6057a643a0fcbc8e7466035a6602f0dd2b97d73c69915"
+content-hash = "af11c9aac4e458b815d35479b39e66bc1f8e4a6108633446943b2f8b6f8318f3"
