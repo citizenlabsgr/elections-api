@@ -410,13 +410,20 @@ class BallotWebsite(models.Model):
             log.debug(f"Ballot has never been scraped: {self}")
             return True
 
+        hours = 2
+        age = timezone.now() - self.last_fetch
+        if age < timezone.timedelta(hours=hours):
+            log.debug(f"Ballot was scraped in the last {hours} hours: {self}")
+            return False
+
         if self.last_fetch < constants.SCRAPER_LAST_UPDATED:
             log.info(f"Scraping logic is newer than last scrape: {self}")
             return True
 
+        hours = 12
         age = timezone.now() - self.last_fetch
-        if age < timezone.timedelta(hours=6):
-            log.debug(f"Ballot was scraped in the last six hours: {self}")
+        if age < timezone.timedelta(hours=hours):
+            log.debug(f"Ballot was scraped in the last {hours} hours: {self}")
             return False
 
         age_in_days = age.total_seconds() / 3600 / 24
