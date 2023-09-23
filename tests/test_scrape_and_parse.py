@@ -234,8 +234,12 @@ def test_ward_positions(expect, db):
 def test_ward_positions_partial_term(expect, db):
     parse_ballot(695, 7192)
     positions = Position.objects.filter(name__contains="Ward")
+    districts = sorted(str(position.district) for position in positions)
     terms = sorted(position.term for position in positions)
+    seats = sorted(position.seats for position in positions)
+    expect(districts) == ["City of Menominee, Ward 4", "City of Menominee, Ward 4"]
     expect(terms) == ["4 Year Term", "Partial Term Ending 12/31/2025"]
+    expect(seats) == [1, 1]
 
 
 @pytest.mark.vcr
