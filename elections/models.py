@@ -142,8 +142,16 @@ class Precinct(TimeStampedModel):
     def get_county_district_label(self, district: str) -> str:
         return f"{self.county.name} County, {district}"
 
-    def get_ward_label(self, district: str) -> str:
-        return f"{self.jurisdiction}, {district}"
+    def get_ward_label(self, ballot_item: dict) -> str:
+        if self.ward:
+            return f"{self.jurisdiction}, Ward {self.ward}"
+        if district := ballot_item.get("district"):
+            log.warn(f"Inferring ward from ballot item: {ballot_item}")
+            assert "Ward" in district
+            return f"{self.jurisdiction}, {district}"
+        log.warn("Assuming jurisdiction does not have wards")
+        assert self.number
+        return f"{self.jurisdiction}, Precinct {self.number}"
 
     def get_precinct_label(self) -> str:
         if self.ward and self.number:
@@ -638,7 +646,7 @@ class Ballot(TimeStampedModel):
                 if category and category.name == "Ward":
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
+                        name=self.precinct.get_ward_label(position_data),
                     )
                     if created:
                         log.info(f"Created district: {district}")
@@ -774,7 +782,7 @@ class Ballot(TimeStampedModel):
                 if category and category.name == "Ward":
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
+                        name=self.precinct.get_ward_label(position_data),
                     )
                     if created:
                         log.info(f"Created district: {district}")
@@ -891,7 +899,7 @@ class Ballot(TimeStampedModel):
                 if category and category.name == "Ward":
                     district, created = District.objects.get_or_create(
                         category=category,
-                        name=self.precinct.get_ward_label(f"Ward {self.precinct.ward}"),
+                        name=self.precinct.get_ward_label(proposal_data),
                     )
                     if created:
                         log.info(f"Created district: {district}")
