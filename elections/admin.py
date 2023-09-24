@@ -1,9 +1,12 @@
 # pylint: disable=unused-argument
 
+import json
+
 from django.contrib import admin, messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from . import models
 
@@ -149,7 +152,7 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
         "last_fetch",
         "valid",
         "last_validate",
-        "data",
+        "Data",
         "data_count",
         "last_scrape",
         "Ballot",
@@ -160,11 +163,16 @@ class BallotWebsiteAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 
     def Link(self, website: models.BallotWebsite):
         return format_html(
-            "<a href={url!r}>MVIC: election={eid} precinct={pid}</a>",
+            "<a href={url!r} target='_blank'>MVIC: election={eid} precinct={pid}</a>",
             url=website.mvic_url,
             eid=website.mvic_election_id,
             pid=website.mvic_precinct_id,
         )
+
+    def Data(self, website: models.BallotWebsite):
+        text = json.dumps(website.data, indent=4)
+        html = f"<pre>{text}</pre>"
+        return mark_safe(html)
 
     def Ballot(self, website: models.BallotWebsite):
         if website.ballot:

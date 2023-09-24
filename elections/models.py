@@ -714,7 +714,7 @@ class Ballot(TimeStampedModel):
                     district=district,
                     name=position_data["name"],
                     term=position_data["term"] or default_term,
-                    seats=position_data["seats"],
+                    seats=position_data["seats"] or 1,
                     section=section,
                 )
                 if created:
@@ -841,7 +841,7 @@ class Ballot(TimeStampedModel):
                     district=district,
                     name=position_data["name"],
                     term=(", ".join(parts)).strip(", "),
-                    seats=position_data["seats"] or 0,
+                    seats=position_data["seats"] or 1,
                 )
                 if created:
                     log.info(f"Created position: {position}")
