@@ -415,6 +415,18 @@ def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str
     raise ValueError(f"Could not find {category!r} in {text!r} on {mvic_url}")
 
 
+def parse_seats(text: str) -> int:
+    """Parse the number of seats from a ballot text."""
+    try:
+        count = int(text.removeprefix("Vote for not more than "))
+        if count <= 0:
+            log.error(f"Invalid seat count: {count}")
+            count = 1
+        return count
+    except ValueError:
+        return 0
+
+
 def parse_ballot(html: str, data: Dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
     html = html.replace("<br>", "\n").replace("\n ", "\n").replace(" \n", "\n")
@@ -512,8 +524,8 @@ def _parse_primary_election_offices(
                 office["type"] = label
             elif "Term" in label:
                 office["term"] = label
-            elif "Vote for" in label:
-                office["seats"] = int(label.replace("Vote for not more than ", ""))
+            elif seats := parse_seats(label):
+                office["seats"] = seats
             else:
                 office["district"] = titleize(label)
             count += 1
@@ -625,8 +637,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
                 office["type"] = label
             elif "Term" in label:
                 office["term"] = label
-            elif "Vote for" in label:
-                office["seats"] = int(label.replace("Vote for not more than ", ""))
+            elif seats := parse_seats(label):
+                office["seats"] = seats
             else:
                 office["district"] = titleize(label)
             count += 1
@@ -635,9 +647,6 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
             label = normalize_candidate(item.get_text("\n"))
             assert office is not None, f"Office missing for candidate: {label}"
             if label == "No candidates on ballot":
-                if office["seats"] is None:
-                    log.warn(f"No seats for office: {office}")
-                    office["seats"] = 1
                 continue
             candidate = {"name": label, "finance_link": None, "party": None}
             office["candidates"].append(candidate)
