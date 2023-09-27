@@ -1,6 +1,5 @@
 import itertools
 from datetime import timedelta
-from typing import Optional, Set
 
 import log
 from django.utils import timezone
@@ -30,9 +29,9 @@ def update_elections():
 
 def scrape_ballots(
     *,
-    starting_election_id: Optional[int] = None,
+    starting_election_id: int | None = None,
     starting_precinct_id: int = 1,
-    ballot_limit: Optional[int] = None,
+    ballot_limit: int | None = None,
     max_election_error_count: int = 5,
     max_ballot_error_count: int = 40000,
 ):
@@ -74,7 +73,7 @@ def scrape_ballots(
 def _scrape_ballots_for_election(
     election_id: int,
     starting_precinct_id: int,
-    limit: Optional[int],
+    limit: int | None,
     max_ballot_error_count: int,
 ) -> int:
     log.info(f"Scrapping ballots for election {election_id}")
@@ -121,7 +120,7 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots(*, election_id: Optional[int] = None):
+def parse_ballots(*, election_id: int | None = None):
     if election_id:
         elections = Election.objects.filter(mvic_id=election_id)
     else:
@@ -134,7 +133,7 @@ def parse_ballots(*, election_id: Optional[int] = None):
 def _parse_ballots_for_election(election: Election):
     log.info(f"Parsing ballots for election {election.mvic_id}")
 
-    precincts: Set[Precinct] = set()
+    precincts: set[Precinct] = set()
 
     websites = (
         BallotWebsite.objects.filter(mvic_election_id=election.mvic_id, valid=True)

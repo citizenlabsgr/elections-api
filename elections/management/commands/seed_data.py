@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 
 import log
 from django.conf import settings
@@ -40,7 +41,7 @@ class Command(BaseCommand):
     def add_elections(self):
         election, created = models.Election.objects.get_or_create(
             name="May Consolidated",
-            date=timezone.make_aware(timezone.datetime(2023, 5, 2)),
+            date=timezone.make_aware(datetime(2023, 5, 2)),
             defaults=dict(active=True, mvic_id=693),
         )
         if created:
@@ -50,7 +51,7 @@ class Command(BaseCommand):
         voter = models.Voter(
             first_name="Rosalynn",
             last_name="Bliss",
-            birth_date=timezone.make_aware(timezone.datetime(1975, 8, 3)),
+            birth_date=timezone.make_aware(datetime(1975, 8, 3)),
             zip_code="49503",
         )
         voter.fetch_registration_status(track_missing_data=False)

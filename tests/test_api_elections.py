@@ -1,5 +1,7 @@
 # pylint: disable=unused-argument,unused-variable
 
+from datetime import datetime
+
 import pytest
 from django.utils import timezone
 
@@ -10,7 +12,7 @@ from . import factories
 def elections(db):
     factories.ElectionFactory.create(active=True)
     factories.ElectionFactory.create(
-        active=False, date=timezone.make_aware(timezone.datetime(2017, 8, 7))
+        active=False, date=timezone.make_aware(datetime(2017, 8, 7))
     )
 
 

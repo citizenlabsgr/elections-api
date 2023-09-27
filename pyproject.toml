@@ -60,8 +60,8 @@ black = "^23.3"
 # Linters
 pylint = "~2.15"
 pylint-django = "~2.5"
-mypy = "~0.910"
-django-stubs = "~1.9"
+mypy = "^1.5"
+django-stubs = { version = "~4.2.3", extras = ["compatible-mypy"] }
 types-markdown = "*"
 types-redis = "*"
 types-requests = "*"

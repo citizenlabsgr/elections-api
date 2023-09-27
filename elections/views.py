@@ -1,5 +1,3 @@
-from typing import List, Set
-
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -280,11 +278,11 @@ class GlossaryViewSet(viewsets.ViewSet):
     serializer_class = serializers.GlossarySerializer
 
     def list(self, request):
-        items: List = []
+        items: list = []
 
         items.extend(models.DistrictCategory.objects.all())
 
-        positions: Set[str] = set()
+        positions: set[str] = set()
         for position in models.Position.objects.all():
             if position.name not in positions:
                 positions.add(position.name)

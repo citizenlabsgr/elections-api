@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from datetime import date, datetime
 from functools import cache
 from importlib import resources
-from typing import Any, Dict, Generator, List, Optional, Tuple
+from typing import Any, Generator
 
 import log
 import pomace
@@ -218,7 +218,7 @@ def fetch_registration_status_data(voter):
     absentee = "You are on the permanent absentee voter list" in response.text
 
     # Parse absentee dates
-    absentee_dates: Dict[str, Optional[date]] = {
+    absentee_dates: dict[str, date | None] = {
         "Application Received": None,
         "Ballot Sent": None,
         "Ballot Received": None,
@@ -234,7 +234,7 @@ def fetch_registration_status_data(voter):
         log.warn("Unable to determine absentee status")
 
     # Parse districts
-    districts: Dict = {}
+    districts: dict = {}
     element = html.find(id="lblCountyName")
     if element:
         districts["County"] = normalize_district(element.text)
@@ -269,7 +269,7 @@ def fetch_registration_status_data(voter):
             )
 
     # Parse polling location
-    polling_location: Dict = {}
+    polling_location: dict = {}
     element = html.find(id="lblPollingLocation")
     if element:
         polling_location["PollingLocation"] = element.text.strip()
@@ -283,10 +283,10 @@ def fetch_registration_status_data(voter):
         log.warn("Unable to determine polling location")
 
     # Parse dropbox locations
-    dropbox_locations: List[Dict[str, List[str]]] = []
+    dropbox_locations: list[dict[str, list[str]]] = []
     element = html.find("span", {"class": "additional-location-badge"})
     if element:
-        lines: List[str] = []
+        lines: list[str] = []
         for element in element.next_siblings:
             try:
                 text = element.get_text("\n")
@@ -350,7 +350,7 @@ def fetch_ballot(url: str) -> str:
     return fetch(url, "PreviewMvicBallot")
 
 
-def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
+def parse_election(html: str) -> tuple[str, tuple[int, int, int]]:
     """Parse election information from ballot HTML."""
     soup = BeautifulSoup(html, "html.parser")
     header = soup.find(id="PreviewMvicBallot").div.div.div.text
@@ -362,7 +362,7 @@ def parse_election(html: str) -> Tuple[str, Tuple[int, int, int]]:
     return election_name, (election_date.year, election_date.month, election_date.day)
 
 
-def parse_precinct(html: str, url: str) -> Tuple[str, str, str, str]:
+def parse_precinct(html: str, url: str) -> tuple[str, str, str, str]:
     """Parse precinct information from ballot HTML."""
 
     # Parse county
@@ -427,7 +427,7 @@ def parse_seats(text: str) -> int:
         return 0
 
 
-def parse_ballot(html: str, data: Dict) -> int:
+def parse_ballot(html: str, data: dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
     html = html.replace("<br>", "\n").replace("\n ", "\n").replace(" \n", "\n")
     soup = BeautifulSoup(html, "html.parser")
@@ -441,7 +441,7 @@ def parse_ballot(html: str, data: Dict) -> int:
     return count
 
 
-def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
+def parse_primary_election_offices(ballot: BeautifulSoup, data: dict) -> int:
     """Inserts primary election ballot data into the provided dictionary."""
     count = 0
 
@@ -449,7 +449,7 @@ def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     if not offices:
         return count
 
-    section: Dict = {}
+    section: dict = {}
     label = "primary section"
     data[label] = section
 
@@ -459,7 +459,7 @@ def parse_primary_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
 
 def _parse_primary_election_offices(
-    party: str, ballot: BeautifulSoup, data: Dict
+    party: str, ballot: BeautifulSoup, data: dict
 ) -> int:
     """Inserts primary election ballot data into the provided dictionary."""
     count = 0
@@ -471,8 +471,8 @@ def _parse_primary_election_offices(
     if not offices:
         return count
 
-    section: Dict[str, Any] = {}
-    division: Optional[List] = None
+    section: dict[str, Any] = {}
+    division: list | None = None
     data[party] = section
 
     for index, item in enumerate(
@@ -535,7 +535,7 @@ def _parse_primary_election_offices(
             assert office is not None, f"Office missing for candidate: {label}"
             if label == "No candidates on ballot":
                 continue
-            candidate: Dict[str, Any] = {
+            candidate: dict[str, Any] = {
                 "name": label,
                 "finance_link": None,
                 "party": None,
@@ -555,7 +555,7 @@ def _parse_primary_election_offices(
     return count
 
 
-def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
+def parse_general_election_offices(ballot: BeautifulSoup, data: dict) -> int:
     """Inserts general election ballot data into the provided dictionary."""
     count = 0
 
@@ -563,7 +563,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     if not offices:
         return count
 
-    section: Optional[Dict] = None
+    section: dict | None = None
     for index, item in enumerate(
         offices.find_all(
             "div",
@@ -585,8 +585,8 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
 
         if "section" in item["class"]:
             section = {}
-            division: Optional[List] = None
-            office: Optional[Dict] = None
+            division: list | None = None
+            office: dict | None = None
             label = item.text.lower()
             if label in data:
                 log.warn(f"Duplicate section on ballot: {label}")
@@ -664,7 +664,7 @@ def parse_general_election_offices(ballot: BeautifulSoup, data: Dict) -> int:
     return count
 
 
-def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
+def parse_proposals(ballot: BeautifulSoup, data: dict) -> int:
     """Inserts proposal data into the provided dictionary."""
     count = 0
 
@@ -681,8 +681,8 @@ def parse_proposals(ballot: BeautifulSoup, data: Dict) -> int:
         log.debug(f"Parsing proposal element {index}: {item}")
 
         if "section" in item["class"]:
-            section: Dict[str, Any] = {}
-            division: Optional[List] = None
+            section: dict[str, Any] = {}
+            division: list | None = None
             proposal = None
             label = item.text.lower()
             data[label] = section
