@@ -2,7 +2,6 @@
 
 import os
 import sys
-from typing import Optional
 
 import bugsnag
 import log
@@ -39,9 +38,9 @@ class Command(BaseCommand):
     def handle(  # type: ignore
         self,
         verbosity: int,
-        start_election: Optional[int],
+        start_election: int | None,
         start_precinct: int,
-        ballot_limit: Optional[int],
+        ballot_limit: int | None,
         **_kwargs,
     ):
         log.reset()

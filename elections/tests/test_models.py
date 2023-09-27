@@ -87,7 +87,8 @@ def describe_voter():
         @time_machine.travel("2018-08-06")
         def with_sample_ballot(expect, voter, election):
             status = models.RegistrationStatus(
-                registered=True, ballot_url="http://example.com"
+                registered=True,
+                ballot_url="https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1/2/",
             )
             message = voter.describe(election, status)
             expect(
@@ -98,7 +99,7 @@ def describe_voter():
         def with_sample_ballot_and_absentee(expect, voter, election):
             status = models.RegistrationStatus(
                 registered=True,
-                ballot_url="http://example.com",
+                ballot_url="https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1/2/",
                 absentee_ballot_sent=pendulum.parse("2021-08-09", tz="America/Detroit"),  # type: ignore
             )
             message = voter.describe(election, status)
