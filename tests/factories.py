@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import factory
 from django.utils import timezone
 
@@ -38,7 +40,7 @@ class ElectionFactory(factory.django.DjangoModelFactory):
         model = models.Election
 
     name = "General Election"
-    date = timezone.make_aware(timezone.datetime(2018, 8, 7))
+    date = timezone.make_aware(datetime(2018, 8, 7))
     active = True
     mvic_id = 2222
 

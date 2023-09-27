@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Dict, Generator, Tuple
+from typing import Generator
 
 import log
 from django.core.management.base import BaseCommand
@@ -93,14 +93,14 @@ class Command(BaseCommand):
             positions[name] = position.description
         self._write("positions", positions)
 
-    def _read_descriptions(self, name: str) -> Generator[Tuple[str, str], None, None]:
+    def _read_descriptions(self, name: str) -> Generator[tuple[str, str], None, None]:
         for path in Path(f"content/{name}").iterdir():
             if path.name.startswith("."):
                 continue
             log.debug(f"Reading {path}")
             yield path.stem, path.read_text().strip()
 
-    def _write(self, name: str, data: Dict) -> None:
+    def _write(self, name: str, data: dict) -> None:
         for key, value in sorted(data.items()):
             path = Path(f"content/{name}/{key}.md")
             with path.open("w") as f:

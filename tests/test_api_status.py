@@ -1,5 +1,6 @@
 # pylint: disable=unused-argument,unused-variable
 
+from datetime import datetime
 from unittest.mock import Mock, patch
 
 import pytest
@@ -16,7 +17,7 @@ from . import factories
 def election(db):
     election = factories.ElectionFactory.create(pk=42)
     factories.ElectionFactory.create(
-        active=False, date=timezone.make_aware(timezone.datetime(2017, 8, 7))
+        active=False, date=timezone.make_aware(datetime(2017, 8, 7))
     )
     return election
 

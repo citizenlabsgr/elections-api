@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Optional
+from datetime import timedelta
+from typing import Any
 
 import bugsnag
 import log
@@ -86,7 +87,7 @@ class Election(TimeStampedModel):
         return " | ".join(self.mvic_name)
 
     @property
-    def mvic_name(self) -> List[str]:
+    def mvic_name(self) -> list[str]:
         dt = pendulum.parse(self.date.isoformat())
         assert isinstance(dt, pendulum.DateTime)
         return [
@@ -124,7 +125,7 @@ class Precinct(TimeStampedModel):
         return " | ".join(self.mvic_name)
 
     @property
-    def mvic_name(self) -> List[str]:
+    def mvic_name(self) -> list[str]:
         if self.ward and self.number:
             ward_precinct = f"Ward {self.ward} Precinct {self.number}"
         elif self.ward:
@@ -175,7 +176,7 @@ class RegistrationStatus(models.Model):
     registered = models.BooleanField()
     ballot = models.BooleanField(null=True, blank=True)
     ballot_url = models.URLField(null=True, blank=True)
-    ballots: List[Ballot] = []  # not M2M because model is never saved
+    ballots: list[Ballot] = []  # not M2M because model is never saved
 
     absentee = models.BooleanField(null=True, blank=True)
     absentee_application_received = models.DateField(null=True)
@@ -188,7 +189,19 @@ class RegistrationStatus(models.Model):
 
     precinct = models.ForeignKey(Precinct, null=True, on_delete=models.SET_NULL)
 
-    districts: List[District] = []  # not M2M because model is never saved
+    districts: list[District] = []  # not M2M because model is never saved
+
+    def __init__(self, *args, districts=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.ballot_url:
+            *_, precinct_id, election_id = self.ballot_url.strip("/").split("/")
+            self.ballots = Ballot.objects.filter(
+                website__mvic_election_id=election_id,
+                website__mvic_precinct_id=precinct_id,
+            )
+
+        self.districts = districts or []
 
     def __str__(self) -> str:
         return self.message
@@ -248,7 +261,7 @@ class Voter(models.Model):
         if not data["registered"]:
             return RegistrationStatus(registered=False)
 
-        districts: List[District] = []
+        districts: list[District] = []
         county = jurisdiction = None
 
         for category_name, district_name in sorted(data["districts"].items()):
@@ -307,7 +320,7 @@ class Voter(models.Model):
                     },
                 )
 
-        status = RegistrationStatus(
+        status = RegistrationStatus(  # type: ignore[misc]
             registered=data["registered"],
             ballot=data["ballot"],
             ballot_url=data["ballot_url"],
@@ -321,14 +334,8 @@ class Voter(models.Model):
             dropbox_locations=data["dropbox_locations"],
             recently_moved=data["recently_moved"],
             precinct=precinct,
+            districts=districts,
         )
-        status.districts = districts
-        if data["ballot_url"]:
-            *_, precinct_id, election_id = data["ballot_url"].strip("/").split("/")
-            status.ballots = Ballot.objects.filter(
-                website__mvic_election_id=election_id,
-                website__mvic_precinct_id=precinct_id,
-            )
 
         return status
 
@@ -412,7 +419,7 @@ class BallotWebsite(models.Model):
 
         hours = 2
         age = timezone.now() - self.last_fetch
-        if age < timezone.timedelta(hours=hours):
+        if age < timedelta(hours=hours):
             log.debug(f"Ballot was scraped in the last {hours} hours: {self}")
             return False
 
@@ -422,7 +429,7 @@ class BallotWebsite(models.Model):
 
         hours = 12
         age = timezone.now() - self.last_fetch
-        if age < timezone.timedelta(hours=hours):
+        if age < timedelta(hours=hours):
             log.debug(f"Ballot was scraped in the last {hours} hours: {self}")
             return False
 
@@ -467,7 +474,7 @@ class BallotWebsite(models.Model):
         log.info(f"Scraping data from ballot: {self}")
         assert self.valid, f"Ballot has not been validated: {self}"
 
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
         data["election"] = helpers.parse_election(self.mvic_html)
         data["precinct"] = helpers.parse_precinct(self.mvic_html, self.mvic_url)
         data["ballot"] = {}
@@ -563,11 +570,11 @@ class Ballot(TimeStampedModel):
         return " | ".join(self.mvic_name)
 
     @property
-    def mvic_name(self) -> List[str]:
+    def mvic_name(self) -> list[str]:
         return self.election.mvic_name + self.precinct.mvic_name
 
     @property
-    def mvic_url(self) -> Optional[str]:
+    def mvic_url(self) -> str | None:
         if self.website:
             return self.website.mvic_url
         return None
@@ -585,7 +592,7 @@ class Ballot(TimeStampedModel):
             return True
 
         age = timezone.now() - self.website.last_parse
-        if age < timezone.timedelta(hours=23):
+        if age < timedelta(hours=23):
             log.debug("Ballot was parsed in the last day")
             return False
 
