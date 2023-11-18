@@ -306,7 +306,7 @@ class Voter(models.Model):
                     number=data["districts"]["Precinct"],
                 )
             except Precinct.MultipleObjectsReturned:
-                message = f'Duplicate precinct: {county=}, {jurisdiction=}, precinct={data["districts"]["Precinct"]}'
+                message = f"Duplicate precinct: {county} {jurisdiction}"
                 log.warn(message)
                 if track_missing_data:
                     bugsnag.notify(
@@ -317,6 +317,7 @@ class Voter(models.Model):
                                 "last_name": self.last_name,
                                 "birth_data": self.birth_date,
                                 "zip_code": self.zip_code,
+                                "data": data,
                             }
                         },
                     )
@@ -339,6 +340,7 @@ class Voter(models.Model):
                             "last_name": self.last_name,
                             "birth_data": self.birth_date,
                             "zip_code": self.zip_code,
+                            "data": data,
                         }
                     },
                 )
