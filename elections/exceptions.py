@@ -13,3 +13,7 @@ class UnhandledData(RuntimeError):
 
 class MissingData(RuntimeError):
     pass
+
+
+class DuplicateData(RuntimeError):
+    pass
