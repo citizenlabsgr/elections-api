@@ -317,7 +317,7 @@ class Voter(models.Model):
                                 "last_name": self.last_name,
                                 "birth_data": self.birth_date,
                                 "zip_code": self.zip_code,
-                                "data": data,
+                                "mvic_data": data,
                             }
                         },
                     )
@@ -340,7 +340,7 @@ class Voter(models.Model):
                             "last_name": self.last_name,
                             "birth_data": self.birth_date,
                             "zip_code": self.zip_code,
-                            "data": data,
+                            "mvic_data": data,
                         }
                     },
                 )
