@@ -299,14 +299,37 @@ class Voter(models.Model):
                 number=data["districts"]["Precinct"],
             )
         else:
-            precinct, created = Precinct.objects.get_or_create(
-                county=county,
-                jurisdiction=jurisdiction,
-                number=data["districts"]["Precinct"],
-            )
+            try:
+                precinct, created = Precinct.objects.get_or_create(
+                    county=county,
+                    jurisdiction=jurisdiction,
+                    number=data["districts"]["Precinct"],
+                )
+            except Precinct.MultipleObjectsReturned:
+                message = f'Duplicate precinct: {county=}, {jurisdiction=}, precinct={data["districts"]["Precinct"]}'
+                log.warn(message)
+                if track_missing_data:
+                    bugsnag.notify(
+                        exceptions.DuplicateData(message),
+                        metadata={
+                            "voter": {
+                                "first_name": self.first_name,
+                                "last_name": self.last_name,
+                                "birth_data": self.birth_date,
+                                "zip_code": self.zip_code,
+                            }
+                        },
+                    )
+                precinct, created = Precinct.objects.get_or_create(
+                    county=county,
+                    jurisdiction=jurisdiction,
+                    ward="1",  # assume that sample ballots indicate "Ward 1"
+                    number=data["districts"]["Precinct"],
+                )
+
         if created:
             message = f"Created precinct: {precinct}"
-            log.info(message)
+            log.warn(message)
             if track_missing_data:
                 bugsnag.notify(
                     exceptions.MissingData(message),
