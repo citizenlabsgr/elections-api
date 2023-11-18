@@ -132,6 +132,8 @@ def normalize_district(text: str) -> str:
 def normalize_jurisdiction(name: str) -> str:
     name = titleize(name)
 
+    name = name.replace("Charter Township", "Township")
+
     for kind in {"City", "Township", "Village"}:
         if name.startswith(kind):
             return name.replace(" Charter", "")
