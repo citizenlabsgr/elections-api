@@ -1011,8 +1011,8 @@ class Ballot(TimeStampedModel):
 class BallotItem(TimeStampedModel):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
-    precincts = models.ManyToManyField(Precinct)
-    ballots = models.ManyToManyField(Ballot)
+    precincts = models.ManyToManyField(Precinct)  # type: ignore[var-annotated]
+    ballots = models.ManyToManyField(Ballot)  # type: ignore[var-annotated]
 
     name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
