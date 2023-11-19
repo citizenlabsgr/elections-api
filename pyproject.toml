@@ -49,7 +49,7 @@ requests = "^2.31"
 # Production Server
 gunicorn = "^19.8"
 whitenoise = "^6.5"
-bugsnag = "^4.2"
+bugsnag = "^4.6"
 
 [tool.poetry.dev-dependencies]
 
