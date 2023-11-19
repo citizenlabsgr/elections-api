@@ -102,10 +102,6 @@ class Election(TimeStampedModel):
         return f"{self.name} election on {self.date:%Y-%m-%d}"
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/polling_location.html
-# TODO: PollingLocation(TimestampedModel): ...
-
-
 class Precinct(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
@@ -357,7 +353,6 @@ class Voter(models.Model):
         raise NotImplementedError
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html
 class Party(TimeStampedModel):
     """Affiliation for a particular candidate."""
 
@@ -1064,7 +1059,6 @@ class Position(BallotItem):
         super().save(*args, **kwargs)
 
 
-# https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html
 class Candidate(TimeStampedModel):
     """Individual running for a particular position."""
 

@@ -89,7 +89,7 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
 
 class ElectionViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: Election](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/election.html)
+    [VIP Specification: Election](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/election.html)
 
     list:
     Return all upcoming elections.
@@ -107,7 +107,7 @@ class ElectionViewSet(viewsets.ModelViewSet):
 
 class DistrictCategoryViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: DistrictType](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/enumerations/district_type.html)
+    [VIP Specification: DistrictType](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/enumerations/district_type.html)
 
     list:
     Return the types of districts, which can filter ballot items.
@@ -123,7 +123,7 @@ class DistrictCategoryViewSet(viewsets.ModelViewSet):
 
 class DistrictViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: Locality](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/locality.html)
+    [VIP Specification: Locality](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/locality.html)
 
     list:
     Return all districts, which can filter ballot items.
@@ -139,7 +139,7 @@ class DistrictViewSet(viewsets.ModelViewSet):
 
 class PrecinctViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: Precinct](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/precinct.html)
+    [VIP Specification: Precinct](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/precinct.html)
 
     list:
     Return all regions which share the same ballot.
@@ -157,7 +157,7 @@ class PrecinctViewSet(viewsets.ModelViewSet):
 
 class BallotViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: BallotStyle](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_style.html)
+    [VIP Specification: BallotStyle](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/ballot_style.html)
 
     list:
     Return all ballots for upcoming elections.
@@ -184,7 +184,7 @@ class BallotViewSet(viewsets.ModelViewSet):
 
 class ProposalViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: BallotMeasureContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/ballot_measure_contest.html)
+    [VIP Specification: BallotMeasureContest](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/ballot_measure_contest.html)
 
     list:
     Return all proposals for upcoming elections.
@@ -206,7 +206,7 @@ class ProposalViewSet(viewsets.ModelViewSet):
 
 class PartyViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: Party](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/party.html)
+    [VIP Specification: Party](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/party.html)
 
     list:
     Return all political parties.
@@ -222,7 +222,7 @@ class PartyViewSet(viewsets.ModelViewSet):
 
 class CandidateViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: Candidate](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate.html)
+    [VIP Specification: Candidate](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/candidate.html)
 
     list:
     Return all candidates in an upcoming elections.
@@ -241,7 +241,7 @@ class CandidateViewSet(viewsets.ModelViewSet):
 
 class PositionViewSet(viewsets.ModelViewSet):
     """
-    [VIP 5.1.2: CandidateContest](https://vip-specification.readthedocs.io/en/vip52/built_rst/xml/elements/candidate_contest.html)
+    [VIP Specification: CandidateContest](https://vip-specification.readthedocs.io/en/latest/built_rst/xml/elements/candidate_contest.html)
 
     list:
     Return all positions for upcoming elections.
