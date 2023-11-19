@@ -291,43 +291,12 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        if data["districts"]["Ward"]:
-            precinct, created = Precinct.objects.get_or_create(
-                county=county,
-                jurisdiction=jurisdiction,
-                ward=data["districts"]["Ward"],
-                number=data["districts"]["Precinct"],
-            )
-        else:
-            try:
-                precinct, created = Precinct.objects.get_or_create(
-                    county=county,
-                    jurisdiction=jurisdiction,
-                    number=data["districts"]["Precinct"],
-                )
-            except Precinct.MultipleObjectsReturned:
-                message = f"Duplicate precinct: {county} {jurisdiction}"
-                log.warn(message)
-                if track_missing_data:
-                    bugsnag.notify(
-                        exceptions.DuplicateData(message),
-                        metadata={
-                            "voter": {
-                                "first_name": self.first_name,
-                                "last_name": self.last_name,
-                                "birth_data": self.birth_date,
-                                "zip_code": self.zip_code,
-                                "mvic_data": data,
-                            }
-                        },
-                    )
-                precinct, created = Precinct.objects.get_or_create(
-                    county=county,
-                    jurisdiction=jurisdiction,
-                    ward="1",  # assume that sample ballots indicate "Ward 1"
-                    number=data["districts"]["Precinct"],
-                )
-
+        precinct, created = Precinct.objects.get_or_create(
+            county=county,
+            jurisdiction=jurisdiction,
+            ward=data["districts"]["Ward"],
+            number=data["districts"]["Precinct"],
+        )
         if created:
             message = f"Created precinct: {precinct}"
             log.warn(message)
