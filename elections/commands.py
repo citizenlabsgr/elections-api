@@ -35,7 +35,7 @@ def scrape_ballots(
     max_election_error_count: int = 5,
     max_ballot_error_count: int = 40000,
 ):
-    current_election = Election.objects.filter(active=True).last()
+    current_election = Election.objects.filter(active=True).order_by("mvic_id").first()
     last_election = Election.objects.exclude(active=True).first()
     log.info(f"Current election: {current_election}")
     log.info(f"Last election: {last_election}")
