@@ -431,7 +431,14 @@ def parse_seats(text: str) -> int:
 
 def parse_ballot(html: str, data: dict) -> int:
     """Call all parsers to insert ballot data into the provided dictionary."""
-    html = html.replace("<br>", "\n").replace("\n ", "\n").replace(" \n", "\n")
+    html = (
+        html.replace("&nbsp;", " ")
+        .replace("<br>", "\n")
+        .replace("\n ", "\n")
+        .replace(" \n", "\n")
+        .replace("  ", " ")
+        .replace("  ", " ")
+    )
     soup = BeautifulSoup(html, "html.parser")
     ballot = soup.find(id="PreviewMvicBallot").div.div.find_all("div", recursive=False)[
         1

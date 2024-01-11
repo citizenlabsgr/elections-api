@@ -152,6 +152,7 @@ def test_2023_consolidated_ballots(expect, db, precinct_id, item_count):
         (695, 7192, 5),
         # 2024 Primary
         (696, 529, 11),
+        (696, 1561, 12),
     ],
 )
 def test_parse_ballot(expect, election_id, precinct_id, item_count):
