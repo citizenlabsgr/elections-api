@@ -1,5 +1,6 @@
 import itertools
 from datetime import timedelta
+from random import random
 
 import log
 from django.utils import timezone
@@ -108,7 +109,7 @@ def _scrape_ballots_for_election(
             log.warn(f"No ballots to scrape for election {election_id}")
             break
 
-        if error_count > 1000:
+        if error_count > 1000 and random() < 0.1:
             log.warn(
                 f"Found {ballot_count} ballots with {error_count} successive errors"
             )
