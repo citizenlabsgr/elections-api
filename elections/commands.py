@@ -147,9 +147,16 @@ def _parse_ballots_for_election(election: Election):
             website.scrape()
 
         ballot = website.convert()
-        precincts.add(ballot.precinct)
 
         if ballot.stale:
-            ballot.parse()
+            try:
+                ballot.parse()
+            except ValueError:
+                log.warn(f"Rescrapping after parse error: {website}")
+                website.scrape()
+                ballot = website.convert()
+                ballot.parse()
+
+        precincts.add(ballot.precinct)
 
     log.info(f"Parsed ballots for {len(precincts)} unique precincts")
