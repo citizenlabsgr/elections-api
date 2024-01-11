@@ -145,7 +145,7 @@ promote: install
 
 .PHONY: crawl
 crawl:
-	heroku bin/crawl
+	heroku run bin/crawl
 
 # HELP ########################################################################
 
