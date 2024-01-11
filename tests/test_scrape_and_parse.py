@@ -143,15 +143,19 @@ def test_2023_consolidated_ballots(expect, db, precinct_id, item_count):
 
 
 @pytest.mark.vcr
+@pytest.mark.django_db
 @pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
+    ("election_id", "precinct_id", "item_count"),
     [
-        (4190, 4),
-        (7192, 5),
+        # 2023 November Consolidated
+        (695, 4190, 4),
+        (695, 7192, 5),
+        # 2024 Primary
+        (696, 529, 11),
     ],
 )
-def test_2023_november_consolidated_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(695, precinct_id)) == item_count
+def test_parse_ballot(expect, election_id, precinct_id, item_count):
+    expect(parse_ballot(election_id, precinct_id)) == item_count
 
 
 @pytest.mark.vcr
