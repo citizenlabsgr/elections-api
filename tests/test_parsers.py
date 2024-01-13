@@ -25,128 +25,56 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
 
 
 @pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (160, 1),
-        (7608, 29),
-        (1828, 25),
-        (7489, 25),
-        (6911, 37),
-    ],
-)
-def test_2020_primary_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(682, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (901, 90),
-        (133, 84),
-        (268, 93),
-        (256, 94),
-        (7558, 101),
-        (7222, 84),
-        (412, 94),
-        (7159, 88),
-        (6477, 109),
-        (4279, 93),
-        (4258, 97),
-        (1633, 86),
-    ],
-)
-def test_2020_general_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(683, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (1, 11),
-    ],
-)
-def test_2021_primary_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(686, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (6956, 1),
-    ],
-)
-def test_2021_consolidated_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(687, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (6176, 6),
-        (6766, 1),
-        (56389, 2),
-        (56366, 2),
-        (56357, 1),
-        (56204, 1),
-        (55859, 1),
-        (55833, 1),
-        (54783, 1),
-        (45358, 3),
-    ],
-)
-def test_2022_consolidated_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(689, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (68616, 32),
-        (68322, 20),
-        (56663, 32),
-        (50021, 22),
-        (48210, 23),
-        (43465, 19),
-    ],
-)
-def test_2022_primary_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(690, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (1878, 99),
-        (68643, 73),
-    ],
-)
-def test_2022_general_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(691, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
-@pytest.mark.parametrize(
-    ("precinct_id", "item_count"),
-    [
-        (2300, 1),
-    ],
-)
-def test_2023_consolidated_ballots(expect, db, precinct_id, item_count):
-    expect(parse_ballot(694, precinct_id)) == item_count
-
-
-@pytest.mark.vcr
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     ("election_id", "precinct_id", "item_count"),
     [
+        # 2020 Primary
+        (682, 160, 1),
+        (682, 7608, 29),
+        (682, 1828, 25),
+        (682, 7489, 25),
+        (682, 6911, 37),
+        # 2020 General
+        (683, 901, 90),
+        (683, 133, 84),
+        (683, 268, 93),
+        (683, 256, 94),
+        (683, 7558, 101),
+        (683, 7222, 84),
+        (683, 412, 94),
+        (683, 7159, 88),
+        (683, 6477, 109),
+        (683, 4279, 93),
+        (683, 4258, 97),
+        (683, 1633, 86),
+        # 2021 Primary
+        (686, 1, 11),
+        # 2021 Consolidated
+        (687, 6956, 1),
+        # 2022 Consolidated
+        (689, 6176, 6),
+        (689, 6766, 1),
+        (689, 56389, 2),
+        (689, 56366, 2),
+        (689, 56357, 1),
+        (689, 56204, 1),
+        (689, 55859, 1),
+        (689, 55833, 1),
+        (689, 54783, 1),
+        (689, 45358, 3),
+        # 2022 Primary
+        (690, 68616, 32),
+        (690, 68322, 20),
+        (690, 56663, 32),
+        (690, 50021, 22),
+        (690, 48210, 23),
+        (690, 43465, 19),
+        # 2022 General
+        (691, 1878, 99),
+        (691, 68643, 73),
+        # 2023 Consolidated
+        (694, 2300, 1),
         # 2023 November Consolidated
         (695, 4190, 4),
         (695, 7192, 5),
@@ -215,7 +143,7 @@ def test_default_term(expect, db):
     ).first()
     assert position
     expect(position.term) == "2 Year Term"
-    parse_ballot(683, 6911)
+    parse_ballot(683, 6911)  # ensure no conflict
 
 
 @pytest.mark.vcr
