@@ -196,7 +196,7 @@ class ProposalViewSet(viewsets.ModelViewSet):
     http_method_names = ["get"]
     queryset = (
         models.Proposal.objects.select_related("election", "district__category")
-        .order_by("district__category__rank", "name")
+        .order_by("-election__date", "district__category__rank", "name")
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
