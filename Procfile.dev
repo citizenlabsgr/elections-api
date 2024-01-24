@@ -1,2 +1,0 @@
-python: PYTHONUNBUFFERED=true python manage.py runserver ${PORT}
-reload: python manage.py livereload

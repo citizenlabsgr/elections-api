@@ -17,9 +17,9 @@ SECRET_KEY = "dev"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".ngrok.io"]
 
-INSTALLED_APPS += ["django_extensions", "livereload", "debug_toolbar"]
+INSTALLED_APPS += ["django_extensions", "django_browser_reload", "debug_toolbar"]
 
-MIDDLEWARE += ["livereload.middleware.LiveReloadScript"]
+MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 LOGGING["loggers"]["elections"]["level"] = "DEBUG"  # type: ignore
