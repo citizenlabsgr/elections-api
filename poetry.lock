@@ -623,6 +623,21 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-browser-reload"
+version = "1.12.1"
+description = "Automatically reload your browser in development."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-browser-reload-1.12.1.tar.gz", hash = "sha256:875b6bd01db13380522ccb4ae75871a2edeae74bb5ac92bf32eb76763d575d86"},
+    {file = "django_browser_reload-1.12.1-py3-none-any.whl", hash = "sha256:08b457f1b6599bf782d4d2ecdfb0897d6fc936ac4035060d0269c2af5ef4ef7a"},
+]
+
+[package.dependencies]
+asgiref = ">=3.6"
+Django = ">=3.2"
+
+[[package]]
 name = "django-cors-headers"
 version = "3.11.0"
 description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
@@ -668,7 +683,7 @@ Django = ">=2.2"
 [[package]]
 name = "django-filter"
 version = "2.2.0"
-description = ""
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 optional = false
 python-versions = ">=3.5"
 files = []
@@ -681,7 +696,7 @@ Django = ">=1.11"
 type = "git"
 url = "https://github.com/citizenlabsgr/django-filter"
 reference = "combine-filters"
-resolved_reference = "7e228f52d300558c2c939a2ea09cf04f307a236e"
+resolved_reference = "79865ef49ad7d11b8056c4e8192d5751cc30d504"
 
 [[package]]
 name = "django-grappelli"
@@ -693,23 +708,6 @@ files = [
     {file = "django-grappelli-3.0.8.tar.gz", hash = "sha256:0c24a0128a8e94b0f251a99d71b96738e4cf546d20fd993d03b26c05c8642fdd"},
     {file = "django_grappelli-3.0.8-py2.py3-none-any.whl", hash = "sha256:4664f14cd8f296e01130d167cb869a106644818bf84953dfeabff498be937319"},
 ]
-
-[[package]]
-name = "django-livereload-server"
-version = "0.4"
-description = "LiveReload functionality integrated with your Django development environment"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-livereload-server-0.4.tar.gz", hash = "sha256:60ed030085ca53671d25704b10ec7aa3cc94a16da437b727a8dcce42471b4c65"},
-    {file = "django_livereload_server-0.4-py2.py3-none-any.whl", hash = "sha256:136c231e7ad3ba7a4db65426632dfa9b964ac04e8fa5f3808166447f016a4a91"},
-]
-
-[package.dependencies]
-beautifulsoup4 = ">=4.3.2"
-django = ">=1.8"
-six = "*"
-tornado = "*"
 
 [[package]]
 name = "django-model-utils"
@@ -3817,4 +3815,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "86d7d98195e993b385e51f9781d3a28f28798a5da1f78144028bc9b55227cd77"
+content-hash = "316b81a2d29238e53df589c903671681e4000c8d09d4232e61e5583b12305677"
