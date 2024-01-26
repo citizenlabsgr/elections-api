@@ -254,7 +254,7 @@ class PositionViewSet(viewsets.ModelViewSet):
     queryset = (
         models.Position.objects.select_related("election", "district__category")
         .prefetch_related("candidates__party")
-        .order_by("district__category__rank", "name")
+        .order_by("-election__date", "district__category__rank", "name")
         .distinct()
     )
     filter_backends = [filters.DjangoFilterBackend]
