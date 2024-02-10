@@ -74,7 +74,7 @@ class Election(TimeStampedModel):
     name = models.CharField(max_length=100)
     date = models.DateField()
 
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True, db_index=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
     mvic_id = models.PositiveIntegerField(verbose_name="MVIC ID")
