@@ -187,6 +187,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 3.2**
+
+- Added `items` count to the `ballot` portion of status API responses.
+
 **Version 3.1**
 
 - Added `ballots` to registration API responses.

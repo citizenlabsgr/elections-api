@@ -23,7 +23,7 @@ class DistrictCategorySerializer(serializers.HyperlinkedModelSerializer):
             "description_edit_url",
         ]
 
-    def get_description_edit_url(self, instance):
+    def get_description_edit_url(self, instance: models.DistrictCategory) -> str:
         category = "districts"
         name = instance.name.replace(" ", "%20")
         return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
@@ -57,7 +57,7 @@ class ElectionSerializer(serializers.ModelSerializer):
             "reference_url",
         ]
 
-    def get_date_humanized(self, instance) -> str:
+    def get_date_humanized(self, instance: models.Election) -> str:
         dt = pendulum.datetime(
             instance.date.year, instance.date.month, instance.date.day
         )
@@ -137,12 +137,18 @@ class MinimalBallotSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class NestedBallotSerializer(serializers.ModelSerializer):
+    items = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Ballot
         fields = [
             "id",
             "mvic_url",
+            "items",
         ]
+
+    def get_items(self, instance: models.Ballot) -> int:
+        return instance.website.data_count
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
@@ -211,7 +217,7 @@ class PositionSerializer(serializers.HyperlinkedModelSerializer):
             "district",
         ]
 
-    def get_description_edit_url(self, instance):
+    def get_description_edit_url(self, instance: models.Position) -> str:
         category = "positions"
         name = instance.name.replace(" ", "%20")
         return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
@@ -259,7 +265,7 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
     description = serializers.CharField()
     edit_url = serializers.SerializerMethodField()
 
-    def get_category(self, instance) -> str:
+    def get_category(self, instance: models.DistrictCategory | models.Position) -> str:
         categories = {
             "DistrictCategory": "districts",
             "Position": "positions",
@@ -267,7 +273,7 @@ class GlossarySerializer(serializers.Serializer):  # pylint: disable=abstract-me
         model = instance.__class__.__name__
         return categories[model]
 
-    def get_edit_url(self, instance):
+    def get_edit_url(self, instance: models.DistrictCategory | models.Position) -> str:
         category = self.get_category(instance)
         name = instance.name.replace(" ", "%20")
         return f"https://github.com/citizenlabsgr/elections-api/edit/main/content/{category}/{name}.md"
