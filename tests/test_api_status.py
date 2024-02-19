@@ -78,6 +78,7 @@ def describe_create():
             "ballot": {
                 "id": expect.anything,
                 "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+                "items": -1,
             },
         }
 
