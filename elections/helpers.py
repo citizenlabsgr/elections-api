@@ -414,6 +414,12 @@ def parse_district_from_proposal(category: str, text: str, mvic_url: str) -> str
             if len(name) < 100:
                 return name
 
+    pattern = r"[(](.+ School)[)]"
+    if match2 := re.search(pattern, text):
+        name = match2[1].strip()
+        log.debug(f"{pattern!r} matched: {name}")
+        return name
+
     raise ValueError(f"Could not find {category!r} in {text!r} on {mvic_url}")
 
 
