@@ -215,6 +215,8 @@ def fetch_registration_status_data(voter):
     if ballot := "Ballot preview" in response.text:
         if match := re.search(r"/Voter/GetMvicBallot/\d+/\d+/", response.text):
             ballot_url = MVIC_URL + match.group()
+        else:
+            log.warn("Unable to determine ballot URL")
 
     # Parse absentee status
     absentee = "You are on the permanent absentee voter list" in response.text
@@ -236,8 +238,6 @@ def fetch_registration_status_data(voter):
                     absentee_dates[key] = datetime.strptime(value, "%m/%d/%Y").date()
     else:
         log.warn("Unable to determine absentee status")
-
-    log.c(absentee_dates)
 
     # Parse districts
     districts: dict = {}
