@@ -40,6 +40,7 @@ def describe_fetch_registration_status_data():
             "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
             "absentee": True,
             "absentee_dates": {
+                "Election Date": datetime.date(2020, 11, 3),
                 "Application Received": datetime.date(2020, 6, 6),
                 "Ballot Sent": datetime.date(2020, 9, 24),
                 "Ballot Received": datetime.date(2020, 9, 29),

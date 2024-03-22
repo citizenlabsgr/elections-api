@@ -221,19 +221,23 @@ def fetch_registration_status_data(voter):
 
     # Parse absentee dates
     absentee_dates: dict[str, date | None] = {
+        "Election Date": None,
         "Application Received": None,
         "Ballot Sent": None,
         "Ballot Received": None,
     }
     element = html.find(id="lblAbsenteeVoterInformation")
     if element:
-        strings = list(element.strings) + [""] * 20
-        for index, key in enumerate(absentee_dates):
-            text = strings[4 + index * 2].strip()
-            if text:
-                absentee_dates[key] = datetime.strptime(text, "%m/%d/%Y").date()
+        strings = list(element.strings)
+        for index, string in enumerate(strings):
+            key = string.strip(": ").title()
+            if key in absentee_dates:
+                if value := strings[index + 1].strip():
+                    absentee_dates[key] = datetime.strptime(value, "%m/%d/%Y").date()
     else:
         log.warn("Unable to determine absentee status")
+
+    log.c(absentee_dates)
 
     # Parse districts
     districts: dict = {}
