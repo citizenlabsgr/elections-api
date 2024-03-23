@@ -8,27 +8,38 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from markdown import markdown
 
+BALLOT_BUDDIES_HEADING = """
+
+<style>
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+</style>
+
+<div class="alert alert-secondary d-flex justify-content-between align-items-center mt-lg-5 mt-3 mb-5 gap-4">
+    <p class="text-secondary fs-3 my-0 ms-1 d-flex align-items-center">
+        <i>Explore elections and help your friends vote.</i>
+    </p>
+    <button class="btn btn-danger" onclick="location.href='https://app.michiganelections.io/explore/'">
+        <span class="d-none d-md-inline">⇨</span> Ballot Buddies App
+    </button>
+</div>
+
+<h1 class="mt-2 mb-4">Michigan Elections API</h1>
+
+"""
+
 
 def index(request):
     with Path("README.md").open() as readme:
         text = readme.read()
 
     text = text.split("<!-- content -->")[1]
-    text = text.replace(
-        "Michigan.",
-        """
-        Michigan.
-        <div>
-            <button class="btn btn-primary mb-1" onclick="location.href='https://share.michiganelections.io'">
-                Ballot Preview
-            </button>
-            <button class="btn btn-danger mb-1" onclick="location.href='https://app.michiganelections.io'">
-                Ballot Buddies
-            </button>
-        </div>
-        """,
-        1,
-    )
+    text = BALLOT_BUDDIES_HEADING + text
+
     text = text.replace("https://michiganelections.io", settings.BASE_URL)
     text = text.replace(">michiganelections.io", f">{settings.BASE_DOMAIN}")
 
