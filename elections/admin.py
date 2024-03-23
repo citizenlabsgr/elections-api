@@ -105,14 +105,16 @@ class PrecinctAdmin(admin.ModelAdmin):
 
 
 def scrape_selected_ballots(modeladmin, request, queryset):
+    website: models.BallotWebsite
     for website in queryset:
         website.fetch()
-        website.validate()
-        website.scrape()
-        website.convert()
+        if website.validate():
+            website.scrape()
+            website.convert()
 
 
 def parse_selected_ballots(modeladmin, request, queryset):
+    website: models.BallotWebsite
     for website in queryset:
         ballot = website.convert()
         ballot.parse()
