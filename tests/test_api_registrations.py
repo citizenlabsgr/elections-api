@@ -35,72 +35,32 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             "registered": True,
-            "ballot": True,
-            "ballots": [
-                {
-                    "url": expect.anything,
-                    "id": expect.anything,
-                    "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
-                    "mvic_name": expect.anything,
-                }
-            ],
+            # TODO: Enable this when there is real election data
+            # "ballot": True,
+            # "ballots": [
+            #     {
+            #         "url": expect.anything,
+            #         "id": expect.anything,
+            #         "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+            #         "mvic_name": expect.anything,
+            #     }
+            # ],
             "absentee": True,
-            "absentee_application_received": "2020-06-06",
-            "absentee_ballot_sent": "2020-09-24",
-            "absentee_ballot_received": "2020-09-29",
+            # "absentee_application_received": "2020-06-06",
+            # "absentee_ballot_sent": "2020-09-24",
+            # "absentee_ballot_received": "2020-09-29",
+            "ballot": expect.anything,
+            "ballots": expect.anything,
+            "absentee_application_received": expect.anything,
+            "absentee_ballot_sent": expect.anything,
+            "absentee_ballot_received": expect.anything,
             "polling_location": [
-                "Encounter Church",
-                "1736 Lyon NE",
+                "617 Coit Ne (livingston Ent)",
                 "Grand Rapids, MI 49503",
             ],
             "dropbox_locations": [
                 {
-                    "address": [
-                        "300 Ottawa Ave NW",
-                        "Grand Rapids, MI 49503",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "1563 Plainfield Avenue NE",
-                        "Grand Rapids, MI 49505",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "1017 Leonard, NW",
-                        "Grand Rapids, MI 49504",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "427 Market, SW",
-                        "Grand Rapids, MI 49503",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "1150 Giddings SE",
-                        "Grand Rapids, MI 49506",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "2350 Eastern SE",
-                        "Grand Rapids, MI 49507",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "300 Monroe Avenue, NW",
-                        "Grand Rapids, MI 49503",
-                    ],
+                    "address": ["300 Monroe NW", "Grand Rapids, MI 49503"],
                     "hours": [
                         "Mon. 8am-5pm",
                         "Tue. 8am-5pm",
@@ -108,6 +68,46 @@ def describe_list():
                         "Thu. 8am-5pm",
                         "Fri. 8am-5pm",
                     ],
+                },
+                {
+                    "address": ["110 Fountain NE", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1201 Madison SE", "Grand Rapids, MI 49507"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1150 Giddings SE", "Grand Rapids, MI 49506"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["2350 Eastern SE", "Grand Rapids, MI 49507"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1563 Plainfield NE", "Grand Rapids, MI 49505"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1017 Leonard NW", "Grand Rapids, MI 49504"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["713 Bridge NW", "Grand Rapids, MI 49504"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["2025 Leonard NE", "Grand Rapids, MI 49505"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["300 Ottawa NW", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1100 Cesar E Chavez SW", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
             ],
             "recently_moved": False,
@@ -117,7 +117,7 @@ def describe_list():
                 "county": "Kent",
                 "jurisdiction": "City of Grand Rapids",
                 "ward": "2",
-                "number": "30",
+                "number": "36",
             },
             "districts": [
                 {
@@ -142,7 +142,7 @@ def describe_list():
                     "url": expect.anything,
                     "id": expect.anything,
                     "category": "County Commissioner District",
-                    "name": "18th District",
+                    "name": "16th District",
                 },
                 {
                     "url": expect.anything,
@@ -184,13 +184,13 @@ def describe_list():
                     "url": expect.anything,
                     "id": expect.anything,
                     "category": "State House District",
-                    "name": "75th District",
+                    "name": "84th District",
                 },
                 {
                     "url": expect.anything,
                     "id": expect.anything,
                     "category": "State Senate District",
-                    "name": "29th District",
+                    "name": "30th District",
                 },
                 {
                     "url": expect.anything,
