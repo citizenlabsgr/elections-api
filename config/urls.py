@@ -23,7 +23,7 @@ BALLOT_BUDDIES_HEADING = """
     <p class="text-secondary fs-3 my-0 ms-1 d-flex align-items-center">
         <i>Explore elections and help your friends vote.</i>
     </p>
-    <button class="btn btn-danger" onclick="location.href='https://app.michiganelections.io/explore/'">
+    <button class="btn btn-danger" onclick="location.href='https://app.michiganelections.io/explore/elections/'">
         <span class="d-none d-md-inline">⇨</span> Ballot Buddies App
     </button>
 </div>
