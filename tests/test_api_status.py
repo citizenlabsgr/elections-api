@@ -52,8 +52,8 @@ def describe_create():
 
         expect(response.status_code) == 200
         expect(response.data) == {
-            "id": f"{settings.API_CACHE_KEY}42-4085-11289",
-            "message": "Rosalynn Bliss is registered to vote absentee and your ballot was received on 2020-09-29 for the General Election election on 2018-08-07.",
+            "id": f"{settings.API_CACHE_KEY}42-4085-6191",
+            "message": "Rosalynn Bliss is registered to vote absentee and your ballot was received on 2024-02-06 for the General Election election on 2018-08-07.",
             "election": {
                 "id": 42,
                 "name": "General Election",
@@ -65,21 +65,23 @@ def describe_create():
                 "county": "Kent",
                 "jurisdiction": "City of Grand Rapids",
                 "ward": "2",
-                "number": "30",
+                "number": "36",
             },
             "status": {
                 "registered": True,
-                "ballot": True,
+                "ballot": False,
                 "absentee": True,
-                "absentee_application_received": "2020-06-06",
-                "absentee_ballot_sent": "2020-09-24",
-                "absentee_ballot_received": "2020-09-29",
+                "absentee_application_received": "2024-01-10",
+                "absentee_ballot_sent": "2024-01-22",
+                "absentee_ballot_received": "2024-02-06",
             },
-            "ballot": {
-                "id": expect.anything,
-                "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
-                "items": -1,
-            },
+            # TODO: Enable this when there is real election data
+            # "ballot": {
+            #     "id": expect.anything,
+            #     "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+            #     "items": -1,
+            # },
+            "ballot": expect.anything,
         }
 
     @pytest.mark.vcr

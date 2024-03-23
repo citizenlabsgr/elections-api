@@ -1,8 +1,6 @@
 # pylint: disable=unused-variable
 
 
-import datetime
-
 import pendulum
 import pytest
 
@@ -36,92 +34,48 @@ def describe_fetch_registration_status_data():
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
             "registered": True,
-            "ballot": True,
-            "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
+            # TODO: Enable this when there is real election data
+            # "ballot": True,
+            # "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
             "absentee": True,
-            "absentee_dates": {
-                "Election Date": datetime.date(2020, 11, 3),
-                "Application Received": datetime.date(2020, 6, 6),
-                "Ballot Sent": datetime.date(2020, 9, 24),
-                "Ballot Received": datetime.date(2020, 9, 29),
-            },
+            # "absentee_dates": {
+            #     "Election Date": datetime.date(2020, 11, 3),
+            #     "Application Received": datetime.date(2020, 6, 6),
+            #     "Ballot Sent": datetime.date(2020, 9, 24),
+            #     "Ballot Received": datetime.date(2020, 9, 29),
+            # },
+            "ballot": expect.anything,
+            "ballot_url": expect.anything,
+            "absentee_dates": expect.anything,
             "districts": {
+                "County": "Kent County",
+                "Jurisdiction": "City of Grand Rapids",
                 "Circuit Court": "17th Circuit",
                 "Community College": "Grand Rapids Community College",
-                "County Commissioner": "18th District",
-                "County": "Kent County",
+                "County Commissioner": "16th District",
                 "Court of Appeals": "3rd District",
                 "District Court": "61st District",
                 "Intermediate School": "Kent ISD",
-                "Jurisdiction": "City of Grand Rapids",
                 "Library": "",
                 "Metropolitan": "",
                 "Municipal Court": "",
-                "Precinct": "30",
+                "Precinct": "36",
                 "Probate Court": "Kent County Probate Court",
                 "Probate District Court": "",
                 "School": "Grand Rapids Public Schools",
-                "State House": "75th District",
-                "State Senate": "29th District",
+                "State House": "84th District",
+                "State Senate": "30th District",
                 "US Congress": "3rd District",
                 "Village": "",
                 "Ward": "2",
             },
             "polling_location": {
-                "PollingLocation": "Encounter Church",
-                "PollAddress": "1736 Lyon NE",
+                "PollAddress": "617 Coit Ne (livingston Ent)",
                 "PollCityStateZip": "Grand Rapids, MI 49503",
             },
             "dropbox_locations": [
                 {
-                    "address": [
-                        "300 Ottawa Ave NW",
-                        "Grand Rapids, MI 49503",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "1563 Plainfield Avenue NE",
-                        "Grand Rapids, MI 49505",
-                    ],
-                    "hours": [
-                        "Available 24 Hours/7 Days a Week",
-                    ],
-                },
-                {
-                    "address": [
-                        "1017 Leonard, NW",
-                        "Grand Rapids, MI 49504",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "427 Market, SW",
-                        "Grand Rapids, MI 49503",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "1150 Giddings SE",
-                        "Grand Rapids, MI 49506",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "2350 Eastern SE",
-                        "Grand Rapids, MI 49507",
-                    ],
-                    "hours": ["Available 24 Hours/7 Days a Week"],
-                },
-                {
-                    "address": [
-                        "300 Monroe Avenue, NW",
-                        "Grand Rapids, MI 49503",
-                    ],
+                    "address": ["300 Monroe NW", "Grand Rapids, MI 49503"],
                     "hours": [
                         "Mon. 8am-5pm",
                         "Tue. 8am-5pm",
@@ -129,6 +83,46 @@ def describe_fetch_registration_status_data():
                         "Thu. 8am-5pm",
                         "Fri. 8am-5pm",
                     ],
+                },
+                {
+                    "address": ["110 Fountain NE", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1201 Madison SE", "Grand Rapids, MI 49507"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1150 Giddings SE", "Grand Rapids, MI 49506"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["2350 Eastern SE", "Grand Rapids, MI 49507"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1563 Plainfield NE", "Grand Rapids, MI 49505"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1017 Leonard NW", "Grand Rapids, MI 49504"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["713 Bridge NW", "Grand Rapids, MI 49504"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["2025 Leonard NE", "Grand Rapids, MI 49505"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["300 Ottawa NW", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
+                },
+                {
+                    "address": ["1100 Cesar E Chavez SW", "Grand Rapids, MI 49503"],
+                    "hours": ["Available 24 Hours/7 Days a Week"],
                 },
             ],
             "recently_moved": False,

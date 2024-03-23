@@ -288,38 +288,37 @@ def fetch_registration_status_data(voter):
     else:
         log.warn("Unable to determine polling location")
 
-    # Parse dropbox locations
+    # Parse drop box locations
     dropbox_locations: list[dict[str, list[str]]] = []
-    element = html.find("span", {"class": "additional-location-badge"})
-    if element:
-        lines: list[str] = []
-        for element in element.next_siblings:
-            try:
-                text = element.get_text("\n")
-            except AttributeError:
-                text = element
-            text = text.replace("\xa0", " ").strip()
-            if "Drop box locations" in text:
-                lines = []  # the previous lines were above the dropbox list
-            elif text and text != "Hours:":
-                lines.extend(text.split("\n"))
-        log.debug(f"Drop box lines: {lines}")
+    elements = html.find_all("div", class_="voter-info-card")
+    for element in elements:
+        if "Drop box locations" not in element.text:
+            continue
+        for address_block in element.find_all("address"):
+            dropbox_location: dict[str, list[str]] = {"address": [], "hours": []}
 
-        for line in lines:
-            if line[0].isnumeric():
-                dropbox_locations.append(
-                    {"address": [normalize_address(line)], "hours": []}
-                )
-            elif dropbox_locations:
-                if len(dropbox_locations[-1]["address"]) == 1:
-                    dropbox_locations[-1]["address"].append(normalize_address(line))
-                else:
-                    dropbox_locations[-1]["hours"].append(line)
+            # Parse address
+            for line in address_block.find_all("div"):
+                dropbox_location["address"].append(normalize_address(line.text))
+
+            # Parse hours
+            lines = [
+                e.get_text("\n").strip() for e in address_block.find_next_siblings()
+            ]
+            for index, line in enumerate(lines):
+                if line == "Hours:":
+                    dropbox_location["hours"] = lines[index + 1].split("\n")
+                    break
+            else:
+                log.warn("Unable to determine drop box hours")
+
+            dropbox_locations.append(dropbox_location)
 
         if not dropbox_locations:
-            log.warn("No dropbox locations found")
+            log.warn("No drop box locations found")
+        break
     else:
-        log.warn("Unable to determine dropbox locations")
+        log.warn("Unable to determine drop box locations")
 
     return {
         "registered": registered,
