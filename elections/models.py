@@ -440,17 +440,13 @@ class BallotWebsite(models.Model):
     def validate(self) -> bool:
         """Determine if fetched HTML contains ballot information."""
         log.info(f"Validating ballot HTML: {self}")
-        assert self.mvic_html, f"Ballot has not been fetched: {self}"
+        assert self.mvic_html, f"Ballot URL has not been fetched: {self}"
 
-        if (
-            "not available at this time" in self.mvic_html
-            or "currently no items for this ballot" in self.mvic_html
-            or " County" not in self.mvic_html
-        ):
-            log.warn("Ballot URL does not contain precinct information")
+        if "county, michigan" not in self.mvic_html.lower():
+            log.warn("Ballot HTML does not contain precinct information")
             self.valid = False
         else:
-            log.info("Ballot URL contains precinct information")
+            log.info("Ballot HTML contains precinct information")
             self.valid = True
             self.last_validate = timezone.now()
 
@@ -461,7 +457,7 @@ class BallotWebsite(models.Model):
     def scrape(self) -> int:
         """Scrape ballot data from the HTML."""
         log.info(f"Scraping data from ballot: {self}")
-        assert self.valid, f"Ballot has not been validated: {self}"
+        assert self.valid, f"Ballot HTML has not been validated: {self}"
 
         data: dict[str, Any] = {}
         data["election"] = helpers.parse_election(self.mvic_html)
@@ -484,7 +480,7 @@ class BallotWebsite(models.Model):
     def convert(self) -> Ballot:
         """Convert parsed ballot data into a ballot."""
         log.info(f"Converting to a ballot: {self}")
-        assert self.data, f"Ballot has not been scraped: {self}"
+        assert self.data, f"Ballot data has not been scraped: {self}"
 
         election = self._get_election()
         precinct = self._get_precinct()

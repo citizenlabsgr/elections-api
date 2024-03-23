@@ -83,6 +83,7 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (696, 1561, 12),
         # 2024 May Consolidated
         (697, 4185, 1),
+        (697, 5951, 1),
     ],
 )
 def test_parse_ballot(expect, election_id, precinct_id, item_count):
