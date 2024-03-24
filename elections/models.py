@@ -443,8 +443,11 @@ class BallotWebsite(models.Model):
         assert self.mvic_html, f"Ballot URL has not been fetched: {self}"
 
         html = self.mvic_html.lower()
-        if "county, michigan" not in html or "not available at this time" in html:
-            log.warn("Ballot HTML does not contain precinct information")
+        if "not available at this time" in html:
+            log.warn("Ballot HTML is not available at this time")
+            self.valid = False
+        elif "county, michigan" not in html:
+            log.warn("Ballot HTML missing precinct information")
             self.valid = False
         else:
             log.info("Ballot HTML contains precinct information")
