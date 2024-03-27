@@ -74,6 +74,7 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
             precinct = registration_status.precinct
             ballots = registration_status.ballots
             ballot = ballots[0] if ballots else None
+            election = ballot.election if ballot else election
             data = {
                 "id": voter.fingerprint(election, registration_status),
                 "message": voter.describe(election, registration_status),
