@@ -186,6 +186,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 3.3**
+
+- Added `proposals_count` and `positions_count` to elections API responses.
+
 **Version 3.2**
 
 - Added `items` count to the `ballot` portion of status API responses.

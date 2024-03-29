@@ -44,6 +44,8 @@ class DistrictSerializer(serializers.HyperlinkedModelSerializer):
 
 class ElectionSerializer(serializers.ModelSerializer):
     date_humanized = serializers.SerializerMethodField()
+    proposals_count = serializers.SerializerMethodField()
+    positions_count = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Election
@@ -54,6 +56,8 @@ class ElectionSerializer(serializers.ModelSerializer):
             "date",
             "date_humanized",
             "active",
+            "proposals_count",
+            "positions_count",
             "reference_url",
         ]
 
@@ -62,6 +66,12 @@ class ElectionSerializer(serializers.ModelSerializer):
             instance.date.year, instance.date.month, instance.date.day
         )
         return dt.format("dddd, MMMM Do")
+
+    def get_proposals_count(self, instance: models.Election) -> int:
+        return instance.proposal_set.count()
+
+    def get_positions_count(self, instance: models.Election) -> int:
+        return instance.position_set.count()
 
 
 class MinimalElectionSerializer(serializers.ModelSerializer):
