@@ -2,6 +2,7 @@ import sys
 from datetime import datetime
 
 import log
+import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
@@ -39,10 +40,20 @@ class Command(BaseCommand):
         return user
 
     def add_elections(self):
+        url = "https://michiganelections.io/api/ballots/"
+        log.info(f"Fetching latest election from {url}")
+        response = requests.get(url, timeout=10)
+        data = response.json()
+        ballot = data["results"][0]
+        election = ballot["election"]
+
         election, created = models.Election.objects.get_or_create(
-            name="May Consolidated",
-            date=timezone.make_aware(datetime(2023, 5, 2)),
-            defaults=dict(active=True, mvic_id=693),
+            name=election["name"],
+            date=datetime.strptime(election["date"], "%Y-%m-%d").date(),
+            defaults=dict(
+                active=election["active"],
+                mvic_id=ballot["mvic_url"].strip("/").split("/")[-1],
+            ),
         )
         if created:
             log.info(f"Added election: {election}")
