@@ -11,7 +11,7 @@ APIs to check voter registration status and view sample ballots for elections in
 
 - Browse the source: https://github.com/citizenlabsgr/elections-api/
 - Report an issue: https://github.com/citizenlabsgr/elections-api/issues/
-- Contact the maintainers: https://citizenlabs.org/contact/
+- Contact the maintainers: https://citizenlabs.org/#contact
 
 ### Sample Projects
 
@@ -46,9 +46,8 @@ If you are registered to vote, this will return your voting precinct:
 "precinct": {
     "county": "Kent",
     "jurisdiction": "City of Grand Rapids",
-    "ward": "2"
-    "number": "30",
-    ...
+    "ward": "2",
+    "number": "30", ...
 }
 ```
 
