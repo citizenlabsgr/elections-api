@@ -18,6 +18,9 @@ def positions(db):
     factories.PositionFactory.create(
         election=position.election, name="Library Board Director"
     )
+    factories.PositionFactory.create(
+        election=position.election, name="Library Assistant"
+    )
 
 
 def describe_list():
@@ -29,16 +32,21 @@ def describe_list():
         response = client.get(url)
 
         expect(response.status_code) == 200
-        expect(len(response.data["results"])) == 3
+        expect(len(response.data["results"])) == 4
 
     def it_can_be_filtered_by_section(expect, client, url, positions):
         response = client.get(url + "?section=Democratic")
 
         expect(response.status_code) == 200
-        expect(len(response.data["results"])) == 2
+        expect(len(response.data["results"])) == 3
 
     def it_can_be_filtered_by_text(expect, client, url, positions):
         response = client.get(url + "?q=library")
+
+        expect(response.status_code) == 200
+        expect(len(response.data["results"])) == 2
+
+        response = client.get(url + "?q=library -board")
 
         expect(response.status_code) == 200
         expect(len(response.data["results"])) == 1

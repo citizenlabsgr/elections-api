@@ -145,7 +145,7 @@ http GET https://michiganelections.io/api/positions/ \
   precinct_ward==2 precinct_number==30
 ```
 
-Results can be filtered by name, description, election name, and district name using a `q` query parameter.
+Results can be filtered by name, description, election name, and district name using a `q` query parameter. Prefix a search term with `-` to exclude it from results.
 
 ### Ballot Details: Proposals
 
@@ -166,7 +166,7 @@ http GET https://michiganelections.io/api/proposals/ \
   precinct_ward==2 precinct_number==30
 ```
 
-Results can be filtered by name, description, election name, and district name using a `q` query parameter.
+Results can be filtered by name, description, election name, and district name using a `q` query parameter.  Prefix a search term with `-` to exclude it from results.
 
 ## Documentation
 
