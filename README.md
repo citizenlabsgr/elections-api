@@ -145,6 +145,8 @@ http GET https://michiganelections.io/api/positions/ \
   precinct_ward==2 precinct_number==30
 ```
 
+Results can be filtered by name, description, election name, and district name using a `q` query parameter. Prefix a search term with `-` to exclude it from results.
+
 ### Ballot Details: Proposals
 
 Get more information about the specific proposals on your ballot, by precinct ID with an [API call](https://michiganelections.io/api/proposals/?precinct_id=1173) like this:
@@ -163,6 +165,8 @@ http GET https://michiganelections.io/api/proposals/ \
   precinct_county==Kent precinct_jurisdiction=="City of Grand Rapids" \
   precinct_ward==2 precinct_number==30
 ```
+
+Results can be filtered by name, description, election name, and district name using a `q` query parameter.  Prefix a search term with `-` to exclude it from results.
 
 ## Documentation
 
@@ -185,6 +189,10 @@ Once you have access rights or a fork, please read the [CONTRIBUTING.md](https:/
 You can also contribute content changes by editing [these files](https://github.com/citizenlabsgr/elections-api/tree/main/content) directly on GitHub. If you would like to know more about us, please check out our [welcome kit](https://github.com/citizenlabsgr/read-first).
 
 ## History
+
+**Version 3.4**
+
+- Added `?q=` text search to `/api/proposals/` and `/api/positions/`.
 
 **Version 3.3**
 

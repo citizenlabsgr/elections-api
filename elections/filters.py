@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django_filters import rest_framework as filters
 
 from . import models
@@ -164,7 +165,34 @@ class BallotFilter(InitializedFilterSet):
     )
 
 
-class ProposalFilter(InitializedFilterSet):
+class SearchMixin:
+
+    def search(self, queryset, _name, value: str):
+        if " -" in value:
+            inclusion, exclusion = value.split(" -", maxsplit=1)
+        else:
+            inclusion = value
+            exclusion = ""
+
+        queryset = queryset.filter(
+            Q(name__icontains=inclusion)
+            | Q(description__icontains=inclusion)
+            | Q(district__name__icontains=inclusion)
+            | Q(election__name__icontains=inclusion)
+        )
+
+        if exclusion:
+            queryset = queryset.exclude(
+                Q(name__icontains=exclusion)
+                | Q(description__icontains=exclusion)
+                | Q(district__name__icontains=exclusion)
+                | Q(election__name__icontains=exclusion)
+            )
+
+        return queryset
+
+
+class ProposalFilter(SearchMixin, InitializedFilterSet):
     class Meta:
         model = models.Proposal
         fields = [
@@ -178,6 +206,8 @@ class ProposalFilter(InitializedFilterSet):
             "precinct_number",
             "ballot_id",
         ]
+
+    q = filters.CharFilter(method="search")
 
     # Election ID lookup
 
@@ -243,7 +273,7 @@ class ProposalFilter(InitializedFilterSet):
     )
 
 
-class PositionFilter(InitializedFilterSet):
+class PositionFilter(SearchMixin, InitializedFilterSet):
     class Meta:
         model = models.Position
         fields = [
@@ -257,6 +287,8 @@ class PositionFilter(InitializedFilterSet):
             "precinct_number",
             "ballot_id",
         ]
+
+    q = filters.CharFilter(method="search")
 
     # Election ID lookup
 
