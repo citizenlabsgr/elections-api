@@ -162,7 +162,7 @@ class NestedBallotSerializer(serializers.ModelSerializer):
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
-    election = ElectionSerializer()
+    election = MinimalElectionSerializer()
     district = DistrictSerializer()
 
     class Meta:
@@ -206,7 +206,7 @@ class CandidateSerializer(serializers.HyperlinkedModelSerializer):
 
 class PositionSerializer(serializers.HyperlinkedModelSerializer):
     candidates = CandidateSerializer(many=True)
-    election = ElectionSerializer()
+    election = MinimalElectionSerializer()
     district = DistrictSerializer()
     description_edit_url = serializers.SerializerMethodField()
 
