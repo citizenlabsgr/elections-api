@@ -36,3 +36,9 @@ def describe_list():
 
         expect(response.status_code) == 200
         expect(len(response.data["results"])) == 2
+
+    def it_can_be_filtered_by_text(expect, client, url, positions):
+        response = client.get(url + "?q=library")
+
+        expect(response.status_code) == 200
+        expect(len(response.data["results"])) == 1

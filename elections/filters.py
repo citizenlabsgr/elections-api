@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django_filters import rest_framework as filters
 
 from . import models
@@ -179,6 +180,16 @@ class ProposalFilter(InitializedFilterSet):
             "ballot_id",
         ]
 
+    q = filters.CharFilter(method="search")
+
+    def search(self, queryset, name, value):  # pylint: disable=unused-argument
+        return queryset.filter(
+            Q(name__icontains=value)
+            | Q(description__icontains=value)
+            | Q(district__name__icontains=value)
+            | Q(election__name__icontains=value)
+        )
+
     # Election ID lookup
 
     election_id = filters.NumberFilter(
@@ -257,6 +268,16 @@ class PositionFilter(InitializedFilterSet):
             "precinct_number",
             "ballot_id",
         ]
+
+    q = filters.CharFilter(method="search")
+
+    def search(self, queryset, name, value):  # pylint: disable=unused-argument
+        return queryset.filter(
+            Q(name__icontains=value)
+            | Q(description__icontains=value)
+            | Q(district__name__icontains=value)
+            | Q(election__name__icontains=value)
+        )
 
     # Election ID lookup
 
