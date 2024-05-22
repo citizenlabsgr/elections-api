@@ -41,6 +41,7 @@ def describe_list():
                     "id": ballot.election.id,
                     "name": "General Election",
                     "date": "2018-08-07",
+                    "active": True,
                     "reference_url": None,
                 },
                 "precinct": {

@@ -81,6 +81,7 @@ class MinimalElectionSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "date",
+            "active",
             "reference_url",
         ]
 
