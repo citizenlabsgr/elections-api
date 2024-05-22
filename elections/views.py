@@ -1,3 +1,4 @@
+import log
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -55,7 +56,10 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         voter = models.Voter(**input_serializer.validated_data)
-        election: models.Election = models.Election.objects.filter(active=True).last()
+        election = models.Election.objects.filter(active=True).first()
+        if election is None:
+            log.warning("No active elections")
+            election = models.Election.objects.filter().last()
         try:
             registration_status = voter.fetch_registration_status()
         except exceptions.ServiceUnavailable as e:
