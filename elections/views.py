@@ -168,8 +168,8 @@ class BallotViewSet(viewsets.ModelViewSet):
 
     http_method_names = ["options", "get"]
     queryset = models.Ballot.objects.select_related(
-        "election", "precinct", "precinct__county", "precinct__jurisdiction"
-    ).all()
+        "election", "precinct", "precinct__county", "precinct__jurisdiction", "website"
+    ).order_by("-election__date")
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.BallotFilter
     serializer_class = serializers.BallotSerializer

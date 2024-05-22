@@ -38,14 +38,9 @@ def describe_list():
                 "url": f"http://testserver/api/ballots/{ballot.id}/",
                 "id": ballot.id,
                 "election": {
-                    "url": f"http://testserver/api/elections/{ballot.election.id}/",
                     "id": ballot.election.id,
                     "name": "General Election",
                     "date": "2018-08-07",
-                    "date_humanized": "Tuesday, August 7th",
-                    "active": True,
-                    "proposals_count": 0,
-                    "positions_count": 0,
                     "reference_url": None,
                 },
                 "precinct": {

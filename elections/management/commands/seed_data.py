@@ -40,7 +40,7 @@ class Command(BaseCommand):
         return user
 
     def add_elections(self):
-        url = "https://michiganelections.io/api/ballots/"
+        url = "https://michiganelections.io/api/ballots/?active_election=null"
         log.info(f"Fetching latest election from {url}")
         response = requests.get(url, timeout=10)
         data = response.json()

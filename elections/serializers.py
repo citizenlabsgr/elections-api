@@ -121,7 +121,7 @@ class MinimalPrecinctSerializer(serializers.ModelSerializer):
 
 
 class BallotSerializer(serializers.HyperlinkedModelSerializer):
-    election = ElectionSerializer()
+    election = MinimalElectionSerializer()
     precinct = PrecinctSerializer()
 
     class Meta:
