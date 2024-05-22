@@ -26,3 +26,14 @@ def test_registrations_api(expect, url):
     )
     response = requests.get(url + "/api/registrations/" + params, timeout=20)
     expect(response.json()["registered"]) == True
+
+
+def test_status_api(expect, url):
+    params = (
+        "?first_name=Rosalynn"
+        "&last_name=Bliss"
+        "&birth_date=1975-08-03"
+        "&zip_code=49503"
+    )
+    response = requests.get(url + "/api/status/" + params, timeout=20)
+    expect(response.json()["message"]).contains("registered")
