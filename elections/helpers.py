@@ -219,7 +219,12 @@ def fetch_registration_status_data(voter):
             log.warn("Unable to determine ballot URL")
 
     # Parse absentee status
-    absentee = "You are on the permanent absentee voter list" in response.text
+    if "You are on the permanent absentee voter list" in response.text:
+        absentee = True
+    elif "no elections scheduled" in response.text:
+        absentee = None
+    else:
+        absentee = False
 
     # Parse absentee dates
     absentee_dates: dict[str, date | None] = {
