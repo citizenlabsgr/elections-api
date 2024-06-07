@@ -121,18 +121,19 @@ def _scrape_ballots_for_election(
     return ballot_count
 
 
-def parse_ballots(*, election_id: int | None = None):
+def parse_ballots(*, election_id: int | None = None, starting_precinct_id: int = 1):
     if election_id:
         elections = Election.objects.filter(mvic_id=election_id)
     else:
         elections = Election.objects.filter(active=True)
 
     for election in elections:
-        _parse_ballots_for_election(election)
+        _parse_ballots_for_election(election, starting_precinct_id)
 
 
-def _parse_ballots_for_election(election: Election):
+def _parse_ballots_for_election(election: Election, starting_precinct_id: int):
     log.info(f"Parsing ballots for election {election.mvic_id}")
+    log.info(f"Starting from precinct {starting_precinct_id}")
 
     precincts: set[Precinct] = set()
 
@@ -141,6 +142,8 @@ def _parse_ballots_for_election(election: Election):
         .order_by("mvic_precinct_id")
         .defer("mvic_html", "data")
     )
+    if starting_precinct_id:
+        websites = websites.filter(mvic_precinct_id__gte=starting_precinct_id)
     log.info(f"Mapping {websites.count()} websites to ballots")
 
     for website in websites:
