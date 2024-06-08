@@ -74,13 +74,14 @@ class ElectionSerializer(serializers.ModelSerializer):
         return instance.position_set.count()
 
 
-class MinimalElectionSerializer(serializers.ModelSerializer):
+class MinimalElectionSerializer(ElectionSerializer):
     class Meta:
         model = models.Election
         fields = [
             "id",
             "name",
             "date",
+            "date_humanized",
             "active",
             "reference_url",
         ]
