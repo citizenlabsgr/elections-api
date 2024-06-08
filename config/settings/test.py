@@ -1,5 +1,3 @@
-import bugsnag
-
 from .default import *
 
 # BASE_NAME and BASE_DOMAIN are intentionally unset
@@ -41,4 +39,6 @@ CACHES = {
 ###############################################################################
 # Bugsnag
 
-bugsnag.configure(release_stage="test")
+MIDDLEWARE.remove("bugsnag.django.middleware.BugsnagMiddleware")
+
+LOGGING["root"]["handlers"].remove("bugsnag")  # type: ignore[index]

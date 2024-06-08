@@ -232,13 +232,13 @@ webencodings = "*"
 
 [[package]]
 name = "bugsnag"
-version = "4.6.0"
+version = "4.7.1"
 description = "Automatic error monitoring for django, flask, etc."
 optional = false
-python-versions = ">=3.5, <4"
+python-versions = "<4,>=3.5"
 files = [
-    {file = "bugsnag-4.6.0-py3-none-any.whl", hash = "sha256:6eda1863a5a0c248f6d77fb4090edb63eb36a23e48a5e3ef5e34eaeed2fb441f"},
-    {file = "bugsnag-4.6.0.tar.gz", hash = "sha256:abe8716036a33d5911fc01cb7d346afc4f287cedd47a92cda28512fc22c837fe"},
+    {file = "bugsnag-4.7.1-py3-none-any.whl", hash = "sha256:4537ff3c200890d26e28079e31729c041a9ffe84a803860ea8adefe535aac7df"},
+    {file = "bugsnag-4.7.1.tar.gz", hash = "sha256:98408fe17d4a7f300a56535407a6448b9844d9b528c44527908868fc3646e873"},
 ]
 
 [package.dependencies]
@@ -3824,4 +3824,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "8a792d1fad90f191bf005790cd2bf5fcc70a95a555e565e9e32da5534df92d5a"
+content-hash = "7cd805915d08055a6ae4d24e0fe96d407777ab79af90d2a0adcb725311e4a472"

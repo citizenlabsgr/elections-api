@@ -752,7 +752,7 @@ class Ballot(TimeStampedModel):
         # e.g. https://mvic.sos.state.mi.us/Voter/GetMvicBallot/4321/698/
         if values := list(data.values()):
             if "name" not in values[0][0]:
-                log.warning(f"Nonpartisan section malformed: {data}")
+                log.critical(f"Nonpartisan section malformed: {data}")
                 yield from self._parse_proposal_section(data)
                 return
 

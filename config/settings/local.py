@@ -46,4 +46,8 @@ DEBUG_TOOLBAR_CONFIG = {"SHOW_COLLAPSED": True}
 ###############################################################################
 # Bugsnag
 
-bugsnag.configure(release_stage="local")
+if "BUGSNAG_API_KEY" in os.environ:
+    bugsnag.configure(release_stage="local")
+else:
+    MIDDLEWARE.remove("bugsnag.django.middleware.BugsnagMiddleware")
+    LOGGING["root"]["handlers"].remove("bugsnag")  # type: ignore[index]

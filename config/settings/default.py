@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "bugsnag.django.middleware.BugsnagMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -66,10 +67,17 @@ WSGI_APPLICATION = "config.wsgi.application"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {"simple": {"format": "%(levelname)s: %(name)s: %(message)s"}},
-    "root": {"level": "ERROR", "handlers": ["console"]},
+    "formatters": {
+        "simple": {
+            "format": "%(levelname)s: %(name)s: %(message)s",
+        },
+    },
     "loggers": {
-        "elections": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
+        "elections": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
         "django.request": {
             "handlers": ["console"],
             "level": "ERROR",
@@ -81,7 +89,15 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "simple",
-        }
+        },
+        "bugsnag": {
+            "level": "CRITICAL",
+            "class": "bugsnag.handlers.BugsnagHandler",
+        },
+    },
+    "root": {
+        "level": "INFO",
+        "handlers": ["console", "bugsnag"],
     },
 }
 
