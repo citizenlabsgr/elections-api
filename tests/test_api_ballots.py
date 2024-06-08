@@ -41,6 +41,7 @@ def describe_list():
                     "id": ballot.election.id,
                     "name": "General Election",
                     "date": "2018-08-07",
+                    "date_humanized": "Tuesday, August 7th",
                     "active": True,
                     "reference_url": None,
                 },
