@@ -11,7 +11,7 @@ from . import factories
 def ballot(db):
     return factories.BallotFactory.create(
         website=factories.BallotWebsiteFactory.create(
-            mvic_election_id=683, mvic_precinct_id=1792
+            mvic_election_id=698, mvic_precinct_id=45167
         )
     )
 
@@ -35,25 +35,19 @@ def describe_list():
         expect(response.status_code) == 200
         expect(response.data) == {
             "registered": True,
-            # TODO: Enable this when there is real election data
-            # "ballot": True,
-            # "ballots": [
-            #     {
-            #         "url": expect.anything,
-            #         "id": expect.anything,
-            #         "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
-            #         "mvic_name": expect.anything,
-            #     }
-            # ],
             "absentee": True,
-            # "absentee_application_received": "2020-06-06",
-            # "absentee_ballot_sent": "2020-09-24",
-            # "absentee_ballot_received": "2020-09-29",
-            "ballot": expect.anything,
-            "ballots": expect.anything,
-            "absentee_application_received": expect.anything,
-            "absentee_ballot_sent": expect.anything,
-            "absentee_ballot_received": expect.anything,
+            "absentee_application_received": "2024-01-10",
+            "absentee_ballot_sent": None,
+            "absentee_ballot_received": None,
+            "ballot": True,
+            "ballots": [
+                {
+                    "url": expect.anything,
+                    "id": expect.anything,
+                    "mvic_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/45167/698/",
+                    "mvic_name": expect.anything,
+                }
+            ],
             "polling_location": [
                 "617 Coit Ne (livingston Ent)",
                 "Grand Rapids, MI 49503",

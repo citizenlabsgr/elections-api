@@ -4,7 +4,6 @@ import random
 from datetime import timedelta
 from typing import Any
 
-import bugsnag
 import log
 import pendulum
 from django.conf import settings
@@ -732,6 +731,7 @@ class Ballot(TimeStampedModel):
 
         # TODO: Handle new type of nonpartisan section for proposals
         # e.g. https://mvic.sos.state.mi.us/Voter/GetMvicBallot/4321/698/
+        # Reference: https://github.com/citizenlabsgr/elections-api/issues/341
         if values := list(data.values()):
             if "name" not in values[0][0]:
                 log.critical(f"Nonpartisan section malformed: {data}")
