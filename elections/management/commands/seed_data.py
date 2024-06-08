@@ -65,4 +65,4 @@ class Command(BaseCommand):
             birth_date=timezone.make_aware(datetime(1975, 8, 3)),
             zip_code="49503",
         )
-        voter.fetch_registration_status(track_missing_data=False)
+        voter.fetch_registration_status()

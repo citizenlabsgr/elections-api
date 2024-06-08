@@ -13,117 +13,457 @@ interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       User-Agent:
-      - Mozilla/5.0 (X11; Linux i686; rv:21.0) Gecko/20100101 Firefox/21.0
+      - Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_8; zh-cn) AppleWebKit/533.20.25
+        (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27
     method: POST
     uri: https://mvic.sos.state.mi.us/Voter/SearchByName
   response:
     body:
-      string: !!binary |
-        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
-        WaIwM+4vT8hvpgWtdByXhJhhieGWpAOOywsyhTc1JN49Lsv8gkh4U1MsLZWr/Ba9kxU8JuoVixtb
-        0mLTcU0gpze2pFWnJ1mdXdzcOy0/Ucv6+saGtAj1JLu5GVahnuTLHxR5emNTmqEn5MYU+c3khJ5+
-        QoxEWvPGpjRLJ1k5p2Y3t6VpOiE2vrkhzdLJPKvL/LIq3t3cnKbqZJ5Pquvb8AqtPlDrgsTm6uYJ
-        26UZOymhzm9sSVN2UhZLMuI3tt2jaTupsyuS09nNjWninuZlezOyezRtT4vpW9LV9OGNrWnmTrNb
-        oUvzdrpYUIrnxpY0cZ/ny7yhVN+NbWnWPi+z2VVxCwxozj6vLvJJcbM07tGUfU7MO0sp/UjrcKQZ
-        b3yF5o5eoY9uHuI9mrtvF2XZzCisuLk1Td63qzU5z/TZjY1p/r69pgzuzS1p7s6WF/PsZjV2jybv
-        rFoWN7PPPZq8s6qZVje3pKk7e/Xli/Tky69evPl9NjSkeTtrYCXLW/RPE/cdcv1vw7z3aMZ+r6zM
-        FtkPqpvx3ac5o9Zvs+btzWjs05T9XhSs3dyQpuv3yq9yshFXNzemGXue0frAjQ1pvp5nq/wWBnKf
-        Jux5npfZMlvf3Jjm7DlQvYVo7tO0PS8uyXtubsO3+zRxz9fTW8ClWfuCZri4jVW9T5NGjavF5Oam
-        NGVfZEtyP28xuPs0bV9kNS1nUHbk5tY0b19kt2HJ+zRxX+TTqrmFpr5PM/dFvqxo2fs2GNPUfVHM
-        aJ5vthb3aeq+KJomW7+9DWSauS+qZV3doinmjhzPKeU4bmz8KeaOGmOJZzm92Y/5FBO4bt7mF/TZ
-        jY1pAl+Q8b6+uFnyP6Xp+zJ7eyvSfUoT+OU0J2m6uSnN35cX+eIWgv8pTd6X8AqyW42Npu/LZppX
-        t9CXn9LkUdtqdoumNHlftg2R98amD2jqvmzb7BbO0QOatZeUvSBRSs+aW1jDBzRzr2BhFgv68MbW
-        NHevswtSFjdT+QHN3et2nJKvVtysOB/Q9KH1d6omX93s4z6gKXxN6oWSeje3pQl8PZ3Tau60zs5v
-        NiIPaBJfzwsid3Mbp+kBTeSbNVHwFvxxQDP5k+QQP1mTEN7cmibzu1kzb2Ejbm5NM/nd7JoizBtb
-        0ix+N3834OrelfCWfqVYN/pIDE3hLsEij+tnK5ErqL3IFpSh9r+M53IFa0p5SP6EhkF9/izidfY0
-        /OoGrKgVrQsIbpRtQccfhBz/GmLgkOMcgv9VB7kb+9/YIJaZM4+fEaLU5M9dkpvpQKlfSRdLA8qr
-        MM+av7RfeoXTxX6OW16/RQoYj6S1/X83t+/iy31JStQg3HxT+W0B/hEli/B3+sQZfgG6YWgb53ng
-        u28iu91M62LVCiE+Bhfc/ensMpNPP06bevrZx/O2XTWP7t69uroaT8gnHpP9uputiruLbNXgH0p7
-        IR/3e/xC8o1KTOxnZZXNjtdt9Xp9cXGRNwQpa66X03SWn+c1JILhEwamf3T0EVFpOSvz5u4lqPqd
-        17/H5Wcn333y4rsPX109O8mzan+nfP37/9Tb1z/5+09/n/vnnx/8RPv06e//ez+oTh7+Xj998gXp
-        bw/wEGjOyzLon/rB8efPn/ze3y5Of5+9n5r8Xs8eXj/JP796Nt9+8tUvun9yf3H/pz//ffbuTabZ
-        T+zcDjSJPxRGztCPX7UPV9Onv9f2T82/+/tnnzen9af3f//z2d7pqy/yL777/Mt5c/ny9LvXk9np
-        2y70/wdzjignylIAAA==
+      string: "\r\n\r\n<input id=\"hfPageTitle\" name=\"hfPageTitle\" type=\"hidden\"
+        value=\"Your voter information\" />\r\n<input id=\"hfnotfound\" name=\"hfnotfound\"
+        type=\"hidden\" value=\"False\" />\r\n<input id=\"hfmultiplevoterrecords\"
+        name=\"hfmultiplevoterrecords\" type=\"hidden\" value=\"False\" />\r\n<input
+        id=\"hfAcpaParticipant\" name=\"hfAcpaParticipant\" type=\"hidden\" value=\"False\"
+        />\r\n<input id=\"hfAddressId\" name=\"hfAddressId\" type=\"hidden\" value=\"0\"
+        />\r\n<input id=\"hfValidParticipantId\" name=\"hfValidParticipantId\" type=\"hidden\"
+        value=\"False\" />\r\n\r\n<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?&callback=loadAutoSugggest'
+        async defer></script>\r\n\r\n<h1 class=\"ccd-page-heading\">Your voter information</h1>\r\n\r\n\r\n<div
+        class=\"row\">\r\n    <div class=\"col-xl-6 col-md-12\">\r\n        <p>\r\n
+        \           This page provides helpful information about where\r\n            to
+        find your clerk, polling place, and sample ballots.\r\n            Looking
+        to register or update your voter registration?  Visit our\r\n            <a
+        Length=\"0\" href=\"/RegisterVoter?Length=0\">registration page</a>.\r\n        </p>\r\n
+        \   </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col-xl-6
+        col-md-12\">\r\n        <p>\r\n            <strong>\r\n                Use
+        the log in to check your:\r\n            </strong>\r\n            <ul>\r\n
+        \               <li>Registration Status</li>\r\n                <li>Polling
+        place, location, and hours</li>\r\n                <li>Early voting location
+        and hours</li>\r\n                <li>View a sample ballot</li>\r\n                <li>Track
+        an absentee ballot and more...</li>\r\n            </ul>\r\n        </p>\r\n
+        \   </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col-xl-6
+        col-md-12\">\r\n        <div class=\"card\">\r\n            <div class=\"card-header\">\r\n
+        \               <h2 class=\"ccd-page-heading\">Search for your voter information</h2>\r\n
+        \           </div>\r\n            <div class=\"card-body\">\r\n                <p>\r\n
+        \                   Entering the information below helps us securely identify
+        you in our database.\r\n                </p>\r\n                <p>Required
+        fields are marked with an asterisk <abbr class=\"req\" title=\"required\">*</abbr>.</p>\r\n
+        \               <form id=\"name-Form\" action=\"\" class=\"mb-3\">\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase required-label required-label text-transform-none not-bold\"
+        for=\"FirstName\">First name</label>\r\n                        <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                       <input class=\"form-control text-uppercase text-transform-none
+        bold\" data-val=\"true\" data-val-regex=\"Please enter a valid first name.\"
+        data-val-regex-pattern=\"^(?=.{1,100}$)[a-zA-Z]+(?:[-=_.`;&#39;\\s][a-zA-Z]+)*$\"
+        data-val-required=\"Please enter your first name.\" id=\"FirstName\" name=\"FirstName\"
+        required=\"required\" type=\"text\" value=\"Jane\" />\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-valid\"
+        data-valmsg-for=\"FirstName\" data-valmsg-replace=\"true\"></span>\r\n                        </span>\r\n
+        \                   </div>\r\n                    <div class=\"form-group\">\r\n
+        \                       <label class=\"control-label text-uppercase required-label
+        required-label text-transform-none not-bold\" for=\"LastName\">Last name</label>\r\n
+        \                       <span class=\"sr-only\">,,Required,,</span>\r\n                        <input
+        class=\"form-control text-uppercase text-transform-none bold\" data-val=\"true\"
+        data-val-regex=\"Please enter a valid last name.\" data-val-regex-pattern=\"^(?=.{1,100}$)[a-zA-Z]+(?:[-=_.`;&#39;\\s][a-zA-Z]+)*$\"
+        data-val-required=\"Please enter your last name.\" id=\"LastName\" name=\"LastName\"
+        required=\"required\" type=\"text\" value=\"Doe\" />\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-valid\"
+        data-valmsg-for=\"LastName\" data-valmsg-replace=\"true\"></span>\r\n                        </span>\r\n
+        \                   </div>\r\n                    <div class=\"form-group\">\r\n
+        \                       <label class=\"control-label text-uppercase required-label
+        required-label text-transform-none not-bold\" for=\"NameBirthMonth\">Birth
+        month</label>\r\n                        <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                       <select class=\"form-control text-uppercase text-transform-none
+        bold\" data-val=\"true\" data-val-range=\"Please select a valid birth month.\"
+        data-val-range-max=\"12\" data-val-range-min=\"1\" data-val-required=\"Please
+        select your birth month.\" id=\"NameBirthMonth\" name=\"NameBirthMonth\" required=\"required\"><option
+        value=\"\">Select</option>\r\n<option selected=\"selected\" value=\"1\">January</option>\r\n<option
+        value=\"2\">February</option>\r\n<option value=\"3\">March</option>\r\n<option
+        value=\"4\">April</option>\r\n<option value=\"5\">May</option>\r\n<option
+        value=\"6\">June</option>\r\n<option value=\"7\">July</option>\r\n<option
+        value=\"8\">August</option>\r\n<option value=\"9\">September</option>\r\n<option
+        value=\"10\">October</option>\r\n<option value=\"11\">November</option>\r\n<option
+        value=\"12\">December</option>\r\n</select>\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-valid\"
+        data-valmsg-for=\"NameBirthMonth\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase required-label required-label text-transform-none not-bold\"
+        for=\"NameBirthYear\">Birth year</label>\r\n                        <span
+        class=\"sr-only\">,,Required,,</span>\r\n                        <input class=\"form-control
+        text-uppercase text-transform-none bold\" data-val=\"true\" data-val-range=\"Please
+        enter a valid birth year.\" data-val-range-max=\"2017\" data-val-range-min=\"1900\"
+        data-val-regex=\"Please enter a four digit birth year.\" data-val-regex-pattern=\"^\\d{4}$\"
+        data-val-required=\"Please enter your birth year.\" id=\"NameBirthYear\" name=\"NameBirthYear\"
+        oninput=\"this.value=this.value.slice(0,4)\" required=\"required\" type=\"number\"
+        value=\"2000\" />\r\n                        <span role=\"alert\">\r\n                            <span
+        class=\"field-validation-valid\" data-valmsg-for=\"NameBirthYear\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase required-label required-label text-transform-none not-bold\"
+        for=\"ZipCode\">ZIP code</label>\r\n                        <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                       <input class=\"input-validation-error form-control
+        text-uppercase text-transform-none bold\" data-val=\"true\" data-val-range=\"Please
+        enter a vaild Zip Code.\" data-val-range-max=\"55000\" data-val-range-min=\"48000\"
+        data-val-regex=\"Please enter a valid ZIP Code.\" data-val-regex-pattern=\"^\\d{5}(?:[-\\s]\\d{4})?$\"
+        data-val-required=\"Please enter your ZIP code.\" id=\"ZipCode\" name=\"ZipCode\"
+        required=\"required\" type=\"text\" value=\"999999\" />\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-error\"
+        data-valmsg-for=\"ZipCode\" data-valmsg-replace=\"true\">Please enter a vaild
+        Zip Code.</span>\r\n                        </span>\r\n                    </div>\r\n
+        \                   <div class=\"row mt-5\">\r\n                        <div
+        class=\"col-12 pt-md-0 text-right\">\r\n                            <button
+        id=\"btnClearName\" type=\"button\" role=\"button\" class=\"btn btn-back\">Clear
+        name form</button>\r\n                            <span class=\"horizontal-button-space\">&nbsp;&nbsp;&nbsp;</span>\r\n
+        \                           <span class=\"vertical-button-space\"><br /><br
+        /></span>\r\n                            <button id=\"btnSearchName\" type=\"submit\"
+        role=\"button\" class=\"btn btn-primary\" formaction=\"/Voter/SearchByName\">Search
+        by name&nbsp;</button>\r\n                        </div>\r\n                    </div>\r\n
+        \               </form>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div
+        class=\"row\">\r\n    <div class=\"col-xl-6 col-md-12\">\r\n        <div class=\"card\">\r\n
+        \           <div class=\"card-header\">\r\n                <span class=\"sr-only\">,,Alternate
+        Form,,</span>\r\n                <h2 class=\"ccd-page-heading\">Search by
+        driver's license number</h2>\r\n            </div>\r\n            <div class=\"card-body\">\r\n
+        \               <p>Required fields are marked with an asterisk <abbr class=\"req\"
+        title=\"required\">*</abbr>.</p>\r\n                <form id=\"dln-Form\"
+        class=\"mb-3\">\r\n                    <div class=\"form-group\">\r\n                        <label
+        class=\"control-label text-uppercase required-label required-label text-transform-none
+        not-bold\" for=\"Dln\">Driver&#39;s license number</label>\r\n                        <span
+        class=\"sr-only\">,,Required,,</span>\r\n                        <input class=\"form-control
+        text-uppercase bold\" data-val=\"true\" data-val-regex=\"Please enter a valid
+        driver license number.\" data-val-regex-pattern=\"^[a-z,A-Z]{1}\\d{12}$\"
+        data-val-required=\"Please enter your personal ID or driver license number.\"
+        id=\"Dln\" maxlength=\"13\" name=\"Dln\" required=\"required\" type=\"text\"
+        value=\"\" />\r\n                        <span role=\"alert\">\r\n                            <span
+        class=\"field-validation-valid\" data-valmsg-for=\"Dln\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase required-label required-label text-transform-none not-bold\"
+        for=\"DlnBirthMonth\">Driver&#39;s license birth month</label>\r\n                        <span
+        class=\"sr-only\">,,Required,,</span>\r\n                        <select class=\"form-control
+        text-uppercase text-transform-none bold\" data-val=\"true\" data-val-range=\"Please
+        select a valid birth month.\" data-val-range-max=\"12\" data-val-range-min=\"1\"
+        data-val-required=\"Please select your birth month.\" id=\"DlnBirthMonth\"
+        name=\"DlnBirthMonth\" required=\"required\"><option value=\"\">Select</option>\r\n<option
+        value=\"1\">January</option>\r\n<option value=\"2\">February</option>\r\n<option
+        value=\"3\">March</option>\r\n<option value=\"4\">April</option>\r\n<option
+        value=\"5\">May</option>\r\n<option value=\"6\">June</option>\r\n<option value=\"7\">July</option>\r\n<option
+        value=\"8\">August</option>\r\n<option value=\"9\">September</option>\r\n<option
+        value=\"10\">October</option>\r\n<option value=\"11\">November</option>\r\n<option
+        value=\"12\">December</option>\r\n</select>\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-valid\"
+        data-valmsg-for=\"DlnBirthMonth\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase required-label required-label text-transform-none not-bold\"
+        for=\"DlnBirthYear\">Driver&#39;s license birth year</label>\r\n                        <span
+        class=\"sr-only\">,,Required,,</span>\r\n                        <input class=\"form-control
+        text-uppercase text-transform-none bold\" data-val=\"true\" data-val-range=\"Please
+        enter a valid birth year.\" data-val-range-max=\"2023\" data-val-range-min=\"1900\"
+        data-val-regex=\"Please enter a four digit birth year.\" data-val-regex-pattern=\"^\\d{4}$\"
+        data-val-required=\"Please enter your birth year.\" id=\"DlnBirthYear\" name=\"DlnBirthYear\"
+        oninput=\"this.value=this.value.slice(0,4)\" required=\"required\" type=\"number\"
+        value=\"\" />\r\n                        <span role=\"alert\">\r\n                            <span
+        class=\"field-validation-valid\" data-valmsg-for=\"DlnBirthYear\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"row mt-5\">\r\n                        <div class=\"col-12 pt-md-0
+        text-right\">\r\n                            <button id=\"btnClearDLN\" type=\"button\"
+        role=\"button\" class=\"btn btn-back\">Clear license form</button>\r\n                            <span
+        class=\"horizontal-button-space\">&nbsp;&nbsp;&nbsp;</span>\r\n                            <span
+        class=\"vertical-button-space\"><br /><br /></span>\r\n                            <button
+        id=\"btnSearchDln\" type=\"submit\" role=\"button\" class=\"btn btn-primary\"
+        formaction=\"/Voter/SearchByDln\">Search by license&nbsp;</button>\r\n                        </div>\r\n
+        \                   </div>\r\n                </form>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n<br />\r\n<br />\r\n\r\n\r\n<div
+        class=\"row\" id=\"yourev\">\r\n    <div class=\"col-xl-6 col-md-12\" id=\"early-voting-search-section\">\r\n
+        \       <div class=\"card\">\r\n            <div class=\"card-header\">\r\n
+        \               <h2 class=\"ccd-page-heading\">Search for your early voting
+        information</h2>\r\n            </div>\r\n            <div class=\"card-body\">\r\n
+        \               <form id=\"address-Form-EV\" action=\"\" class=\"mb-3\">\r\n
+        \                   <p>\r\n                        Please enter your residential
+        street number, street name, city, state and ZIP code to search for\r\n                        your
+        early voting information.\r\n                    </p>\r\n                    <p>
+        Required fields are marked with an asterisk <abbr class=\"req\" title=\"required\">*</abbr>.</p>\r\n
+        \                   <div class=\"form-group\">\r\n                        <span
+        id=\"evSearchBoxContainer\" class=\"no-padding clearAddress resize-address\">\r\n
+        \                           <label class=\"control-label text-uppercase required-label
+        text-transform-none required-label not-bold\" for=\"EVResidenceStreet\">Street
+        address</label>\r\n                            <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                           <input aria_required=\"True\" class=\"input-validation-error
+        form-control text-uppercase text-transform-none bold\" data-val=\"true\" data-val-regex=\"Please
+        enter a valid address.\" data-val-regex-pattern=\"^[a-zA-Z0-9 _#/&#39;,.-]*$\"
+        data-val-required=\"Please enter your street address.\" id=\"EVResidenceStreet\"
+        maxlength=\"50\" name=\"EVResidenceStreet\" required=\"required\" type=\"text\"
+        value=\"\" />\r\n                            <span role=\"alert\">\r\n                                <span
+        class=\"field-validation-error\" data-valmsg-for=\"EVResidenceStreet\" data-valmsg-replace=\"true\">Please
+        enter your street address.</span>\r\n                            </span>\r\n
+        \                       </span>\r\n\r\n\r\n                    </div>\r\n
+        \                   <div class=\"form-group\">\r\n                        <label
+        class=\"control-label text-uppercase text-transform-none not-bold\" for=\"EVResidenceApartment\">Apartment
+        / lot #</label>\r\n                        <input class=\"form-control text-uppercase
+        text-transform-none bold\" data-val=\"true\" data-val-regex=\"Please enter
+        a valid Apartment/Lot.\" data-val-regex-pattern=\"^[a-zA-Z0-9 _#/&#39;,.-]*$\"
+        id=\"EVResidenceApartment\" maxlength=\"13\" name=\"EVResidenceApartment\"
+        type=\"text\" value=\"\" />\r\n                        <span role=\"alert\">\r\n
+        \                           <span class=\"field-validation-valid\" data-valmsg-for=\"EVResidenceApartment\"
+        data-valmsg-replace=\"true\"></span>\r\n                        </span>\r\n
+        \                   </div>\r\n                    <div class=\"form-group\">\r\n
+        \                       <label class=\"control-label text-uppercase required-label
+        text-transform-none required-label not-bold\" for=\"EVResidenceCity\">City</label>\r\n
+        \                       <span class=\"sr-only\">,,Required,,</span>\r\n                        <input
+        aria_required=\"True\" class=\"input-validation-error form-control text-uppercase
+        text-transform-none bold\" data-val=\"true\" data-val-required=\"Please enter
+        your city.\" id=\"EVResidenceCity\" maxlength=\"100\" name=\"EVResidenceCity\"
+        required=\"required\" type=\"text\" value=\"\" />\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-error\"
+        data-valmsg-for=\"EVResidenceCity\" data-valmsg-replace=\"true\">Please enter
+        your city.</span>\r\n                        </span>\r\n                    </div>\r\n
+        \                   <div class=\"form-group\">\r\n                        <div
+        class=\"form-group\">\r\n                            <label class=\"control-label
+        text-uppercase text-transform-none not-bold\" for=\"EVResidenceState\">State</label>\r\n
+        \                           <input aria_required=\"True\" class=\"form-control
+        text-uppercase text-transform-none bold\" id=\"EVResidenceState\" maxlength=\"100\"
+        name=\"EVResidenceState\" readonly=\"readonly\" type=\"text\" value=\"MI\"
+        />\r\n                            <span role=\"alert\">\r\n                                <span
+        class=\"field-validation-valid\" data-valmsg-for=\"EVResidenceState\" data-valmsg-replace=\"true\"></span>\r\n
+        \                           </span>\r\n                        </div>\r\n
+        \                   </div>\r\n                    <div class=\"form-group\">\r\n
+        \                       <label class=\"control-label text-uppercase required-label
+        text-transform-none required-label not-bold\" for=\"EVResidenceZipCode\">ZIP
+        code</label>\r\n                        <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                       <input aria_required=\"True\" class=\"input-validation-error
+        form-control text-uppercase text-transform-none bold\" data-val=\"true\" data-val-required=\"Please
+        enter your zip code.\" id=\"EVResidenceZipCode\" name=\"EVResidenceZipCode\"
+        required=\"required\" type=\"text\" value=\"\" />\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-error\"
+        data-valmsg-for=\"EVResidenceZipCode\" data-valmsg-replace=\"true\">Please
+        enter your zip code.</span>\r\n                        </span>\r\n                    </div>\r\n\r\n
+        \                   <span id=\"AddressErrorMessage\" role=\"alert\">\r\n                    </span>\r\n
+        \               </form>\r\n\r\n                <div class=\"row mt-5\">\r\n
+        \                   <div class=\"col-12 pt-md-0 text-right\">\r\n                        <button
+        id=\"btnClearEVAddress\" type=\"button\" role=\"button\" class=\"btn btn-back
+        clear-addressbtn-padding\">Clear address</button>\r\n                        <button
+        id=\"btnSearchByEVAddress\" type=\"submit\" role=\"button\" class=\"btn btn-primary\"
+        formaction=\"/Voter/SearchEVInfoByAddress\">Search by address</button>\r\n
+        \                   </div>\r\n\r\n                </div>\r\n\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n<br />\r\n<br />\r\n\r\n<div class=\"row\"
+        id=\"yourclerk\">\r\n    <div class=\"col-xl-6 col-md-12\">\r\n        <p>\r\n
+        \           <strong>\r\n                If you would like to contact your
+        city or township clerk, use the search tool\r\n                below.  Your
+        clerk can help you:\r\n            </strong>\r\n            <ul>\r\n                <li>Register
+        to vote</li>\r\n                <li>Request an absentee ballot</li>\r\n                <li>Track
+        an absentee ballot, and more...</li>\r\n            </ul>\r\n        </p>\r\n
+        \       <div class=\"card\">\r\n            <div class=\"card-header\">\r\n
+        \               <h2 class=\"ccd-page-heading\">Search for your city/township
+        clerk</h2>\r\n            </div>\r\n            <div class=\"card-body\">\r\n
+        \               <p>Required fields are marked with an asterisk <abbr class=\"req\"
+        title=\"required\">*</abbr>.</p>\r\n                <p>\r\n                    Please
+        enter your residential street number, street name, city, state and ZIP code
+        to search for\r\n                    your clerk's contact information.\r\n\r\n
+        \               </p>\r\n                <form id=\"address-Form\" action=\"\"
+        class=\"mb-3\">\r\n                    <input data-val=\"true\" data-val-regex=\"The
+        field Latitude must match the regular expression &#39;^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}$&#39;.\"
+        data-val-regex-pattern=\"^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}$\" id=\"Latitude\"
+        name=\"Latitude\" type=\"hidden\" value=\"\" />\r\n                    <input
+        data-val=\"true\" data-val-regex=\"The field Longitude must match the regular
+        expression &#39;^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\\.{1}\\d{1,6}$&#39;.\"
+        data-val-regex-pattern=\"^-?([1]?[1-7][1-9]|[1]?[1-8][0]|[1-9]?[0-9])\\.{1}\\d{1,6}$\"
+        id=\"Longitude\" name=\"Longitude\" type=\"hidden\" value=\"\" />\r\n\r\n
+        \                   <br />\r\n\r\n                    <div class=\"form-group\">\r\n\r\n
+        \                       <span id=\"searchBoxContainer\" class=\"no-padding
+        clearAddress resize-address\">\r\n                            <label class=\"control-label
+        text-uppercase required-label text-uppercase text-transform-none not-bold\"
+        for=\"Address\">Address </label>\r\n                            <span class=\"sr-only\">,,Required,,</span>\r\n
+        \                           <input aria_required=\"true\" class=\"form-control
+        text-uppercase text-transform-none bold\" data-val=\"true\" data-val-regex=\"Please
+        enter a valid address.\" data-val-regex-pattern=\"^[a-zA-Z0-9 _#/&#39;,.-]*$\"
+        data-val-required=\"Please enter your address.\" id=\"Address\" name=\"Address\"
+        placeholder=\"Enter your residential address (not just your zip code)\" required=\"required\"
+        type=\"text\" value=\"\" />\r\n                        </span>\r\n                        <span
+        role=\"alert\">\r\n                            <span class=\"field-validation-valid\"
+        data-valmsg-for=\"Address\" data-valmsg-replace=\"true\"></span>\r\n                        </span>\r\n
+        \                   </div>\r\n                    <div class=\"row mt-5\">\r\n
+        \                       <div class=\"col-12 pt-md-0 text-right\">\r\n                            <button
+        id=\"btnClearAddress\" type=\"button\" role=\"button\" class=\"btn btn-back
+        clear-addressbtn-padding\">Clear address</button>\r\n                            <button
+        id=\"btnSearchByAddress\" type=\"submit\" role=\"button\" class=\"btn btn-primary\"
+        formaction=\"/Voter/SearchByAddress\">Search by address</button>\r\n                        </div>\r\n
+        \                   </div>\r\n                </form>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div
+        id=\"county-clerk-search\" class=\"col-xl-6 col-md-12\">\r\n        <div class=\"card\">\r\n
+        \           <div class=\"card-header\">\r\n                <h2 class=\"ccd-page-heading\">Search
+        by county</h2>\r\n            </div>\r\n            <div class=\"card-body\">\r\n
+        \               <p>Required fields are marked with an asterisk <abbr class=\"req\"
+        title=\"required\">*</abbr>.</p>\r\n                <form id=\"county-Form\"
+        action=\"\" class=\"mb-3\">\r\n                    <p id=\"county-search-instructions\"
+        class=\"panel-instructions\">Select a County for a list of all clerks' contact
+        information.</p>\r\n                    <br />\r\n                    <div
+        class=\"form-group\">\r\n                        <label class=\"control-label
+        text-uppercase text-transform-none not-bold\" for=\"Counties\">County </label>\r\n
+        \                       <span class=\"sr-only\">,,Required,,</span>\r\n                        <select
+        class=\"form-control text-uppercase text-transform-none bold\" id=\"Counties\"
+        name=\"Counties\" required=\"required\"><option value=\"\">Select</option>\r\n<option
+        value=\"1\">Alcona County</option>\r\n<option value=\"2\">Alger County</option>\r\n<option
+        value=\"3\">Allegan County</option>\r\n<option value=\"4\">Alpena County</option>\r\n<option
+        value=\"5\">Antrim County</option>\r\n<option value=\"6\">Arenac County</option>\r\n<option
+        value=\"7\">Baraga County</option>\r\n<option value=\"8\">Barry County</option>\r\n<option
+        value=\"9\">Bay County</option>\r\n<option value=\"10\">Benzie County</option>\r\n<option
+        value=\"11\">Berrien County</option>\r\n<option value=\"12\">Branch County</option>\r\n<option
+        value=\"13\">Calhoun County</option>\r\n<option value=\"14\">Cass County</option>\r\n<option
+        value=\"15\">Charlevoix County</option>\r\n<option value=\"16\">Cheboygan
+        County</option>\r\n<option value=\"17\">Chippewa County</option>\r\n<option
+        value=\"18\">Clare County</option>\r\n<option value=\"19\">Clinton County</option>\r\n<option
+        value=\"20\">Crawford County</option>\r\n<option value=\"21\">Delta County</option>\r\n<option
+        value=\"22\">Dickinson County</option>\r\n<option value=\"23\">Eaton County</option>\r\n<option
+        value=\"24\">Emmet County</option>\r\n<option value=\"25\">Genesee County</option>\r\n<option
+        value=\"26\">Gladwin County</option>\r\n<option value=\"27\">Gogebic County</option>\r\n<option
+        value=\"28\">Grand Traverse County</option>\r\n<option value=\"29\">Gratiot
+        County</option>\r\n<option value=\"30\">Hillsdale County</option>\r\n<option
+        value=\"31\">Houghton County</option>\r\n<option value=\"32\">Huron County</option>\r\n<option
+        value=\"33\">Ingham County</option>\r\n<option value=\"34\">Ionia County</option>\r\n<option
+        value=\"35\">Iosco County</option>\r\n<option value=\"36\">Iron County</option>\r\n<option
+        value=\"37\">Isabella County</option>\r\n<option value=\"38\">Jackson County</option>\r\n<option
+        value=\"39\">Kalamazoo County</option>\r\n<option value=\"40\">Kalkaska County</option>\r\n<option
+        value=\"41\">KENT COUNTY</option>\r\n<option value=\"42\">Keweenaw County</option>\r\n<option
+        value=\"43\">Lake County</option>\r\n<option value=\"44\">Lapeer County</option>\r\n<option
+        value=\"45\">Leelanau County</option>\r\n<option value=\"46\">Lenawee County</option>\r\n<option
+        value=\"47\">Livingston County</option>\r\n<option value=\"48\">Luce County</option>\r\n<option
+        value=\"49\">Mackinac County</option>\r\n<option value=\"50\">Macomb County</option>\r\n<option
+        value=\"51\">Manistee County</option>\r\n<option value=\"52\">Marquette County</option>\r\n<option
+        value=\"53\">Mason County</option>\r\n<option value=\"54\">Mecosta County</option>\r\n<option
+        value=\"55\">Menominee County</option>\r\n<option value=\"56\">Midland County</option>\r\n<option
+        value=\"57\">Missaukee County</option>\r\n<option value=\"58\">Monroe County</option>\r\n<option
+        value=\"59\">Montcalm County</option>\r\n<option value=\"60\">Montmorency
+        County</option>\r\n<option value=\"61\">Muskegon County</option>\r\n<option
+        value=\"62\">Newaygo County</option>\r\n<option value=\"63\">Oakland County</option>\r\n<option
+        value=\"64\">Oceana County</option>\r\n<option value=\"65\">Ogemaw County</option>\r\n<option
+        value=\"66\">Ontonagon County</option>\r\n<option value=\"67\">Osceola County</option>\r\n<option
+        value=\"68\">Oscoda County</option>\r\n<option value=\"69\">Otsego County</option>\r\n<option
+        value=\"70\">Ottawa County</option>\r\n<option value=\"71\">Presque Isle County</option>\r\n<option
+        value=\"72\">Roscommon County</option>\r\n<option value=\"73\">Saginaw County</option>\r\n<option
+        value=\"74\">St. Clair County</option>\r\n<option value=\"75\">St. Joseph
+        County</option>\r\n<option value=\"76\">Sanilac County</option>\r\n<option
+        value=\"77\">Schoolcraft County</option>\r\n<option value=\"78\">Shiawassee
+        County</option>\r\n<option value=\"79\">Tuscola County</option>\r\n<option
+        value=\"80\">Van Buren County</option>\r\n<option value=\"81\">Washtenaw County</option>\r\n<option
+        value=\"82\">Wayne County</option>\r\n<option value=\"83\">Wexford County</option>\r\n</select>\r\n
+        \                       <span role=\"alert\">\r\n                            <span
+        class=\"field-validation-valid\" data-valmsg-for=\"CountyName\" data-valmsg-replace=\"true\"></span>\r\n
+        \                           <span class=\"field-validation-valid\" data-valmsg-for=\"CountyID\"
+        data-valmsg-replace=\"true\"></span>\r\n                            <span
+        class=\"field-validation-valid\" data-valmsg-for=\"Counties\" data-valmsg-replace=\"true\"></span>\r\n
+        \                       </span>\r\n                    </div>\r\n                    <div
+        class=\"row mt-5\">\r\n                        <div class=\"col-12 pt-md-0
+        text-right\">\r\n                            <button id=\"btnClearCounty\"
+        type=\"button\" role=\"button\" class=\"btn btn-back\">&nbsp;&nbsp;&nbsp;Clear
+        county&nbsp;&nbsp;&nbsp;&nbsp;</button>\r\n                            <span
+        class=\"horizontal-button-space\">&nbsp;&nbsp;&nbsp;</span>\r\n                            <span
+        class=\"vertical-button-space\"><br /><br /></span>\r\n                            <button
+        id=\"btnCountySearch\" type=\"submit\" role=\"button\" class=\"btn btn-primary\"
+        formaction=\"/Voter/SearchByCounty\">Search by county</button>\r\n                        </div>\r\n
+        \                   </div>\r\n                </form>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"modal fade custom-model-class\"
+        id=\"voternotfound\" tabindex=\"-1\" role=\"dialog\">\r\n    <div class=\"modal-dialog
+        modal-lg\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n
+        \           <div class=\"modal-header text-right\">\r\n                <button
+        type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">CLOSE</button>\r\n
+        \           </div>\r\n            <div class=\"modal-body\">\r\n                <h2
+        class=\"text-center h3\">No voter record matched your search criteria.</h2>\r\n\r\n
+        \               <a class=\"btn btn-primary btn-block\" href=\"/RegisterVoter?Length=0\">Register
+        To Vote</a>\r\n\r\n                <br />\r\n\r\n                You may try
+        one of the following options:\r\n                <ul>\r\n                    <li>Re-enter
+        your voter search information</li>\r\n                    <li>\r\n                        Contact
+        your <a href=\"/Voter/Index/#yourclerk\" onclick=\"$('#voternotfound').modal('hide');\">local
+        clerk</a>\r\n                    </li>\r\n                    <li>Refer to
+        our <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://www.mi.gov/sos/0,1607,7-127-1633---,00.html\">voter
+        information pages</a></li>\r\n                </ul>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"modal fade custom-model-class\"
+        id=\"mulitpleNameRecords\" tabindex=\"-1\" role=\"dialog\">\r\n    <div class=\"modal-dialog
+        modal-lg\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n
+        \           <div class=\"modal-header text-right\"><button type=\"button\"
+        class=\"btn btn-default\" data-dismiss=\"modal\">CLOSE</button></div>\r\n
+        \           <div class=\"modal-body\">\r\n                <h2 class=\"text-center
+        h3\">Multiple records matched your search criteria.</h2>\r\n                <br
+        />\r\n                <ul>\r\n                    <li>Make sure you entered
+        the information correctly</li>\r\n                    <li>Try searching by
+        driver's license or state ID. If you do not have a driver's license or state
+        ID please contact your local clerk.</li>\r\n                </ul>\r\n            </div>\r\n
+        \       </div>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"modal fade custom-model-class\"
+        id=\"mulitpleDlnRecords\" tabindex=\"-1\" role=\"dialog\">\r\n    <div class=\"modal-dialog
+        modal-lg\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n
+        \           <div class=\"modal-header text-right\"><button type=\"button\"
+        class=\"btn btn-default\" data-dismiss=\"modal\">CLOSE</button></div>\r\n
+        \           <div class=\"modal-body\">\r\n                <h2 class=\"text-center
+        h3\">Multiple records matched your search criteria.</h2>\r\n                <br
+        />\r\n                <p class=\"page-instruction\">\r\n                    Please
+        contact your <a href=\"/Voter/Index/#yourclerk\" onclick=\"$('#voternotfound').modal('hide');\">local
+        clerk</a>.\r\n                </p>\r\n            </div>\r\n        </div>\r\n
+        \   </div>\r\n</div>\r\n\r\n<div class=\"modal in custom-model-class\" id=\"AcpaParticipantIdModal\"
+        role=\"dialog\" aria-labelledby=\"AcpaParticipantIdModal\">\r\n    <div class=\"modal-dialog
+        modal-md\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n
+        \           <div class=\"modal-header\">\r\n                <button type=\"button\"
+        class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span
+        aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n                <h1
+        class=\"modal-title text-center\">Address Confidentiality</h1>\r\n            </div>\r\n
+        \           <div class=\"modal-body\">\r\n                <p role=\"alert\"
+        id=\"errorMsg\" class=\"alert-danger\"></p>\r\n                <label id=\"id-Label\"
+        for=\"participantId\">Please enter your Address Confidentiality Participant
+        ID</label>\r\n                <input type=\"password\" name=\"participantId\"
+        aria_labelledby=\"id-label\" aria_required=\"true\"  id=\"participantId\"\r\n
+        \                       class=\"bold \" data-val-required=\"Please enter a
+        value for your Address Confidentialiy Participant ID\">\r\n                <i
+        class=\"far fa-eye toggle-masking-icon\" id=\"togglePasswordMasking\"></i>\r\n
+        \           </div>\r\n            <div class=\"modal-footer\">\r\n                <button
+        type=\"button\" class=\"btn btn-back\" data-dismiss=\"modal\">CLOSE</button>\r\n
+        \               <button id=\"btnSubmitParticipantId\" type=\"button\" class=\"btn
+        btn-primary\">SUBMIT</button>\r\n            </div>\r\n        </div>\r\n
+        \   </div>\r\n</div>\r\n\r\n<script type=\"text/javascript\" src=\"/Scripts/togglePasswordMasking.js\"></script>\r\n\r\n<script
+        type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?&callback=loadAutoSugggest'
+        async defer></script>\r\n<script src=\"/bundles/voterJS?v=KO7cK4IyR6b6E0c1PWAVE7lPai-TEAhVO-iZ898zYiM1\"></script>\r\n\r\n<script
+        src=\"/bundles/clerkJS?v=ZzAGLBXHiEY2ZbKF9yBeGwFh-BUq5C5m5jGY23bcaQ01\"></script>\r\n\r\n<script
+        src=\"/bundles/evAddressLookupJS?v=BpVgNDjeN9_dre-RTVVSJUGV994k5VVQHz-EUtXO5cA1\"></script>\r\n\r\n<script
+        src=\"/bundles/validateJS?v=7zgeQ27pHEtC4BL_QfU75uHW_re1z8AEMxQOz2oi3YQ1\"></script>\r\n"
     headers:
       Cache-Control:
-      - no-cache, no-store
-      Content-Encoding:
-      - gzip
+      - no-cache, no-store,no-store
       Content-Length:
-      - '4744'
+      - '32408'
+      Content-Security-Policy:
+      - "\r\n   default-src 'self';    \r\n   object-src 'self';    \r\n   connect-src
+        'self' https://dc.services.visualstudio.com https://*.bing.com https://*.virtualearth.net
+        https://googletagmanager.com https://*.googletagmanager.com https://google-analytics.com
+        https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com
+        https://stats.g.doubleclick.net https://www.google.com/ads https://digitalguidelines.michigan.gov;
+        \   \r\n   form-action 'self';    \r\n   frame-ancestors 'none';    \r\n   frame-src
+        'self' https://www.youtube.com;    \r\n   img-src 'self' https://*.bing.com
+        https://*.virtualearth.net https://googletagmanager.com https://*.googletagmanager.com
+        https://google-analytics.com https://*.google-analytics.com https://googleads.g.doubleclick.net
+        https://www.google.com https://google.com https://www.michigan.gov/favicon.ico
+        https://www.youtube.com data:;    \r\n   style-src 'self' 'unsafe-inline'
+        https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
+        https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css;    \r\n
+        \  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.bing.com https://*.virtualearth.net
+        https://googletagmanager.com https://*.googletagmanager.com https://www.google-analytics.com
+        https://stats.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/
+        https://www.youtube.com/iframe_api https://www.youtube.com/s/player/38c5f870/www-widgetapi.vflset/www-widgetapi.js;
+        \   \r\n   font-src 'self' https://digitalguidelines.michigan.gov/cdn/3.2.0/fonts/
+        data:;"
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 06 Oct 2020 13:44:37 GMT
+      - Sat, 08 Jun 2024 18:40:07 GMT
       Expires:
       - '-1'
       Pragma:
-      - no-cache,no-cache
+      - no-cache
       Referrer-Policy:
       - no-referrer
+      Set-Cookie:
+      - TS954b0edf027=0898880a0cab2000b2ad779a41a4809019cf4a8ef0125bb07db78b1e5040b9222787c8558d98074e08cec198db1130008b00abd8f34cead381ec0038246a3c8aa35869ae4c2f45bcda3853aab9c4191eef880c632d7d093a464dba65767b0ad2;
+        Path=/
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
+      - max-age=31536000; includeSubDomains; preload
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:

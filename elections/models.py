@@ -249,9 +249,7 @@ class Voter(models.Model):
     def birth_year(self) -> int:
         return self.birth_date.year
 
-    def fetch_registration_status(
-        self, *, track_missing_data: bool = "staging" not in settings.BASE_URL
-    ) -> RegistrationStatus:
+    def fetch_registration_status(self) -> RegistrationStatus:
         data = helpers.fetch_registration_status_data(self)
 
         if not data["registered"]:
@@ -287,28 +285,12 @@ class Voter(models.Model):
             if district.category.name == "Jurisdiction":
                 jurisdiction = district
 
-        precinct, created = Precinct.objects.get_or_create(
+        precinct, _created = Precinct.objects.get_or_create(
             county=county,
             jurisdiction=jurisdiction,
             ward=data["districts"]["Ward"],
             number=data["districts"]["Precinct"],
         )
-        if created:
-            message = f"Created precinct: {precinct}"
-            log.warn(message)
-            if track_missing_data:
-                bugsnag.notify(
-                    exceptions.MissingData(message),
-                    metadata={
-                        "voter": {
-                            "first_name": self.first_name,
-                            "last_name": self.last_name,
-                            "birth_data": self.birth_date,
-                            "zip_code": self.zip_code,
-                            "mvic_data": data,
-                        }
-                    },
-                )
 
         status = RegistrationStatus(  # type: ignore[misc]
             registered=data["registered"],

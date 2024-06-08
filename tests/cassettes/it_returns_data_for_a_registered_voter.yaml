@@ -13,8 +13,7 @@ interactions:
       Content-Type:
       - application/x-www-form-urlencoded
       User-Agent:
-      - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML like Gecko)
-        Chrome/51.0.2704.79 Safari/537.36 Edge/14.14931
+      - Opera/9.50 (Windows NT 5.1; U; it)
     method: POST
     uri: https://mvic.sos.state.mi.us/Voter/SearchByName
   response:
@@ -67,23 +66,27 @@ interactions:
         \                           </div>\r\n                        </div>\r\n                        <div
         class=\"card-body pt-0\" tabindex=\"0\">\r\n                            <h2>Elections
         calendar</h2>\r\n                            <div id=\"lblElectionCalendar\">\r\n
-        \                               <p class='maroon'>There are no elections scheduled
-        at this time.</p>\r\n                            </div>\r\n                        </div>\r\n
-        \                   </div>\r\n                </div>\r\n            </div>\r\n<input
-        id=\"hfPollLatitude\" name=\"hfPollLatitude\" type=\"hidden\" value=\"42.974239\"
-        /><input id=\"hfPollLongitude\" name=\"hfPollLongitude\" type=\"hidden\" value=\"-85.666020\"
-        /><input id=\"hfPollRouteRequestTitle\" name=\"hfPollRouteRequestTitle\" type=\"hidden\"
-        value=\"Election Day: COIT ARTS ACADEMY\" /><input id=\"hfPollingAddress\"
-        name=\"hfPollingAddress\" type=\"hidden\" value=\"617 Coit Ne (livingston
-        Ent)\" /><input id=\"hfPollingCityStateZip\" name=\"hfPollingCityStateZip\"
-        type=\"hidden\" value=\"Grand Rapids, Michigan 49503\" /><input id=\"hfPollingMapPinType\"
-        name=\"hfPollingMapPinType\" type=\"hidden\" value=\"election-day\" />                <div
-        class=\"col-xl-12\">\r\n                    <div class=\"card voter-info-card\">\r\n
-        \                       <div class=\"card-header\" tabindex=\"0\">\r\n                            <div>\r\n
-        \                               <img src=\"/Content/Images/PollingPlaceSmall.png\"
-        role=\"presentation\" alt=\"\" />\r\n                                <span>\r\n
-        \                                   <strong id=\"mapTitle\">Election day:
-        COIT ARTS ACADEMY</strong>\r\n                                </span>\r\n
+        \                               <table class='table' id='election - calendar'><thead><tr><th
+        scope='col'>Election date</th><th scope='col'>Election description</th><th
+        scope='col'>Ballot preview</th></tr></thead><tbody><tr><td data-label='Election
+        Date'>8/6/2024</td><td data-label='&nbsp;&nbsp;Description'>State Primary</td><td
+        data-label='&nbsp;&nbsp;Ballot Preview'><a class='btn btn-primary' href='/Voter/GetMvicBallot/45167/698/'
+        target='_blank' type='button'>View</a></td></tr> </tbody></table>\r\n                            </div>\r\n
+        \                       </div>\r\n                    </div>\r\n                </div>\r\n
+        \           </div>\r\n<input id=\"hfPollLatitude\" name=\"hfPollLatitude\"
+        type=\"hidden\" value=\"42.974239\" /><input id=\"hfPollLongitude\" name=\"hfPollLongitude\"
+        type=\"hidden\" value=\"-85.666020\" /><input id=\"hfPollRouteRequestTitle\"
+        name=\"hfPollRouteRequestTitle\" type=\"hidden\" value=\"Election Day: COIT
+        ARTS ACADEMY\" /><input id=\"hfPollingAddress\" name=\"hfPollingAddress\"
+        type=\"hidden\" value=\"617 Coit Ne (livingston Ent)\" /><input id=\"hfPollingCityStateZip\"
+        name=\"hfPollingCityStateZip\" type=\"hidden\" value=\"Grand Rapids, Michigan
+        49503\" /><input id=\"hfPollingMapPinType\" name=\"hfPollingMapPinType\" type=\"hidden\"
+        value=\"election-day\" />                <div class=\"col-xl-12\">\r\n                    <div
+        class=\"card voter-info-card\">\r\n                        <div class=\"card-header\"
+        tabindex=\"0\">\r\n                            <div>\r\n                                <img
+        src=\"/Content/Images/PollingPlaceSmall.png\" role=\"presentation\" alt=\"\"
+        />\r\n                                <span>\r\n                                    <strong
+        id=\"mapTitle\">Election day: COIT ARTS ACADEMY</strong>\r\n                                </span>\r\n
         \                           </div>\r\n                        </div>\r\n                        <div
         class=\"card-body\">\r\n                            <div id=\"pollMapDiv\"
         class=\"point-five-rem-bottom-padding\" style=\"display:block;\">\r\n                                <div
@@ -166,13 +169,15 @@ interactions:
         \                           Absentee ballot\r\n                        </strong>\r\n
         \                   </div>\r\n                    <div class=\"card-body pt-0\">\r\n
         \                       <div id=\"lblAbsenteeVoterInformation\">\r\n                            <div><strong>Election
-        date:</strong></div><div>2/27/2024</div><div><strong>Application received:</strong></div><div>1/10/2024</div><div><strong>Ballot
-        sent:</strong></div><div>1/22/2024</div><div><strong>Ballot received:</strong></div>2/6/2024<hr
-        class=\"teal-border-top\">\r\n                        </div>\r\n\r\n\r\n                            <p>\r\n
-        \                               You are not on the UOCAVA voter list.\r\n
-        \                               UOCAVA voters are eligible to receive their
-        ballots before regular voters.\r\n                                Your ballot
-        would count as long as it is postmarked by election day.\r\n                                The
+        date:</strong></div><div>8/6/2024</div><div><strong>Application received:</strong></div><div>1/10/2024</div><div><strong>Ballot
+        sent:</strong></div><div>&nbsp;</div><div><strong>Ballot received:</strong></div>&nbsp;<hr
+        class=\"teal-border-top\">\r\n                        </div>\r\n                    <div><strong>Email
+        subscribed:</strong></div>\r\n                    <p>\r\n                        No\r\n
+        \                   </p>\r\n                        <hr class=\"teal-border-top\"
+        />\r\n                            <p>\r\n                                You
+        are not on the UOCAVA voter list.\r\n                                UOCAVA
+        voters are eligible to receive their ballots before regular voters.\r\n                                Your
+        ballot would count as long as it is postmarked by election day.\r\n                                The
         UOCAVA status lasts for every election in this calendar year.\r\n                                If
         you are only eligible to be UOCAVA for part of the year, talk with your clerk
         to determine when the status should be removed.\r\n                            </p>\r\n\r\n
@@ -511,30 +516,33 @@ interactions:
       Cache-Control:
       - no-cache, no-store,no-store
       Content-Length:
-      - '41794'
+      - '42387'
       Content-Security-Policy:
-      - "\r\n             default-src 'self'; \r\n             object-src 'self';
-        \r\n             connect-src 'self' https://dc.services.visualstudio.com https://*.bing.com
-        https://*.virtualearth.net https://www.googletagmanager.com https://www.google-analytics.com
-        https://stats.g.doubleclick.net https://www.google.com/ads https://digitalguidelines.michigan.gov;\r\n
-        \            form-action 'self'; \r\n             frame-ancestors 'none';
-        \r\n             frame-src 'self' https://www.youtube.com ;\r\n             img-src
-        'self' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
+      - "\r\n   default-src 'self';    \r\n   object-src 'self';    \r\n   connect-src
+        'self' https://dc.services.visualstudio.com https://*.bing.com https://*.virtualearth.net
+        https://googletagmanager.com https://*.googletagmanager.com https://google-analytics.com
+        https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com
+        https://stats.g.doubleclick.net https://www.google.com/ads https://digitalguidelines.michigan.gov;
+        \   \r\n   form-action 'self';    \r\n   frame-ancestors 'none';    \r\n   frame-src
+        'self' https://www.youtube.com;    \r\n   img-src 'self' https://*.bing.com
+        https://*.virtualearth.net https://googletagmanager.com https://*.googletagmanager.com
+        https://google-analytics.com https://*.google-analytics.com https://googleads.g.doubleclick.net
+        https://www.google.com https://google.com https://www.michigan.gov/favicon.ico
+        https://www.youtube.com data:;    \r\n   style-src 'self' 'unsafe-inline'
+        https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
         https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
-        https://www.michigan.gov/favicon.ico https://www.youtube.com data:; \r\n             style-src
-        'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net https://www.googletagmanager.com
-        https://www.google-analytics.com https://stats.g.doubleclick.net https://www.google.com/ads
-        https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css; \r\n
-        \            script-src 'self' 'unsafe-inline' https://*.bing.com https://*.virtualearth.net
-        https://www.googletagmanager.com https://www.google-analytics.com https://stats.g.doubleclick.net
-        https://www.google.com/ads https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/
+        https://digitalguidelines.michigan.gov/cdn/3.2.0/som-components.css;    \r\n
+        \  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.bing.com https://*.virtualearth.net
+        https://googletagmanager.com https://*.googletagmanager.com https://www.google-analytics.com
+        https://stats.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://digitalguidelines.michigan.gov https://*.vo.msecnd.net/scripts/a/
         https://www.youtube.com/iframe_api https://www.youtube.com/s/player/38c5f870/www-widgetapi.vflset/www-widgetapi.js;
-        \r\n             font-src 'self' https://digitalguidelines.michigan.gov/cdn/3.2.0/fonts/
+        \   \r\n   font-src 'self' https://digitalguidelines.michigan.gov/cdn/3.2.0/fonts/
         data:;"
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Sat, 23 Mar 2024 17:42:21 GMT
+      - Sat, 08 Jun 2024 18:00:50 GMT
       Expires:
       - '-1'
       Pragma:
@@ -542,12 +550,14 @@ interactions:
       Referrer-Policy:
       - no-referrer
       Set-Cookie:
-      - 'ASP.NET_SessionId=r421ldbhxgff1ca4cadr4rma; path=/; secure; HttpOnly; SameSite=Lax;
+      - 'ASP.NET_SessionId=c32ftkt3qfz0tekdth5pmxdk; path=/; secure; HttpOnly; SameSite=Lax;
         SameSite=Lax; '
-      - TS01d4614d=0120f33893386422ff2bc6ba58b437244e7140eb684d3223d3f04c7aef132ac5af5043b86e8851ace5206cdde4571cf7b70cd930f5;
-        Path=/; Secure
+      - 'TS01d4614d=0120f338932b3283bd5ec8c20d6e8de405cad485ce4718ccc7c0e48e7bff7800ad9821ab16c3f53ef1c918818f1eebe0eae84f7179;
+        Path=/; Secure; '
+      - TS954b0edf027=0898880a0cab20002a5ee9a6282dd4bf6a1a54d9fce51f7fb4fefa94ad87092cc43714105674d95808b19929c611300092f741e56b803f2e3bf923c2c2acddd7fca44c6d497b7b8424759bc4c9b178522be1becd68c8e839cdb4d98c9418415c;
+        Path=/
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
+      - max-age=31536000; includeSubDomains; preload
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
