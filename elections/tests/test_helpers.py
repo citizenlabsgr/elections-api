@@ -1,6 +1,8 @@
 # pylint: disable=unused-variable
 
 
+import datetime
+
 import pendulum
 import pytest
 
@@ -34,19 +36,15 @@ def describe_fetch_registration_status_data():
         data = helpers.fetch_registration_status_data(voter)
         expect(data) == {
             "registered": True,
-            # TODO: Enable this when there is real election data
-            # "ballot": True,
-            # "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/1792/683/",
             "absentee": True,
-            # "absentee_dates": {
-            #     "Election Date": datetime.date(2020, 11, 3),
-            #     "Application Received": datetime.date(2020, 6, 6),
-            #     "Ballot Sent": datetime.date(2020, 9, 24),
-            #     "Ballot Received": datetime.date(2020, 9, 29),
-            # },
-            "ballot": expect.anything,
-            "ballot_url": expect.anything,
-            "absentee_dates": expect.anything,
+            "absentee_dates": {
+                "Application Received": datetime.date(2024, 1, 10),
+                "Ballot Received": None,
+                "Ballot Sent": None,
+                "Election Date": datetime.date(2024, 8, 6),
+            },
+            "ballot": True,
+            "ballot_url": "https://mvic.sos.state.mi.us/Voter/GetMvicBallot/45167/698/",
             "districts": {
                 "County": "Kent County",
                 "Jurisdiction": "City of Grand Rapids",
