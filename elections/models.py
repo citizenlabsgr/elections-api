@@ -745,8 +745,16 @@ class Ballot(TimeStampedModel):
                         log.info(f"Created candidate: {candidate}")
                     yield candidate
 
-    def _parse_nonpartisan_section(self, data):
+    def _parse_nonpartisan_section(self, data: dict):
         assert self.website
+
+        # TODO: Handle new type of nonpartisan section for proposals
+        # e.g. https://mvic.sos.state.mi.us/Voter/GetMvicBallot/4321/698/
+        if values := list(data.values()):
+            if "name" not in values[0][0]:
+                log.warning(f"Nonpartisan section malformed: {data}")
+                yield from self._parse_proposal_section(data)
+                return
 
         for category_name, positions_data in data.items():
             for position_data in positions_data:
