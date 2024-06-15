@@ -165,7 +165,22 @@ class BallotFilter(InitializedFilterSet):
     )
 
 
-class SearchMixin:
+class ProposalFilter(InitializedFilterSet):
+    class Meta:
+        model = models.Proposal
+        fields = [
+            "election_id",
+            "active_election",
+            "district_id",
+            "precinct_id",
+            "precinct_county",
+            "precinct_jurisdiction",
+            "precinct_ward",
+            "precinct_number",
+            "ballot_id",
+        ]
+
+    q = filters.CharFilter(method="search")
 
     def search(self, queryset, _name, value: str):
         if " -" in value:
@@ -190,24 +205,6 @@ class SearchMixin:
             )
 
         return queryset
-
-
-class ProposalFilter(SearchMixin, InitializedFilterSet):
-    class Meta:
-        model = models.Proposal
-        fields = [
-            "election_id",
-            "active_election",
-            "district_id",
-            "precinct_id",
-            "precinct_county",
-            "precinct_jurisdiction",
-            "precinct_ward",
-            "precinct_number",
-            "ballot_id",
-        ]
-
-    q = filters.CharFilter(method="search")
 
     # Election ID lookup
 
@@ -273,7 +270,7 @@ class ProposalFilter(SearchMixin, InitializedFilterSet):
     )
 
 
-class PositionFilter(SearchMixin, InitializedFilterSet):
+class PositionFilter(InitializedFilterSet):
     class Meta:
         model = models.Position
         fields = [
@@ -289,6 +286,31 @@ class PositionFilter(SearchMixin, InitializedFilterSet):
         ]
 
     q = filters.CharFilter(method="search")
+
+    def search(self, queryset, _name, value: str):
+        if " -" in value:
+            inclusion, exclusion = value.split(" -", maxsplit=1)
+        else:
+            inclusion = value
+            exclusion = ""
+
+        queryset = queryset.filter(
+            Q(name__icontains=inclusion)
+            | Q(description__icontains=inclusion)
+            | Q(district__name__icontains=inclusion)
+            | Q(election__name__icontains=inclusion)
+            | Q(candidates__name__icontains=inclusion)
+        )
+
+        if exclusion:
+            queryset = queryset.exclude(
+                Q(name__icontains=exclusion)
+                | Q(description__icontains=exclusion)
+                | Q(district__name__icontains=exclusion)
+                | Q(election__name__icontains=exclusion)
+            )
+
+        return queryset
 
     # Election ID lookup
 

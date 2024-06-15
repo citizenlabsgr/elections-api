@@ -6,6 +6,7 @@ doctor: ## System | Check for the required system dependencies
 
 .PHONY: .envrc
 .envrc:
+	echo "export PORT=8000" >> $@
 	echo "export PYTHONBREAKPOINT=ipdb.set_trace" >> $@
 	echo >> $@
 	echo "export REDIS_URL=redis://localhost:6379" >> $@
@@ -36,7 +37,7 @@ clean:
 .PHONY: run
 run: install migrate ## Project | Run the development server
 	@ echo
-	poetry run python manage.py runserver
+	poetry run python manage.py runserver $(PORT)
 
 .PHONY: shell
 shell: install migrate  ## Project | Open the Django shell
