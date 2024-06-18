@@ -14,6 +14,7 @@
   "pylint.args": ["--rcfile=.pylint.ini"],
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "ballotwebsite",
     "Boonstra",
     "browsable",
     "bugsnag",
@@ -29,6 +30,7 @@
     "coveragerc",
     "createdb",
     "direnv",
+    "districtcategory",
     "envrc",
     "filterset",
     "geckodriver",
@@ -36,6 +38,7 @@
     "Giddings",
     "Graphviz",
     "Grappelli",
+    "herokuapp",
     "htmlcov",
     "Jurisd",
     "levelname",

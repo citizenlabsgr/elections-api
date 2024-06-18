@@ -19,7 +19,9 @@ class DistrictCategory(TimeStampedModel):
 
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
-    rank = models.IntegerField(default=0, help_text="Controls ballot item ordering")
+    rank = models.IntegerField(
+        default=0, help_text="Controls ballot item ordering", db_index=True
+    )
 
     described = models.BooleanField(default=False, editable=False)
 
@@ -52,9 +54,11 @@ class DistrictCategory(TimeStampedModel):
 class District(TimeStampedModel):
     """Districts bound to ballot items."""
 
-    category = models.ForeignKey(DistrictCategory, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    population = models.PositiveIntegerField(blank=True, null=True)
+    category = models.ForeignKey(
+        DistrictCategory, on_delete=models.CASCADE, db_index=True
+    )
+    name = models.CharField(max_length=100, db_index=True)
+    population = models.PositiveIntegerField(blank=True, null=True, db_index=True)
 
     class Meta:
         unique_together = ["category", "name"]
@@ -71,12 +75,12 @@ class Election(TimeStampedModel):
     """Point in time where voters can cast opinions on ballot items."""
 
     name = models.CharField(max_length=100)
-    date = models.DateField()
+    date = models.DateField(db_index=True)
 
     active = models.BooleanField(default=True, db_index=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
-    mvic_id = models.PositiveIntegerField(verbose_name="MVIC ID")
+    mvic_id = models.PositiveIntegerField(verbose_name="MVIC ID", db_index=True)
 
     class Meta:
         unique_together = ["date", "name"]
@@ -105,13 +109,13 @@ class Precinct(TimeStampedModel):
     """Specific region where all voters share a ballot."""
 
     county = models.ForeignKey(
-        District, related_name="counties", on_delete=models.CASCADE
+        District, related_name="counties", on_delete=models.CASCADE, db_index=True
     )
     jurisdiction = models.ForeignKey(
-        District, related_name="jurisdictions", on_delete=models.CASCADE
+        District, related_name="jurisdictions", on_delete=models.CASCADE, db_index=True
     )
-    ward = models.CharField(max_length=2, blank=True)
-    number = models.CharField(max_length=3, blank=True)
+    ward = models.CharField(max_length=2, blank=True, db_index=True)
+    number = models.CharField(max_length=3, blank=True, db_index=True)
 
     class Meta:
         unique_together = ["county", "jurisdiction", "ward", "number"]
@@ -337,7 +341,7 @@ class Voter(models.Model):
 class Party(TimeStampedModel):
     """Affiliation for a particular candidate."""
 
-    name = models.CharField(max_length=50, unique=True, editable=False)
+    name = models.CharField(max_length=50, unique=True, editable=False, db_index=True)
     color = models.CharField(max_length=7, blank=True, editable=False)
 
     class Meta:
@@ -351,8 +355,12 @@ class Party(TimeStampedModel):
 class BallotWebsite(models.Model):
     """Raw HTML of potential ballot from the MVIC website."""
 
-    mvic_election_id = models.PositiveIntegerField(verbose_name="MVIC Election ID")
-    mvic_precinct_id = models.PositiveIntegerField(verbose_name="MVIC Precinct ID")
+    mvic_election_id = models.PositiveIntegerField(
+        verbose_name="MVIC Election ID", db_index=True
+    )
+    mvic_precinct_id = models.PositiveIntegerField(
+        verbose_name="MVIC Precinct ID", db_index=True
+    )
 
     mvic_html = models.TextField(blank=True, editable=False)
 
@@ -989,12 +997,14 @@ class Ballot(TimeStampedModel):
 
 
 class BallotItem(TimeStampedModel):
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
-    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE, db_index=True)
+    district = models.ForeignKey(
+        District, null=True, on_delete=models.CASCADE, db_index=True
+    )
     precincts = models.ManyToManyField(Precinct)  # type: ignore[var-annotated]
     ballots = models.ManyToManyField(Ballot)  # type: ignore[var-annotated]
 
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, db_index=True)
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
 
@@ -1016,7 +1026,7 @@ class Proposal(BallotItem):
 class Position(BallotItem):
     """Ballot item selecting one ore more candidates."""
 
-    term = models.CharField(max_length=200, blank=True)
+    term = models.CharField(max_length=200, blank=True, db_index=True)
     seats = models.PositiveIntegerField(default=1, blank=True)
     section = models.CharField(max_length=50, blank=True)
 
