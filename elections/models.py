@@ -753,6 +753,7 @@ class Ballot(TimeStampedModel):
 
                 if category_name in {
                     "City",
+                    "City Special General",
                     "Township",
                     "Village",
                     "Authority",
@@ -771,9 +772,7 @@ class Ballot(TimeStampedModel):
                     "Ward",
                 }:
                     category = DistrictCategory.objects.get(name=category_name)
-                elif category_name in {
-                    "Judicial",
-                }:
+                elif category_name in {"Judicial"}:
                     pass  # district will be parsed based on position name
                 else:
                     raise exceptions.UnhandledData(
