@@ -753,6 +753,7 @@ class Ballot(TimeStampedModel):
 
                 if category_name in {
                     "City",
+                    "City Special Primary",
                     "City Special General",
                     "Township",
                     "Village",
