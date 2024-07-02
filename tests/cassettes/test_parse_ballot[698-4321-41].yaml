@@ -9,8 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/532.1 (KHTML,
-        like Gecko) Chrome/4.0.220.1 Safari/532.1
+      - Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt; YComp 5.0.0.0)
     method: GET
     uri: https://mvic.sos.state.mi.us/Voter/GetMvicBallot/4321/698/
   response:
@@ -29,9 +28,9 @@ interactions:
         gtag() { dataLayer.push(arguments); }\r\n        gtag('js', new Date());\r\n
         \       gtag('config', 'UA-124923729-1');\r\n    </script>\r\n\r\n    <link
         href=\"/Content/css?v=CN-nfIEY5EWZxJsUt6JcQj0uMl99eOVuIoo0DexpYTc1\" rel=\"stylesheet\"/>\r\n\r\n
-        \   <script src=\"/bundles/scripts?v=0iNU-a6RXmixEgngkuMwhyklbXXma8ll9upSbU29teA1\"></script>\r\n\r\n
-        \   <script src=\"/bundles/errorhandlerJS?v=hZ4VM3wlHDzILWa4MetNq9Xqt9riZ7tijZ8kSfe4aZA1\"></script>\r\n\r\n
-        \   <script src=\"/bundles/BingMapJS?v=rzNjGkpaTcy6-3DWSjCJtNA2u7Hky8O473xL9hKkkdE1\"></script>\r\n\r\n\r\n
+        \   <script src=\"/bundles/scripts?v=LtTN1dNB-pC4nMnBq7L9w1OdXCH8EJNwH-OEJeRzG1Q1\"></script>\r\n\r\n
+        \   <script src=\"/bundles/errorhandlerJS?v=SsebegAvCfjdxFVOZAnQmQbWLosbrlK8yvXfOy-RB4o1\"></script>\r\n\r\n
+        \   <script src=\"/bundles/BingMapJS?v=EpXiDiRmN3dbTS8GyrGgU9yMt1-Y-lY68hfRtNPQ7pU1\"></script>\r\n\r\n\r\n
         \   <title></title>\r\n    <!-- Google Tag Manager -->\r\n    <script>\r\n
         \       (function (w, d, s, l, i) {\r\n            w[l] = w[l] || []; w[l].push({\r\n
         \               'gtm.start':\r\n                    new Date().getTime(),
@@ -68,11 +67,12 @@ interactions:
         \                       <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/language-services\">Language
         services (michigan.gov)</a>\r\n                    </som-menu-item>\r\n\r\n
         \                   \r\n                        <som-menu-item class=\"d-block
-        d-lg-none\"><a rel=\"tag\" href=\"/RegisterVoter/Index\">Register to vote
-        online</a></som-menu-item>\r\n                        <som-menu-item class=\"d-block
-        d-lg-none\"><a rel=\"tag\" href=\"/AVApplication/Index\">Apply for an absentee
-        ballot online</a></som-menu-item>\r\n                    <som-menu-item class=\"d-block
-        d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
+        d-lg-none\"><a rel=\"tag\" href=\"/RegisterVoter/Index\">Preregister or register
+        to vote online</a></som-menu-item>\r\n                        <som-menu-item
+        class=\"d-block d-lg-none\"><a rel=\"tag\" href=\"/AVApplication/Index\">Apply
+        for an absentee ballot online</a></som-menu-item>\r\n                    <som-menu-item
+        class=\"d-block d-lg-none\"><a target=\"_blank\" rel=\"noopener noreferrer\"
+        href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
         forms and publications</a></som-menu-item>\r\n                    <som-menu-item
         class=\"d-block d-lg-none\"><a rel=\"tag\" href=\"/Voter/Index/#yourclerk\">Your
         clerk</a></som-menu-item>\r\n\r\n                    <som-menu-item class=\"d-block
@@ -120,11 +120,12 @@ interactions:
         role=\"navigation\" aria-label=\"Primary Menu\">\r\n            <div id=\"sidenav\">\r\n
         \               <div class=\"row\">\r\n                    <div class=\"col\">\r\n
         \                       <br />\r\n                        <span class=\"nav-item
-        my-2\"><a rel=\"tag\" href=\"/RegisterVoter/Index\">Register to vote online</a></span>\r\n
-        \                       <br />\r\n                            <span class=\"nav-item
-        my-2\"><a rel=\"tag\" href=\"/AVApplication/Index\">Apply for an absentee
-        ballot online</a></span>\r\n                            <br />\r\n                        <span
-        class=\"nav-item my-2\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
+        my-2\"><a rel=\"tag\" href=\"/RegisterVoter/Index\">Preregister or register
+        to vote online</a></span>\r\n                        <br />\r\n                            <span
+        class=\"nav-item my-2\"><a rel=\"tag\" href=\"/AVApplication/Index\">Apply
+        for an absentee ballot online</a></span>\r\n                            <br
+        />\r\n                        <span class=\"nav-item my-2\"><a target=\"_blank\"
+        rel=\"noopener noreferrer\" href=\"https://www.michigan.gov/sos/~/link.aspx?_id=08269D6FC8554AE388FED154A126B8B4&_z=z\">Voter
         forms and publications</a></span>\r\n                        <br />\r\n                        <span
         class=\"nav-item my-2\"><a rel=\"tag\" href=\"/Voter/Index/#yourclerk\">Your
         clerk</a></span>\r\n                        <br />\r\n                        <span
@@ -169,8 +170,8 @@ interactions:
         \               <br />Browsers that have javascript disabled will not be able
         to access some features of this site.<br /><br />\r\n            </noscript>\r\n
         \           <div id=\"special-small-screen-links\">\r\n                <span
-        class=\"nav-item my-2\"><a href=\"/RegisterVoter/Index\"> Register to vote
-        online</a></span>\r\n                    <br />\r\n                    <span
+        class=\"nav-item my-2\"><a href=\"/RegisterVoter/Index\"> Preregister or register
+        to vote online</a></span>\r\n                    <br />\r\n                    <span
         class=\"nav-item my-2\"><a href=\"/AVApplication/Index\"> Apply for an absentee
         ballot online</a></span>\r\n                <br />\r\n                <span
         class=\"nav-item my-2\">\r\n                    <a target=\"_blank\" rel=\"noopener
@@ -206,7 +207,7 @@ interactions:
         \">DEMOCRATIC PARTY</div>\r\n                                </div>\r\n                                <div
         class=\"row\">\r\n                                    <div class=\"col-md-12\">\r\n
         \                                       <div class='container tblOffice'><div
-        class='row'><div class=' col-md-12 division' valign='top'>State</div></div><div
+        class='row'><div class=' col-md-12 division' valign='top'>Congressional</div></div><div
         class='row'><div class=' col-md-12 office' valign='top'>UNITED STATES SENATOR</div></div><div
         class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
         1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
@@ -215,9 +216,8 @@ interactions:
         class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Elissa
         Slotkin</div><div  class='col-xs-1 financeLink'>&nbsp;</div><div  class='col-xs-4
         party ' valign='middle'>Democratic</div></div></div><div class='container
-        tblOffice'><div class='row'><div class=' col-md-12 division' valign='top'>Congressional</div></div><div
-        class='row'><div class=' col-md-12 office' valign='top'>REPRESENTATIVE IN
-        CONGRESS</div></div><div class='row'><div class=' col-md-12 term' valign='top'>9th
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>REPRESENTATIVE
+        IN CONGRESS</div></div><div class='row'><div class=' col-md-12 term' valign='top'>9th
         DISTRICT</div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
         for not more than 1</div></div></div><div class='container tblCandidate'><div
         class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Clinton
@@ -243,13 +243,13 @@ interactions:
         tblCandidate'><div class='row row-eq-height row-striped'><div class='col-md-12
         candidate'>No candidates on ballot</div></div></div><div class='container
         tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>CLERK</div></div><div
-        class='row'><div class=' col-md-12 term' valign='top'> Year Term</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>4 Year Term</div></div><div
         class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
         1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
         row-striped'><div class='col-md-12 candidate'>No candidates on ballot</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 office'
         valign='top'>TREASURER</div></div><div class='row'><div class=' col-md-12
-        term' valign='top'> Year Term</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>4 Year Term</div></div><div class='row'><div class=' col-md-12
         term' valign='top'>Vote for not more than 1</div></div></div><div class='container
         tblCandidate'><div class='row row-eq-height row-striped'><div class='col-md-12
         candidate'>No candidates on ballot</div></div></div><div class='container
@@ -284,13 +284,13 @@ interactions:
         tblCandidate'><div class='row row-eq-height row-striped'><div class='col-md-12
         candidate'>No candidates on ballot</div></div></div><div class='container
         tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>CLERK</div></div><div
-        class='row'><div class=' col-md-12 term' valign='top'> Year Term</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>4 Year Term</div></div><div
         class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
         1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
         row-striped'><div class='col-md-12 candidate'>No candidates on ballot</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 office'
         valign='top'>TREASURER</div></div><div class='row'><div class=' col-md-12
-        term' valign='top'> Year Term</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>4 Year Term</div></div><div class='row'><div class=' col-md-12
         term' valign='top'>Vote for not more than 1</div></div></div><div class='container
         tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
         candidate'>Kris Sutton</div><div  class='col-xs-1 financeLink'><a target='_blank'
@@ -315,7 +315,7 @@ interactions:
         \">REPUBLICAN PARTY</div>\r\n                                </div>\r\n                                <div
         class=\"row\">\r\n                                    <div class=\"col-md-12\">\r\n
         \                                       <div class='container tblOffice'><div
-        class='row'><div class=' col-md-12 division' valign='top'>State</div></div><div
+        class='row'><div class=' col-md-12 division' valign='top'>Congressional</div></div><div
         class='row'><div class=' col-md-12 office' valign='top'>UNITED STATES SENATOR</div></div><div
         class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
         1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
@@ -329,9 +329,8 @@ interactions:
         class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Mike
         Rogers</div><div  class='col-xs-1 financeLink'>&nbsp;</div><div  class='col-xs-4
         party ' valign='middle'>Republican</div></div></div><div class='container
-        tblOffice'><div class='row'><div class=' col-md-12 division' valign='top'>Congressional</div></div><div
-        class='row'><div class=' col-md-12 office' valign='top'>REPRESENTATIVE IN
-        CONGRESS</div></div><div class='row'><div class=' col-md-12 term' valign='top'>9th
+        tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>REPRESENTATIVE
+        IN CONGRESS</div></div><div class='row'><div class=' col-md-12 term' valign='top'>9th
         DISTRICT</div></div><div class='row'><div class=' col-md-12 term' valign='top'>Vote
         for not more than 1</div></div></div><div class='container tblCandidate'><div
         class='row row-eq-height row-striped'><div  class='col-xs-7 candidate'>Lisa
@@ -349,7 +348,7 @@ interactions:
         row-striped'><div  class='col-xs-7 candidate'>Phil Green</div><div  class='col-xs-1
         financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/518695'>$</a></div><div
         \ class='col-xs-4 party ' valign='middle'>Republican</div></div><div class='row
-        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Sherry J. Marden</div><div
+        row-eq-height row-striped'><div  class='col-xs-7 candidate'>Sherry Marden</div><div
         \ class='col-xs-1 financeLink'><a target='_blank' href='https://cfrsearch.nictusa.com/committees/521632'>$</a></div><div
         \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 division'
@@ -368,7 +367,7 @@ interactions:
         href='https://cfrsearch.nictusa.com/committees/61083'>$</a></div><div  class='col-xs-4
         party ' valign='middle'>Republican</div></div></div><div class='container
         tblOffice'><div class='row'><div class=' col-md-12 office' valign='top'>CLERK</div></div><div
-        class='row'><div class=' col-md-12 term' valign='top'> Year Term</div></div><div
+        class='row'><div class=' col-md-12 term' valign='top'>4 Year Term</div></div><div
         class='row'><div class=' col-md-12 term' valign='top'>Vote for not more than
         1</div></div></div><div class='container tblCandidate'><div class='row row-eq-height
         row-striped'><div  class='col-xs-7 candidate'>Theresa M. Spencer</div><div
@@ -376,7 +375,7 @@ interactions:
         \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 office'
         valign='top'>TREASURER</div></div><div class='row'><div class=' col-md-12
-        term' valign='top'> Year Term</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>4 Year Term</div></div><div class='row'><div class=' col-md-12
         term' valign='top'>Vote for not more than 1</div></div></div><div class='container
         tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
         candidate'>Dana M.Miller</div><div  class='col-xs-1 financeLink'><a target='_blank'
@@ -441,7 +440,7 @@ interactions:
         \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 office'
         valign='top'>CLERK</div></div><div class='row'><div class=' col-md-12 term'
-        valign='top'> Year Term</div></div><div class='row'><div class=' col-md-12
+        valign='top'>4 Year Term</div></div><div class='row'><div class=' col-md-12
         term' valign='top'>Vote for not more than 1</div></div></div><div class='container
         tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
         candidate'>Debra S. Oliver</div><div  class='col-xs-1 financeLink'><a target='_blank'
@@ -449,7 +448,7 @@ interactions:
         \ class='col-xs-4 party ' valign='middle'>Republican</div></div></div><div
         class='container tblOffice'><div class='row'><div class=' col-md-12 office'
         valign='top'>TREASURER</div></div><div class='row'><div class=' col-md-12
-        term' valign='top'> Year Term</div></div><div class='row'><div class=' col-md-12
+        term' valign='top'>4 Year Term</div></div><div class='row'><div class=' col-md-12
         term' valign='top'>Vote for not more than 1</div></div></div><div class='container
         tblCandidate'><div class='row row-eq-height row-striped'><div  class='col-xs-7
         candidate'>Lisa Haack</div><div  class='col-xs-1 financeLink'><a target='_blank'
@@ -538,15 +537,27 @@ interactions:
         disburse revenue to certain local units of government including the City of
         Lapeer Downtown Development Authority and the City of Imlay City Downtown
         Development Authority.</span></p><p>&nbsp;</p><br data-mce-bogus=\"1\"><br
-        /><div class='row'><div class=' col-md-12 section' valign='top'>NONPARTISAN
-        SECTION</div></div><div class='row'><div class=' col-md-12 division' valign='top'>Metropolitan
-        District</div></div><div class='row'><div class=' col-md-12 proposalTitle'
-        valign='top'>Greater Lapeer Transportation Authority Millage Renewal Proposal\n</div></div><span
-        id=\"_mce_caret\" data-mce-bogus=\"1\"></span><p style=\"text-align: center;\"
-        data-mce-style=\"text-align: center;\">&nbsp;<br></p><p>Shall the Greater
-        Lapeer Transportation Authority, County of Lapeer, Michigan, be authorized
-        to levy annually a renewal of the previously voted tax increase, which expires
-        in 2025, in an amount not to exceed .2401 mill ($.2401 on each $1,000 of taxable
+        /><div class='row'><div class=' col-md-12 division' valign='top'>Authority</div></div><div
+        class='row'><div class=' col-md-12 proposalTitle' valign='top'>Greater Lapeer
+        Transportation Authority Millage Renewal Proposal</div></div><span id=\"_mce_caret\"
+        data-mce-bogus=\"true\"><span style=\"font-family: &quot;Segoe UI&quot;;\"
+        data-mce-style=\"font-family: 'Segoe UI';\"><span style=\"color: #000000;
+        font-family: 'Segoe UI'; font-size: 12px; font-style: normal; font-variant-ligatures:
+        normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal;
+        orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows:
+        2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal;
+        background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style:
+        initial; text-decoration-color: initial; display: inline !important; float:
+        none;\" data-mce-style=\"color: #000000; font-family: 'Segoe UI'; font-size:
+        12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+        start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; white-space: normal; background-color: #ffffff;
+        text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;\">Shall the Greater Lapeer
+        Transportation Authority, County of Lapeer, Michigan, be authorized to levy
+        annually a renewal of the previously voted tax increase, which expires in
+        2025, in an amount not to exceed .2401 mill ($.2401 on each $1,000 of taxable
         value) against all taxable property within the Greater Lapeer Transportation
         Authority limits (the jurisdictional limits of the City of Lapeer and Deerfield,
         Elba, Lapeer, Mayfield and Oregon Townships) for a period of five (5) years,
@@ -556,8 +567,8 @@ interactions:
         Transportation Authority will collect if the millage is approved and levied
         by the Greater Lapeer Transportation Authority in the first year (2026) is
         approximately $390,000.&nbsp; A portion of the revenue collected may be subject
-        to capture by the City of Lapeer Downtown Development Authority.</p><br /></div>\r\n
-        \           </div>\r\n\r\n                <div class=\"text-center\">\r\n
+        to capture by the City of Lapeer Downtown Development Authority.</span></span></span><br
+        /></div>\r\n            </div>\r\n\r\n                <div class=\"text-center\">\r\n
         \                   \r\n                    <br /><br />\r\n                </div>\r\n
         \                   </div>\r\n    </div>\r\n</div>\r\n            </div>\r\n
         \       </main>\r\n        <som-footer light>\r\n            <som-footer-item>\r\n
@@ -577,7 +588,7 @@ interactions:
         \               <a target=\"_blank\" rel=\"noopener noreferrer\" href='https://www.michigan.gov/som/government/branches-of-government/executive-branch'
         data-som-footer=\"\">State Web Sites</a>\r\n            </som-footer-item>\r\n
         \       </som-footer>\r\n\r\n        <input id=\"buildDate\" name=\"buildDate\"
-        type=\"hidden\" value=\"5/31/2024\" />\r\n\r\n    </div>\r\n    <input id=\"reloadValue\"
+        type=\"hidden\" value=\"6/29/2024\" />\r\n\r\n    </div>\r\n    <input id=\"reloadValue\"
         type=\"hidden\" name=\"reloadValue\" value=\"\" />\r\n\r\n    \r\n    \r\n
         \   \r\n\r\n    <script type=\"text/javascript\">\r\n        $(document).ready(function
         () {\r\n            var appInsights = window.appInsights || function (config)
@@ -600,7 +611,7 @@ interactions:
       Cache-Control:
       - no-cache, no-store,no-store
       Content-Length:
-      - '48901'
+      - '49737'
       Content-Security-Policy:
       - "\r\n   default-src 'self';    \r\n   object-src 'self';    \r\n   connect-src
         'self' https://dc.services.visualstudio.com https://*.bing.com https://*.virtualearth.net
@@ -626,15 +637,17 @@ interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 07 Jun 2024 00:19:18 GMT
+      - Tue, 02 Jul 2024 23:12:49 GMT
       Expires:
       - '-1'
+      P3P:
+      - CP="{}"
       Pragma:
       - no-cache
       Referrer-Policy:
       - no-referrer
       Set-Cookie:
-      - TS954b0edf027=0898880a0cab2000bd06b95495f2b67c3fcf3d4c95fb403f7746283d0009c2f68d6128f8e58795e0082d1ca2d81130007d751460dc4a8fa10702667f147094ed82ff181958a201b66fc843075bdff5a61d344dcdf2edc92bb95728d88dd4a576;
+      - TS954b0edf027=0898880a0cab200096671c2fe84c95de7803385a919f5edff33210c049556f65e19212b94b6d26010831af9e5811300068a5c04370bed6fbf9e9e579b944ca5bdcb631ae169722ed364ec7d5eeb49f6d31f6d5cc138076622f83e7a71716cf27;
         Path=/
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
