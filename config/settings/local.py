@@ -4,7 +4,7 @@ import dj_database_url
 from .default import *
 
 BASE_NAME = "localhost"
-BASE_DOMAIN = f"{BASE_NAME}:8000"
+BASE_DOMAIN = f"{BASE_NAME}:" + os.environ.get("PORT", "8000")
 BASE_URL = f"http://{BASE_DOMAIN}"
 
 API_CACHE_SECONDS = 5
@@ -32,9 +32,11 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "elections_dev",
         "HOST": "127.0.0.1",
-    },
-    "remote": dj_database_url.config(),
+    }
 }
+
+if "DATABASE_URL" in os.environ:
+    DATABASES["default"] = dj_database_url.config()
 
 ###############################################################################
 # Django Debug Toolbar

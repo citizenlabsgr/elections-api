@@ -96,9 +96,11 @@ migrations: install  ## Data | Generate database migrations
 
 .PHONY: migrate
 migrate: install ## Data | Run database migrations
+ifndef DATABASE_URL
 	poetry run python manage.py migrate
 	@ echo
 	poetry run python manage.py migrate_data
+endif
 
 .PHONY: data
 data: migrate ## Data | Seed data for manual testing
