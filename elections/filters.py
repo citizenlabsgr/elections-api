@@ -166,7 +166,11 @@ class ProposalFilter(filters.FilterSet):
             "ballot_id",
         ]
 
-    q = filters.CharFilter(method="search")
+    q = filters.CharFilter(
+        method="search",
+        label="Query",
+        help_text="<br>Text to filter by name, description, district, or election.",
+    )
 
     def search(self, queryset, _name, value: str):
         if " -" in value:
@@ -270,7 +274,11 @@ class PositionFilter(filters.FilterSet):
             "ballot_id",
         ]
 
-    q = filters.CharFilter(method="search")
+    q = filters.CharFilter(
+        method="search",
+        label="Query",
+        help_text="<br>Text to filter by name, description, district, election, or candidate.",
+    )
 
     def search(self, queryset, _name, value: str):
         if " -" in value:
@@ -293,6 +301,7 @@ class PositionFilter(filters.FilterSet):
                 | Q(description__icontains=exclusion)
                 | Q(district__name__icontains=exclusion)
                 | Q(election__name__icontains=exclusion)
+                | Q(candidates__name__icontains=inclusion)
             )
 
         return queryset
