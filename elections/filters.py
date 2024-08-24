@@ -6,20 +6,7 @@ from . import models
 DjangoFilterBackend = filters.DjangoFilterBackend
 
 
-class InitializedFilterSet(filters.FilterSet):
-    def __init__(self, data, *args, **kwargs):
-        # pylint: disable=no-member
-        if data is not None:
-            data = data.copy()
-            for name, f in self.base_filters.items():
-                initial = f.extra.get("initial")
-                if not data.get(name) and initial:
-                    data[name] = initial
-
-        super().__init__(data, *args, **kwargs)
-
-
-class VoterFilter(InitializedFilterSet):
+class VoterFilter(filters.FilterSet):
     class Meta:
         model = models.Voter
         fields = ["first_name", "last_name", "zip_code", "birth_date"]
@@ -46,7 +33,7 @@ class VoterFilter(InitializedFilterSet):
     )
 
 
-class ElectionFilter(InitializedFilterSet):
+class ElectionFilter(filters.FilterSet):
     class Meta:
         model = models.Election
         fields = ["active"]
@@ -57,7 +44,7 @@ class ElectionFilter(InitializedFilterSet):
     )
 
 
-class PrecinctFilter(InitializedFilterSet):
+class PrecinctFilter(filters.FilterSet):
     class Meta:
         model = models.Precinct
         fields = [
@@ -104,7 +91,7 @@ class PrecinctFilter(InitializedFilterSet):
     )
 
 
-class BallotFilter(InitializedFilterSet):
+class BallotFilter(filters.FilterSet):
     class Meta:
         model = models.Ballot
         fields = [
@@ -129,7 +116,6 @@ class BallotFilter(InitializedFilterSet):
 
     active_election = filters.BooleanFilter(
         field_name="election__active",
-        initial=True,
         help_text="<br>Include only recent and upcoming elections. Defaults to true.",
     )
 
@@ -165,7 +151,7 @@ class BallotFilter(InitializedFilterSet):
     )
 
 
-class ProposalFilter(InitializedFilterSet):
+class ProposalFilter(filters.FilterSet):
     class Meta:
         model = models.Proposal
         fields = [
@@ -218,7 +204,6 @@ class ProposalFilter(InitializedFilterSet):
 
     active_election = filters.BooleanFilter(
         field_name="election__active",
-        initial=True,
         help_text="<br>Include only recent and upcoming elections. Defaults to true.",
     )
 
@@ -270,7 +255,7 @@ class ProposalFilter(InitializedFilterSet):
     )
 
 
-class PositionFilter(InitializedFilterSet):
+class PositionFilter(filters.FilterSet):
     class Meta:
         model = models.Position
         fields = [
@@ -324,7 +309,6 @@ class PositionFilter(InitializedFilterSet):
 
     active_election = filters.BooleanFilter(
         field_name="election__active",
-        initial=True,
         help_text="<br>Include only recent and upcoming elections. Defaults to true.",
     )
 
