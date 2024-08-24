@@ -608,17 +608,17 @@ files = [
 
 [[package]]
 name = "django"
-version = "5.0b1"
+version = "5.0.8"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "Django-5.0b1-py3-none-any.whl", hash = "sha256:fc0fb85721c984d7c7bcbfc59cbd5eb7bcc5dd678f394b3b2b311f0c43cfb943"},
-    {file = "Django-5.0b1.tar.gz", hash = "sha256:c88635e733f0a0ef46c219635e21c8f5978eb2a14c3918224654541bc5d57030"},
+    {file = "Django-5.0.8-py3-none-any.whl", hash = "sha256:333a7988f7ca4bc14d360d3d8f6b793704517761ae3813b95432043daec22a45"},
+    {file = "Django-5.0.8.tar.gz", hash = "sha256:ebe859c9da6fead9c9ee6dbfa4943b04f41342f4cea2c4d8c978ef0d10694f2b"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.7.0"
+asgiref = ">=3.7.0,<4"
 sqlparse = ">=0.3.1"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
@@ -3823,4 +3823,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "3549e8d76806a67ae5a9a683e9d893ad05d04d199eeb0e638056af8ee6273d71"
+content-hash = "80e0954cea32ab3f31e6a47306341e9cb125294fbf08db422a40fd0f90ff2bcb"
