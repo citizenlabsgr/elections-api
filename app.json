@@ -1,11 +1,11 @@
 {
-  "addons": ["heroku-postgresql", "heroku-redis"],
+  "addons": [
+    "heroku-postgresql",
+    "heroku-redis"
+  ],
   "buildpacks": [
     {
-      "url": "heroku/google-chrome"
-    },
-    {
-      "url": "heroku/chromedriver"
+      "url": "https://github.com/heroku/heroku-buildpack-chrome-for-testing"
     },
     {
       "url": "https://github.com/moneymeets/python-poetry-buildpack.git"
@@ -31,5 +31,5 @@
   "scripts": {
     "postdeploy": "python manage.py seed_data"
   },
-  "stack": "heroku-22"
+  "stack": "heroku-24"
 }
