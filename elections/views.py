@@ -58,8 +58,8 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         voter = models.Voter(**input_serializer.validated_data)
         election = models.Election.objects.filter(active=True).first()
         if election is None:
-            log.warning("No active elections")
-            election = models.Election.objects.filter().last()
+            election = models.Election.objects.first()
+            log.warning(f"No active elections, using latest: {election}")
         try:
             registration_status = voter.fetch_registration_status()
         except exceptions.ServiceUnavailable as e:
