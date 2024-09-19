@@ -791,7 +791,10 @@ class Ballot(TimeStampedModel):
                             category = DistrictCategory.objects.get(
                                 name="Municipal Court"
                             )
-                        elif position_name in {"Judge of Probate Court"}:
+                        elif position_name in {
+                            "Judge of Probate Court",
+                            "Judge of Probate District Court",
+                        }:
                             category = DistrictCategory.objects.get(
                                 name="Probate Court"
                             )

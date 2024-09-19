@@ -29,12 +29,12 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
 @pytest.mark.parametrize(
     ("election_id", "precinct_id", "item_count"),
     [
-        # 2023 Consolidated
+        # 2023 May Consolidated
         (694, 2300, 1),
         # 2023 November Consolidated
         (695, 4190, 4),
         (695, 7192, 5),
-        # 2024 Primary
+        # 2024 February Primary
         (696, 529, 11),
         (696, 1561, 12),
         # 2024 May Consolidated
@@ -45,6 +45,8 @@ def parse_ballot(election_id: int, precinct_id: int) -> int:
         (698, 4321, 41),
         (698, 49195, 32),
         (698, 50416, 36),
+        # 2024 November General
+        (699, 240, 75),
     ],
 )
 def test_parse_ballot(expect, election_id, precinct_id, item_count):
