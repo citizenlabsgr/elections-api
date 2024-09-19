@@ -933,6 +933,7 @@ class Ballot(TimeStampedModel):
                                 "School District",
                                 "Area School System",
                                 "Rural Agricultural School",
+                                "S/D",  # e.g. Hagar Township S/D #6
                                 "Schools",
                                 "District",
                                 "School",
