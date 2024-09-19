@@ -39,7 +39,7 @@ pygraphviz = { version = "^1.7", optional = true }
 # Utilities
 beautifulsoup4 = "^4.8.2"
 factory_boy = "^3.3"
-fake-useragent = "^1.1"
+fake-useragent = "^1.5.1"
 minilog = "^2.1"
 nameparser = "^1.0.4"
 pendulum = "^2.1"
