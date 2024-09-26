@@ -160,7 +160,14 @@ class NestedBallotSerializer(serializers.ModelSerializer):
         ]
 
     def get_items(self, instance: models.Ballot) -> int:
-        return instance.website.data_count
+        if not instance.website.data:
+            return -1
+        count = 0
+        ballot = instance.website.data.get("ballot", {})
+        for section in ballot.values():
+            for category in section.values():
+                count += len(category)
+        return count
 
 
 class ProposalSerializer(serializers.HyperlinkedModelSerializer):
