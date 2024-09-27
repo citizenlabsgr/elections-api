@@ -5,7 +5,7 @@ CONFIG_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(CONFIG_ROOT)
 
 API_CACHE_SECONDS = 60 * 5
-API_CACHE_KEY = 3
+API_CACHE_KEY = 4
 
 ###############################################################################
 # Core

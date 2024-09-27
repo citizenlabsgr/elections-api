@@ -458,7 +458,7 @@ class BallotWebsite(models.Model):
         data["ballot"] = {}
 
         data_count = helpers.parse_ballot(self.mvic_html, data["ballot"])
-        log.info(f"Ballot URL contains {data_count} parsed item(s)")
+        log.info(f"Ballot HTML contains {data_count} parsed item(s)")
         if data_count > 0:
             self.data = data
             if data_count != self.data_count:
