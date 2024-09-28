@@ -1,11 +1,9 @@
 import re
 import string
 import time
-from contextlib import contextmanager
 from datetime import date, datetime
 from functools import cache
-from importlib import resources
-from typing import Any, Generator
+from typing import Any
 
 import log
 import pomace
@@ -24,18 +22,12 @@ user_agent = UserAgent()
 # Shared helpers
 
 
-@contextmanager
-def mvic_session() -> Generator[requests.Session, None, None]:
-    certificate = resources.files("config") / "mvic.sos.state.mi.us.pem"
-    session = requests.Session()
-    session.verify = str(certificate)
-    session.headers["User-Agent"] = user_agent.random
-    yield session
-
-
 def fetch(url: str, expected_text: str) -> str:
-    with mvic_session() as session:
-        response = session.get(url)
+    response = requests.get(
+        url,
+        headers={"User-Agent": user_agent.random},
+        timeout=10,
+    )
 
     if response.status_code >= 400:
         log.error(f"MVIC status code: {response.status_code}")
@@ -168,22 +160,25 @@ def build_mvic_url(election_id: int, precinct_id: int) -> str:
 def fetch_registration_status_data(voter):
     url = f"{MVIC_URL}/Voter/SearchByName"
     log.info(f"Submitting form on {url}")
-    with mvic_session() as session:
-        try:
-            response = session.post(
-                url,
-                headers={"Content-Type": "application/x-www-form-urlencoded"},
-                data={
-                    "FirstName": voter.first_name,
-                    "LastName": voter.last_name,
-                    "NameBirthMonth": voter.birth_month,
-                    "NameBirthYear": voter.birth_year,
-                    "ZipCode": voter.zip_code,
-                },
-            )
-        except requests.exceptions.RequestException as e:
-            log.error(f"MVIC connection error: {e}")
-            raise exceptions.ServiceUnavailable()
+    try:
+        response = requests.post(
+            url,
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+                "User-Agent": user_agent.random,
+            },
+            data={
+                "FirstName": voter.first_name,
+                "LastName": voter.last_name,
+                "NameBirthMonth": voter.birth_month,
+                "NameBirthYear": voter.birth_year,
+                "ZipCode": voter.zip_code,
+            },
+            timeout=10,
+        )
+    except requests.exceptions.RequestException as e:
+        log.error(f"MVIC connection error: {e}")
+        raise exceptions.ServiceUnavailable()
 
     if response.status_code >= 400:
         log.error(f"MVIC status code: {response.status_code}")
