@@ -388,13 +388,14 @@ class PositionAdmin(DefaultFiltersMixin, admin.ModelAdmin):
 class CandidateAdmin(DefaultFiltersMixin, admin.ModelAdmin):
     search_fields = ["name", "position__name", "description", "reference_url"]
 
-    list_filter = ["position__election", "party", "position"]
+    list_filter = ["position__election", "party", "nomination", "position"]
     default_filters = ["position__election__id__exact={election_id}"]
 
     list_display = [
         "id",
         "name",
         "party",
+        "nomination",
         "position",
         "description",
         "reference_url",

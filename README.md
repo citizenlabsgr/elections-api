@@ -190,6 +190,10 @@ You can also contribute content changes by editing [these files](https://github.
 
 ## History
 
+**Version 3.5**
+
+- Added party `nomination` attribute for nonpartisan judgeships.
+
 **Version 3.4**
 
 - Added `?q=` text search to `/api/proposals/` and `/api/positions/`.
