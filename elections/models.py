@@ -1066,10 +1066,24 @@ class Candidate(TimeStampedModel):
     description = models.TextField(blank=True)
     reference_url = models.URLField(blank=True, null=True, verbose_name="Reference URL")
     party = models.ForeignKey(Party, blank=True, null=True, on_delete=models.SET_NULL)
+    nomination = models.ForeignKey(
+        Party,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="nominations",
+        help_text="Party that nominated the candidate for a nonpartisan position",
+    )
 
     class Meta:
         unique_together = ["position", "name"]
-        ordering = ["party__name", "name"]
+        ordering = ["party__name", "nomination__name", "name"]
 
     def __str__(self) -> str:
         return f"{self.name} for {self.position}"
+
+    def clean(self):
+        if self.nomination:
+            assert (
+                self.party and self.party.name == "Nonpartisan"
+            ), f"Candidates with nominations must be nonpartisan: {self}"

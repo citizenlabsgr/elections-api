@@ -200,6 +200,7 @@ class PartySerializer(serializers.HyperlinkedModelSerializer):
 
 class CandidateSerializer(serializers.HyperlinkedModelSerializer):
     party = PartySerializer()
+    nomination = PartySerializer()
 
     class Meta:
         model = models.Candidate
@@ -210,6 +211,7 @@ class CandidateSerializer(serializers.HyperlinkedModelSerializer):
             "description",
             "reference_url",
             "party",
+            "nomination",
         ]
 
 
