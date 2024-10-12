@@ -151,6 +151,7 @@ REST_FRAMEWORK = {
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.AcceptHeaderVersioning",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
+    "DEFAULT_THROTTLE_RATES": {"user": "1/second"},
 }
 
 ###############################################################################

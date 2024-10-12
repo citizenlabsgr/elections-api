@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle
 
 from . import exceptions, filters, models, serializers
 
@@ -20,6 +21,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     serializer_class = serializers.RegistrationSerializer
     pagination_class = None
+    throttle_classes = [UserRateThrottle]
 
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
@@ -28,9 +30,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         voter = models.Voter(**input_serializer.validated_data)
-
         registration_status = voter.fetch_registration_status()
-
         serializer_class = self.get_serializer_class()
         output_serializer = serializer_class(
             registration_status, context={"request": request}
@@ -48,6 +48,7 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.VoterFilter
     pagination_class = None
+    throttle_classes = [UserRateThrottle]
 
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
