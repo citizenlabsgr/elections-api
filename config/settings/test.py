@@ -37,6 +37,11 @@ CACHES = {
 }
 
 ###############################################################################
+# Django REST Framework
+
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {"user": "999/second"}
+
+###############################################################################
 # Bugsnag
 
 MIDDLEWARE.remove("bugsnag.django.middleware.BugsnagMiddleware")
