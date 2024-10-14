@@ -59,6 +59,7 @@
     "postgresql",
     "pyenv",
     "pymdownx",
+    "reqs",
     "Rescrapping",
     "Rosalynn",
     "showfspath",

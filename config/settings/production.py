@@ -1,5 +1,4 @@
 import os
-import urllib
 
 import dj_database_url
 
@@ -31,12 +30,11 @@ DATABASES["default"] = dj_database_url.config()
 ###############################################################################
 # Caches
 
-_redis = urllib.parse.urlparse(os.environ["REDIS_URL"])
-CACHES = {
+CACHES: dict = {
     "default": {
-        "BACKEND": "redis_cache.RedisCache",
-        "LOCATION": f"{_redis.hostname}:{_redis.port}",
-        "OPTIONS": {"PASSWORD": _redis.password, "DB": 0},
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.environ["REDIS_URL"],
+        "OPTIONS": {"ssl_cert_reqs": None},
     }
 }
 
