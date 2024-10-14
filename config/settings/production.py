@@ -34,6 +34,7 @@ CACHES: dict = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": os.environ["REDIS_URL"],
+        "OPTIONS": {"ssl_cert_reqs": None},
     }
 }
 
