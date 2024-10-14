@@ -728,19 +728,6 @@ files = [
 Django = ">=3.2"
 
 [[package]]
-name = "django-redis-cache"
-version = "3.0.1"
-description = "Redis Cache Backend for Django"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-redis-cache-3.0.1.tar.gz", hash = "sha256:a7fbef101a053d2e430bd3befe6a87e6e730f98e335b516f25f30b17d9fe66e3"},
-]
-
-[package.dependencies]
-redis = "<4.0"
-
-[[package]]
 name = "django-stubs"
 version = "4.2.6"
 description = "Mypy stubs for Django"
@@ -2937,17 +2924,18 @@ full = ["numpy"]
 
 [[package]]
 name = "redis"
-version = "3.5.3"
-description = "Python client for Redis key-value store"
+version = "5.1.1"
+description = "Python client for Redis database and key-value store"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.8"
 files = [
-    {file = "redis-3.5.3-py2.py3-none-any.whl", hash = "sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24"},
-    {file = "redis-3.5.3.tar.gz", hash = "sha256:0e7e0cfca8660dea8b7d5cd8c4f6c5e29e11f31158c0b0ae91a397f00e5a05a2"},
+    {file = "redis-5.1.1-py3-none-any.whl", hash = "sha256:f8ea06b7482a668c6475ae202ed8d9bcaa409f6e87fb77ed1043d912afd62e24"},
+    {file = "redis-5.1.1.tar.gz", hash = "sha256:f6c997521fedbae53387307c5d0bf784d9acc28d9f1d058abeac566ec4dbed72"},
 ]
 
 [package.extras]
-hiredis = ["hiredis (>=0.1.3)"]
+hiredis = ["hiredis (>=3.0.0)"]
+ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==23.2.1)", "requests (>=2.31.0)"]
 
 [[package]]
 name = "requests"
@@ -3823,4 +3811,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.10"
-content-hash = "4b64f2f3a174834cfa9a3e535b252e84ca6aa6da1e30f18a8334143382b5cffa"
+content-hash = "f2c0c80934b0c6b2356c80c69bd7a609309c448f790e06d7da53def11ae11ac6"
