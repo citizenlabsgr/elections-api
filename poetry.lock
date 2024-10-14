@@ -3811,4 +3811,4 @@ uml = ["pygraphviz"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.10"
-content-hash = "f2c0c80934b0c6b2356c80c69bd7a609309c448f790e06d7da53def11ae11ac6"
+content-hash = "b5d7b9b3b1f2194c812ce779a3adf462f23825656b6be025a583c270a3710f20"

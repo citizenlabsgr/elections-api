@@ -24,7 +24,7 @@ drf-yasg = "^1.21.7"
 # Databases
 dj-database-url = "^0.5.0"
 psycopg2-binary = "^2.9.9"
-redis = "^5.1"
+redis = "^5.1.1"
 
 # Markdown
 markdown = "*"
