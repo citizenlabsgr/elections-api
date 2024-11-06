@@ -7,7 +7,7 @@ BASE_NAME = "localhost"
 BASE_DOMAIN = f"{BASE_NAME}:" + os.environ.get("PORT", "8000")
 BASE_URL = f"http://{BASE_DOMAIN}"
 
-API_CACHE_SECONDS = 5
+API_CACHE_SECONDS = 30
 
 ###############################################################################
 # Core
