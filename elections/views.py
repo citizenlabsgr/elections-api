@@ -1,5 +1,6 @@
 import log
 from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -8,6 +9,16 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
 
 from . import exceptions, filters, models, serializers
+
+
+class CachedThrottle(UserRateThrottle):
+    """User rate-limiting for non-cached results."""
+
+    def allow_request(self, request, view):
+        cache_key = f"{view.__class__.__name__}:{request.get_full_path()}"
+        if cache.get(cache_key):
+            return True
+        return super().allow_request(request, view)
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -21,7 +32,7 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filterset_class = filters.VoterFilter
     serializer_class = serializers.RegistrationSerializer
     pagination_class = None
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [CachedThrottle]
 
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
@@ -48,7 +59,7 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = filters.VoterFilter
     pagination_class = None
-    throttle_classes = [UserRateThrottle]
+    throttle_classes = [CachedThrottle]
 
     @method_decorator(
         cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)

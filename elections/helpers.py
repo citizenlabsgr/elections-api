@@ -16,7 +16,10 @@ from nameparser import HumanName
 from . import exceptions
 from .constants import MVIC_URL
 
-user_agent = UserAgent()
+user_agent = UserAgent(
+    platforms="pc",
+    fallback="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+)
 
 ###############################################################################
 # Shared helpers
