@@ -25,22 +25,6 @@ user_agent = UserAgent(
 # Shared helpers
 
 
-def fetch(url: str, expected_text: str) -> str:
-    response = requests.get(
-        url,
-        headers={"User-Agent": user_agent.random},
-        timeout=10,
-    )
-
-    if response.status_code >= 400:
-        log.error(f"MVIC status code: {response.status_code}")
-        raise exceptions.ServiceUnavailable()
-
-    text = response.text.strip()
-    assert expected_text in text, f"{expected_text!r} not found on {url}"
-    return text
-
-
 def visit(url: str, expected_text: str) -> pomace.Page:
     page = pomace.visit(url)
     if expected_text not in page:
@@ -160,9 +144,9 @@ def build_mvic_url(election_id: int, precinct_id: int) -> str:
 # Registration helpers
 
 
-def fetch_registration_status_data(voter):
+def fetch_registration_status_data(voter) -> dict:
     url = f"{MVIC_URL}/Voter/SearchByName"
-    log.info(f"Submitting form on {url}")
+    log.info(f"Submitting form: {url}")
     try:
         response = requests.post(
             url,
@@ -182,16 +166,16 @@ def fetch_registration_status_data(voter):
     except requests.exceptions.RequestException as e:
         log.error(f"MVIC connection error: {e}")
         raise exceptions.ServiceUnavailable()
+    else:
+        html = BeautifulSoup(response.text, "html.parser")
 
     if response.status_code >= 400:
-        log.error(f"MVIC status code: {response.status_code}")
+        log.error(f"{response.status_code} error: {html.text}")
         raise exceptions.ServiceUnavailable()
 
     if "No map" in response.text:
         log.error("District information is unavailable")
         raise exceptions.ServiceUnavailable()
-
-    html = BeautifulSoup(response.text, "html.parser")
 
     # Parse registration
     registered = None
@@ -353,9 +337,21 @@ def _clean_district_category(text: str):
 # Ballot helpers
 
 
-def fetch_ballot(url: str) -> str:
+def fetch_ballot_html(url: str) -> str:
     log.info(f"Fetching ballot: {url}")
-    return fetch(url, "PreviewMvicBallot")
+    response = requests.get(
+        url,
+        headers={"User-Agent": user_agent.random},
+        timeout=10,
+    )
+
+    if response.status_code >= 400:
+        log.error(f"{response.status_code} error: {response.text}")
+        raise exceptions.ServiceUnavailable()
+
+    text = response.text.strip()
+    assert "PreviewMvicBallot" in text, f"Invalid ballot: {url}"
+    return text
 
 
 def parse_election(html: str) -> tuple[str, tuple[int, int, int]]:

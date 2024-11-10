@@ -419,7 +419,7 @@ class BallotWebsite(models.Model):
 
     def fetch(self) -> None:
         """Fetch ballot HTML from the URL."""
-        self.mvic_html = helpers.fetch_ballot(self.mvic_url)
+        self.mvic_html = helpers.fetch_ballot_html(self.mvic_url)
 
         self.fetched = True
         self.last_fetch = timezone.now()
