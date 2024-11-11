@@ -16,9 +16,26 @@ class CachedThrottle(UserRateThrottle):
 
     def allow_request(self, request, view):
         cache_key = f"{view.__class__.__name__}:{request.get_full_path()}"
+
         if cache.get(cache_key):
             return True
+
         return super().allow_request(request, view)
+
+    def parse_rate(self, rate):
+        if rate is None:
+            return (None, None)
+
+        num, period = rate.split("/")
+        num_requests = int(num)
+
+        time_unit = period[-1]
+        time_value = int(period[:-1])
+
+        unit_to_seconds = {"s": 1, "m": 60, "h": 3600, "d": 86400}
+        duration_in_seconds = unit_to_seconds.get(time_unit, 1) * time_value
+
+        return (num_requests, duration_in_seconds)
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
