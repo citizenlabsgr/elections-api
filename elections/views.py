@@ -1,9 +1,10 @@
+import re
+from contextlib import suppress
+
 import log
 from django.conf import settings
 from django.core.cache import cache
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle
@@ -14,28 +15,40 @@ from . import exceptions, filters, models, serializers
 class CachedThrottle(UserRateThrottle):
     """User rate-limiting for non-cached results."""
 
-    def allow_request(self, request, view):
-        cache_key = f"{view.__class__.__name__}:{request.get_full_path()}"
+    @staticmethod
+    def get_key(request, view):
+        return ":".join(
+            (
+                str(settings.API_CACHE_KEY),
+                view.__class__.__name__,
+                request.get_full_path(),
+            )
+        )
 
-        if cache.get(cache_key):
+    def allow_request(self, request, view):
+        if cache.get(self.__class__.get_key(request, view)):
             return True
 
         return super().allow_request(request, view)
 
     def parse_rate(self, rate):
-        if rate is None:
-            return (None, None)
+        with suppress(KeyError):
+            return super().parse_rate(rate)
 
-        num, period = rate.split("/")
-        num_requests = int(num)
+        # Handle rate formats like "1/5s" or "10/15m"
+        match = re.match(r"(\d+)/(\d+)([smhd])", rate)
+        if not match:
+            raise ValueError(f"Invalid rate format: {rate}")
 
-        time_unit = period[-1]
-        time_value = int(period[:-1])
+        num_requests = int(match.group(1))
+        time_value = int(match.group(2))
+        time_unit = match.group(3)
 
+        # Convert time unit to seconds
         unit_to_seconds = {"s": 1, "m": 60, "h": 3600, "d": 86400}
-        duration_in_seconds = unit_to_seconds.get(time_unit, 1) * time_value
+        duration_in_seconds = time_value * unit_to_seconds[time_unit]
 
-        return (num_requests, duration_in_seconds)
+        return num_requests, duration_in_seconds
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -51,10 +64,12 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     pagination_class = None
     throttle_classes = [CachedThrottle]
 
-    @method_decorator(
-        cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
-    )
     def list(self, request):  # pylint: disable=arguments-differ
+        if settings.API_CACHE_SECONDS:
+            key = CachedThrottle.get_key(request, self)
+            if value := cache.get(key):
+                return Response(*value)
+
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         voter = models.Voter(**input_serializer.validated_data)
@@ -63,7 +78,11 @@ class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
         output_serializer = serializer_class(
             registration_status, context={"request": request}
         )
-        return Response(output_serializer.data)
+
+        key = CachedThrottle.get_key(request, self)
+        data = output_serializer.data
+        cache.set(key, (data, 200), settings.API_CACHE_SECONDS)
+        return Response(data)
 
 
 class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
@@ -78,10 +97,12 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
     pagination_class = None
     throttle_classes = [CachedThrottle]
 
-    @method_decorator(
-        cache_page(settings.API_CACHE_SECONDS, key_prefix=settings.API_CACHE_KEY)
-    )
     def list(self, request):  # pylint: disable=arguments-differ
+        if settings.API_CACHE_SECONDS:
+            key = CachedThrottle.get_key(request, self)
+            if value := cache.get(key):
+                return Response(*value)
+
         input_serializer = serializers.VoterSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         voter = models.Voter(**input_serializer.validated_data)
@@ -117,6 +138,10 @@ class StatusViewSet(viewsets.ViewSetMixin, generics.ListAPIView):
                 "ballot": serializers.NestedBallotSerializer(ballot).data,
             }
             status = 200
+
+        if status < 400:
+            key = CachedThrottle.get_key(request, self)
+            cache.set(key, (data, status), settings.API_CACHE_SECONDS)
         return Response(data, status)
 
 
