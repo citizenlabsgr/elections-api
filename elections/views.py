@@ -15,15 +15,10 @@ from . import exceptions, filters, models, serializers
 class CachedThrottle(UserRateThrottle):
     """User rate-limiting for non-cached results."""
 
-    @staticmethod
-    def get_key(request, view):
-        return ":".join(
-            (
-                str(settings.API_CACHE_KEY),
-                view.__class__.__name__,
-                request.get_full_path(),
-            )
-        )
+    scope = "global"
+
+    def get_cache_key(self, request, view):
+        return settings.API_CACHE_KEY
 
     def allow_request(self, request, view):
         if cache.get(self.__class__.get_key(request, view)):
@@ -49,6 +44,16 @@ class CachedThrottle(UserRateThrottle):
         duration_in_seconds = time_value * unit_to_seconds[time_unit]
 
         return num_requests, duration_in_seconds
+
+    @staticmethod
+    def get_key(request, view):
+        return ":".join(
+            (
+                str(settings.API_CACHE_KEY),
+                view.__class__.__name__,
+                request.get_full_path(),
+            )
+        )
 
 
 class RegistrationViewSet(viewsets.ViewSetMixin, generics.ListAPIView):

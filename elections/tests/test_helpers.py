@@ -14,7 +14,7 @@ def voter():
     return models.Voter(
         first_name="Rosalynn",
         last_name="Bliss",
-        birth_date=pendulum.parse("1975-08-03"),  # type: ignore
+        birth_date=pendulum.parse("1975-08-03"),  # type: ignore[misc]
         zip_code="49503",
     )
 
