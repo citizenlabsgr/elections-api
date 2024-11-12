@@ -39,7 +39,7 @@ CACHES = {
 ###############################################################################
 # Django REST Framework
 
-REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {"user": "999/second"}
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {"global": "999/second"}
 
 ###############################################################################
 # Bugsnag
