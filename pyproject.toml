@@ -45,7 +45,7 @@ pomace = "~0.12"
 requests = "^2.32"
 
 # Production Server
-gunicorn = "^22.0"
+gunicorn = "^23.0"
 whitenoise = "^6.5"
 bugsnag = "^4.7.1"
 
